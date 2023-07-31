@@ -18,7 +18,7 @@ export class ThumbnailsApiClass {
 
   // [ ASSETS ] ////////////////////////////////////////////////////////////////////////////////////////////////////////
   // GET /v1/assets
-  async assets(assetIds: number[], returnPolicy: ThumbnailReturnPolicy, size: AssetSize, format: ThumbnailFormat="Png", isCircular: boolean=false): Promise<
+  async assets(assetIds: number[], returnPolicy: ThumbnailReturnPolicy="PlaceHolder", size: AssetSize, format: ThumbnailFormat="Png", isCircular: boolean=false): Promise<
     { data: Assets, rawData: RawAssets }
   > {
     try {
@@ -134,7 +134,7 @@ export class ThumbnailsApiClass {
 
   // [ GAME PASSES ] ///////////////////////////////////////////////////////////////////////////////////////////////////
   // GET /v1/game-passes
-  async gamePasses(gamePassIds: number[], format: "Png"|"Jpeg"="Png", isCircular: boolean=false): Promise<
+  async gamePasses(gamePassIds: number[], format: ThumbnailFormat="Png", isCircular: boolean=false): Promise<
     { data: GamePasses, rawData: RawGamePasses }
   > {
     try {
