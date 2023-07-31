@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "@types/lodash.merge": "^4.6.7",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "lodash.merge": "^4.6.2",
+    "p-iteration": "^1.1.8"
+  }
+}
