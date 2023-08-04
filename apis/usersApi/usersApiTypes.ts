@@ -1,40 +1,40 @@
 // [ ACCOUNT INFORMATION ] ///////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/birthdate
-export type AuthenticatedUserBirthdate = Date
-export type RawAuthenticatedUserBirthdate = {
+export type AuthenticatedUserBirthdateData = Date
+export type RawAuthenticatedUserBirthdateData = {
   birthMonth: number,
   birthDay: number,
   birthYear: number
 }
 
 // GET /v1/description
-export type AuthenticatedUserDescription = string
-export type RawAuthenticatedUserDescription = { description: string }
+export type AuthenticatedUserDescriptionData = string
+export type RawAuthenticatedUserDescriptionData = { description: string }
 
 // GET /v1/gender
-export type AuthenticatedUserGender = number
-export type RawAuthenticatedUserGender = { gender: number }
+export type AuthenticatedUserGenderData = "Male" | "Female" | "Unset"
+export type RawAuthenticatedUserGenderData = { gender: 1 | 2 | 3 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // [ DISPLAY NAMES ] /////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/display-names/validate ? displayName={displayName} & birthdate={birthdate}
-export type ValidateDisplayNameForNewUser = boolean
-export type RawValidateDisplayNameForNewUser = {}
+export type ValidateDisplayNameForNewUserData = boolean
+export type RawValidateDisplayNameForNewUserData = {}
 
 // GET /v1/users/{userId}/display-names/validate ? displayName={displayName}
-export type ValidateDisplayNameForExistingUser = ValidateDisplayNameForNewUser
-export type RawValidateDisplayNameForExisitingUser = RawValidateDisplayNameForNewUser
+export type ValidateDisplayNameForExistingUserData = boolean
+export type RawValidateDisplayNameForExisitingUserData = {}
 
 // PATCH /v1/users/{userId}/display-names
-export type SetDisplayNameForAuthenticatedUser = ValidateDisplayNameForNewUser
-export type RawSetDisplayNameForAuthenticatedUser = RawValidateDisplayNameForNewUser
+export type SetDisplayNameForAuthenticatedUserData = boolean
+export type RawSetDisplayNameForAuthenticatedUserData = {}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // [ USERS ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/users/{userId}
-export type DetailedUserInfo = {
+export type DetailedUserInfoData = {
   description: string,
   created: Date,
   isBanned: boolean,
@@ -44,7 +44,7 @@ export type DetailedUserInfo = {
   name: string,
   displayName: string
 }
-export type RawDetailedUserInfo = {
+export type RawDetailedUserInfoData = {
   description: string,
   created: string,
   isBanned: boolean,
@@ -56,27 +56,28 @@ export type RawDetailedUserInfo = {
 }
 
 // GET /v1/users/authenticated
-export type AuthenticatedUserMinimalInfo = {
+export type AuthenticatedUserMinimalInfoData = {
   id: number,
   name: string,
   displayName: string
 }
-export type RawAuthenticatedUserMinimalInfo = AuthenticatedUserMinimalInfo
+export type RawAuthenticatedUserMinimalInfoData = AuthenticatedUserMinimalInfoData
 
 // GET /v1/users/authenticated/age-bracket
-export type AuthenticatedUserAgeBracket = number
-export type RawAuthenticatedUserAgeBracket = { ageBracket: number }
+export type AuthenticatedUserAgeBracketData = "13+" | "<13"
+export type RawAuthenticatedUserAgeBracketData = { ageBracket: 0 | 1 }
 
 // GET /v1/users/authenticated/country-code
-export type AuthenticatedUserCountryCode = string
-export type RawAuthenticatedUserCountryCode = { countryCode: string }
+type AuthenticatedUserCountryCode = "US" | "GB" | "CA" | "AF" | "AX" | "AL" | "DZ" | "AS" | "AD" | "AO" | "AI" | "AQ" | "AG" | "AR" | "AM" | "AW" | "AU" | "AT" | "AZ" | "BS" | "BH" | "BD" | "BB" | "BY" | "BE" | "BZ" | "BJ" | "BM" | "BT" | "BO" | "BQ" | "BA" | "BW" | "BV" | "BR" | "IO" | "BN" | "BG" | "BF" | "BI" | "KH" | "CM" | "CV" | "KY" | "CF" | "TD" | "CL" | "CN" | "CX" | "CC" | "CO" | "KM" | "CG" | "CD" | "CK" | "CR" | "CI" | "HR" | "CW" | "CY" | "CZ" | "DK" | "DJ" | "DM" | "DO" | "EC" | "EG" | "SV" | "GQ" | "ER" | "EE" | "ET" | "FK" | "FO" | "FJ" | "FI" | "FR" | "GF" | "PF" | "TF" | "GA" | "GM" | "GE" | "DE" | "GH" | "GI" | "GR" | "GL" | "GD" | "GP" | "GU" | "GT" | "GG" | "GN" | "GW" | "GY" | "HT" | "HM" | "VA" | "HN" | "HK" | "HU" | "IS" | "IN" | "ID" | "IQ" | "IE" | "IM" | "IL" | "IT" | "JM" | "JP" | "JE" | "JO" | "KZ" | "KE" | "KI" | "KR" | "KW" | "KG" | "LA" | "LV" | "LB" | "LS" | "LR" | "LY" | "LI" | "LT" | "LU" | "MO" | "MK" | "MG" | "MW" | "MY" | "MV" | "ML" | "MT" | "MH" | "MQ" | "MR" | "MU" | "YT" | "MX" | "FM" | "MD" | "MC" | "MN" | "ME" | "MS" | "MA" | "MZ" | "MM" | "NA" | "NR" | "NP" | "NL" | "AN" | "NC" | "NZ" | "NI" | "NE" | "NG" | "NU" | "NF" | "MP" | "NO" | "OM" | "PK" | "PW" | "PS" | "PA" | "PG" | "PY" | "PE" | "PH" | "PN" | "PL" | "PT" | "PR" | "QA" | "RE" | "RO" | "RU" | "RW" | "BL" | "SH" | "KN" | "LC" | "MF" | "PM" | "VC" | "WS" | "SM" | "ST" | "SA" | "SN" | "RS" | "SC" | "SL" | "SG" | "SX" | "SK" | "SI" | "SB" | "SO" | "ZA" | "GS" | "SS" | "ES" | "LK" | "SR" | "SJ" | "SZ" | "SE" | "CH" | "TW" | "TJ" | "TZ" | "TH" | "TL" | "TG" | "TK" | "TO" | "TT" | "TN" | "TR" | "TM" | "TC" | "TV" | "UG" | "UA" | "AE" | "UM" | "UY" | "UZ" | "VU" | "VE" | "VN" | "VG" | "VI" | "WF" | "EH" | "YE" | "ZM" | "ZW" | "CU" | "IR" | "SY" | "KP"
+export type AuthenticatedUserCountryCodeData = AuthenticatedUserCountryCode
+export type RawAuthenticatedUserCountryCodeData = { countryCode: AuthenticatedUserCountryCode }
 
 // GET /v1/users/authenticated/roles
-export type AuthenticatedUserRoles = string[]
-export type RawAuthenticatedUserRoles = { roles: string[] }
+export type AuthenticatedUserRolesData = string[]
+export type RawAuthenticatedUserRolesData = { roles: string[] }
 
 // POST /v1/usernames/users
-export type UsernamesToUsersInfo = { 
+export type UsernamesToUsersInfoData = { 
   [requestedUsername: string]: {
     hasVerifiedBadge: boolean,
     id: number,
@@ -84,7 +85,7 @@ export type UsernamesToUsersInfo = {
     displayName: string
   }
 }
-export type RawUsernamesToUsersInfo = {
+export type RawUsernamesToUsersInfoData = {
   data: { 
     requestedUsername: string,
     hasVerifiedBadge: boolean,
@@ -95,14 +96,14 @@ export type RawUsernamesToUsersInfo = {
 }
 
 // POST /v1/users
-export type UserIdsToUsersInfo = { 
+export type UserIdsToUsersInfoData = { 
   [userId: number]: {
     hasVerifiedBadge: boolean,
     name: string,
     displayName: string
   }
 }
-export type RawUserIdsToUsersInfo = {
+export type RawUserIdsToUsersInfoData = {
   data: { 
     hasVerifiedBadge: boolean,
     id: number,
@@ -115,8 +116,8 @@ export type RawUserIdsToUsersInfo = {
 
 // [ USERNAMES ] /////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/users/{userId}/username-history ? limit={limit} & sortOrder={sortOrder} & cursor={cursor}
-export type UsernameHistory = string[]
-export type RawUsernameHistory = {
+export type UsernameHistoryData = string[]
+export type RawUsernameHistoryData = {
   previousPageCursor: string,
   nextPageCursor: string,
   data: { name: string }[]
@@ -126,14 +127,14 @@ export type RawUsernameHistory = {
 
 // [ USER SEARCH ] ///////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/users/search ? keyword={keyword} & limit={limit} & cursor={cursor}
-export type Search = {
+export type SearchData = {
   previousUsernames: string[],
   hasVerifiedBadge: boolean,
   id: number,
   name: string,
   displayName: string
 }[]
-export type RawSearch = {
+export type RawSearchData = {
   previousPageCursor: string,
   nextPageCursor: string,
   data: {

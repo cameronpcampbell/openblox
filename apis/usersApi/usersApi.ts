@@ -10,8 +10,8 @@ import { UnexpectedError } from "../../errors"
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 import type {
-  AuthenticatedUserAgeBracket,
-  AuthenticatedUserBirthdate, AuthenticatedUserCountryCode, AuthenticatedUserDescription, AuthenticatedUserGender, AuthenticatedUserMinimalInfo, AuthenticatedUserRoles, DetailedUserInfo, RawAuthenticatedUserAgeBracket, RawAuthenticatedUserBirthdate, RawAuthenticatedUserCountryCode, RawAuthenticatedUserDescription, RawAuthenticatedUserGender, RawAuthenticatedUserMinimalInfo, RawAuthenticatedUserRoles, RawDetailedUserInfo, RawSearch, RawSetDisplayNameForAuthenticatedUser, RawUserIdsToUsersInfo, RawUsernameHistory, RawUsernamesToUsersInfo, RawValidateDisplayNameForExisitingUser, RawValidateDisplayNameForNewUser, Search, SetDisplayNameForAuthenticatedUser, UserIdsToUsersInfo, UsernameHistory, UsernamesToUsersInfo, ValidateDisplayNameForExistingUser, ValidateDisplayNameForNewUser
+  AuthenticatedUserAgeBracketData,
+  AuthenticatedUserBirthdateData, AuthenticatedUserCountryCodeData, AuthenticatedUserDescriptionData, AuthenticatedUserGenderData, AuthenticatedUserMinimalInfoData, AuthenticatedUserRolesData, DetailedUserInfoData, RawAuthenticatedUserAgeBracketData, RawAuthenticatedUserBirthdateData, RawAuthenticatedUserCountryCodeData, RawAuthenticatedUserDescriptionData, RawAuthenticatedUserGenderData, RawAuthenticatedUserMinimalInfoData, RawAuthenticatedUserRolesData, RawDetailedUserInfoData, RawSearchData, RawSetDisplayNameForAuthenticatedUserData, RawUserIdsToUsersInfoData, RawUsernameHistoryData, RawUsernamesToUsersInfoData, RawValidateDisplayNameForExisitingUserData, RawValidateDisplayNameForNewUserData, SearchData, SetDisplayNameForAuthenticatedUserData, UserIdsToUsersInfoData, UsernameHistoryData, UsernamesToUsersInfoData, ValidateDisplayNameForExistingUserData, ValidateDisplayNameForNewUserData
 } from "./usersApiTypes"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -29,10 +29,10 @@ export class UsersApiClass {
   // [ ACCOUNT INFORMATION ] ///////////////////////////////////////////////////////////////////////////////////////////
   // GET /v1/birthdate
   async authenticatedUserBirthdate(): Promise<
-    { data: AuthenticatedUserBirthdate, rawData: RawAuthenticatedUserBirthdate }
+    { data: AuthenticatedUserBirthdateData, rawData: RawAuthenticatedUserBirthdateData }
   > {
     try {
-      const { data:rawData } = await this.http.get<RawAuthenticatedUserBirthdate>("/v1/birthdate")
+      const { data:rawData } = await this.http.get<RawAuthenticatedUserBirthdateData>("/v1/birthdate")
       return { data: CreateDateTimeObjectFromBirthdate(rawData), rawData }
       
     } catch (error:any) {
@@ -43,11 +43,11 @@ export class UsersApiClass {
 
   // GET /v1/description
   async authenticatedUserDescription(): Promise<
-    { data: AuthenticatedUserDescription, rawData: RawAuthenticatedUserDescription }
+    { data: AuthenticatedUserDescriptionData, rawData: RawAuthenticatedUserDescriptionData }
   > {
     try {
-      const { data:rawData } = await this.http.get<RawAuthenticatedUserDescription>("/v1/description")
-      return { data: rawData?.description, rawData }
+      const { data:rawData } = await this.http.get<RawAuthenticatedUserDescriptionData>("/v1/description")
+      return { data: rawData.description, rawData }
       
     } catch (error:any) {
       await HandleApiErrors(error, [400])
@@ -57,11 +57,13 @@ export class UsersApiClass {
 
   // GET /v1/gender
   async authenticatedUserGender(): Promise<
-    { data: AuthenticatedUserGender, rawData: RawAuthenticatedUserGender }
+    { data: AuthenticatedUserGenderData, rawData: RawAuthenticatedUserGenderData }
   > {
     try {
-      const { data:rawData } = await this.http.get<RawAuthenticatedUserGender>("/v1/gender")
-      return { data: rawData?.gender, rawData }
+      const { data:rawData } = await this.http.get<RawAuthenticatedUserGenderData>("/v1/gender")
+      const rawGender = rawData.gender
+      const gender = rawGender === 3 ? "Female" : rawGender === 2 ? "Male" : "Unset"
+      return { data: gender, rawData }
       
     } catch (error:any) {
       await HandleApiErrors(error, [400])
@@ -74,12 +76,12 @@ export class UsersApiClass {
   // [ DISPLAY NAMES ] /////////////////////////////////////////////////////////////////////////////////////////////////
   // GET /v1/display-names/validate ? displayName={displayName} & birthdate={birthdate}
   async validateDisplayNameForNewUser(displayName:string, birthdate: string): Promise<
-    { data: ValidateDisplayNameForNewUser, rawData: RawValidateDisplayNameForNewUser }
+    { data: ValidateDisplayNameForNewUserData, rawData: RawValidateDisplayNameForNewUserData }
   > {
     try {
       const searchParams = await createSearchParams({ displayName, birthdate })
 
-      const { data:rawData } = await this.http.get<RawValidateDisplayNameForNewUser>(`/v1/display-names/validate?${searchParams}`)
+      const { data:rawData } = await this.http.get<RawValidateDisplayNameForNewUserData>(`/v1/display-names/validate?${searchParams}`)
       return {data: !!rawData, rawData}
 
     } catch (error:any) {
@@ -90,13 +92,13 @@ export class UsersApiClass {
 
   // GET /v1/users/{userId}/display-names/validate ? displayName={displayName}
   async validateDisplayNameForExistingUser(displayName:string, userId: number): Promise<
-    { data: ValidateDisplayNameForExistingUser, rawData: RawValidateDisplayNameForExisitingUser }
+    { data: ValidateDisplayNameForExistingUserData, rawData: RawValidateDisplayNameForExisitingUserData }
   > {
     try {
       const searchParams = await createSearchParams({ displayName })
 
-      const { data:rawData } = await this.http.get<RawValidateDisplayNameForExisitingUser>(`/v1/users/${userId}/display-names/validate?${searchParams}`)
-      return {data: rawData as ValidateDisplayNameForExistingUser, rawData}
+      const { data:rawData } = await this.http.get<RawValidateDisplayNameForExisitingUserData>(`/v1/users/${userId}/display-names/validate?${searchParams}`)
+      return {data: rawData as ValidateDisplayNameForExistingUserData, rawData}
 
     } catch (error:any) {
       await HandleApiErrors(error, [400, 403])
@@ -106,11 +108,11 @@ export class UsersApiClass {
 
   // PATCH /v1/users/{userId}/display-names
   async setDisplayNameForAuthenticatedUser(newDisplayName:string, userId: number): Promise<
-    { data: SetDisplayNameForAuthenticatedUser, rawData: RawSetDisplayNameForAuthenticatedUser }
+    { data: SetDisplayNameForAuthenticatedUserData, rawData: RawSetDisplayNameForAuthenticatedUserData }
   > {
     try {
-      const { data:rawData } = await this.http.patch<RawSetDisplayNameForAuthenticatedUser>(`/v1/users/${userId}/display-names`, { newDisplayName })
-      return {data: rawData as SetDisplayNameForAuthenticatedUser, rawData}
+      const { data:rawData } = await this.http.patch<RawSetDisplayNameForAuthenticatedUserData>(`/v1/users/${userId}/display-names`, { newDisplayName })
+      return {data: rawData as SetDisplayNameForAuthenticatedUserData, rawData}
 
     } catch (error:any) {
       await HandleApiErrors(error, [400, 403])
@@ -123,14 +125,14 @@ export class UsersApiClass {
   // [ USERS ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
   // GET /v1/users/{userId}
   async detailedUserInfo(userId: number): Promise<
-    { data: DetailedUserInfo, rawData: RawDetailedUserInfo }
+    { data: DetailedUserInfoData, rawData: RawDetailedUserInfoData }
   > {
     try {
-      const { data:rawData } = await this.http.get<RawDetailedUserInfo>(`/v1/users/${userId}`)
+      const { data:rawData } = await this.http.get<RawDetailedUserInfoData>(`/v1/users/${userId}`)
 
       const formattedData = {...rawData} as any
       formattedData.created = new Date(formattedData.created)
-      return {data: formattedData as DetailedUserInfo, rawData}
+      return {data: formattedData as DetailedUserInfoData, rawData}
       
     } catch (error:any) {
       await HandleApiErrors(error, [404])
@@ -140,10 +142,10 @@ export class UsersApiClass {
 
   // GET /v1/users/authenticated
   async authenticatedUserMinimalInfo(): Promise<
-    { data: AuthenticatedUserMinimalInfo, rawData: RawAuthenticatedUserMinimalInfo }
+    { data: AuthenticatedUserMinimalInfoData, rawData: RawAuthenticatedUserMinimalInfoData }
   > {
     try {
-      const { data:rawData } = await this.http.get<RawAuthenticatedUserMinimalInfo>("/v1/users/authenticated")
+      const { data:rawData } = await this.http.get<RawAuthenticatedUserMinimalInfoData>("/v1/users/authenticated")
       return {data: rawData, rawData}
       
     } catch (error:any) {
@@ -154,11 +156,13 @@ export class UsersApiClass {
 
   // GET /v1/users/authenticated/age-bracket
   async authenticatedUserAgeBracket(): Promise<
-    { data: AuthenticatedUserAgeBracket, rawData: RawAuthenticatedUserAgeBracket }
+    { data: AuthenticatedUserAgeBracketData, rawData: RawAuthenticatedUserAgeBracketData }
   > {
     try {
-      const { data:rawData } = await this.http.get<RawAuthenticatedUserAgeBracket>("/v1/users/authenticated/age-bracket")
-      return {data: rawData?.ageBracket, rawData}
+      const { data:rawData } = await this.http.get<RawAuthenticatedUserAgeBracketData>("/v1/users/authenticated/age-bracket")
+      const rawAgeBracket = rawData?.ageBracket
+      const ageBracket = rawAgeBracket === 0 ? "13+" : "<13"
+      return {data: ageBracket, rawData}
       
     } catch (error:any) {
       await HandleApiErrors(error)
@@ -168,11 +172,11 @@ export class UsersApiClass {
 
   // GET /v1/users/authenticated/country-code
   async authenticatedUserCountryCode(): Promise<
-    { data: AuthenticatedUserCountryCode, rawData: RawAuthenticatedUserCountryCode }
+    { data: AuthenticatedUserCountryCodeData, rawData: RawAuthenticatedUserCountryCodeData }
   > {
     try {
-      const { data:rawData } = await this.http.get<RawAuthenticatedUserCountryCode>("/v1/users/authenticated/country-code")
-      return {data: rawData?.countryCode, rawData}
+      const { data:rawData } = await this.http.get<RawAuthenticatedUserCountryCodeData>("/v1/users/authenticated/country-code")
+      return {data: rawData.countryCode, rawData}
       
     } catch (error:any) {
       await HandleApiErrors(error)
@@ -182,11 +186,11 @@ export class UsersApiClass {
 
   // GET /v1/users/authenticated/roles
   async authenticatedUserRoles(): Promise<
-    { data: AuthenticatedUserRoles, rawData: RawAuthenticatedUserRoles }
+    { data: AuthenticatedUserRolesData, rawData: RawAuthenticatedUserRolesData }
   > {
     try {
-      const { data:rawData } = await this.http.get<RawAuthenticatedUserRoles>("/v1/users/authenticated/roles")
-      return {data: rawData?.roles, rawData}
+      const { data:rawData } = await this.http.get<RawAuthenticatedUserRolesData>("/v1/users/authenticated/roles")
+      return {data: rawData.roles, rawData}
       
     } catch (error:any) {
       await HandleApiErrors(error)
@@ -195,12 +199,14 @@ export class UsersApiClass {
   }
 
   // POST /v1/usernames/users
-  async usernamesToUsersInfo(usernames: string[], includeBannedUsers: boolean =true): Promise<
-    { data: UsernamesToUsersInfo, rawData: RawUsernamesToUsersInfo }
+  async usernamesToUsersInfo(usernames: string[], excludeBannedUsers: boolean=false): Promise<
+    { data: UsernamesToUsersInfoData, rawData: RawUsernamesToUsersInfoData }
   > {
     try {
-      const { data:rawData } = await this.http.post<RawUsernamesToUsersInfo>("/v1/usernames/users", { usernames })
-      const formattedData: UsernamesToUsersInfo = await CreateObjectMapByKeyWithMiddleware(rawData.data, "requestedUsername", (
+      const { data:rawData } = await this.http.post<RawUsernamesToUsersInfoData>(
+        "/v1/usernames/users", { usernames, excludeBannedUsers }
+      )
+      const formattedData: UsernamesToUsersInfoData = await CreateObjectMapByKeyWithMiddleware(rawData.data, "requestedUsername", (
         async ({hasVerifiedBadge, id, name, displayName}) => ({ hasVerifiedBadge, id, name, displayName })
       ))
       return {data: formattedData, rawData}
@@ -212,12 +218,14 @@ export class UsersApiClass {
   }
 
   // POST /v1/users
-  async userIdsToUsersInfo(userIds: number[], includeBannedUsers: boolean =true): Promise<
-    { data: UserIdsToUsersInfo, rawData: RawUserIdsToUsersInfo }
+  async userIdsToUsersInfo(userIds: number[], excludeBannedUsers: boolean=false): Promise<
+    { data: UserIdsToUsersInfoData, rawData: RawUserIdsToUsersInfoData }
   > {
     try {
-      const { data:rawData } = await this.http.post<RawUserIdsToUsersInfo>("/v1/users", { userIds })
-      const formattedData: UserIdsToUsersInfo = await CreateObjectMapByKeyWithMiddleware(rawData.data, "id", (
+      const { data:rawData } = await this.http.post<RawUserIdsToUsersInfoData>(
+        "/v1/users", { userIds, excludeBannedUsers }
+      )
+      const formattedData: UserIdsToUsersInfoData = await CreateObjectMapByKeyWithMiddleware(rawData.data, "id", (
         async ({hasVerifiedBadge, name, displayName}) => ({ hasVerifiedBadge, name, displayName })
       ))
       return {data: formattedData, rawData}
@@ -233,14 +241,14 @@ export class UsersApiClass {
   // [ USERNAMES ] /////////////////////////////////////////////////////////////////////////////////////////////////////
   // GET /v1/users/{userId}/username-history ? limit={limit} & sortOrder={sortOrder} & cursor={cursor}
   async usernameHistory(userId: number, limit:10|25|50|100=100, sortOrder:"Asc"|"Desc"="Asc", cursor?: string): Promise<
-    { data: UsernameHistory, rawData: RawUsernameHistory, cursors: { previousPageCursor: string, nextPageCursor: string } }
+    { data: UsernameHistoryData, rawData: RawUsernameHistoryData, cursors: { previous: string, next: string } }
   > {
     try {
       const searchParams = await createSearchParams({ limit, sortOrder, cursor })
 
-      const { data:rawData } = await this.http.get<RawUsernameHistory>(`/v1/users/${userId}/username-history?${searchParams}`)
-      const formattedData: UsernameHistory = await map(rawData.data, async usernameData => usernameData.name)
-      return {data: formattedData, rawData, cursors: { previousPageCursor: rawData.previousPageCursor, nextPageCursor: rawData.nextPageCursor } }
+      const { data:rawData } = await this.http.get<RawUsernameHistoryData>(`/v1/users/${userId}/username-history?${searchParams}`)
+      const formattedData: UsernameHistoryData = await map(rawData.data, async usernameData => usernameData.name)
+      return {data: formattedData, rawData, cursors: { previous: rawData.previousPageCursor, next: rawData.nextPageCursor } }
       
     } catch (error:any) {
       await HandleApiErrors(error, [400])
@@ -252,12 +260,12 @@ export class UsersApiClass {
   // [ USER SEARCH ] ///////////////////////////////////////////////////////////////////////////////////////////////////
   // GET /v1/users/search ? keyword={keyword} & limit={limit} & cursor={cursor}
   async search(keyword:string, limit:10|25|50|100=100, cursor?:string): Promise<
-    { data: Search, rawData: RawSearch, cursors: { previousPageCursor: string, nextPageCursor: string } }
+    { data: SearchData, rawData: RawSearchData, cursors: { previousPageCursor: string, nextPageCursor: string } }
   > {
     try {
       const searchParams = await createSearchParams({ keyword, limit, cursor })
 
-      const { data:rawData } = await this.http.get<RawSearch>(`/v1/users/search?${searchParams}`)
+      const { data:rawData } = await this.http.get<RawSearchData>(`/v1/users/search?${searchParams}`)
       return { data: rawData.data, rawData, cursors: { previousPageCursor: rawData.previousPageCursor, nextPageCursor: rawData.nextPageCursor } }
       
     } catch (error:any) {
