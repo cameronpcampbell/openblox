@@ -1,23 +1,25 @@
 import { every, filter, forEach, map, some } from "p-iteration";
 
-export const ArrayIncludesSome = async (arr: any[], entries: any[]) => {
+type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
+
+export const arrayIncludesSome = async (arr: any[], entries: any[]) => {
   return await some(arr, async item => entries.includes(item))
 }
 
-export const ArrayIsolate = async (arr: any[], entries: any[]) => {
+export const arrayIsolate = async (arr: any[], entries: any[]) => {
   return await filter(arr, async item => entries.includes(item));
 }
 
-export const ArrayEntriesAreType = async (arr: any[], type: string) => {
+export const arrayEntriesAreType = async (arr: any[], type: string) => {
   return await every(arr, async element => typeof element === type);
 }
 
-export const ObjectIsolateWhereKeys = async (obj: object, entries: any[]) => {
+export const objectIsolateWhereKeys = async (obj: object, entries: any[]) => {
   const filteredEntries = await filter(Object.entries(obj), async ([key, value]) => entries.includes(key))
   return Object.fromEntries(filteredEntries)
 }
 
-export const MapArgsToPromises = async (args: any[], func: any) => {
+export const mapArgsToPromises = async (args: any[], func: any) => {
   return map(args, async (thisArgs) => {
     if (thisArgs === undefined) return Promise.resolve(undefined)
 
@@ -26,32 +28,36 @@ export const MapArgsToPromises = async (args: any[], func: any) => {
   })
 }
 
-export const ProcessSpread = <T>(...args: (T | T[])[]): T[] => {
+export const processSpread = <T>(...args: (T | T[])[]): T[] => {
   return args.length === 1 && Array.isArray(args[0]) ? args[0] as T[] : args as T[];
 }
 
-export const CreateObjectMapByKeyWithMiddleware = async (arrayOfObjects: any[], keyName: string, middlewareFn?: (item:any) => Promise<any>) => {
-  const obj: any = {}
-  await forEach(arrayOfObjects, async item => obj[item[keyName]] = middlewareFn ? await middlewareFn(item) : item) 
-  return obj
+export const createObjectMapByKeyWithMiddleware = async <ArrayOfObjects extends any[]>(
+  arrayOfObjects: ArrayOfObjects, keyName: string, middlewareFn?: (item:ArrayElement<ArrayOfObjects>) => Promise<any>
+): Promise<any> => {
+  const objMap = {}
+  await forEach(
+    arrayOfObjects, async (item) => (objMap as any)[item[keyName]] = (middlewareFn ? await middlewareFn(item) : item)
+  ) 
+  return objMap
 }
 
-export const GetSizeFromString = (input: string): string | undefined => {
+export const getSizeFromString = (input: string): string | undefined => {
   const patternRegex = /.*\[(\d+x\d+)\]/;
   const match = input.match(patternRegex);
   if (match && match.length === 2) return match[1]
 }
 
-export const ArrayRemoveMutiple = (arr: any[], entries: any[]) => {
+export const arrayRemoveMutiple = (arr: any[], entries: any[]) => {
   return arr.filter((item) => !entries.includes(item));
 }
 
-export const CreateDateTimeObjectFromBirthdate = (dateObj: { birthMonth: number; birthDay: number; birthYear: number }): Date => {
+export const createDateTimeObjectFromBirthdate = (dateObj: { birthMonth: number; birthDay: number; birthYear: number }): Date => {
   const { birthMonth, birthDay, birthYear } = dateObj
   return new Date(birthYear, birthMonth - 1, birthDay)
 }
 
-export const IsOneOfMany = async (target:unknown, arr: any[]) => {
+export const isOneOfMany = async (target:unknown, arr: any[]) => {
   try {
     await forEach(arr, async entry => { if (target == entry) throw new Error('Break') })
     return false
