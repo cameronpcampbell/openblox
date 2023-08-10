@@ -1,5 +1,5 @@
 import { find, forEach } from "p-iteration"
-import { InvalidRequestDataError } from "../errors"
+import { InvalidRequestDataError } from "@/errors"
 
 type FnResponse = {
   cursors: {

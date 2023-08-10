@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, isAxiosError } from "axios"
 import merge from "lodash.merge"
-import { AuthorizationDeniedError, ThrottledError } from "./errors"
+import { AuthorizationDeniedError, ThrottledError } from "@/errors"
 
 type Response<T> = { data: T, res: AxiosResponse<T, any> }
 

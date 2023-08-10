@@ -1,10 +1,10 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
 import { map } from "p-iteration"
 
-import { HttpHelper, HttpHelperType } from "../../utils/httpHelper"
-import { createDateTimeObjectFromBirthdate, createObjectMapByKeyWithMiddleware, createSearchParams } from "../../utils"
-import { HandleApiErrors } from "../handleApiErrors"
-import { UnexpectedError } from "../../errors"
+import { HttpHelper, HttpHelperType } from "@/utils/httpHelper"
+import { createDateTimeObjectFromBirthdate, createObjectMapByKeyWithMiddleware, createSearchParams } from "@/utils"
+import { HandleApiErrors } from "@/utils/handleApiErrors"
+import { UnexpectedError } from "@/errors"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 type DeepReadonly<T> = {
