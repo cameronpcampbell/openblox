@@ -146,4 +146,11 @@ For error handling the `ApiError()` function can be used. This function is passe
 
 Example:
 ```ts
+try {
+  const { data } = await UsersApi.authenticatedUserMinimalInfo();
+  console.log(data);
+
+} catch (error:any) {
+  if (await ApiError(error)) console.log(error);
+};
 ```
