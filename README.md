@@ -101,26 +101,26 @@ await ThumbnailsApi.batch([
 
 # Logging In Example
 ```ts
-import { OpenbloxClient } from "openblox"
-import { AuthorizationDeniedError } from "openblox/errors"
+import { OpenbloxClient } from "openblox";
+import { AuthorizationDeniedError } from "openblox/errors";
 
 const Authenticate = async () => {
   // Creates an authenticated openblox client from a .ROBLOSECURITY cookie
   const client = new OpenbloxClient({
     cookie: "_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|"
-  })
+  });
 
   try {
-    const { data:loggedInUser } = await client.UsersApi.authenticatedUserMinimalInfo()
-    console.log(`Successfully Logged In As ${loggedInUser.name} (${loggedInUser.id})!`)
+    const { data:loggedInUser } = await client.apis.UsersApi.authenticatedUserMinimalInfo();
+    console.log(`Successfully Logged In As ${loggedInUser.name} (${loggedInUser.id}).`);
   
-  } catch (error:unknown) {
-    if (error instanceof AuthorizationDeniedError) { console.log("Could not authenticate!") }
-    else { console.log(error) }
+  } catch (error:any) {
+    if (error?.name == "AuthorizationDeniedError") { console.log("Could not authenticate!") }
+    else { console.log(error) };
   }
 }
 
-Authenticate()
+Authenticate();
 ```
 
 - - -
@@ -138,6 +138,12 @@ const usernameHistory: string[] = []
 for await (const { data } of paginated) usernameHistory.push(...data)
 ```
 
+- - -
 
+Error Handling
 
+For error handling the `ApiError()` function can be used. This function is passed an error and returns the errors name if said error is any of the Openblox api errors (`ThrottledError`, `AuthorizationDeniedError`, `InvalidRequestDataError`). If the error isnt an Openblox api error then it returns false.
 
+Example:
+```ts
+```

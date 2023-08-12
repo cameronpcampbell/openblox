@@ -16,6 +16,10 @@
     "./interfaces": {
       "types": "./dist/interfaces/index.d.ts",
       "default": "./dist/interfaces/index.js"
+    },
+    "./errors": {
+      "types": "./dist/errors.d.ts",
+      "default": "./dist/errors.js"
     }
   },
   "scripts": {

@@ -59,13 +59,13 @@ export class UnexpectedError extends Error {
   }
 }
 
-const ApiErrors = [ThrottledError, AuthorizationDeniedError, InvalidRequestDataError, UnexpectedError]
+const ApiErrors = ["ThrottledError", "AuthorizationDeniedError", "InvalidRequestDataError", "UnexpectedError"]
 
-export const IsApiError = async (error:unknown) => {
+export const ApiError = async (error:any) => {
   try {
-    await forEach(ApiErrors, async entry => { if (error instanceof entry) throw new Error('Break') })
+    await forEach(ApiErrors, async errorType => { if (error.name == errorType) throw new Error(errorType) })
     return false
-  } catch {
-    return true
+  } catch (error: any) {
+    return error.message
   }
 }
