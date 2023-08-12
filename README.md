@@ -123,6 +123,21 @@ const Authenticate = async () => {
 Authenticate()
 ```
 
+- - -
+
+# Using Paginated Endpoints Example
+
+The below example iterates through all pages of the username history for the user with the id `45348281` and adds all of the past usernames to an array called `usernameHistory`
+
+```ts
+import { UsersApi } from "openblox/apis";
+import { Paginate } from "openblox/interfaces";
+
+const paginated = Paginate(UsersApi.usernameHistory)(45348281, 100, "Desc")
+const usernameHistory: string[] = []
+for await (const { data } of paginated) usernameHistory.push(...data)
+```
+
 
 
 
