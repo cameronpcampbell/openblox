@@ -1,8 +1,8 @@
 import { forEach, map } from "p-iteration"
-import { UnexpectedError } from "@/errors"
-import { HttpHelper, HttpHelperType } from "@/utils/httpHelper"
-import { createObjectMapByKeyWithMiddleware, createSearchParams } from "@/utils"
-import { HandleApiErrors } from "@/utils/handleApiErrors"
+import { UnexpectedError } from "../../errors"
+import { HttpHelper, HttpHelperType } from "../../utils/httpHelper"
+import { createObjectMapByKeyWithMiddleware, createSearchParams } from "../../utils"
+import { HandleApiErrors } from "../../utils/handleApiErrors"
 import { AssetsData, Asset3dData, AssetAnimatedData, AssetSize, AvatarBustData, AvatarBustSize, AvatarFullData, AvatarFullSize, AvatarHeadshotData, AvatarHeadshotSize, BadgesData, BundlesData, BundleSize, DeveloperProductsData, DeveloperProductSize, GamePassesData, ThumbnailFormat, GameThumbnailSize, GameFromThumbnailIdsData, ThumbnailReturnPolicy, GamesIconSize, GroupEmblemSize, MetadataData, GamesIconsData, GroupsEmblemsData, PlacesIconsData, PlaceThumbnailSize, Avatar3dData, Outfit3dData, OutfitsData, OutfitSize, BatchRequest, BatchData, FormattedAssetsData, FormattedBadgesData, FormattedBundlesData, FormattedGamePassesData, FormattedGameFromThumbnailIdsData, FormattedGamesIconsData, FormattedDeveloperProductsData, FormattedGamesData, GamesData, FormattedGroupsEmblemsData, FormattedPlacesIconsData, FormattedAvatarFullData, FormattedAvatarBustData, FormattedAvatarHeadshotData, FormattedOutfitsData, BatchResponseElement } from "./thumbnailsApiTypes"
 
 export class ThumbnailsApiClass {

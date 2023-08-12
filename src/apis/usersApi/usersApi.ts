@@ -1,15 +1,12 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
 import { map } from "p-iteration"
 
-import { HttpHelper, HttpHelperType } from "@/utils/httpHelper"
-import { createDateTimeObjectFromBirthdate, createObjectMapByKeyWithMiddleware, createSearchParams } from "@/utils"
-import { HandleApiErrors } from "@/utils/handleApiErrors"
-import { UnexpectedError } from "@/errors"
+import { HttpHelper, HttpHelperType } from "../../utils/httpHelper"
+import { createDateTimeObjectFromBirthdate, createObjectMapByKeyWithMiddleware, createSearchParams } from "../..//utils"
+import { HandleApiErrors } from "../../utils/handleApiErrors"
+import { UnexpectedError } from "../../errors"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-type DeepReadonly<T> = {
-  readonly [K in keyof T]: T[K] extends Record<string, any> ? DeepReadonly<T[K]> : T[K];
-};
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 import type {
@@ -19,6 +16,7 @@ import type {
 
 import type { FirstChild, NonEmptyArray } from "../../utils/utilityTypes"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 export class UsersApiClass {
   baseUrl: string
@@ -32,7 +30,11 @@ export class UsersApiClass {
 
 
   // [ ACCOUNT INFORMATION ] ///////////////////////////////////////////////////////////////////////////////////////////
-  // GET /v1/birthdate
+  /**
+   * Gets the birthdate for the currently authenticated user.
+   * @category Account Information
+   * @endpoint GET /v1/birthdate
+   */
   authenticatedUserBirthdate = async (): Promise<
     { data: FormattedAuthenticatedUserBirthdateData, rawData: AuthenticatedUserBirthdateData }
   > => {
@@ -46,7 +48,11 @@ export class UsersApiClass {
     }
   }
 
-  // GET /v1/description
+  /**
+   * Gets the description for the currently authenticated user.
+   * @category Account Information
+   * @endpoint GET /v1/description
+   */
   authenticatedUserDescription = async (): Promise<
     { data: FormattedAuthenticatedUserDescriptionData, rawData: AuthenticatedUserDescriptionData }
   > => {
@@ -60,7 +66,11 @@ export class UsersApiClass {
     }
   }
 
-  // GET /v1/gender
+  /**
+   * Gets the gender for the currently authenticated user.
+   * @category Account Information
+   * @endpoint GET /v1/gender
+   */
   authenticatedUserGender = async (): Promise<
     { data: FormattedAuthenticatedUserGenderData, rawData: AuthenticatedUserGenderData }
   > => {
@@ -79,7 +89,12 @@ export class UsersApiClass {
 
 
   // [ DISPLAY NAMES ] /////////////////////////////////////////////////////////////////////////////////////////////////
-  // GET /v1/display-names/validate ? displayName={displayName} & birthdate={birthdate}
+  /**
+   * Validates a display name for a new user.
+   * @category Display Names
+   * @endpoint GET /v1/display-names/validate
+   * @detailedEndpoint GET /v1/display-names/validate ? displayName={displayName} & birthdate={birthdate}
+   */
   validateDisplayNameForNewUser = async (displayName:string, birthdate: string): Promise<
     { data: FormattedValidateDisplayNameForNewUserData, rawData: ValidateDisplayNameForNewUserData }
   > => {
@@ -95,7 +110,12 @@ export class UsersApiClass {
     }
   }
 
-  // GET /v1/users/{userId}/display-names/validate ? displayName={displayName}
+  /**
+   * Validates a display name for an existing user.
+   * @category Display Names
+   * @endpoint GET /v1/users/{userId}/display-names/validate
+   * @detailedEndpoint GET /v1/users/{userId}/display-names/validate ? displayName={displayName}
+   */
   validateDisplayNameForExistingUser = async (displayName:string, userId: number): Promise<
     { data: FormattedValidateDisplayNameForExistingUserData, rawData: ValidateDisplayNameForExisitingUserData }
   > => {
@@ -111,7 +131,11 @@ export class UsersApiClass {
     }
   }
 
-  // PATCH /v1/users/{userId}/display-names
+  /**
+   * Sets the display name for a new user.
+   * @category Display Names
+   * @endpoint PATCH /v1/users/{userId}/display-names
+   */
   setDisplayNameForAuthenticatedUser = async (newDisplayName:string, userId: number): Promise<
     { data: FormattedSetDisplayNameForAuthenticatedUserData, rawData: SetDisplayNameForAuthenticatedUserData }
   > => {
@@ -128,7 +152,11 @@ export class UsersApiClass {
 
 
   // [ USERS ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // GET /v1/users/{userId}
+  /**
+   * Gets detailed information about a user from their id.
+   * @category Users
+   * @endpoint GET /v1/users/{userId}
+   */
   detailedUserInfo = async (userId: number): Promise<
     { data: FormattedDetailedUserInfoData, rawData: DetailedUserInfoData }
   > => {
@@ -145,7 +173,11 @@ export class UsersApiClass {
     }
   }
 
-  // GET /v1/users/authenticated
+  /**
+   * Gets minimal information about the currently authenticated user.
+   * @category Users
+   * @endpoint GET /v1/users/authenticated
+   */
   authenticatedUserMinimalInfo = async (): Promise<
     { data: AuthenticatedUserMinimalInfoData, rawData: AuthenticatedUserMinimalInfoData }
   > => {
@@ -159,7 +191,11 @@ export class UsersApiClass {
     }
   }
 
-  // GET /v1/users/authenticated/age-bracket
+  /**
+   * Gets the currently authenticated user's age bracket.
+   * @category Users
+   * @endpoint GET /v1/users/authenticated/age-bracket
+   */
   authenticatedUserAgeBracket = async (): Promise<
     { data: FormattedAuthenticatedUserAgeBracketData, rawData: AuthenticatedUserAgeBracketData }
   > => {
@@ -175,7 +211,11 @@ export class UsersApiClass {
     }
   }
 
-  // GET /v1/users/authenticated/country-code
+  /**
+   * Gets the currently authenticated user's country code.
+   * @category Users
+   * @endpoint GET /v1/users/authenticated/country-code
+   */
   authenticatedUserCountryCode = async (): Promise<
     { data: FormattedAuthenticatedUserCountryCodeData, rawData: AuthenticatedUserCountryCodeData }
   > => {
@@ -189,7 +229,11 @@ export class UsersApiClass {
     }
   }
 
-  // GET /v1/users/authenticated/roles
+  /**
+   * Gets the currently authenticated user's roles.
+   * @category Users
+   * @endpoint GET /v1/users/authenticated/roles
+   */
   authenticatedUserRoles = async (): Promise<
     { data: FormattedAuthenticatedUserRolesData, rawData: AuthenticatedUserRolesData }
   > => {
@@ -203,7 +247,11 @@ export class UsersApiClass {
     }
   }
   
-  // POST /v1/usernames/users
+  /**
+   * Gets minimal information about multiple users from their usernames.
+   * @category Users
+   * @endpoint POST /v1/usernames/users
+   */
   usernamesToUsersInfo = async <Username extends string>(
     usernames: NonEmptyArray<Username>, excludeBannedUsers: boolean=false
   ): Promise<
@@ -227,7 +275,11 @@ export class UsersApiClass {
     }
   }
 
-  // POST /v1/users
+  /**
+   * Gets minimal information about multiple users from their ids.
+   * @category Users
+   * @endpoint POST /v1/users
+   */
   userIdsToUsersInfo = async <UserId extends number>(
     userIds: NonEmptyArray<UserId>, excludeBannedUsers: boolean=false
   ): Promise<
@@ -252,8 +304,17 @@ export class UsersApiClass {
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
+  testingKek = async () => {
+    console.log("testingKek")
+  }
+
   // [ USERNAMES ] /////////////////////////////////////////////////////////////////////////////////////////////////////
-  // GET /v1/users/{userId}/username-history ? limit={limit} & sortOrder={sortOrder} & cursor={cursor}
+  /**
+   * Gets minimal information about multiple users from their ids.
+   * @category Usernames
+   * @endpoint GET /v1/users/{userId}/username-history
+   * @detailedEndpoint GET /v1/users/{userId}/username-history ? limit={limit} & sortOrder={sortOrder} & cursor={cursor}
+   */
   usernameHistory = async (userId: number, limit:10|25|50|100=100, sortOrder:"Asc"|"Desc"="Asc", cursor?: string): Promise<
     { data: FormattedUsernameHistoryData, rawData: UsernameHistoryData, cursors: { previous: string, next: string } }
   > => {
@@ -276,8 +337,14 @@ export class UsersApiClass {
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
   // [ USER SEARCH ] ///////////////////////////////////////////////////////////////////////////////////////////////////
-  // GET /v1/users/search ? keyword={keyword} & limit={limit} & cursor={cursor}
+  /**
+   * Gets minimal information about multiple users from their ids.
+   * @category Usernames
+   * @endpoint  GET /v1/users/search
+   * @detailedEndpoint GET /v1/users/search ? keyword={keyword} & limit={limit} & cursor={cursor}
+   */
   search = async (keyword:string, limit:10|25|50|100=100, cursor?:string): Promise<
     { data: FormattedSearchData, rawData: SearchData, cursors: { previous: string, next: string } }
   > => {

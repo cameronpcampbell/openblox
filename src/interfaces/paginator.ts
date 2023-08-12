@@ -1,5 +1,5 @@
 import { find, forEach } from "p-iteration"
-import { InvalidRequestDataError } from "@/errors"
+import { InvalidRequestDataError } from "../errors"
 
 type FnResponse = {
   cursors: {
@@ -47,14 +47,9 @@ function getParams(func:(...args: any[]) => any) {
 }
 
 export const Paginate = <T extends (...args: any) => Promise<FnResponse>>(
-  fnProps: T | [fn: T, middleware?: (...args: any) => Promise<any> & any]
+  fn: T, middleware?: (...args: any) => Promise<any> & any
 ) => {
   return async function*(...fnArgs: Parameters<T>) {
-    // Gets the function and the middleware.
-    const fnPropsIsArray =  Array.isArray(fnProps)
-    const fn = fnPropsIsArray ? fnProps[0] : fnProps
-    const middleware = fnPropsIsArray ? fnProps[1] : undefined
-
     // Creates an object with arguments as key-value pairs.
     const fnArgNames: string[] = getParams(fn);
     const fnArgValues = Object.values({ ...fnArgs })
