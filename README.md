@@ -133,9 +133,9 @@ The below example iterates through all pages of the username history for the use
 import { UsersApi } from "openblox/apis";
 import { Paginate } from "openblox/interfaces";
 
-const paginated = Paginate(UsersApi.usernameHistory)(45348281, 100, "Desc")
-const usernameHistory: string[] = []
-for await (const { data } of paginated) usernameHistory.push(...data)
+const paginated = Paginate(UsersApi.usernameHistory)(45348281, 100, "Desc");
+const usernameHistory: string[] = [];
+for await (const { data } of paginated) usernameHistory.push(...data);
 ```
 
 - - -
