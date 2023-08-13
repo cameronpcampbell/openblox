@@ -4,6 +4,12 @@ import { HttpHelper, HttpHelperType } from "../../utils/httpHelper"
 import { createObjectMapByKeyWithMiddleware, createSearchParams } from "../../utils"
 import { HandleApiErrors } from "../../utils/handleApiErrors"
 import { AssetsData, Asset3dData, AssetAnimatedData, AssetSize, AvatarBustData, AvatarBustSize, AvatarFullData, AvatarFullSize, AvatarHeadshotData, AvatarHeadshotSize, BadgesData, BundlesData, BundleSize, DeveloperProductsData, DeveloperProductSize, GamePassesData, ThumbnailFormat, GameThumbnailSize, GameFromThumbnailIdsData, ThumbnailReturnPolicy, GamesIconSize, GroupEmblemSize, MetadataData, GamesIconsData, GroupsEmblemsData, PlacesIconsData, PlaceThumbnailSize, Avatar3dData, Outfit3dData, OutfitsData, OutfitSize, BatchRequest, BatchData, FormattedAssetsData, FormattedBadgesData, FormattedBundlesData, FormattedGamePassesData, FormattedGameFromThumbnailIdsData, FormattedGamesIconsData, FormattedDeveloperProductsData, FormattedGamesData, GamesData, FormattedGroupsEmblemsData, FormattedPlacesIconsData, FormattedAvatarFullData, FormattedAvatarBustData, FormattedAvatarHeadshotData, FormattedOutfitsData, BatchResponseElement } from "./thumbnailsApiTypes"
+//import { Prettify } from "dist/utils/utilityTypes"
+
+
+type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & {};
 
 export class ThumbnailsApiClass {
   baseUrl: string
@@ -398,8 +404,8 @@ export class ThumbnailsApiClass {
 
   // [ BATCH ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
   // POST /v1/batch
-  batch = async <BReq extends BatchRequest>(requests: BReq[]): Promise<
-    { data: Record<BReq["type"], BatchResponseElement>, rawData: BatchData }
+  batch = async <BReq extends BatchRequest>(requests: readonly BReq[]): Promise<
+    { data: Record<BReq["type"], Record<BReq["targetId"], Prettify<BatchResponseElement>>>, rawData: BatchData }
   > => {
     try {
       const { data:rawData } = await this.http.post<BatchData>(`/v1/batch`, requests)
@@ -420,7 +426,7 @@ export class ThumbnailsApiClass {
         formattedData[type][targetId] = item
       })
 
-      return { data: formattedData as Record<BReq["type"], BatchResponseElement>, rawData }
+      return { data: formattedData as Record<BReq["type"], Record<BReq["targetId"], BatchResponseElement>>, rawData }
       
     } catch (error:unknown) {
       await HandleApiErrors(error, [400])
@@ -431,3 +437,5 @@ export class ThumbnailsApiClass {
 }
 
 export const ThumbnailsApi = new ThumbnailsApiClass()
+
+

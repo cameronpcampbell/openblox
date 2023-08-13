@@ -4,7 +4,7 @@
   "files": [
     "/dist"
   ],
-  "exports": {
+  "exports_PROD": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
@@ -21,6 +21,12 @@
       "types": "./dist/errors.d.ts",
       "default": "./dist/errors.js"
     }
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./apis":  "./src/apis/index.ts",
+    "./interfaces": "./src/interfaces/index.ts",
+    "./errors":  "./src/errors.ts"
   },
   "scripts": {
     "build": "del-cli --force dist && tsup src --format cjs,esm --dts"

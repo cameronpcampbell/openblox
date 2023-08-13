@@ -140,7 +140,7 @@ for await (const { data } of paginated) usernameHistory.push(...data);
 
 - - -
 
-Error Handling
+# Error Handling
 
 For error handling the `ApiError()` function can be used. This function is passed an error and returns the errors name if said error is any of the Openblox api errors (`ThrottledError`, `AuthorizationDeniedError`, `InvalidRequestDataError`). If the error isnt an Openblox api error then it returns false.
 
