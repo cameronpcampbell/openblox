@@ -152,7 +152,7 @@ const Main = async () => {
 
   });
 
-  const { data:usernameHistory } = await client.apis.UsersApi.usernameHistory(45348281)
+  const { data:usernameHistory } = await client.apis.UsersApi.usernameHistory(45348281);
 }
 
 Main();
