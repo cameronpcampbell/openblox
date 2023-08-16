@@ -1,10 +1,10 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
 import { map } from "p-iteration"
 
-import { HttpHelper, HttpHelperType } from "../../utils/httpHelper"
-import { createDateTimeObjectFromBirthdate, createObjectMapByKeyWithMiddleware, createSearchParams } from "../..//utils"
-import { HandleApiErrors } from "../../utils/handleApiErrors"
-import { UnexpectedError } from "../../errors"
+import { HttpHelper } from "../../utils/httpHelper"
+import { createDateTimeObjectFromBirthdate, createObjectMapByKeyWithMiddleware, createSearchParams } from "../../utils"
+import { FindSettings } from "../../apiCacheAdapters/findSettings"
+import { ApiFuncBaseHandler as BaseHandler } from "../../utils/apiFuncBaseHandler"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -13,19 +13,42 @@ import type {
   AuthenticatedUserAgeBracketData,
   AuthenticatedUserBirthdateData, AuthenticatedUserCountryCodeData, AuthenticatedUserDescriptionData, AuthenticatedUserGenderData, AuthenticatedUserMinimalInfoData, AuthenticatedUserRolesData, DetailedUserInfoData, FormattedAuthenticatedUserAgeBracketData, FormattedAuthenticatedUserBirthdateData, FormattedAuthenticatedUserCountryCodeData, FormattedAuthenticatedUserDescriptionData, FormattedAuthenticatedUserGenderData, FormattedAuthenticatedUserRolesData, FormattedDetailedUserInfoData, FormattedSearchData, FormattedSetDisplayNameForAuthenticatedUserData, FormattedUserIdsToUsersInfoData, FormattedUsernameHistoryData, FormattedUsernamesToUsersInfoData, FormattedValidateDisplayNameForExistingUserData, FormattedValidateDisplayNameForNewUserData, SearchData, SetDisplayNameForAuthenticatedUserData, UserIdsToUsersInfoData, UsernameHistoryData, UsernamesToUsersInfoData, ValidateDisplayNameForExisitingUserData, ValidateDisplayNameForNewUserData
 } from "./usersApiTypes"
-
+import type { HttpHelperType } from "../../utils/httpHelper"
 import type { FirstChild, NonEmptyArray } from "../../utils/utilityTypes"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 export class UsersApiClass {
-  baseUrl: string
+  baseUrl: `https://${string}`
   http: HttpHelperType
+  name: string
+  apiCacheMiddleware: any
 
-  constructor(cookie?:string) {
+  constructor(
+    { cookie, apiCacheMiddleware, csrfRetries }:
+    { cookie?: string, apiCacheMiddleware?: any, csrfRetries?: number }
+  ) {
     this.baseUrl = "https://users.roblox.com"
+    this.name = "UsersApiClass"
+    this.apiCacheMiddleware = apiCacheMiddleware
 
-    this.http = new HttpHelper(this.baseUrl, cookie)
+    this.http = new HttpHelper({baseUrl: this.baseUrl, cookie, apiCacheMiddleware, csrfRetries})
+  }
+
+  getCallerFunctionName() {
+    try {
+      throw new Error();
+    } catch (error: any) {
+      const stackLines = error.stack.split('\n');
+      const callerLine = stackLines[2];
+      const functionName = (/at (\S+)/.exec(callerLine) as any)[1];
+      const classRegex = new RegExp('^' + this.name + '\\.');
+      return functionName.replace(classRegex, '');
+    }
+  }
+
+  async findSettings(funcName: string) {
+    return await FindSettings(this.apiCacheMiddleware?.arguments?.included, this.name, funcName)
   }
 
 
@@ -34,56 +57,53 @@ export class UsersApiClass {
    * Gets the birthdate for the currently authenticated user.
    * @category Account Information
    * @endpoint GET /v1/birthdate
+   * @tags [ "Auth Needed" ]
    */
   authenticatedUserBirthdate = async (): Promise<
     { data: FormattedAuthenticatedUserBirthdateData, rawData: AuthenticatedUserBirthdateData }
   > => {
-    try {
-      const { data:rawData } = await this.http.get<AuthenticatedUserBirthdateData>("/v1/birthdate")
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
+
+      const { data:rawData } = await this.http.get<AuthenticatedUserBirthdateData>("/v1/birthdate", undefined, cacheSettings)
       return { data: createDateTimeObjectFromBirthdate(rawData), rawData }
-      
-    } catch (error:any) {
-      await HandleApiErrors(error, [400])
-      throw new UnexpectedError(error)
-    }
+    }, [400])
   }
 
   /**
    * Gets the description for the currently authenticated user.
    * @category Account Information
    * @endpoint GET /v1/description
+   * @tags [ "Auth Needed" ]
    */
   authenticatedUserDescription = async (): Promise<
     { data: FormattedAuthenticatedUserDescriptionData, rawData: AuthenticatedUserDescriptionData }
   > => {
-    try {
-      const { data:rawData } = await this.http.get<AuthenticatedUserDescriptionData>("/v1/description")
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
+
+      const { data:rawData } = await this.http.get<AuthenticatedUserDescriptionData>("/v1/description", undefined, cacheSettings)
       return { data: rawData.description, rawData }
-      
-    } catch (error:any) {
-      await HandleApiErrors(error, [400])
-      throw new UnexpectedError(error)
-    }
+    }, [400])
   }
 
   /**
    * Gets the gender for the currently authenticated user.
    * @category Account Information
    * @endpoint GET /v1/gender
+   * @tags [ "Auth Needed" ]
    */
   authenticatedUserGender = async (): Promise<
     { data: FormattedAuthenticatedUserGenderData, rawData: AuthenticatedUserGenderData }
   > => {
-    try {
-      const { data:rawData } = await this.http.get<AuthenticatedUserGenderData>("/v1/gender")
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
+
+      const { data:rawData } = await this.http.get<AuthenticatedUserGenderData>("/v1/gender", undefined, cacheSettings)
       const rawGender = rawData.gender
       const gender = rawGender === 3 ? "Female" : rawGender === 2 ? "Male" : "Unset"
       return { data: gender, rawData }
-      
-    } catch (error:any) {
-      await HandleApiErrors(error, [400])
-      throw new UnexpectedError(error)
-    }
+    }, [400])
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -98,16 +118,16 @@ export class UsersApiClass {
   validateDisplayNameForNewUser = async (displayName:string, birthdate: string): Promise<
     { data: FormattedValidateDisplayNameForNewUserData, rawData: ValidateDisplayNameForNewUserData }
   > => {
-    try {
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
+
       const searchParams = await createSearchParams({ displayName, birthdate })
 
-      const { data:rawData } = await this.http.get<ValidateDisplayNameForNewUserData>(`/v1/display-names/validate?${searchParams}`)
+      const { data:rawData } = await this.http.get<ValidateDisplayNameForNewUserData>(
+        `/v1/display-names/validate?${searchParams}`, undefined, cacheSettings
+      )
       return {data: !!rawData, rawData}
-
-    } catch (error:any) {
-      await HandleApiErrors(error, [400])
-      throw new UnexpectedError(error)
-    }
+    }, [400])
   }
 
   /**
@@ -119,34 +139,35 @@ export class UsersApiClass {
   validateDisplayNameForExistingUser = async (displayName:string, userId: number): Promise<
     { data: FormattedValidateDisplayNameForExistingUserData, rawData: ValidateDisplayNameForExisitingUserData }
   > => {
-    try {
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
+
       const searchParams = await createSearchParams({ displayName })
 
-      const { data:rawData } = await this.http.get<ValidateDisplayNameForExisitingUserData>(`/v1/users/${userId}/display-names/validate?${searchParams}`)
+      const { data:rawData } = await this.http.get<ValidateDisplayNameForExisitingUserData>(
+        `/v1/users/${userId}/display-names/validate?${searchParams}`, undefined, cacheSettings
+      )
       return {data: !!rawData, rawData}
-
-    } catch (error:any) {
-      await HandleApiErrors(error, [400, 403])
-      throw new UnexpectedError(error)
-    }
+    }, [400, 403])
   }
 
   /**
-   * Sets the display name for a new user.
+   * Sets the display name for the currently authenticated user.
    * @category Display Names
    * @endpoint PATCH /v1/users/{userId}/display-names
+   * @tags [ "Auth Needed", "XCSRF" ]
    */
   setDisplayNameForAuthenticatedUser = async (newDisplayName:string, userId: number): Promise<
     { data: FormattedSetDisplayNameForAuthenticatedUserData, rawData: SetDisplayNameForAuthenticatedUserData }
   > => {
-    try {
-      const { data:rawData } = await this.http.patch<SetDisplayNameForAuthenticatedUserData>(`/v1/users/${userId}/display-names`, { newDisplayName })
-      return {data: !!rawData, rawData}
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
 
-    } catch (error:any) {
-      await HandleApiErrors(error, [400, 403])
-      throw new UnexpectedError(error)
-    }
+      const { data:rawData } = await this.http.patch<SetDisplayNameForAuthenticatedUserData>(
+        `/v1/users/${userId}/display-names`, { newDisplayName }, undefined, undefined, cacheSettings
+      )
+      return {data: !!rawData, rawData}
+    }, [400, 403])
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -160,91 +181,85 @@ export class UsersApiClass {
   detailedUserInfo = async (userId: number): Promise<
     { data: FormattedDetailedUserInfoData, rawData: DetailedUserInfoData }
   > => {
-    try {
-      const { data:rawData } = await this.http.get<DetailedUserInfoData>(`/v1/users/${userId}`)
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
+
+      const { data:rawData } = await this.http.get<DetailedUserInfoData>(`/v1/users/${userId}`, undefined, cacheSettings)
 
       const formattedData = {...rawData} as any
       formattedData.created = new Date(formattedData.created)
       return {data: formattedData, rawData}
-      
-    } catch (error:any) {
-      await HandleApiErrors(error, [404])
-      throw new UnexpectedError(error)
-    }
+    }, [404])
   }
 
   /**
    * Gets minimal information about the currently authenticated user.
    * @category Users
    * @endpoint GET /v1/users/authenticated
+   * @tags [ "Auth Needed" ]
    */
   authenticatedUserMinimalInfo = async (): Promise<
     { data: AuthenticatedUserMinimalInfoData, rawData: AuthenticatedUserMinimalInfoData }
   > => {
-    try {
-      const { data:rawData } = await this.http.get<AuthenticatedUserMinimalInfoData>("/v1/users/authenticated")
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
+
+      const { data:rawData } = await this.http.get<AuthenticatedUserMinimalInfoData>("/v1/users/authenticated", undefined, cacheSettings)
       return {data: rawData, rawData}
-      
-    } catch (error:any) {
-      await HandleApiErrors(error)
-      throw new UnexpectedError(error)
-    }
+    }, [])
   }
 
   /**
    * Gets the currently authenticated user's age bracket.
    * @category Users
    * @endpoint GET /v1/users/authenticated/age-bracket
+   * @tags [ "Auth Needed" ]
    */
   authenticatedUserAgeBracket = async (): Promise<
     { data: FormattedAuthenticatedUserAgeBracketData, rawData: AuthenticatedUserAgeBracketData }
   > => {
-    try {
-      const { data:rawData } = await this.http.get<AuthenticatedUserAgeBracketData>("/v1/users/authenticated/age-bracket")
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
+
+      const { data:rawData } = await this.http.get<AuthenticatedUserAgeBracketData>("/v1/users/authenticated/age-bracket", undefined, cacheSettings)
       const rawAgeBracket = rawData?.ageBracket
       const ageBracket = rawAgeBracket === 0 ? "13+" : "<13"
       return {data: ageBracket, rawData}
-      
-    } catch (error:any) {
-      await HandleApiErrors(error)
-      throw new UnexpectedError(error)
-    }
+    }, [])
   }
 
   /**
    * Gets the currently authenticated user's country code.
    * @category Users
    * @endpoint GET /v1/users/authenticated/country-code
+   * @tags [ "Auth Needed" ]
    */
   authenticatedUserCountryCode = async (): Promise<
     { data: FormattedAuthenticatedUserCountryCodeData, rawData: AuthenticatedUserCountryCodeData }
   > => {
-    try {
-      const { data:rawData } = await this.http.get<AuthenticatedUserCountryCodeData>("/v1/users/authenticated/country-code")
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
+
+      const { data:rawData } = await this.http.get<AuthenticatedUserCountryCodeData>("/v1/users/authenticated/country-code", undefined, cacheSettings)
       return {data: rawData.countryCode, rawData}
-      
-    } catch (error:any) {
-      await HandleApiErrors(error)
-      throw new UnexpectedError(error)
-    }
+    }, [])
   }
 
   /**
    * Gets the currently authenticated user's roles.
    * @category Users
    * @endpoint GET /v1/users/authenticated/roles
+   * @tags [ "Auth Needed" ]
    */
   authenticatedUserRoles = async (): Promise<
     { data: FormattedAuthenticatedUserRolesData, rawData: AuthenticatedUserRolesData }
   > => {
-    try {
-      const { data:rawData } = await this.http.get<AuthenticatedUserRolesData>("/v1/users/authenticated/roles")
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
+
+      const { data:rawData } = await this.http.get<AuthenticatedUserRolesData>("/v1/users/authenticated/roles", undefined, cacheSettings)
       return {data: rawData.roles, rawData}
-      
-    } catch (error:any) {
-      await HandleApiErrors(error)
-      throw new UnexpectedError(error)
-    }
+    }, [])
   }
   
   /**
@@ -254,12 +269,14 @@ export class UsersApiClass {
    */
   usernamesToUsersInfo = async <Username extends string>(
     usernames: NonEmptyArray<Username>, excludeBannedUsers: boolean=false
-  ): Promise<
-    {data: Record<Username, FirstChild<FormattedUsernamesToUsersInfoData>>, rawData: UsernamesToUsersInfoData }
-  > => {
-    try {
+  ): Promise<{
+    data: Record<Username, FirstChild<FormattedUsernamesToUsersInfoData>>, rawData: UsernamesToUsersInfoData
+  }> => { 
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
+
       const { data:rawData } = await this.http.post<UsernamesToUsersInfoData>(
-        "/v1/usernames/users", { usernames, excludeBannedUsers }
+        "/v1/usernames/users", { usernames, excludeBannedUsers }, undefined, undefined, cacheSettings
       )
 
       const formattedData = await createObjectMapByKeyWithMiddleware(
@@ -268,11 +285,7 @@ export class UsersApiClass {
       )
 
       return {data: formattedData, rawData}
-      
-    } catch (error:any) {
-      await HandleApiErrors(error, [400])
-      throw new UnexpectedError(error)
-    }
+    }, [400])   
   }
 
   /**
@@ -282,12 +295,14 @@ export class UsersApiClass {
    */
   userIdsToUsersInfo = async <UserId extends number>(
     userIds: NonEmptyArray<UserId>, excludeBannedUsers: boolean=false
-  ): Promise<
-    { data: Record<UserId, FirstChild<FormattedUserIdsToUsersInfoData>>, rawData: UserIdsToUsersInfoData }
-  > => {
-    try {
+  ): Promise<{
+    data: Record<UserId, FirstChild<FormattedUserIdsToUsersInfoData>>, rawData: UserIdsToUsersInfoData
+  }> => {
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
+
       const { data:rawData } = await this.http.post<UserIdsToUsersInfoData>(
-        "/v1/users", { userIds, excludeBannedUsers }
+        "/v1/users", { userIds, excludeBannedUsers }, undefined, undefined, cacheSettings
       )
 
       const formattedData = await createObjectMapByKeyWithMiddleware(
@@ -296,17 +311,10 @@ export class UsersApiClass {
       )
 
       return {data: formattedData, rawData}
-      
-    } catch (error:any) {
-      await HandleApiErrors(error, [400])
-      throw new UnexpectedError(error)
-    }
+    }, [400])
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
-  testingKek = async () => {
-    console.log("testingKek")
-  }
 
   // [ USERNAMES ] /////////////////////////////////////////////////////////////////////////////////////////////////////
   /**
@@ -318,10 +326,12 @@ export class UsersApiClass {
   usernameHistory = async (userId: number, limit:10|25|50|100=100, sortOrder:"Asc"|"Desc"="Asc", cursor?: string): Promise<
     { data: FormattedUsernameHistoryData, rawData: UsernameHistoryData, cursors: { previous: string, next: string } }
   > => {
-    try {
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
+
       const searchParams = await createSearchParams({ limit, sortOrder, cursor })
       const { data:rawData } = await this.http.get<UsernameHistoryData>(
-        `/v1/users/${userId}/username-history?${searchParams}`
+        `/v1/users/${userId}/username-history?${searchParams}`, undefined, cacheSettings
       )
 
       const formattedData: FormattedUsernameHistoryData = await map(
@@ -329,11 +339,7 @@ export class UsersApiClass {
       )
 
       return {data: formattedData, rawData, cursors: { previous: rawData.previousPageCursor, next: rawData.nextPageCursor } }
-      
-    } catch (error:any) {
-      await HandleApiErrors(error, [400])
-      throw new UnexpectedError(error)
-    }
+    }, [400])
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -348,18 +354,16 @@ export class UsersApiClass {
   search = async (keyword:string, limit:10|25|50|100=100, cursor?:string): Promise<
     { data: FormattedSearchData, rawData: SearchData, cursors: { previous: string, next: string } }
   > => {
-    try {
+    return BaseHandler(async () => {
+      const cacheSettings = this.apiCacheMiddleware ? await this.findSettings(this.getCallerFunctionName()) : undefined
+
       const searchParams = await createSearchParams({ keyword, limit, cursor })
-      const { data:rawData } = await this.http.get<SearchData>(`/v1/users/search?${searchParams}`)
+      const { data:rawData } = await this.http.get<SearchData>(`/v1/users/search?${searchParams}`, undefined, cacheSettings)
 
       return { data: rawData.data, rawData, cursors: { previous: rawData.previousPageCursor, next: rawData.nextPageCursor } }
-      
-    } catch (error:any) {
-      await HandleApiErrors(error, [400])
-      throw new UnexpectedError(error)
-    }
+    }, [400])
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
-export const UsersApi = new UsersApiClass()
+export const UsersApi = new UsersApiClass({})

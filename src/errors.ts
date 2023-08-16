@@ -59,7 +59,17 @@ export class UnexpectedError extends Error {
   }
 }
 
-const ApiErrors = ["ThrottledError", "AuthorizationDeniedError", "InvalidRequestDataError", "UnexpectedError"]
+export class NoCsrfTokenError extends Error {
+  error: any
+
+  constructor(error: unknown) {
+    super("CSRF token was missing.")
+    this.name = "NoCsrfTokenError"
+    this.error = error
+  }
+}
+
+const ApiErrors = ["ThrottledError", "AuthorizationDeniedError", "InvalidRequestDataError", "UnexpectedError", "NoCsrfTokenError"]
 
 export const ApiError = async (error:any) => {
   try {

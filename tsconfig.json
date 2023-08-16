@@ -13,7 +13,8 @@
     "moduleResolution": "NodeNext",
     "isolatedModules": true,
     "jsx": "preserve",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "maxNodeModuleJsDepth": 5000
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]

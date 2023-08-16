@@ -101,13 +101,14 @@ await ThumbnailsApi.batch([
 
 # Logging In Example
 ```ts
-import { OpenbloxClient } from "openblox";
+import { OpenbloxClient } from "openblox/client";
+import type { RobloSecurityCookie } from "openblox/client";
 import { AuthorizationDeniedError } from "openblox/errors";
 
 const Authenticate = async () => {
   // Creates an authenticated openblox client from a .ROBLOSECURITY cookie
   const client = new OpenbloxClient({
-    cookie: "_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|"
+    cookie: process.env.ROBLOX_COOKIE as RobloSecurityCookie,
   });
 
   try {
@@ -121,6 +122,36 @@ const Authenticate = async () => {
 }
 
 Authenticate();
+```
+
+- - -
+
+# Redis Caching
+Openblox has in built support for caching. With caching, the results from specific wrapper functions are stored. This means that when you use one of these wrapper functions again it uses the stored result instead of sending a request to the Roblox API endpoint again. This can help against being throttled in a way that does not abuse the Roblox API or violate the Roblox TOS.
+
+Caching can be enabled via the `OpenbloxClient`:
+
+```ts
+import { OpenbloxClient } from "openblox/client";
+import { RedisApiCacheAdapter } from "openblox/apis/cacheAdapters/redis";
+import type { RedisConnectionUrl } from "openblox/apis/cacheAdapters/redis";
+
+const Main = async () => {
+  const client = new OpenbloxClient({
+    apiCacheMiddleware: RedisApiCacheAdapter({
+      // Specifies the redis db to connect to.
+      connectionUrl: process.env.REDIS_URL as RedisConnectionUrl,
+      // The prefix to use for all keys for cached api data (optional).
+      keyPrefix: "openblox",
+      // The wrapper functions to enable caching for (below only the UsersApi is specified to be cached).
+      included: {
+        UsersApi: { lifetime: 500 }
+      }
+    })
+  });
+}
+
+Main();
 ```
 
 - - -

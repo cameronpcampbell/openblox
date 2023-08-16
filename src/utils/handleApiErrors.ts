@@ -1,9 +1,9 @@
 import { AxiosResponse, isAxiosError } from "axios"
-import { AuthorizationDeniedError, InvalidRequestDataError, ThrottledError } from "../errors"
+import { ApiError, InvalidRequestDataError } from "../errors"
 import { isOneOfMany } from "../utils"
 
 export const HandleApiErrors = async (error:any, knownErrorStatusCodes?: number[]) => {
-  if (error instanceof ThrottledError || error instanceof AuthorizationDeniedError) throw error
+  if (await ApiError(error)) throw error
 
   if (!knownErrorStatusCodes) return
   if (!isAxiosError(error)) return
