@@ -138,6 +138,7 @@ import type { RedisConnectionUrl } from "openblox/apis/cacheAdapters/redis";
 
 const Main = async () => {
   const client = new OpenbloxClient({
+
     apiCacheMiddleware: RedisApiCacheAdapter({
       // Specifies the redis db to connect to.
       connectionUrl: process.env.REDIS_URL as RedisConnectionUrl,
@@ -148,7 +149,10 @@ const Main = async () => {
         UsersApi: { lifetime: 500 }
       }
     })
+
   });
+
+  const { data:usernameHistory } = await client.apis.UsersApi.usernameHistory(45348281)
 }
 
 Main();
