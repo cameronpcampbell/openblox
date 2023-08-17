@@ -4,7 +4,7 @@ import { map } from "p-iteration"
 import { HttpHelper } from "../../utils/httpHelper"
 import { createDateTimeObjectFromBirthdate, createObjectMapByKeyWithMiddleware, createSearchParams } from "../../utils"
 import { FindSettings } from "../../apiCacheAdapters/findSettings"
-import { ApiFuncBaseHandler as BaseHandler } from "../../utils/apiFuncBaseHandler"
+import { ApiFuncBaseHandler as BaseHandler } from "../../utils/apis/apiFuncBaseHandler"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -14,7 +14,8 @@ import type {
   AuthenticatedUserBirthdateData, AuthenticatedUserCountryCodeData, AuthenticatedUserDescriptionData, AuthenticatedUserGenderData, AuthenticatedUserMinimalInfoData, AuthenticatedUserRolesData, DetailedUserInfoData, FormattedAuthenticatedUserAgeBracketData, FormattedAuthenticatedUserBirthdateData, FormattedAuthenticatedUserCountryCodeData, FormattedAuthenticatedUserDescriptionData, FormattedAuthenticatedUserGenderData, FormattedAuthenticatedUserRolesData, FormattedDetailedUserInfoData, FormattedSearchData, FormattedSetDisplayNameForAuthenticatedUserData, FormattedUserIdsToUsersInfoData, FormattedUsernameHistoryData, FormattedUsernamesToUsersInfoData, FormattedValidateDisplayNameForExistingUserData, FormattedValidateDisplayNameForNewUserData, SearchData, SetDisplayNameForAuthenticatedUserData, UserIdsToUsersInfoData, UsernameHistoryData, UsernamesToUsersInfoData, ValidateDisplayNameForExisitingUserData, ValidateDisplayNameForNewUserData
 } from "./usersApiTypes"
 import type { HttpHelperType } from "../../utils/httpHelper"
-import type { FirstChild, NonEmptyArray } from "../../utils/utilityTypes"
+import type { FirstChild, NonEmptyArray, PrettifyKeyof } from "../../utils/utilityTypes"
+import type { ApiMethods } from "../../utils/apis/apiTypes"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -114,6 +115,9 @@ export class UsersApiClass {
    * @category Display Names
    * @endpoint GET /v1/display-names/validate
    * @detailedEndpoint GET /v1/display-names/validate ? displayName={displayName} & birthdate={birthdate}
+   * 
+   * @param displayName The display name to be validated.
+   * @param birthdate The birthdate of the new user.
    */
   validateDisplayNameForNewUser = async (displayName:string, birthdate: string): Promise<
     { data: FormattedValidateDisplayNameForNewUserData, rawData: ValidateDisplayNameForNewUserData }
@@ -135,6 +139,9 @@ export class UsersApiClass {
    * @category Display Names
    * @endpoint GET /v1/users/{userId}/display-names/validate
    * @detailedEndpoint GET /v1/users/{userId}/display-names/validate ? displayName={displayName}
+   * 
+   * @param displayName The display name to be validated.
+   * @param userId The id of the existing user.
    */
   validateDisplayNameForExistingUser = async (displayName:string, userId: number): Promise<
     { data: FormattedValidateDisplayNameForExistingUserData, rawData: ValidateDisplayNameForExisitingUserData }
@@ -156,6 +163,9 @@ export class UsersApiClass {
    * @category Display Names
    * @endpoint PATCH /v1/users/{userId}/display-names
    * @tags [ "Auth Needed", "XCSRF" ]
+   * 
+   * @param newDisplayName The new display name for the authenticated user.
+   * @param userId The id of the currently authenticated user (the endpoint requires this for some reason).
    */
   setDisplayNameForAuthenticatedUser = async (newDisplayName:string, userId: number): Promise<
     { data: FormattedSetDisplayNameForAuthenticatedUserData, rawData: SetDisplayNameForAuthenticatedUserData }
@@ -177,6 +187,8 @@ export class UsersApiClass {
    * Gets detailed information about a user from their id.
    * @category Users
    * @endpoint GET /v1/users/{userId}
+   * 
+   * @param userId The id of the user to get detailed info about.
    */
   detailedUserInfo = async (userId: number): Promise<
     { data: FormattedDetailedUserInfoData, rawData: DetailedUserInfoData }
@@ -266,6 +278,9 @@ export class UsersApiClass {
    * Gets minimal information about multiple users from their usernames.
    * @category Users
    * @endpoint POST /v1/usernames/users
+   * 
+   * @param usernames The usernames of the users to get info about.
+   * @param excludeBannedUsers Dictates if info about banned users should be excluded from the returned data. (defaults to false).
    */
   usernamesToUsersInfo = async <Username extends string>(
     usernames: NonEmptyArray<Username>, excludeBannedUsers: boolean=false
@@ -292,6 +307,9 @@ export class UsersApiClass {
    * Gets minimal information about multiple users from their ids.
    * @category Users
    * @endpoint POST /v1/users
+   * 
+   * @param userIds The ids of the users to get info about.
+   * @param excludeBannedUsers Dictates if info about banned users should be excluded from the returned data. (defaults to false).
    */
   userIdsToUsersInfo = async <UserId extends number>(
     userIds: NonEmptyArray<UserId>, excludeBannedUsers: boolean=false
@@ -322,6 +340,11 @@ export class UsersApiClass {
    * @category Usernames
    * @endpoint GET /v1/users/{userId}/username-history
    * @detailedEndpoint GET /v1/users/{userId}/username-history ? limit={limit} & sortOrder={sortOrder} & cursor={cursor}
+   * 
+   * @param userId The id of the user to get the username history for.
+   * @param limit The number of results to be returned.
+   * @param sortOrder The order that the results are sorted in.
+   * @param cursor The paging cursor for the previous or next page.
    */
   usernameHistory = async (userId: number, limit:10|25|50|100=100, sortOrder:"Asc"|"Desc"="Asc", cursor?: string): Promise<
     { data: FormattedUsernameHistoryData, rawData: UsernameHistoryData, cursors: { previous: string, next: string } }
@@ -350,6 +373,10 @@ export class UsersApiClass {
    * @category Usernames
    * @endpoint  GET /v1/users/search
    * @detailedEndpoint GET /v1/users/search ? keyword={keyword} & limit={limit} & cursor={cursor}
+   * 
+   * @param keyword The keyword to search users by.
+   * @param limit The number of results to be returned
+   * @param cursor The paging cursor for the previous or next page.
    */
   search = async (keyword:string, limit:10|25|50|100=100, cursor?:string): Promise<
     { data: FormattedSearchData, rawData: SearchData, cursors: { previous: string, next: string } }
@@ -366,4 +393,5 @@ export class UsersApiClass {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
-export const UsersApi = new UsersApiClass({})
+
+export const UsersApi = new UsersApiClass({}) as ApiMethods<UsersApiClass>

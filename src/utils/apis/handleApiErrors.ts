@@ -1,6 +1,6 @@
 import { AxiosResponse, isAxiosError } from "axios"
-import { ApiError, InvalidRequestDataError } from "../errors"
-import { isOneOfMany } from "../utils"
+import { ApiError, InvalidRequestDataError } from "../../errors"
+import { isOneOfMany } from "../../utils"
 
 export const HandleApiErrors = async (error:any, knownErrorStatusCodes?: number[]) => {
   if (await ApiError(error)) throw error

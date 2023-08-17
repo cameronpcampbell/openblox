@@ -4,7 +4,7 @@
   "files": [
     "/dist"
   ],
-  "exports": {
+  "exports_PROD": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
@@ -30,10 +30,11 @@
       "default": "./dist/errors.js"
     }
   },
-  "exports_DEV": {
+  "exports": {
     ".": "./src/index.ts",
+    "./client": "./src/client/index.ts",
     "./apis": "./src/apis/index.ts",
-    "./apis/cacheAdapters/*": "./src/apiCacheAdapters/*.ts",
+    "./apis/cacheAdapters/redis": "./src/apiCacheAdapters/redis.ts",
     "./interfaces": "./src/interfaces/index.ts",
     "./errors": "./src/errors.ts"
   },
