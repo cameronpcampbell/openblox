@@ -1,10 +1,10 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
 import { map } from "p-iteration"
 
-import { HttpHelper } from "../../utils/httpHelper"
-import { createDateTimeObjectFromBirthdate, createObjectMapByKeyWithMiddleware, createSearchParams } from "../../utils"
-import { FindSettings } from "../../apiCacheAdapters/findSettings"
-import { ApiFuncBaseHandler as BaseHandler } from "../../utils/apis/apiFuncBaseHandler"
+import { HttpHelper } from "../../lib/http/httpHelper"
+import { createDateTimeObjectFromBirthdate, createObjectMapByKeyWithMiddleware, createSearchParams } from "../../lib/lib.utils"
+import { FindSettings } from "../../lib/apis/cacheAdapters/cacheAdapters.utils"
+import { ApiFuncBaseHandler as BaseHandler } from "../../lib/apis/apis.utils"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -12,10 +12,10 @@ import { ApiFuncBaseHandler as BaseHandler } from "../../utils/apis/apiFuncBaseH
 import type {
   AuthenticatedUserAgeBracketData,
   AuthenticatedUserBirthdateData, AuthenticatedUserCountryCodeData, AuthenticatedUserDescriptionData, AuthenticatedUserGenderData, AuthenticatedUserMinimalInfoData, AuthenticatedUserRolesData, DetailedUserInfoData, FormattedAuthenticatedUserAgeBracketData, FormattedAuthenticatedUserBirthdateData, FormattedAuthenticatedUserCountryCodeData, FormattedAuthenticatedUserDescriptionData, FormattedAuthenticatedUserGenderData, FormattedAuthenticatedUserRolesData, FormattedDetailedUserInfoData, FormattedSearchData, FormattedSetDisplayNameForAuthenticatedUserData, FormattedUserIdsToUsersInfoData, FormattedUsernameHistoryData, FormattedUsernamesToUsersInfoData, FormattedValidateDisplayNameForExistingUserData, FormattedValidateDisplayNameForNewUserData, SearchData, SetDisplayNameForAuthenticatedUserData, UserIdsToUsersInfoData, UsernameHistoryData, UsernamesToUsersInfoData, ValidateDisplayNameForExisitingUserData, ValidateDisplayNameForNewUserData
-} from "./usersApiTypes"
-import type { HttpHelperType } from "../../utils/httpHelper"
-import type { FirstChild, NonEmptyArray, PrettifyKeyof } from "../../utils/utilityTypes"
-import type { ApiMethods } from "../../utils/apis/apiTypes"
+} from "./usersApi.types"
+import type { HttpHelperType } from "../../lib/http/httpHelper"
+import type { FirstChild, NonEmptyArray, PrettifyKeyof } from "../../lib/lib.types"
+import type { ApiMethods } from "../../lib/apis/apis.types"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

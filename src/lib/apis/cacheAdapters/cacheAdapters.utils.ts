@@ -1,5 +1,5 @@
-import { IncludedConfig } from "./apiCacheHelpers";
-import * as AllApis from "../apis"
+import { IncludedConfig } from "./cacheAdapters.types";
+import * as AllApis from "../../../apis"
 import { find, map } from "p-iteration";
 
 function doesOverlap(array1: any[], array2:any[]) {

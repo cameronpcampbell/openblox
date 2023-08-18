@@ -1,6 +1,6 @@
 // [ ACCOUNT INFORMATION ] ///////////////////////////////////////////////////////////////////////////////////////////
 
-import { Prettify } from "../../utils/utilityTypes"
+import { Prettify } from "../../lib/lib.types"
 
 // GET /v1/birthdate
 export type AuthenticatedUserBirthdateData = Prettify<{

@@ -1,6 +1,4 @@
-import * as AllApis from "../../apis"
-
-import type { ArrayToUnion, KeysOfTypeFunction, PrettifyKeyof } from "../utilityTypes"
+import type { KeysOfTypeFunction, PrettifyKeyof } from "../lib.types"
 
 type NonMethodFunctions = "getCallerFunctionName" | "findSettings" | "apiCacheMiddleware"
 

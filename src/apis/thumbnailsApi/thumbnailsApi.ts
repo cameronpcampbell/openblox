@@ -1,19 +1,19 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
 import { forEach, map } from "p-iteration"
 
-import { HttpHelper } from "../../utils/httpHelper"
-import { createObjectMapByKeyWithMiddleware, createSearchParams } from "../../utils"
-import { FindSettings } from "../../apiCacheAdapters/findSettings"
-import { ApiFuncBaseHandler as BaseHandler } from "../../utils/apis/apiFuncBaseHandler"
+import { HttpHelper } from "../../lib/http/httpHelper"
+import { createObjectMapByKeyWithMiddleware, createSearchParams } from "../../lib/lib.utils"
+import { FindSettings } from "../../lib/apis/cacheAdapters/cacheAdapters.utils"
+import { ApiFuncBaseHandler as BaseHandler } from "../../lib/apis/apis.utils"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 import {
   AssetsData, Asset3dData, AssetAnimatedData, AssetSize, AvatarBustData, AvatarBustSize, AvatarFullData, AvatarFullSize, AvatarHeadshotData, AvatarHeadshotSize, BadgesData, BundlesData, BundleSize, DeveloperProductsData, DeveloperProductSize, GamePassesData, ThumbnailFormat, GameThumbnailSize, GameFromThumbnailIdsData, ThumbnailReturnPolicy, GamesIconSize, GroupEmblemSize, MetadataData, GamesIconsData, GroupsEmblemsData, PlacesIconsData, PlaceThumbnailSize, Avatar3dData, Outfit3dData, OutfitsData, OutfitSize, BatchRequest, BatchData, FormattedAssetsData, FormattedBadgesData, FormattedBundlesData, FormattedGamePassesData, FormattedGameFromThumbnailIdsData, FormattedGamesIconsData, FormattedDeveloperProductsData, FormattedGamesData, GamesData, FormattedGroupsEmblemsData, FormattedPlacesIconsData, FormattedAvatarFullData, FormattedAvatarBustData, FormattedAvatarHeadshotData, FormattedOutfitsData, BatchResponseElement
-} from "./thumbnailsApiTypes"
-import type { HttpHelperType } from "../../utils/httpHelper"
-import type { PrettifyKeyof } from "../../utils/utilityTypes"
-import type { ApiMethods } from "../../utils/apis/apiTypes"
+} from "./thumbnailsApi.types"
+import type { HttpHelperType } from "../../lib/http/httpHelper"
+import type { PrettifyKeyof } from "../../lib/lib.types"
+import type { ApiMethods } from "../../lib/apis/apis.types"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

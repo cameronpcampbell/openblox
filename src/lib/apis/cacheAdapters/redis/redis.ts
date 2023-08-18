@@ -1,6 +1,7 @@
-import { IncludedConfig } from "../apiCacheHelpers"
 import { SHA256 } from "crypto-js"
 import { Redis } from "ioredis"
+
+import type { IncludedConfig } from "../cacheAdapters.types"
 
 type IncludedSettings = { lifetime: number | "inf" }
 

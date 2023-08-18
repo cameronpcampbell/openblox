@@ -103,7 +103,6 @@ await ThumbnailsApi.batch([
 ```ts
 import { OpenbloxClient } from "openblox/client";
 import type { RobloSecurityCookie } from "openblox/client";
-import { AuthorizationDeniedError } from "openblox/errors";
 
 const Authenticate = async () => {
   // Creates an authenticated openblox client from a .ROBLOSECURITY cookie

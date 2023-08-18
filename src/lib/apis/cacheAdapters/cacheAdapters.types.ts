@@ -1,5 +1,5 @@
-import * as AllApis from "../apis"
-import { ArrayDup, ArrayLength, ArrayToUnion, KeyValuePairsMap, KeysOfTypeFunction, PrettifyKeyof, UnionToArray, Unionise2ObjectsValues, ValuesFromArrayToUnion } from "../utils/utilityTypes"
+import * as AllApis from "../../../apis"
+import { ArrayDup, ArrayLength, ArrayToUnion, KeyValuePairsMap, KeysOfTypeFunction, PrettifyKeyof, UnionToArray, Unionise2ObjectsValues, ValuesFromArrayToUnion } from "../../../lib/lib.types"
 
 type Apis = keyof PrettifyKeyof<typeof AllApis>
 type ApiMethods<ApiName extends keyof typeof AllApis> = PrettifyKeyof<KeysOfTypeFunction<(typeof AllApis)[ApiName]> & {}> & {}

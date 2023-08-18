@@ -1,10 +1,10 @@
 {
   "name": "openblox",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "files": [
     "/dist"
   ],
-  "exports_PROD": {
+  "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
@@ -30,7 +30,7 @@
       "default": "./dist/errors.js"
     }
   },
-  "exports": {
+  "exports_DEV": {
     ".": "./src/index.ts",
     "./client": "./src/client/index.ts",
     "./apis": "./src/apis/index.ts",

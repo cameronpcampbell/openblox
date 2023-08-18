@@ -3,8 +3,8 @@ import { ThumbnailsApiClass } from "../apis/thumbnailsApi"
 import { UsersApiClass } from "../apis/usersApi"
 
 import * as AllApis from "../apis"
-import { ArrayDup, ArrayLength, KeyValuePairsMap, KeysOfTypeFunction, ObjectValues, PrettifyKeyof, UnionToArray, Unionise2ObjectsValues, ValuesFromArrayToUnion } from "../utils/utilityTypes"
-import { ApiMethodNames, ApiMethods } from "../utils/apis/apiTypes"
+import { ArrayDup, ArrayLength, KeyValuePairsMap, KeysOfTypeFunction, ObjectValues, PrettifyKeyof, UnionToArray, Unionise2ObjectsValues, ValuesFromArrayToUnion } from "../lib/lib.types"
+import { ApiMethodNames, ApiMethods } from "../lib/apis/apis.types"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
