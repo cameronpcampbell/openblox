@@ -1,4 +1,6 @@
 # Users API Examples
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FMightyPart%2Fopenblox.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FMightyPart%2Fopenblox?ref=badge_shield)
+
 ```ts
 // Account Information
 await UsersApi.authenticatedUserBirthdate();
@@ -188,3 +190,7 @@ try {
   if (await ApiError(error)) console.log(error);
 };
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FMightyPart%2Fopenblox.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FMightyPart%2Fopenblox?ref=badge_large)
