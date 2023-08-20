@@ -4,7 +4,7 @@
   "files": [
     "/dist"
   ],
-  "exports": {
+  "exports_PROD": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
@@ -18,8 +18,8 @@
       "default": "./dist/apis/index.js"
     },
     "./apis/cacheAdapters/redis": {
-      "types": "./dist/apiCacheAdapters/redis/index.d.ts",
-      "default": "./dist/apiCacheAdapters/redis/index.js"
+      "types": "./dist/lib/apis/cacheAdapters/redis/index.d.ts",
+      "default": "./dist/lib/apis/cacheAdapters/redis/index.js"
     },
     "./interfaces": {
       "types": "./dist/interfaces/index.d.ts",
@@ -30,11 +30,11 @@
       "default": "./dist/errors.js"
     }
   },
-  "exports_DEV": {
+  "exports": {
     ".": "./src/index.ts",
     "./client": "./src/client/index.ts",
     "./apis": "./src/apis/index.ts",
-    "./apis/cacheAdapters/redis": "./src/apiCacheAdapters/redis.ts",
+    "./apis/cacheAdapters/redis": "./src/lib/apis/cacheAdapters/redis/index.ts",
     "./interfaces": "./src/interfaces/index.ts",
     "./errors": "./src/errors.ts"
   },

@@ -66,6 +66,8 @@ export const isOneOfMany = async (target:unknown, arr: any[]) => {
   }
 }
 
+export const mutateObject = <Obj extends Object = {}>(obj: Obj = {} as Obj, mutateFn: (obj: Obj) => Object) => { mutateFn(obj); return obj }
+
 export const createSearchParams = async (params: { [key: string]:any }) => {
   const [paramsKeys, paramsValues] = [Object.keys(params), Object.values(params)]
   const formattedParams: { [key: string]:string } = {}

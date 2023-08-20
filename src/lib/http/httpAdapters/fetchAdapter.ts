@@ -1,37 +1,21 @@
-import { formatSearchParams } from "../http.utils"
+import type { FetchAdapterConfig, RequestConfig, RequestConfigWithBody } from "./httpAdapters.types"
+import { AgResponse } from "./httpAdapters.utils"
 
-type Url = `http://${string}` | `https://${string}`
+export const FetchAdapter: FetchAdapterConfig<Response> = {
+  get: async (url, config) => {
 
-type RequestConfig = {
-  searchParams?: { [key: string]: any },
-  headers?: { [key: string]: string }
-}
-
-type RequestConfigWithBody = RequestConfig & {
-  body: Object
-}
-
-export const HttpFetchAdapter = {
-  get: async <ResData>(url: Url, config?: RequestConfig): Promise<{
-    res: Response, data: ResData
-  }> => {
-    const searchParams = formatSearchParams(config?.searchParams)
-
-    const res: Response = await fetch(searchParams ? `${url}?${searchParams}` : url, {
+    const res = await fetch(url, {
       method: "GET",
       headers: config?.headers
     })
 
-    return { res, data: await res.json() as ResData }
+    return res
   },
 
-  post: async <ResData>(url: Url, config?: RequestConfigWithBody): Promise<{
-    res: Response, data: ResData
-  }> => {
-    const searchParams = formatSearchParams(config?.searchParams)
+  post: async (url, config) => {
     const body = config?.body
 
-    const res: Response = await fetch(searchParams ? `${url}?${searchParams}` : url, {
+    const res = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,10 +24,35 @@ export const HttpFetchAdapter = {
       body: body && JSON.stringify(body)
     })
 
-    return { res, data: await res.json() as ResData }
+    return res
   },
 
-  patch: async <ResData>() => {
+  patch: async (url, config) => {
+    const body = config?.body
 
+    const res = await fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        ...config?.headers
+      },
+      body: body && JSON.stringify(body)
+    })
+
+    return res
+  },
+
+  parseRes: async <ResBody extends Object>(res: Response) => {
+    const headers: { [key: string]: string } = {}
+    res.headers.forEach((value, key) => {
+      headers[key] = value
+    })
+  
+    return new AgResponse({
+      statusCode: res.status,
+      body: await res.json() as ResBody,
+      headers: headers,
+      rawResponse: res
+    })
   }
 }

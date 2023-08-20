@@ -221,14 +221,14 @@ export type FormattedPlacesIconsData = {
 // [ AVATAR ] ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/users/avatar
 export type AvatarFullSize = "30x30"|"48x48"|"60x60"|"75x75"|"100x100"|"110x110"|"140x140"|"150x150"|"180x180"|"250x250"|"352x352"|"420x420"|"720x720"
-export type AvatarFullData = {
+export type AvatarsFullData = {
   data: {
     targetId: number,
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }[]
 }
-export type FormattedAvatarFullData = {
+export type FormattedAvatarsFullData = {
   [userId: number]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
@@ -244,14 +244,14 @@ export type Avatar3dData = {
 
 // GET /v1/users/avatar-bust
 export type AvatarBustSize = "48x48"|"50x50"|"60x60"|"75x75"|"100x100"|"150x150"|"180x180"|"352x352"|"420x420"
-export type AvatarBustData = {
+export type AvatarsBustsData = {
   data: {
     targetId: number,
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }[]
 }
-export type FormattedAvatarBustData = {
+export type FormattedAvatarsBustsData = {
   [userId: number]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
@@ -260,14 +260,14 @@ export type FormattedAvatarBustData = {
 
 // GET /v1/users/avatar-headshot
 export type AvatarHeadshotSize = "48x48"|"50x50"|"60x60"|"75x75"|"100x100"|"110x110"|"150x150"|"180x180"|"352x352"|"420x420"|"720x720"
-export type AvatarHeadshotData = {
+export type AvatarsHeadshotsData = {
   data: {
     targetId: number,
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }[]
 }
-export type FormattedAvatarHeadshotData = {
+export type FormattedAvatarsHeadshotsData = {
   [userId: number]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string

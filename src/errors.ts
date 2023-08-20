@@ -1,17 +1,18 @@
 import { AxiosResponse } from "axios"
-import { filter, forEach } from "p-iteration"
+import { forEach } from "p-iteration"
+import { AgResponse } from "./lib/http/httpAdapters/httpAdapters.utils"
 
 export class ThrottledError extends Error {
   statusCode: number
   errors: any[]
-  response: AxiosResponse<any, any>
+  response: AgResponse
   
-  constructor(res: AxiosResponse<any, any>) {
-    const errors = res?.data.errors
+  constructor(res: AgResponse) {
+    const errors = res.body
 
-    super(errors[0].message ?? "Too many requests")
+    super(errors?.[0]?.message ?? "Too many requests.")
     this.name = "ThrottledError"
-    this.statusCode = 429
+    this.statusCode = res.statusCode
     this.errors = errors
     this.response = res
   }
@@ -20,15 +21,15 @@ export class ThrottledError extends Error {
 export class AuthorizationDeniedError extends Error {
   statusCode: number
   errors: any[]
-  response: AxiosResponse<any, any>
+  response: AgResponse
   
-  constructor(res: AxiosResponse<any, any>) {
-    const errors = res?.data.errors
+  constructor(res: AgResponse) {
+    const errors = res.body
 
-    super(errors[0].message)
+    super(errors?.[0]?.message ?? "Authorization has been denied for this request.")
     this.name = "AuthorizationDeniedError"
-    this.statusCode = 401
-    this.errors = errors,
+    this.statusCode = res.statusCode
+    this.errors = errors
     this.response = res
   }
 }
@@ -36,14 +37,14 @@ export class AuthorizationDeniedError extends Error {
 export class InvalidRequestDataError extends Error {
   statusCode: number
   errors: any[]
-  response: AxiosResponse<any, any>
+  response: AgResponse
   
-  constructor(res: AxiosResponse<any, any>) {
-    const errors = res?.data.errors
+  constructor(res: AgResponse) {
+    const errors = res.body
 
-    super(errors[0].message ?? "Authorization has been denied for this request.")
+    super(errors?.[0]?.message ?? "Request data is invalid.")
     this.name = "InvalidRequestDataError"
-    this.statusCode = res?.status ?? NaN
+    this.statusCode = res.statusCode
     this.errors = errors
     this.response = res
   }
