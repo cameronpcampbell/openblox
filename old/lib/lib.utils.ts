@@ -1,4 +1,5 @@
 import { every, filter, forEach, map, some } from "p-iteration";
+import cloneDeep from "lodash.clonedeep"
 
 type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 
@@ -66,7 +67,21 @@ export const isOneOfMany = async (target:unknown, arr: any[]) => {
   }
 }
 
-export const mutateObject = <Obj extends Object = {}>(obj: Obj = {} as Obj, mutateFn: (obj: Obj) => Object) => { mutateFn(obj); return obj }
+type AnyObject = { [key: string|number|symbol]: any }
+type IfVoidThenConvertTo<Target, ConvertTo> = Target extends void ? ConvertTo : Target;
+
+export const mutateObject = <Input extends Object = AnyObject, Output extends Object | void = void>(
+  obj: Input = {} as Input, mutateFn: (obj: IfVoidThenConvertTo<Output, Input>) => void
+): IfVoidThenConvertTo<Output, Input> => {
+  mutateFn(obj as IfVoidThenConvertTo<Output, Input>); return obj as IfVoidThenConvertTo<Output, Input>
+}
+
+export const cloneAndMutateObject = <Input extends Object = AnyObject, Output extends Object | void = void>(
+  obj: Input = {} as Input, mutateFn: (obj: IfVoidThenConvertTo<Output, Input>) => void
+): IfVoidThenConvertTo<Output, Input> => {
+  const clone = cloneDeep(obj)
+  mutateFn(clone as IfVoidThenConvertTo<Output, Input>); return clone as IfVoidThenConvertTo<Output, Input>
+}
 
 export const createSearchParams = async (params: { [key: string]:any }) => {
   const [paramsKeys, paramsValues] = [Object.keys(params), Object.values(params)]

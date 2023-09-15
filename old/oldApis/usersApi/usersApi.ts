@@ -11,12 +11,13 @@ import { ApiFuncBaseHandler as BaseHandler } from "../../lib/apis/apis.utils"
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 import type {
   AuthenticatedUserAgeBracketData,
-  AuthenticatedUserBirthdateData, AuthenticatedUserCountryCodeData, AuthenticatedUserDescriptionData, AuthenticatedUserGenderData, AuthenticatedUserMinimalInfoData, AuthenticatedUserRolesData, DetailedUserInfoData, FormattedAuthenticatedUserAgeBracketData, FormattedAuthenticatedUserBirthdateData, FormattedAuthenticatedUserCountryCodeData, FormattedAuthenticatedUserDescriptionData, FormattedAuthenticatedUserGenderData, FormattedAuthenticatedUserRolesData, FormattedDetailedUserInfoData, FormattedSearchData, FormattedSetDisplayNameForAuthenticatedUserData, FormattedUserIdsToUsersInfoData, FormattedUsernameHistoryData, FormattedUsernamesToUsersInfoData, FormattedValidateDisplayNameForExistingUserData, FormattedValidateDisplayNameForNewUserData, SearchData, SetDisplayNameForAuthenticatedUserData, UserIdsToUsersInfoData, UsernameHistoryData, UsernamesToUsersInfoData, ValidateDisplayNameForExisitingUserData, ValidateDisplayNameForNewUserData
+  AuthenticatedUserBirthdateData, AuthenticatedUserCountryCodeData, AuthenticatedUserDescriptionData, AuthenticatedUserGenderData, AuthenticatedUserInfoData, AuthenticatedUserRolesData, FormattedAuthenticatedUserAgeBracketData, FormattedAuthenticatedUserBirthdateData, FormattedAuthenticatedUserCountryCodeData, FormattedAuthenticatedUserDescriptionData, FormattedAuthenticatedUserGenderData, FormattedAuthenticatedUserRolesData, FormattedSearchData, FormattedSetDisplayNameForAuthenticatedUserData, FormattedUserIdsToUsersInfoData, FormattedUserInfoData, FormattedUsernameHistoryData, FormattedUsernamesToUsersInfoData, FormattedValidateDisplayNameForExistingUserData, FormattedValidateDisplayNameForNewUserData, SearchData, SetDisplayNameForAuthenticatedUserData, UserIdsToUsersInfoData, UserInfoData, UsernameHistoryData, UsernamesToUsersInfoData, ValidateDisplayNameForExisitingUserData, ValidateDisplayNameForNewUserData
 } from "./usersApi.types"
 import type { FirstChild, NonEmptyArray } from "../../lib/lib.types"
 import type { ApiMethods } from "../../lib/apis/apis.types"
 import { AgResponse } from "../../lib/http/httpAdapters/httpAdapters.utils"
 import { FetchAdapterConfig } from "../../lib/http/httpAdapters/httpAdapters.types"
+import { SortOrder } from "../apis.types"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -219,21 +220,21 @@ export class UsersApiClass {
 
   // [ USERS ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
   /**
-   * Gets detailed information about a user from their id.
+   * Gets information about a user from their id.
    * @category Users
    * @endpoint GET /v1/users/{userId}
    * 
    * @param userId The id of the user to get detailed info about.
    * 
-   * @example const { data:detailedUserInfo } = await UsersApi.detailedUserInfo(45348281);
+   * @example const { data:userInfo } = await UsersApi.userInfo(45348281);
    * @exampleData { description: "Lorem ipsum dolor sit amet consectetur adipiscing elit.", created: "2013-07-13T07:50:00.083Z", isBanned: false, externalAppDisplayName: null, hasVerifiedBadge: false, id: 45348281, name: "MightyPart", displayName: "MightyPart" }
    * @exampleRawData { description: "Lorem ipsum dolor sit amet consectetur adipiscing elit.", created: "2013-07-13T07:50:00.083Z", isBanned: false, externalAppDisplayName: null, hasVerifiedBadge: false, id: 45348281, name: "MightyPart", displayName: "MightyPart" }
    */
-  detailedUserInfo = async (userId: number): Promise<
-    { data: FormattedDetailedUserInfoData, rawData: DetailedUserInfoData }
+  userInfo = async (userId: number): Promise<
+    { data: FormattedUserInfoData, rawData: UserInfoData }
   > => {
     return BaseHandler(async () => {
-      const { data:rawData, res } = await this.http.get<DetailedUserInfoData>(`/v1/users/${userId}`, {
+      const { data:rawData, res } = await this.http.get<UserInfoData>(`/v1/users/${userId}`, {
         cacheSettings: this.apiCacheMiddleware && await this.findSettings(this.getCallerFunctionName())
       })
 
@@ -245,20 +246,20 @@ export class UsersApiClass {
   }
 
   /**
-   * Gets minimal information about the currently authenticated user.
+   * Gets information about the currently authenticated user.
    * @category Users
    * @endpoint GET /v1/users/authenticated
    * @tags [ "Auth Needed" ]
    * 
-   * @example const { data:minimalInfo } = await client.apis.UsersApi.authenticatedUserMinimalInfo();
+   * @example const { data:userInfo } = await client.apis.UsersApi.authenticatedUserInfo();
    * @exampleData { id: 45348281, name: "MightyPart", displayName: "MightyPart" }
    * @exampleRawData { id: 45348281, name: "MightyPart", displayName: "MightyPart" }
    */
-  authenticatedUserMinimalInfo = async (): Promise<
-    { data: AuthenticatedUserMinimalInfoData, rawData: AuthenticatedUserMinimalInfoData, res: unknown }
+  authenticatedUserInfo = async (): Promise<
+    { data: AuthenticatedUserInfoData, rawData: AuthenticatedUserInfoData, res: unknown }
   > => {
     return BaseHandler(async () => {
-      const { data:rawData, res } = await this.http.get<AuthenticatedUserMinimalInfoData>("/v1/users/authenticated", {
+      const { data:rawData, res } = await this.http.get<AuthenticatedUserInfoData>("/v1/users/authenticated", {
         cacheSettings: this.apiCacheMiddleware && await this.findSettings(this.getCallerFunctionName())
       })
 
@@ -335,7 +336,7 @@ export class UsersApiClass {
   }
   
   /**
-   * Gets minimal information about multiple users from their usernames.
+   * Gets information about multiple users from their usernames.
    * @category Users
    * @endpoint POST /v1/usernames/users
    * 
@@ -367,7 +368,7 @@ export class UsersApiClass {
   }
 
   /**
-   * Gets minimal information about multiple users from their ids.
+   * Gets information about multiple users from their ids.
    * @category Users
    * @endpoint POST /v1/users
    * 
@@ -416,7 +417,7 @@ export class UsersApiClass {
    * @exampleData [ "NamelessGuy2005", "parrrty" ]
    * @exampleRawData { previousPageCursor: null, nextPageCursor: null, data: [ { name: "NamelessGuy2005" }, { name: "parrrty" } ] }
    */
-  usernameHistory = async (userId: number, limit:10|25|50|100=100, sortOrder:"Asc"|"Desc"="Asc", cursor?: string): Promise<
+  usernameHistory = async (userId: number, limit:10|25|50|100=100, sortOrder:SortOrder="Asc", cursor?: string): Promise<
     { data: FormattedUsernameHistoryData, rawData: UsernameHistoryData, cursors: { previous: string, next: string }, res: unknown }
   > => {
     return BaseHandler(async () => {

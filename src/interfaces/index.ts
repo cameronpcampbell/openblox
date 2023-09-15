@@ -1,1 +1,2 @@
-export { Paginate } from "./paginator"
+export { Paginate } from "./paginate"
+export { Override } from "./override"

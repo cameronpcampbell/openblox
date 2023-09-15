@@ -1,15 +1,7 @@
-// [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
-import { ThumbnailsApiClass } from "../apis/thumbnailsApi"
-import { UsersApiClass } from "../apis/usersApi"
-
-import * as AllApis from "../apis"
-import { ArrayDup, ArrayLength, KeyValuePairsMap, KeysOfTypeFunction, ObjectValues, PrettifyKeyof, UnionToArray, Unionise2ObjectsValues, ValuesFromArrayToUnion } from "../lib/lib.types"
-import { ApiMethodNames, ApiMethods } from "../lib/apis/apis.types"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+import { PrettifyKeyof, UnionToArray, ValuesFromArrayToUnion, KeyValuePairsMap, ArrayDup } from "../lib/lib.types"
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
-type Apis = keyof PrettifyKeyof<typeof AllApis>
+/*type Apis = keyof PrettifyKeyof<typeof AllApis>
 
 type ApiCacheConfigSettings<CustomSettings extends Object> = CustomSettings | "!"
 
@@ -36,20 +28,19 @@ PrettifyKeyof<
 
 export type RobloSecurityCookie = `_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|${string}`
 
-type ClientConfig = { cookie?: RobloSecurityCookie, apiCacheMiddleware?: any, csrfRetries?: number }
+type ClientConfig = { cookie?: RobloSecurityCookie, apiCacheMiddleware?: any, csrfRetries?: number }*/
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+type RobloSecurityCookie = `_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|${string}`
 
-export class OpenbloxClient {
-  apis: {
-    UsersApi: ApiMethods<UsersApiClass>,
-    ThumbnailsApi: ApiMethods<ThumbnailsApiClass>
-  }
+type Config = { cookie?: RobloSecurityCookie, apiCacheMiddleware?: any, csrfRetries?: number }
 
-  constructor({ cookie, apiCacheMiddleware, csrfRetries = 1}: ClientConfig) {
-    this.apis = {
-      UsersApi: new UsersApiClass({cookie, apiCacheMiddleware, csrfRetries}),
-      ThumbnailsApi: new ThumbnailsApiClass({cookie, apiCacheMiddleware, csrfRetries})
-    }
-  }
+var config = {}
+
+export function setConfig(newConfig: Config) {
+  config = newConfig
+}
+
+export function getConfig() {
+  return config
 }

@@ -4,7 +4,7 @@ import { AuthorizationDeniedError, NoCsrfTokenError, ThrottledError } from "../.
 import { formatSearchParams } from "./http.utils"
 import { FetchAdapterConfig, RequestConfig } from "./httpAdapters/httpAdapters.types"
 import { AgResponse } from "./httpAdapters/httpAdapters.utils"
-import { mutateObject } from "../lib.utils"
+import { cloneAndMutateObject, mutateObject } from "../lib.utils"
 import { FetchAdapter } from "./httpAdapters/fetchAdapter"
 
 type OldResponse<T> = { data: T, res: AxiosResponse<T, any> | undefined }
@@ -122,7 +122,7 @@ export class HttpHelper {
         const resCsrfToken = error.headers["x-csrf-token"]
         // Retries the request but with the csrf token
         if (resCsrfToken && (currentAttempts < (this.csrfRetries + 1))) {
-          return await this.post(url, mutateObject(config, obj => obj.csrfData = { token: resCsrfToken, attempts: currentAttempts + 1 }))
+          return await this.post(url, cloneAndMutateObject(config, obj => obj.csrfData = { token: resCsrfToken, attempts: currentAttempts + 1 }))
         } else throw new NoCsrfTokenError(error)
       }
       HandleErrors(error as AgResponse)

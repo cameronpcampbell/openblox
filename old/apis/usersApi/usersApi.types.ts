@@ -37,7 +37,7 @@ export type FormattedSetDisplayNameForAuthenticatedUserData = Prettify<boolean>
 
 // [ USERS ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/users/{userId}
-export type DetailedUserInfoData = Prettify<{
+export type UserInfoData = Prettify<{
   description: string,
   created: string,
   isBanned: boolean,
@@ -47,10 +47,10 @@ export type DetailedUserInfoData = Prettify<{
   name: string,
   displayName: string
 }>
-export type FormattedDetailedUserInfoData = Prettify<Omit<DetailedUserInfoData, "created"> & { created: Date }>
+export type FormattedUserInfoData = Prettify<Omit<UserInfoData, "created"> & { created: Date }>
 
 // GET /v1/users/authenticated
-export type AuthenticatedUserMinimalInfoData = Prettify<{
+export type AuthenticatedUserInfoData = Prettify<{
   id: number,
   name: string,
   displayName: string
