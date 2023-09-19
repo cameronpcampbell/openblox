@@ -74,18 +74,18 @@ export const buildApiMethodResponse = <Data, RawBody, Cursors extends { previous
   cursors: Cursors
 } => {
   if (typeof(data) == "function") {
-    console.log(">> function")
+    //console.log(">> function")
     const createdFormattedData = createFormattedData(data as (() => Data))
     return { get data() { return createdFormattedData() as Data }, rawBody, response, cache, cursors: cursors as Cursors }
 
   // Makes sure that "data" is not a reference to "rawBody".
   } else if (isObjectOrArray(data) && getConfig().methodsDataEnforceNoReferences) {
-    console.log(">> object/array - no references")
+    //console.log(">> object/array - no references")
     const createdFormattedData = createFormattedData(() => cloneDeep(data) as (() => Data))
     return { get data() { return createdFormattedData() as Data }, rawBody, response, cache, cursors: cursors as Cursors }
   }
 
-  console.log(">> nothing")
+  //console.log(">> nothing")
   return { data, rawBody, response, cache, cursors: cursors as Cursors }
 }
 

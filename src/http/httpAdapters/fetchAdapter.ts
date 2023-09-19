@@ -5,7 +5,7 @@ import { AgnosticResponse } from "openblox/adapterUtils/http"
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 import type { HttpAdapterConfig } from "openblox/adapterUtils/http"
-import { removeEntriesWhereUndefinedValues } from "../../utils"
+import { isObjectOrArray, removeEntriesWhereUndefinedValues } from "../../utils"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -14,6 +14,11 @@ const getBody = async (res: Response) => {
   const text = await res.text()
   try { return JSON.parse(text) }
   catch { return text }
+}
+
+const stringifyIfObjectOrArray = (body: any) => {
+  if (isObjectOrArray(body)) return JSON.stringify(body)
+  return body
 }
 
 const objectToFormData = (data: Object) => {
@@ -34,7 +39,7 @@ export const FetchAdapter: HttpAdapterConfig<Response> = {
     })
   },
 
-  post: async (url, config) => {
+  post: async (url, config) => { 
     const [ body, formData, headers ] = [ config?.body, config?.formData, config?.headers ]
 
     return await fetch(url, {
@@ -43,7 +48,7 @@ export const FetchAdapter: HttpAdapterConfig<Response> = {
         ...(( !(formData && Object.keys(formData)?.length) || !formData ) && { "Content-Type": "application/json" }),
         ...headers && removeEntriesWhereUndefinedValues(headers)
       },
-      body: (formData ? objectToFormData(formData) : JSON.stringify(body)) as any
+      body: (formData ? objectToFormData(formData) : stringifyIfObjectOrArray(body)) as any
     })
   },
 
@@ -56,7 +61,7 @@ export const FetchAdapter: HttpAdapterConfig<Response> = {
         ...(( !(formData && Object.keys(formData)?.length) || !formData ) && { "Content-Type": "application/json" }),
         ...headers && removeEntriesWhereUndefinedValues(headers)
       },
-      body: (formData ? objectToFormData(formData) : JSON.stringify(body)) as any
+      body: (formData ? objectToFormData(formData) : stringifyIfObjectOrArray(body)) as any
     })
   },
 
@@ -69,7 +74,7 @@ export const FetchAdapter: HttpAdapterConfig<Response> = {
         ...(( !(formData && Object.keys(formData)?.length) || !formData ) && { "Content-Type": "application/json" }),
         ...headers && removeEntriesWhereUndefinedValues(headers)
       },
-      body: (formData ? objectToFormData(formData) : JSON.stringify(body)) as any
+      body: (formData ? objectToFormData(formData) :stringifyIfObjectOrArray(body)) as any
     })
   },
 

@@ -46,7 +46,7 @@ export type SetStandardDatastoreEntryConfig = PrettifyKeyof<{
   exclusiveCreate?: boolean,
   scope?: string,
   entryAttributes?: string[],
-  entryUserIds?: number[]
+  entryUserIds?: (number|string)[]
 }>
 
 type SetStandardDatastoreEntryData<TimeType> = PrettifyKeyof<{

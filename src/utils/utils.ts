@@ -136,15 +136,7 @@ export const removeEntriesWhereUndefinedValues = (inputObject: { [key: string]: 
   return filteredObject;
 }
 
-export const calculateContentMD5 = (content: string): string => {
-  // Calculate MD5 hash
-  const md5Hash = MD5(content);
-
-  // Convert the MD5 hash to a Base64-encoded string
-  const md5Base64 = base64.stringify(md5Hash);
-
-  return md5Base64;
-}
+export const calculateContentMD5 = (content: string) => MD5(content).toString(base64)
 
 export const isObjectOrArray = (arg: any) => {
   if (arg !== undefined && arg !== null && (Array.isArray(arg) || typeof arg === "object")) return true

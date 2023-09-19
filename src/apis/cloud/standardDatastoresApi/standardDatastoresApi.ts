@@ -1,6 +1,7 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
-import { apiFuncBaseHandler as BaseHandler, buildApiMethodResponse as buildResponse } from "../../../apis/apis.utils"
+import utf8 from "crypto-js/enc-utf8"
 
+import { apiFuncBaseHandler as BaseHandler, buildApiMethodResponse as buildResponse } from "../../../apis/apis.utils"
 import { getCacheSettingsOverride, getCredentialsOverride } from "../../../config/config"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -191,15 +192,15 @@ export async function standardDatastoreEntry<Schema>(
       config?.matchVersion, config?.exclusiveCreate, config?.scope, config?.entryAttributes, config?.entryUserIds 
     ]
 
-    const checksum = calculateContentMD5(JSON.stringify(data))
+    const stringifiedData = JSON.stringify(data)
     const { data:rawBody, response, cachedResultType:cache } = await this.http.post<RawSetStandardDatastoreEntryData>(
       `${baseUrl}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`, {
         searchParams: {  datastoreName, entryKey, matchVersion, exclusiveCreate, scope },
-        body: data,
+        body: stringifiedData, 
         headers: {
           "roblox-entry-attributes": entryAttributes && JSON.stringify(entryAttributes),
           "roblox-entry-userids": entryUserIds && `[${entryUserIds?.join(",")}]`,
-          "content-md5": checksum
+          "content-md5": calculateContentMD5(stringifiedData)
         },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "setStandardDatastoreEntry")),
         credentialsOverride: getCredentialsOverride(overrides)
