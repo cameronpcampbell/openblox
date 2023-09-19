@@ -1,5 +1,5 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
-import { MD5, AES } from "crypto-js"
+import { MD5 } from "crypto-js"
 import { Redis } from "ioredis"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -41,6 +41,8 @@ export const RedisCacheAdapter = ({ connectionUrl, keysPrefix = "openblox", incl
 
         const lifetime = cacheSettings.lifetime
         const fullKey = `${keysPrefix ? `${keysPrefix}:` : ""}${key}${keyData ? `:${MD5(JSON.stringify(keyData)).toString()}` : ""}`
+
+        console.log(lifetime)
 
         const redis = new Redis(connectionUrl)
         lifetime == "inf" ?

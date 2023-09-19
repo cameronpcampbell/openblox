@@ -207,6 +207,70 @@ const { data:wallPosts } = await ClassicGroupsApi.groupWallPosts_V2(5850082)
 
 - - -
 
+# Cloud Standard Datastores Api Examples
+
+```ts
+const { data:datastores } = await StandardDatastoresApi.listStandardDatastores(5097539509)
+
+const { data:keys } = await StandardDatastoresApi.standardDatastoreKeys(5097539509, "InventoryStore")
+
+type InventorySchema = { Iron?: number, Gold?: number, Copper?: number, Stone?: number, Wood?: number }
+const { data:entryInfo } = await StandardDatastoresApi.standardDatastoreEntry<InventorySchema>(5097539509, "InventoryStore",  "user/45348281")
+
+type InventorySchema = { Iron?: number, Gold?: number, Copper?: number, Stone?: number, Wood?: number }
+const { data:response } = await StandardDatastoresApi.setStandardDatastoreEntry<InventorySchema>(
+  5097539509, "InventoryStore",  "user/45348281",      // universeId, datastoreName, entryKey
+  { Gold: 6 },                                         // the new data (MUST CONFORM TO `InventorySchema`)
+  { entryUserIds: [ 45348281 ] }                       // extra optional settings
+)
+
+await StandardDatastoresApi.deleteStandardDatastoreEntry(5097539509, "InventoryStore",  "user/45348281")
+
+const { data:incrementedEntry } = await StandardDatastoresApi.incrementStandardDatastoreEntry(
+  5097539509, "InventoryStore",  "user/45348281", // universeId, datastoreName, entryKey
+  1,                                              // incrementBy
+  { entryUserIds: [ 45348281 ] }                  // extra optional settings
+)
+
+type InventorySchema = { Iron?: number, Gold?: number, Copper?: number, Stone?: number, Wood?: number }
+const { data:entryVersion } = await StandardDatastoresApi.standardDatastoreEntryVersion<InventorySchema>(
+  5097539509, "InventoryStore",  "user/45348281",    // universeId, datastoreName, entryKey
+  "08DBB6A47FDE6132.0000000022.08DBB88134CB805D.01"  // versionId
+)
+
+const { data:versions } = await StandardDatastoresApi.listStandardDatastoreEntryVersions(
+  5097539509, "InventoryStore",  "user/45348281", // universeId, datastoreName, entryKey
+  { sortOrder: "Ascending" },                     // extra optional settings
+)
+```
+
+- - -
+
+# Cloud Ordered Datastores Api Examples
+
+```ts
+const { data:createdEntry } = await OrderedDatastoresApi.createOrderedDatastoreEntry(
+  5097539509, "PointsStore", "global",
+  "45348281", 54
+)
+
+const { data:entry } = await OrderedDatastoresApi.orderedDatastoreEntry(5097539509, "PointsStore", "global", "45348281")
+
+const { data:success } = await OrderedDatastoresApi.deleteOrderedDatastoreEntry( 5097539509, "PointsStore", "global", "45348281")
+
+const { data:updatedEntry } = await OrderedDatastoresApi.updateOrderedDatastoreEntry(
+  5097539509, "PointsStore", "global",
+  "45348281", 58
+)
+
+const { data:incrementedEntry } = await OrderedDatastoresApi.incrementOrderedDatastoreEntry(
+   5097539509, "PointsStore", "global",
+  "45348281", 12
+)
+```
+
+- - -
+
 # Cloud Inventory Api Examples
 ```ts
 const { data:inventoryItems } = await CloudInventoryApi.inventoryItemsForUser(45348281, 3, {
@@ -226,6 +290,35 @@ const { data:memberships } = await GroupsApi.groupMemberships("-", 1, { userIds:
 const { data:roles } = await GroupsApi.groupRoles(5850082, 1)
 
 const { data:shout } = await GroupsApi.groupShout(5850082)
+```
+
+- - -
+
+# Cloud Messaging Api
+
+Openblox (Typescript) Code - Sending A Message
+```ts
+type Message = { targetId: number, reason: string };
+await MessagingApi.publishMessage<Message>(
+  5097539509, "kickPlr",
+  { targetId: 45348281, reason: "You smell kinda funny." } // This is automatically encoded into a string.
+);
+```
+
+Roblox Luau Code - Recieving The Message Above
+```lua
+local MessagingService = game:GetService("MessagingService")
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+
+MessagingService:SubscribeAsync("kickPlr", function(msg)
+  local data = HttpService:JSONDecode(msg.Data)
+  local targetId, reason = data.targetId, data.reason
+  
+  local plr = Players:GetPlayerByUserId(targetId)
+  if not plr then return end
+  plr:Kick(`You have been kicked for reason "{reason}"`)
+end)
 ```
 
 - - -

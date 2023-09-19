@@ -10,7 +10,8 @@ import type { CacheResultType } from "../../cacheAdapters/cacheAdapters.types"
 
 export type RequestConfig = {
   searchParams?: { [key: string]: any },
-  headers?: { [key: string]: string },
+  headers?: { [key: string]: string|undefined },
+  validStatusCodes?: number[]
 }
 
 export type RequestConfigWithBody = RequestConfig & {
@@ -24,7 +25,7 @@ export type AgnosticResponseConfig = {
   statusCode: number,
   cache?: CacheResultType,
   body: any,
-  headers: Map<any, any>
+  headers: Map<string, string>
   rawResponse: any
 }
 

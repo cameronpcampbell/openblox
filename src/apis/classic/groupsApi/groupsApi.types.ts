@@ -4,8 +4,8 @@ import type { DataWithCursors } from "../../apis.types"
 
 // [ GROUPS ] ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/groups/{groupId} ------------------------------------------------------------------------------------------
-export type GroupInfoData = {
-  id: number,
+export type GroupInfoData<GroupId extends number> = PrettifyKeyof<{
+  id: GroupId,
   name: string,
   description: string,
   owner: {
@@ -29,9 +29,9 @@ export type GroupInfoData = {
   isBuildersClubOnly: boolean,
   publicEntryAllowed: boolean,
   hasVerifiedBadge: boolean
-}
+}>
 
-export type FormattedGroupInfoData = Omit<GroupInfoData, "shout"> & {
+export type FormattedGroupInfoData<GroupId extends number> = PrettifyKeyof<Omit<GroupInfoData<GroupId>, "shout"> & {
   shout?: {
     body: string,
     poster: {
@@ -43,7 +43,7 @@ export type FormattedGroupInfoData = Omit<GroupInfoData, "shout"> & {
     created: Date,
     updated: Date
   },
-}
+}>
 // -------------------------------------------------------------------------------------------------------------------
 
 
@@ -271,27 +271,27 @@ export type GroupNameHistoryData = DataWithCursors<{
   created: string
 }[]>
 
-export type FormattedGroupNameHistoryData = {
+export type FormattedGroupNameHistoryData = PrettifyKeyof<{
   name: string,
   created: Date
-}[]
+}[]>
 // -------------------------------------------------------------------------------------------------------------------
 
 
 // GET, PATCH /v1/groups/{groupId}/settings --------------------------------------------------------------------------
-export type GroupSettingsData = {
+export type GroupSettingsData = PrettifyKeyof<{
   isApprovalRequired: boolean,
   isBuildersClubRequired: boolean,
   areEnemiesAllowed: boolean,
   areGroupFundsVisible: boolean,
   areGroupGamesVisible: boolean,
   isGroupNameChangeEnabled: boolean
-}
+}>
 // -------------------------------------------------------------------------------------------------------------------
 
 
 // GET /v1/groups/configuration/metadata -----------------------------------------------------------------------------
-export type GroupsConfigMetadataData = {
+export type GroupsConfigMetadataData = PrettifyKeyof<{
   groupConfiguration: {
     nameMaxLength: number,
     descriptionMaxLength: number,
@@ -315,12 +315,12 @@ export type GroupsConfigMetadataData = {
   },
   isPremiumPayoutsEnabled: boolean,
   isDefaultEmblemPolicyEnabled: boolean
-}
+}>
 // -------------------------------------------------------------------------------------------------------------------
 
 
 // GET /v1/groups/configuration/metadata -----------------------------------------------------------------------------
-export type GroupsMetadataData = {
+export type GroupsMetadataData = PrettifyKeyof<{
   groupLimit: number,
   currentGroupCount: number,
   groupStatusMaxLength: number,
@@ -330,7 +330,7 @@ export type GroupsMetadataData = {
   areProfileGroupsHidden: boolean,
   isGroupDetailsPolicyEnabled: boolean,
   showPreviousGroupNames: boolean
-}
+}>
 // -------------------------------------------------------------------------------------------------------------------
 
 

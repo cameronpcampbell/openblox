@@ -1,7 +1,7 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
 import merge from "lodash.merge"
 
-import { HttpHelper } from "../http/httpHelper"
+import { HttpHandler } from "../http/httpHandler"
 import { FindSettings } from "../cacheAdapters/cacheAdapters.utils";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -20,7 +20,7 @@ async function findSettings(this: Config, apiName: string, methodName: string) {
 }
 
 function createConfig(config: PrettifyKeyof<ConfigSettings>): Config {
-  const http = new HttpHelper({
+  const http = HttpHandler({
     cookie: config?.cookie,
     cloudKey: config?.cloudKey,
     csrfRetries: config?.csrfRetries,
@@ -37,7 +37,7 @@ function createConfig(config: PrettifyKeyof<ConfigSettings>): Config {
 
 
 var config: Config = {
-  http: new HttpHelper({}),
+  http: HttpHandler({}),
 
   findSettings: findSettings
 }
@@ -46,13 +46,12 @@ export const setConfig = (configSettings: PrettifyKeyof<ConfigSettings>) => {
   config = createConfig(configSettings)
 }
 
-export const getConfig = () => {
-  return config
-}
+export const getConfig = () => config
 
-export const getCacheSettingsOverride = (overrides: ThisAllOverrides) => {
+export const getCacheSettingsOverride = (overrides: ThisAllOverrides): { cacheSettingsOverride: any | "!", preCache?: any } | false => {
   const cacheSettingsOverride = overrides?.cacheSettings
   if (!cacheSettingsOverride) return false
+
   return cacheSettingsOverride
 }
 export const getCredentialsOverride = (overrides: ThisAllOverrides) => (

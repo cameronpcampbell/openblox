@@ -1,5 +1,5 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
-import { apiFuncBaseHandler as BaseHandler } from "../../../apis/apis.utils"
+import { apiFuncBaseHandler as BaseHandler, buildApiMethodResponse as buildResponse } from "../../../apis/apis.utils"
 
 import { getCacheSettingsOverride, getCredentialsOverride } from "../../../config/config"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,21 +47,21 @@ export const shouldNotCacheMethods = []
   })
  * @exampleData { inventoryItems: [ { path: 'users/45348281/inventory-items/R0FNRV9QQVNTX0lEPTEyNTI3', gamePassDetails: { gamePassId: '12527' } } ],
   nextPageToken: 'djEveyJGaWVsZEluZGV4IjoyLCJWYWx1ZUluZGV4IjowLCJDdXJzb3IiOiIxMjUyNyIsIkZpbHRlckhhc2giOiJrV3Y2VFQ0ZW1FOGgzT1RQL1hjOXFkdGIwR0JiWjNySkRMU3FTSmV5TUVJPSJ9' }
- * @exampleRawData { inventoryItems: [ { path: 'users/45348281/inventory-items/R0FNRV9QQVNTX0lEPTEyNTI3', gamePassDetails: { gamePassId: '12527' } } ],
+ * @exampleRawBody { inventoryItems: [ { path: 'users/45348281/inventory-items/R0FNRV9QQVNTX0lEPTEyNTI3', gamePassDetails: { gamePassId: '12527' } } ],
   nextPageToken: 'djEveyJGaWVsZEluZGV4IjoyLCJWYWx1ZUluZGV4IjowLCJDdXJzb3IiOiIxMjUyNyIsIkZpbHRlckhhc2giOiJrV3Y2VFQ0ZW1FOGgzT1RQL1hjOXFkdGIwR0JiWjNySkRMU3FTSmV5TUVJPSJ9' }
  */
 export async function inventoryItemsForUser(
   this: ThisAllOverrides, userId: number, maxPageSize: number = 10, filter?:InventoryItemsForUserFilter, pageToken?: string
-): ApiMethodResponse<InventoryItemsForUserData, InventoryItemsForUserData, "OPENCLOUD_PAGINATION"> {
+): ApiMethodResponse<InventoryItemsForUserData, InventoryItemsForUserData, "PAGINATED"> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawData, response, cachedResultType:cache } = await this.http.get<InventoryItemsForUserData>(`${baseUrl}/v2/users/${userId}/inventory-items`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<InventoryItemsForUserData>(`${baseUrl}/v2/users/${userId}/inventory-items`, {
       searchParams: { maxPageSize, pageToken, filter: filter && formatFilter(filter) },
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "inventoryItemsForUser")),
       credentialsOverride: getCredentialsOverride(overrides)
     })
 
-    return { rawData, data: rawData, response, nextPage: rawData.nextPageToken, cache }
+    return buildResponse({ rawBody, data: rawBody, response, cursors: { next: rawBody.nextPageToken }, cache })
   }, [])
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -14,12 +14,12 @@ export type AssetsData = {
     imageUrl: string
   }[]
 }
-export type FormattedAssetsData = {
-  [assetId: number]: {
+export type FormattedAssetsData<AssetId extends number> = PrettifyKeyof<{
+  [Key in AssetId]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }
-}
+}>
 
 // GET /v1/assets-thumbnail-3d
 export type Asset3dData = {
@@ -46,12 +46,12 @@ export type BadgesData = {
     imageUrl: string
   }[]
 }
-export type FormattedBadgesData = {
-  [badgeId: number]: {
+export type FormattedBadgesData<BadgeId extends number> = PrettifyKeyof<{
+  [Key in BadgeId]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }
-}
+}>
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -66,12 +66,12 @@ export type BundlesData = {
     imageUrl: string
   }[]
 }
-export type FormattedBundlesData = {
-  [bundleId: number]: {
+export type FormattedBundlesData<BundleId extends number> = PrettifyKeyof<{
+  [Key in BundleId]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }
-}
+}>
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -86,12 +86,12 @@ export type DeveloperProductsData = {
     imageUrl: string
   }[]
 }
-export type FormattedDeveloperProductsData = {
-  [developerProductId: number]: {
+export type FormattedDeveloperProductsData<DeveloperProductId extends number> = PrettifyKeyof<{
+  [Key in DeveloperProductId]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }
-}
+}>
   
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -105,12 +105,12 @@ export type GamePassesData = {
     imageUrl: string
   }[]
 }
-export type FormattedGamePassesData = {
-  [gamePassId: number]: {
+export type FormattedGamePassesData<GamepassId extends number> = PrettifyKeyof<{
+  [Key in GamepassId]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }
-}
+}>
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -118,19 +118,19 @@ export type FormattedGamePassesData = {
 export type GameThumbnailSize = "256x144" | "384x216" | "480x270" | "576x324" | "768x432"
 
 // GET /v1/games/{universeId}/thumbnails
-export type GameFromThumbnailIdsData = {
+export type RawGameThumbnailsFromIdsData = {
   data: {
     targetId: number,
     state:  "Completed" | "Pending" | "Error",
     imageUrl: string
   }[]
 }
-export type FormattedGameFromThumbnailIdsData = {
-  [gameThumbnailId: number]: {
+export type FormattedGameThumbnailsFromIdsData<GameThumbnailId extends number> = PrettifyKeyof<{
+  [Key in GameThumbnailId]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }
-}
+}>
 
 // GET /v1/games/icons
 export type GamesIconSize = "50x50" | "128x128" | "150x150" | "256x256" | "512x512"
@@ -141,12 +141,12 @@ export type GamesIconsData = {
     imageUrl: string
   }[]
 }
-export type FormattedGamesIconsData = {
-  [gameIconId: number]: {
+export type FormattedGamesIconsData<UniverseId extends number> = PrettifyKeyof<{
+  [Key in UniverseId]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }
-}
+}>
 
 // GET /v1/games/multiget/thumbnails
 export type GamesData = {
@@ -160,8 +160,8 @@ export type GamesData = {
     }[]
   }[]
 }
-export type FormattedGamesData = {
-  [universeId: number]: {
+export type FormattedGamesData<UniverseId extends number> = PrettifyKeyof<{
+  [Key in UniverseId]: {
     error: unknown,
     thumbnails: {
       targetId: number,
@@ -169,7 +169,7 @@ export type FormattedGamesData = {
       imageUrl: string
     }[]
   }
-}
+}>
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -183,12 +183,12 @@ export type GroupsEmblemsData = {
     imageUrl: string
   }[]
 }
-export type FormattedGroupsEmblemsData = {
-  [groupId: number]: {
+export type FormattedGroupsEmblemsData<GroupId extends number> = PrettifyKeyof<{
+  [Key in GroupId]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }
-}
+}>
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -211,38 +211,38 @@ export type PlacesIconsData = {
     imageUrl: string
   }[]
 }
-export type FormattedPlacesIconsData = {
-  [placeId: number]: {
+export type FormattedPlacesIconsData<PlaceId extends number> = PrettifyKeyof<{
+  [Key in PlaceId]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }
-}
+}>
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // [ AVATAR ] ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/users/avatar
 export type AvatarFullSize = "30x30"|"48x48"|"60x60"|"75x75"|"100x100"|"110x110"|"140x140"|"150x150"|"180x180"|"250x250"|"352x352"|"420x420"|"720x720"
-export type AvatarsFullData = {
+export type AvatarsFullData = PrettifyKeyof<{
   data: {
     targetId: number,
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }[]
-}
-export type FormattedAvatarsFullData = {
-  [userId: number]: {
+}>
+export type FormattedAvatarsFullData<UserId extends number> = PrettifyKeyof<{
+  [Key in UserId]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }
-}
+}>
 
 // GET /v1/users/avatar-3d
-export type Avatar3dData = {
-  targetId: number
+export type Avatar3dData<UserId extends number> = PrettifyKeyof<{
+  targetId: UserId
   state: "Completed" | "Pending" | "Error",
   imageUrl: string
-}
+}>
 
 // GET /v1/users/avatar-bust
 export type AvatarBustSize = "48x48"|"50x50"|"60x60"|"75x75"|"100x100"|"150x150"|"180x180"|"352x352"|"420x420"
@@ -253,12 +253,12 @@ export type AvatarsBustsData = {
     imageUrl: string
   }[]
 }
-export type FormattedAvatarsBustsData = {
-  [userId: number]: {
+export type FormattedAvatarsBustsData<UserId extends number> = PrettifyKeyof<{
+  [Key in UserId]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }
-}
+}>
 
 // GET /v1/users/avatar-headshot
 export type AvatarHeadshotSize = "48x48"|"50x50"|"60x60"|"75x75"|"100x100"|"110x110"|"150x150"|"180x180"|"352x352"|"420x420"|"720x720"
@@ -269,19 +269,19 @@ export type AvatarsHeadshotsData = {
     imageUrl: string
   }[]
 }
-export type FormattedAvatarsHeadshotsData = {
-  [userId: number]: {
+export type FormattedAvatarsHeadshotsData<UserId extends number> = PrettifyKeyof<{
+  [Key in UserId]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }
-}
+}>
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // [ OUTFITS ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/users/outfit-3d
-export type Outfit3dData = {
-  targetId: number
+export type Outfit3dData<OutfitId extends number> = {
+  targetId: OutfitId,
   state: "Completed" | "Pending" | "Error",
   imageUrl: string
 }
@@ -295,12 +295,12 @@ export type OutfitsData = {
     imageUrl: string
   }[]
 }
-export type FormattedOutfitsData = {
-  [outfitId: number]: {
+export type FormattedOutfitsData<OutfitId extends number> = PrettifyKeyof<{
+  [Key in OutfitId]: {
     state: "Completed" | "Pending" | "Error",
     imageUrl: string
   }
-}
+}>
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // [ BATCH ] /////////////////////////////////////////////////////////////////////////////////////////////////////////

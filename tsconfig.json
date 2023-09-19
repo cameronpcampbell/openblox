@@ -14,7 +14,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "maxNodeModuleJsDepth": 5000,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "noErrorTruncation": true
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]

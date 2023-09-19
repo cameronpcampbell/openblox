@@ -7,6 +7,8 @@ export type PrettifyKeyof<T> = {
 
 export type PrettifyUnion<T> = ArrayToUnion<UnionToArray<T>>
 
+export type PrettifyArray<T extends any[]> = UnionToArray<ArrayToUnion<T>>
+
 export type FirstChild<T> = T extends { [key: string]: infer U } ? U : never
 
 export type Mutable<T> = {-readonly [K in keyof T]: Mutable<T[K]>} & {}

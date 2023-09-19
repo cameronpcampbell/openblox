@@ -7,8 +7,6 @@ import * as _AllCloudApis from "./cloud"
 
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
-import type { AnyError } from "parse-roblox-errors"
-
 import type { AnyObject, Only, KeysOfTypeFunction, PrettifyKeyof } from "../utils/utils.types"
 import { AgnosticResponse } from "../http/httpAdapters"
 import { CacheResultType } from "../cacheAdapters/cacheAdapters.types"
@@ -18,6 +16,8 @@ import { CacheResultType } from "../cacheAdapters/cacheAdapters.types"
 export type AllClassicApis = typeof _AllClassicApis
 export type AllCloudApis = typeof _AllCloudApis
 export type AllApis = AllClassicApis & AllCloudApis
+
+type XXXX = ApiMethods["GroupsApi"]
 
 export type ApiName = keyof AllClassicApis | keyof AllCloudApis
 
@@ -42,30 +42,24 @@ export type DataWithCursors<Data extends AnyObject> = {
 
 export type ReturnedCursors = { previous: string | null, next: string | null }
 
-type ApiMethodResponseBase<RawData, Data> = {
-  rawData: RawData,
+type ApiMethodResponseBase<RawBody, Data> = PrettifyKeyof<{
+  rawBody?: RawBody,
   data: Data,
   response?: AgnosticResponse,
   cache: CacheResultType
-}
+}>
 
 export type ApiMethodResponse<
-  RawData, FormattedData = RawData, Pagination extends "CLASSIC_PAGINATION" | "CLASSIC_PAGINATION_ROWS_INDEX" |  "OPENCLOUD_PAGINATION" | false = false
+  RawData, FormattedData = RawData, Pagination extends "PAGINATED" | false = false
 > = Promise<
-  PrettifyKeyof<Pagination extends "CLASSIC_PAGINATION" ? ApiMethodResponseBase<RawData, FormattedData> & {
-    cursors: {
-      previous?: string,
-      next?: string
+  PrettifyKeyof<
+    Pagination extends "PAGINATED" ? ApiMethodResponseBase<RawData, FormattedData> & {
+      cursors: {
+        previous?: string|number,
+        next?: string|number
+      }
     }
-  }
 
-  : Pagination extends "CLASSIC_PAGINATION_ROWS_INDEX" ? ApiMethodResponseBase<RawData, FormattedData> & {
-    nextRowIndex: number
-  }
-
-  : Pagination extends "OPENCLOUD_PAGINATION" ? ApiMethodResponseBase<RawData, FormattedData> & {
-    nextPage?: string
-  }
-
-  : ApiMethodResponseBase<RawData, FormattedData>>
+    : ApiMethodResponseBase<RawData, FormattedData>
+  >
 >

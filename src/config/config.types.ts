@@ -1,12 +1,13 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
-import { HttpHelper } from "../http/httpHelper"
+import { HttpHandler } from "../http/httpHandler"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 import type { HttpAdapterConfig } from "../http/httpAdapters/httpAdapters.types"
-import type { CacheAdapterConfig } from "../http/cacheAdapters/cacheAdapters.types"
+import type { CacheAdapterConfig } from "../cacheAdapters/cacheAdapters.types"
 import type { ApiMethodNames, ApiName } from "../apis/apis.types"
+import { PrettifyKeyof } from "../utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -22,11 +23,13 @@ export type ConfigSettings = {
 
   httpAdapter?: HttpAdapterConfig,
 
-  csrfRetries?: number
+  csrfRetries?: number,
+
+  methodsDataEnforceNoReferences?: boolean
 }
 
 export type Config<ThisApiName extends ApiName = any> = ConfigSettings & {
-  http: HttpHelper,
+  http: ReturnType<typeof HttpHandler>,
   
   findSettings: (apiName: ThisApiName, methodName:ApiMethodNames[ThisApiName]) => Promise<any>
 }
@@ -34,5 +37,5 @@ export type Config<ThisApiName extends ApiName = any> = ConfigSettings & {
 
 export type CredentialsOverride = { cookie?: RobloSecurityCookie | "", cloudKey?: string }
 export type CacheSettingsOverride = { cacheSettings?: any }
-export type AllOverrides = CredentialsOverride & CacheSettingsOverride
+export type AllOverrides = PrettifyKeyof<CredentialsOverride & CacheSettingsOverride>
 export type ThisAllOverrides = AllOverrides | void | undefined | any

@@ -32,20 +32,21 @@ export type FormattedValidateDisplayNameForExistingUserData = Prettify<boolean>
 
 // [ USERS ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/users/{userId}
-export type UserInfoData = Prettify<{
+type UserInfoData<UserId extends number, TimeType> = PrettifyKeyof<{
   description: string,
-  created: string,
+  created: TimeType,
   isBanned: boolean,
-  externalAppDisplayName: string,
+  externalAppDisplayName: string | null,
   hasVerifiedBadge: boolean,
-  id: number,
+  id: UserId,
   name: string,
   displayName: string
 }>
-export type FormattedUserInfoData = Prettify<Omit<UserInfoData, "created"> & { created: Date }>
+export type RawUserInfoData<UserId extends number> = UserInfoData<UserId, string>
+export type FormattedUserInfoData<UserId extends number> = UserInfoData<UserId, Date>
 
 // GET /v1/users/authenticated
-export type AuthenticatedUserInfoData = Prettify<{
+export type AuthenticatedUserInfoData = PrettifyKeyof<{
   id: number,
   name: string,
   displayName: string

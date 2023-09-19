@@ -3,9 +3,7 @@ import { InvalidRequestDataError } from "../errors"
 import { ApiMethodResponse } from "../apis/apis.types";
 import { ResolvedType } from "../utils/utils.types";
 
-type FnResponse_Classic = ApiMethodResponse<any, any, "CLASSIC_PAGINATION">
-type FnResponse_OpenCloud = ApiMethodResponse<any, any, "OPENCLOUD_PAGINATION">
-type FnResponse = FnResponse_Classic | FnResponse_OpenCloud
+type FnResponse = ApiMethodResponse<any, any, "PAGINATED">
 
 function getParams(func:(...args: any[]) => any) {
  
@@ -56,18 +54,13 @@ export const Paginate = <T extends (...args: any) => FnResponse>(
 
     while (true) {
       try {
-        const response: ReturnType<T> = await (middleware ? middleware(fn) : fn)(...Object.values(formattedFnArgs))
+        const response: Awaited<ReturnType<T>> = await (middleware ? middleware(fn) : fn)(...Object.values(formattedFnArgs))
         yield response
 
-        // Gets the next page (cursors.next or nextPage).
-        const nextPage =
-          (response as any as ResolvedType<FnResponse_Classic>)?.cursors?.next || (response as any as ResolvedType<FnResponse_OpenCloud>)?.nextPage
-        if (nextPage == null || nextPage == "") break
+        // Gets the cursor
+        const cursor = response.cursors.next
 
-        // If Classic endpoint.
-        if ("cursors" in response) formattedFnArgs.cursor = nextPage
-        // If OpenCloud endpoint.
-        else if ("nextPage" in response) formattedFnArgs.pageToken = nextPage
+        formattedFnArgs.cursor = cursor
 
       } catch (error:unknown) {
         if (!(error instanceof InvalidRequestDataError)) throw error

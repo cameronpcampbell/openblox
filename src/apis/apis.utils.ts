@@ -1,8 +1,10 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
 import { ApiError, InvalidRequestDataError, UnexpectedError } from "../errors"
-import { isOneOfMany } from "../utils"
+import { isObjectOrArray, isOneOfMany } from "../utils"
 import { AgnosticResponse } from "../http/httpAdapters/httpAdapters.utils"
 import { getConfig } from "../config/config"
+import { CacheResultType } from "../cacheAdapters/cacheAdapters.types";
+import cloneDeep from "lodash.clonedeep";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -44,3 +46,46 @@ export const dataIsSuccess = (data: any) => {
   }
   return false
 }
+
+export const createFormattedData = <FormattedDataType>(fn: () => FormattedDataType) => {
+  let cachedFormattedData: FormattedDataType
+
+  return () => {
+    if (cachedFormattedData) return cachedFormattedData
+    cachedFormattedData = fn()
+    return cachedFormattedData
+  }
+}
+
+export const buildApiMethodResponse = <Data, RawBody, Cursors extends { previous?: string|number, next?: string|number } | undefined>(
+  { data, rawBody, response, cache, cursors }:
+  {
+    data: (() => Data) | Data,
+    rawBody: RawBody,
+    response: AgnosticResponse | undefined,
+    cache: CacheResultType,
+    cursors?: Cursors
+  }
+): {
+  data: Data,
+  rawBody: RawBody,
+  response: AgnosticResponse | undefined,
+  cache: CacheResultType,
+  cursors: Cursors
+} => {
+  if (typeof(data) == "function") {
+    console.log(">> function")
+    const createdFormattedData = createFormattedData(data as (() => Data))
+    return { get data() { return createdFormattedData() as Data }, rawBody, response, cache, cursors: cursors as Cursors }
+
+  // Makes sure that "data" is not a reference to "rawBody".
+  } else if (isObjectOrArray(data) && getConfig().methodsDataEnforceNoReferences) {
+    console.log(">> object/array - no references")
+    const createdFormattedData = createFormattedData(() => cloneDeep(data) as (() => Data))
+    return { get data() { return createdFormattedData() as Data }, rawBody, response, cache, cursors: cursors as Cursors }
+  }
+
+  console.log(">> nothing")
+  return { data, rawBody, response, cache, cursors: cursors as Cursors }
+}
+

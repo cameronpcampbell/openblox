@@ -6,13 +6,13 @@ import type { CacheResultType } from "../../cacheAdapters/cacheAdapters.types"
 
 
 export class AgnosticResponse {
-  statusCode: number
-  cache?: CacheResultType
-  url: string
-  headers: Map<any, any>
-  body: any
+  statusCode: AgnosticResponseConfig["statusCode"]
+  cache?: AgnosticResponseConfig["cache"]
+  url: AgnosticResponseConfig["url"]
+  headers: AgnosticResponseConfig["headers"]
+  body: AgnosticResponseConfig["body"]
+  rawResponse: AgnosticResponseConfig["rawResponse"]
   errors?: AnyError[]
-  rawResponse: any
 
   constructor({ url, statusCode, body, headers, rawResponse }: AgnosticResponseConfig) {
     this.url = url
