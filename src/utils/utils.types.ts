@@ -1,4 +1,6 @@
 // [ OTHER ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
+import { Add, Subtract } from "ts-arithmetic"
+
 export type Prettify<T> = T;
 
 export type PrettifyKeyof<T> = {
@@ -17,6 +19,11 @@ export type ToString<Thing extends string | number | bigint | boolean | null | u
 
 export type OptionalWww = "www." | ""
 export type OptionalHttp = `https://${OptionalWww}` | `http://${OptionalWww}` | ""
+
+
+export type UnionRange<Start extends number, End extends number> = Start extends End ? Start : Start | UnionRange<Add<Start, 1>, End>
+
+export type UnionLength<T> = ArrayLength<UnionToArray<T>>
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

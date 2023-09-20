@@ -1,18 +1,42 @@
 {
   "name": "openblox",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "files": [
     "/src"
   ],
   "exports_PROD": {
-    ".": { "default": "./dist/index.js", "types": "./dist/index.d.ts" },
-    "./config": { "default": "./dist/config/index.js", "types": "./dist/index.d.ts" },
-    "./apis/classic": { "default": "./dist/apis/classic/index.js", "types": "./dist/apis/classic/index.d.ts" },
-    "./apis/cloud": { "default": "./dist/apis/cloud/index.js", "types": "./dist/apis/cloud/index.d.ts" },
-    "./cacheAdapters/redis": { "default": "./dist/cacheAdapters/redis/index.js", "types": "./dist/cacheAdapters/redis/index.d.ts" },
-    "./interfaces": { "default": "./dist/interfaces/index.js", "types": "./dist/interfaces/index.d.ts" },
-    "./errors": { "default": "./dist/errors/index.js", "types": "./dist/errors/index.d.ts" },
-    "./adapterUtils/http": { "default": "./dist/http/httpAdapters/index.js", "types": "./dist/http/httpAdapters/index.d.ts" }
+    ".": {
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./config": {
+      "default": "./dist/config/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./apis/classic": {
+      "default": "./dist/apis/classic/index.js",
+      "types": "./dist/apis/classic/index.d.ts"
+    },
+    "./apis/cloud": {
+      "default": "./dist/apis/cloud/index.js",
+      "types": "./dist/apis/cloud/index.d.ts"
+    },
+    "./cacheAdapters/redis": {
+      "default": "./dist/cacheAdapters/redis/index.js",
+      "types": "./dist/cacheAdapters/redis/index.d.ts"
+    },
+    "./interfaces": {
+      "default": "./dist/interfaces/index.js",
+      "types": "./dist/interfaces/index.d.ts"
+    },
+    "./errors": {
+      "default": "./dist/errors/index.js",
+      "types": "./dist/errors/index.d.ts"
+    },
+    "./adapterUtils/http": {
+      "default": "./dist/http/httpAdapters/index.js",
+      "types": "./dist/http/httpAdapters/index.d.ts"
+    }
   },
   "exports": {
     ".": "./src/index.ts",
@@ -47,6 +71,7 @@
     "lodash.merge": "^4.6.2",
     "lodash.uniq": "^4.5.0",
     "p-iteration": "^1.1.8",
-    "parse-roblox-errors-node": "^1.1.1"
+    "parse-roblox-errors-node": "^1.1.1",
+    "ts-arithmetic": "^0.1.1"
   }
 }

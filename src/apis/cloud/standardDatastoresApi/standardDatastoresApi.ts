@@ -238,7 +238,7 @@ export async function deleteStandardDatastoreEntry(
 ): ApiMethodResponse<"", true> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<any>(
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<"">(
       `${baseUrl}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`, {
         searchParams: { datastoreName, entryKey, scope },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "deleteStandardDatastoreEntry")),
@@ -387,33 +387,34 @@ export async function standardDatastoreEntryVersion<Schema>(
  * @exampleData [ { version: "08DBB6A47FDE6132.0000000010.08DBB781B9579F00.01", deleted: false, contentLength: 20, createdTime: 2023-09-17T13:26:39.124Z, objectCreatedTime: 2023-09-16T11:03:03.922Z } ]
  * @exampleRawBody { versions: [ { version: "08DBB6A47FDE6132.0000000010.08DBB781B9579F00.01", deleted: false, contentLength: 20, createdTime: "2023-09-17T13:26:39.124Z", objectCreatedTime: "2023-09-16T11:03:03.922Z" } ] }
  */ 
-   export async function listStandardDatastoreEntryVersions(
-    this: ThisAllOverrides, universeId: number, datastoreName: string, entryKey: string,
-    config?: ListStandardDatastoreEntryVersionsConfig, cursor?: string
-  ): ApiMethodResponse<RawListStandardDatastoreEntryVersionsData, FormattedListStandardDatastoreEntryVersionsData, "PAGINATED"> {
-    const overrides = this
-    return BaseHandler(async function(this: ThisProfile) {
-      const [ scope, startTime, endTime, sortOrder, limit ] = [ config?.scope, config?.startTime, config?.endTime, config?.sortOrder, config?.limit ]
-  
-      const { data:rawBody, response, cachedResultType:cache } = await this.http.get<any>(
-        `${baseUrl}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions`, {
-          searchParams: {  datastoreName, entryKey, scope, startTime, endTime, sortOrder, limit, cursor },
-          cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
-            apiName, "listStandardDatastoreEntryVersions")
-          ),
-          credentialsOverride: getCredentialsOverride(overrides)
-        }
-      )
+export async function listStandardDatastoreEntryVersions(
+  this: ThisAllOverrides, universeId: number, datastoreName: string, entryKey: string,
+  config?: ListStandardDatastoreEntryVersionsConfig, cursor?: string
+): ApiMethodResponse<RawListStandardDatastoreEntryVersionsData, FormattedListStandardDatastoreEntryVersionsData, "PAGINATED"> {
+  const overrides = this
+  return BaseHandler(async function(this: ThisProfile) {
+    const [ scope, startTime, endTime, sortOrder, limit ] = [ config?.scope, config?.startTime, config?.endTime, config?.sortOrder, config?.limit ]
 
-      const getFormattedData = () => cloneAndMutateObject<
-        RawListStandardDatastoreEntryVersionsData["versions"], FormattedListStandardDatastoreEntryVersionsData
-      >(rawBody.versions, obj => {
-        obj.forEach(versionData => {
-          versionData.createdTime = new Date(versionData.createdTime)
-          versionData.objectCreatedTime = new Date(versionData.objectCreatedTime)
-        })
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawListStandardDatastoreEntryVersionsData>(
+      `${baseUrl}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions`, {
+        searchParams: {  datastoreName, entryKey, scope, startTime, endTime, sortOrder, limit, cursor },
+        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
+          apiName, "listStandardDatastoreEntryVersions")
+        ),
+        credentialsOverride: getCredentialsOverride(overrides)
+      }
+    )
+
+    const getFormattedData = () => cloneAndMutateObject<
+      RawListStandardDatastoreEntryVersionsData["versions"], FormattedListStandardDatastoreEntryVersionsData
+    >(rawBody.versions, obj => {
+      obj.forEach(versionData => {
+        versionData.createdTime = new Date(versionData.createdTime)
+        versionData.objectCreatedTime = new Date(versionData.objectCreatedTime)
       })
-  
-      return buildResponse({ rawBody, data: getFormattedData, response, cache, cursors: { next: rawBody.nextPageCursor } })
-    }, [204])
-  }
+    })
+
+    return buildResponse({ rawBody, data: getFormattedData, response, cache, cursors: { next: rawBody.nextPageCursor } })
+  }, [204])
+}
+

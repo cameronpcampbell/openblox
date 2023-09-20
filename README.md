@@ -207,6 +207,29 @@ const { data:wallPosts } = await ClassicGroupsApi.groupWallPosts_V2(5850082)
 
 - - -
 
+# Classic Subscriptions Api
+
+```ts
+const { data:newSubscription } = await ClassicSubscriptionsApi.createSubscription(
+  4383627529, "Amazing Subscription", "Lorem Ipsum",
+  "Currency", "$14.99"
+)
+
+const { data:success } = await ClassicSubscriptionsApi.setSubscriptionIcon(
+  4383627529, "2129699544299733115", 45348281, fs.readFileSync("./newGroupIcon.png")
+)
+
+const { rawBody:subscriptions } = await ClassicSubscriptionsApi.subscriptionsForUniverse(4383627529)
+
+const { data:subscription } = await ClassicSubscriptionsApi.subscriptionInfo(4383627529, "6209937874256396403")
+
+const { data:tiers } = await ClassicSubscriptionsApi.subscriptionsPriceTiersForUniverse(4383627529)
+
+const { data:perms } = await ClassicSubscriptionsApi.authenticatedUserSubscriptionsPermissionsForUniverse(4383627529)
+```
+
+- - - 
+
 # Cloud Standard Datastores Api Examples
 
 ```ts
