@@ -1,2 +1,2 @@
-export { setConfig, getConfig } from "./config"
+export { setOpenbloxConfig, getOpenbloxConfig } from "./config"
 export type { RobloSecurityCookie } from "./config.types"

@@ -288,8 +288,8 @@ export async function setGroupDescription(this: ThisAllOverrides, groupId: numbe
   const overrides = this
 
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<RawGroupDescriptionData>(`
-      ${baseUrl}/v1/groups/${groupId}/description`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<RawGroupDescriptionData>(
+      `${baseUrl}/v1/groups/${groupId}/description`, {
         body: { description },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "setGroupDescription")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -320,8 +320,8 @@ export async function setGroupShout<Body extends string>(this: ThisAllOverrides,
   const overrides = this
 
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<RawGroupShoutData<Body>>(`
-      ${baseUrl}/v1/groups/${groupId}/status`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<RawGroupShoutData<Body>>(
+      `${baseUrl}/v1/groups/${groupId}/status`, {
         body: { message },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "setGroupShout")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -355,8 +355,8 @@ export async function setGroupIcon(this: ThisAllOverrides, groupId: number, icon
   const overrides = this
 
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<{}>(`
-      ${baseUrl}/v1/groups/icon`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<{}>(
+      `${baseUrl}/v1/groups/icon`, {
         searchParams: { groupId },
         formData: { Files: new Blob([icon]) },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "setGroupIcon")),
@@ -389,8 +389,8 @@ export async function batchDeclineGroupJoinRequests(
   const overrides = this
 
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/join-requests`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(
+      `${baseUrl}/v1/groups/${groupId}/join-requests`, {
         body: { UserIds: userIds },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "batchDeclineGroupJoinRequests")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -423,8 +423,8 @@ export async function groupJoinRequests(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupJoinRequests>(`
-      ${baseUrl}/v1/groups/${groupId}/join-requests`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupJoinRequests>(
+      `${baseUrl}/v1/groups/${groupId}/join-requests`, {
         searchParams: { limit, sortOrder, cursor },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupJoinRequests")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -460,8 +460,8 @@ export async function batchAcceptGroupJoinRequests(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/join-requests`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<{}>(
+      `${baseUrl}/v1/groups/${groupId}/join-requests`, {
         body: { UserIds: userIds },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "batchAcceptGroupJoinRequests")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -492,8 +492,8 @@ export async function declineGroupJoinRequest(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/join-requests/users/${userId}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(
+      `${baseUrl}/v1/groups/${groupId}/join-requests/users/${userId}`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "declineGroupJoinRequest")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -523,8 +523,8 @@ export async function groupJoinRequestForUser<UserId extends number>(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupJoinRequestForUser<UserId>>(`
-      ${baseUrl}/v1/groups/${groupId}/join-requests/users/${userId}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupJoinRequestForUser<UserId>>(
+      `${baseUrl}/v1/groups/${groupId}/join-requests/users/${userId}`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupJoinRequestForUser")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -560,8 +560,8 @@ export async function acceptGroupJoinRequest(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/join-requests/users/${userId}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<{}>(
+      `${baseUrl}/v1/groups/${groupId}/join-requests/users/${userId}`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "acceptGroupJoinRequest")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -590,8 +590,8 @@ export async function authenticatedUserGroupMembershipInfo<GroupId extends numbe
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserGroupMembershipInfoData<GroupId>>(`
-      ${baseUrl}/v1/groups/${groupId}/membership`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserGroupMembershipInfoData<GroupId>>(
+      `${baseUrl}/v1/groups/${groupId}/membership`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "authenticatedUserGroupMembershipInfo"
         )),
@@ -621,8 +621,8 @@ export async function allRolesForGroup<GroupId extends number>(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawAllRolesForGroupData<GroupId>>(`
-      ${baseUrl}/v1/groups/${groupId}/roles`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawAllRolesForGroupData<GroupId>>(
+      `${baseUrl}/v1/groups/${groupId}/roles`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "allRolesForGroup")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -654,8 +654,8 @@ export async function groupMembersWithRole(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupMembersWithRoleData>(`
-      ${baseUrl}/v1/groups/${groupId}/roles/${roleSetId}/users`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupMembersWithRoleData>(
+      `${baseUrl}/v1/groups/${groupId}/roles/${roleSetId}/users`, {
         searchParams: { limit, sortOrder, cursor },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupMembersWithRole")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -689,8 +689,8 @@ export async function groupMembers(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupMembersData>(`
-      ${baseUrl}/v1/groups/${groupId}/users`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupMembersData>(
+      `${baseUrl}/v1/groups/${groupId}/users`, {
         searchParams: { limit, sortOrder, cursor },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupMembers")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -720,8 +720,8 @@ export async function authenticatedUserPendingGroups(this: ThisAllOverrides): Ap
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawAuthenticatedUserPendingGroupsData>(`
-      ${baseUrl}/v1/user/groups/pending`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawAuthenticatedUserPendingGroupsData>(
+      `${baseUrl}/v1/user/groups/pending`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "authenticatedUserPendingGroups"
         )),
@@ -762,8 +762,8 @@ export async function groupsThatUsersFriendsAreIn(this: ThisAllOverrides, userId
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupsThatUsersFriendsAreInData>(`
-      ${baseUrl}/v1/users/${userId}/friends/groups/roles`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupsThatUsersFriendsAreInData>(
+      `${baseUrl}/v1/users/${userId}/friends/groups/roles`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "groupsThatUsersFriendsAreIn"
         )),
@@ -806,8 +806,8 @@ export async function allGroupRolesForUser_V1(this: ThisAllOverrides, userId: nu
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawAllGroupRolesForUserData_V1>(`
-      ${baseUrl}/v1/users/${userId}/groups/roles`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawAllGroupRolesForUserData_V1>(
+      `${baseUrl}/v1/users/${userId}/groups/roles`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "allGroupRolesForUser_V1"
         )),
@@ -847,8 +847,8 @@ export async function removeGroupMember(this: ThisAllOverrides, groupId: number,
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/users/${userId}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(
+      `${baseUrl}/v1/groups/${groupId}/users/${userId}`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "removeGroupMember"
         )),
@@ -881,8 +881,8 @@ export async function updateGroupMemberRole(this: ThisAllOverrides, groupId: num
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/users/${userId}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<{}>(
+      `${baseUrl}/v1/groups/${groupId}/users/${userId}`, {
         body: { roleId },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "updateGroupMemberRole"
@@ -914,8 +914,8 @@ export async function groupPayoutRestrictions(this: ThisAllOverrides, groupId: n
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<GroupPayoutRestrictionsData>(`
-      ${baseUrl}/v1/groups/${groupId}/payout-restriction`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<GroupPayoutRestrictionsData>(
+      `${baseUrl}/v1/groups/${groupId}/payout-restriction`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "groupPayoutRestrictions"
         )),
@@ -946,8 +946,8 @@ export async function groupPayouts(this: ThisAllOverrides, groupId: number): Api
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupPayoutsData>(`
-      ${baseUrl}/v1/groups/${groupId}/payouts`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupPayoutsData>(
+      `${baseUrl}/v1/groups/${groupId}/payouts`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "groupPayouts"
         )),
@@ -983,8 +983,8 @@ export async function groupRelationships<GroupId extends number>(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupRelationshipsData<GroupId>>(`
-      ${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupRelationshipsData<GroupId>>(
+      `${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}`, {
         searchParams: { StartRowIndex: startRowIndex, MaxRows: maxRows },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "groupRelationships"
@@ -1028,8 +1028,8 @@ export async function batchDeclineGroupRelationshipRequests(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}/requests`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(
+      `${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}/requests`, {
         body: { GroupIds: groupIds },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "batchDeclineGroupRelationshipRequests"
@@ -1064,8 +1064,8 @@ export async function groupRelationshipRequests<GroupId extends number>(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<any>(`
-      ${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}/requests`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<any>(
+      `${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}/requests`, {
         searchParams: { StartRowIndex: startRowIndex, MaxRows: maxRows },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupRelationshipRequests")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -1107,8 +1107,8 @@ export async function batchAcceptGroupRelationshipRequests(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}/requests`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<{}>(
+      `${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}/requests`, {
         body: { GroupIds: groupIds },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "batchAcceptGroupRelationshipRequests"
@@ -1142,8 +1142,8 @@ export async function removeGroupRelationship(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}/${relatedGroupId}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(
+      `${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}/${relatedGroupId}`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "removeGroupRelationship")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -1174,8 +1174,8 @@ export async function requestGroupRelationship(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}/${relatedGroupId}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<{}>(
+      `${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}/${relatedGroupId}`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "requestGroupRelationship")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -1206,8 +1206,8 @@ export async function declineGroupRelationshipRequest(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}/requests/${relatedGroupId}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(
+      `${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}/requests/${relatedGroupId}`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "declineGroupRelationshipRequest")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -1238,8 +1238,8 @@ export async function acceptGroupRelationshipRequest(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}/requests/${relatedGroupId}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<{}>(
+      `${baseUrl}/v1/groups/${groupId}/relationships/${groupRelationshipType}/requests/${relatedGroupId}`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "acceptGroupRelationshipRequest")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -1271,8 +1271,8 @@ export async function groupPermissionsForRole<GroupId extends number, RoleSetId 
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<any>(`
-      ${baseUrl}/v1/groups/${groupId}/roles/${roleSetId}/permissions`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<any>(
+      `${baseUrl}/v1/groups/${groupId}/roles/${roleSetId}/permissions`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupPermissionsForRole")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -1303,8 +1303,8 @@ export async function setGroupRolePermissions<GroupId extends number, RoleSetId 
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/roles/${roleSetId}/permissions`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<{}>(
+      `${baseUrl}/v1/groups/${groupId}/roles/${roleSetId}/permissions`, {
         body: { permissions },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "setGroupRolePermissions")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -1334,8 +1334,8 @@ export async function groupGuestRolePermissions<GroupId extends number>(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<any>(`
-      ${baseUrl}/v1/groups/${groupId}/roles/guest/permissions`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<any>(
+      `${baseUrl}/v1/groups/${groupId}/roles/guest/permissions`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupGuestRolePermissions")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -1364,8 +1364,8 @@ export async function groupPermissionsForAllRoles<GroupId extends number>(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupPermissionsForAllRoles<GroupId>>(`
-      ${baseUrl}/v1/groups/${groupId}/roles/permissions`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupPermissionsForAllRoles<GroupId>>(
+      `${baseUrl}/v1/groups/${groupId}/roles/permissions`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupPermissionsForAllRoles")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -1395,8 +1395,8 @@ export async function groupSocialLinks(this: ThisAllOverrides, groupId: number):
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupSocialLinksData>(`
-      ${baseUrl}/v1/groups/${groupId}/social-links`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupSocialLinksData>(
+      `${baseUrl}/v1/groups/${groupId}/social-links`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupSocialLinks")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -1431,8 +1431,8 @@ export async function addGroupSocialLink<Request extends NewSocialLinkRequest>(
     const overrides = this
     return BaseHandler(async function(this: ThisProfile) {
   
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<AddGroupSocialLinkData<Request>>(`
-      ${baseUrl}/v1/groups/${groupId}/social-links`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<AddGroupSocialLinkData<Request>>(
+      `${baseUrl}/v1/groups/${groupId}/social-links`, {
         body: request,
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "addGroupSocialLink")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -1463,8 +1463,8 @@ export async function addGroupSocialLink<Request extends NewSocialLinkRequest>(
     const overrides = this
     return BaseHandler(async function(this: ThisProfile) {
   
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/social-links/${socialLinkId}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(
+      `${baseUrl}/v1/groups/${groupId}/social-links/${socialLinkId}`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "removeGroupSocialLink")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -1499,8 +1499,8 @@ export async function updateGroupSocialLink(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/social-links/${socialLinkId}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<{}>(
+      `${baseUrl}/v1/groups/${groupId}/social-links/${socialLinkId}`, {
         body: { request },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "removeGroupSocialLink")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -1535,8 +1535,8 @@ export async function groupWallPosts_V1(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupWallPostsData_V1>(`
-      ${baseUrl}/v1/groups/${groupId}/wall/posts`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupWallPostsData_V1>(
+      `${baseUrl}/v1/groups/${groupId}/wall/posts`, {
         searchParams: { limit, sortOrder, cursor },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupWallPosts_V1")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -1575,8 +1575,8 @@ export async function authenticatedUserSubscribeToGroupWallNotificationEvents(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<any>(`
-      ${baseUrl}/v1/groups/${groupId}/wall/subscribe`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<any>(
+      `${baseUrl}/v1/groups/${groupId}/wall/subscribe`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "authenticatedUserSubscribeToGroupWallNotificationEvents"
         )),
@@ -1608,8 +1608,8 @@ export async function removeGroupWallPost(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/wall/posts/${postId}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(
+      `${baseUrl}/v1/groups/${groupId}/wall/posts/${postId}`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "removeGroupWallPost")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -1639,8 +1639,8 @@ export async function removeAllGroupWallPostMadeByUser(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(`
-      ${baseUrl}/v1/groups/${groupId}/wall/users/${userId}/posts`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(
+      `${baseUrl}/v1/groups/${groupId}/wall/users/${userId}/posts`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "removeAllGroupWallPostMadeByUser")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -1673,8 +1673,8 @@ export async function groupSearch(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupSearchData>(`
-      ${baseUrl}/v1/groups/search`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupSearchData>(
+      `${baseUrl}/v1/groups/search`, {
         searchParams: { keyword, prioritizeExactMatch, limit, cursor },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupSearch")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -1714,8 +1714,8 @@ export async function groupLookupSearch(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupLookupSearch>(`
-      ${baseUrl}/v1/groups/search/lookup`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupLookupSearch>(
+      `${baseUrl}/v1/groups/search/lookup`, {
         searchParams: { groupName },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupLookupSearch")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -1740,8 +1740,8 @@ export async function groupSearchMetadata(this: ThisAllOverrides): ApiMethodResp
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupSearchMetadata>(`
-      ${baseUrl}/v1/groups/search/metadata`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupSearchMetadata>(
+      `${baseUrl}/v1/groups/search/metadata`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupLookupSearch")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -1773,8 +1773,8 @@ export async function groupRolesFromIds<RoleId extends number>(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupRolesFromIdsData<RoleId>>(`
-      ${baseUrl}/v1/roles`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupRolesFromIdsData<RoleId>>(
+      `${baseUrl}/v1/roles`, {
         searchParams: { ids: roleIds },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupRolesFromIds")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -1809,8 +1809,8 @@ export async function primaryGroupForUser(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawPrimaryGroupForUserData>(`
-      ${baseUrl}/v1/users/${userId}/groups/primary/role`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawPrimaryGroupForUserData>(
+      `${baseUrl}/v1/users/${userId}/groups/primary/role`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "primaryGroupForUser")),
         credentialsOverride: getCredentialsOverride(overrides)
       }
@@ -1842,8 +1842,8 @@ export async function authenticatedUserRemovePrimaryGroup(this: ThisAllOverrides
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(`
-      ${baseUrl}/v1/user/groups/primary`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(
+      `${baseUrl}/v1/user/groups/primary`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "authenticatedUserRemovePrimaryGroup"
         )),
@@ -1871,8 +1871,8 @@ export async function authenticatedUserSetPrimaryGroup(this: ThisAllOverrides, g
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<{}>(`
-      ${baseUrl}/v1/user/groups/primary`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<{}>(
+      `${baseUrl}/v1/user/groups/primary`, {
         body: { groupId },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "authenticatedUserSetPrimaryGroup"
@@ -1911,8 +1911,8 @@ export async function updateGroupRoleSet<Request extends UpdateRoleSetRequest>(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<UpdateRoleSetData<Request>>(`
-      ${baseUrl}/v1/groups/${groupId}/rolesets/${roleSetId}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<UpdateRoleSetData<Request>>(
+      `${baseUrl}/v1/groups/${groupId}/rolesets/${roleSetId}`, {
         body: { request },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "updateGroupRoleSet")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -1943,8 +1943,8 @@ export async function groupIdsToGroupsInfo<GroupId extends number>(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<any>(`
-      ${baseUrl}/v2/groups`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<any>(
+      `${baseUrl}/v2/groups`, {
         searchParams: { groupIds },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupIdsToGroupsInfo")),
         credentialsOverride: getCredentialsOverride(overrides)
@@ -1979,8 +1979,8 @@ export async function allGroupRolesForUser_V2(this: ThisAllOverrides, userId: nu
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawAllGroupRolesForUserData_V2>(`
-      ${baseUrl}/v2/users/${userId}/groups/roles`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawAllGroupRolesForUserData_V2>(
+      `${baseUrl}/v2/users/${userId}/groups/roles`, {
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
           apiName, "allGroupRolesForUser_V2"
         )),
@@ -2016,8 +2016,8 @@ export async function groupWallPosts_V2(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupWallPostsData_V2>(`
-      ${baseUrl}/v2/groups/${groupId}/wall/posts`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupWallPostsData_V2>(
+      `${baseUrl}/v2/groups/${groupId}/wall/posts`, {
         searchParams: { limit, sortOrder, cursor },
         cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupWallPosts_V2")),
         credentialsOverride: getCredentialsOverride(overrides)

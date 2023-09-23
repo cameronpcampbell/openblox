@@ -44,7 +44,7 @@ export async function authenticatedUserBirthdate(this: ThisAllOverrides): ApiMet
   const overrides = this
   return baseHandler(async function(this: ThisProfile) {
 
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserBirthdateData>(`${baseUrl}/v1/birthdate`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserBirthdateData>(`${baseUrl}/v1/birthdate`, {
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "authenticatedUserBirthdate")),
       credentialsOverride: getCredentialsOverride(overrides)
     })
@@ -69,7 +69,7 @@ export async function authenticatedUserDescription(this: ThisAllOverrides): ApiM
   const overrides = this
   return baseHandler(async function(this: ThisProfile) {
 
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserDescriptionData>(`${baseUrl}/v1/description`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserDescriptionData>(`${baseUrl}/v1/description`, {
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "authenticatedUserDescription")),
       credentialsOverride: getCredentialsOverride(overrides)
     })
@@ -94,7 +94,7 @@ export async function authenticatedUserGender(this: ThisAllOverrides): ApiMethod
   const overrides = this
   return baseHandler(async function(this: ThisProfile) {
 
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserGenderData>(`${baseUrl}/v1/gender`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserGenderData>(`${baseUrl}/v1/gender`, {
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "authenticatedUserGender")),
       credentialsOverride: getCredentialsOverride(overrides)
     })
@@ -129,7 +129,7 @@ export async function validateDisplayNameForNewUser(this: ThisAllOverrides, disp
 > {
   const overrides = this
   return baseHandler(async function(this: ThisProfile) {
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.get<ValidateDisplayNameForNewUserData>(`${baseUrl}/v1/display-names/validate`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<ValidateDisplayNameForNewUserData>(`${baseUrl}/v1/display-names/validate`, {
       searchParams: { displayName, birthdate },
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "validateDisplayNameForNewUser")),
       credentialsOverride: getCredentialsOverride(overrides)
@@ -157,7 +157,7 @@ export async function validateDisplayNameForExistingUser(this: ThisAllOverrides,
 > {
   const overrides = this
   return baseHandler(async function(this: ThisProfile) {
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.get<ValidateDisplayNameForExisitingUserData>(`${baseUrl}/v1/users/${userId}/display-names/validate`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<ValidateDisplayNameForExisitingUserData>(`${baseUrl}/v1/users/${userId}/display-names/validate`, {
       searchParams: { displayName },
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "validateDisplayNameForExistingUser")),
       credentialsOverride: getCredentialsOverride(overrides)
@@ -185,7 +185,7 @@ export async function authenticatedUserSetDisplayName(this: ThisAllOverrides, ne
 > {
   const overrides = this
   return baseHandler(async function(this: ThisProfile) {
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.patch<{}>(`${baseUrl}/v1/users/${userId}/display-names`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<{}>(`${baseUrl}/v1/users/${userId}/display-names`, {
       body: { newDisplayName },
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "authenticatedUserSetDisplayName")),
       credentialsOverride: getCredentialsOverride(overrides)
@@ -215,7 +215,7 @@ export async function userInfo<UserId extends number>(this: ThisAllOverrides, us
   const overrides = this
   return baseHandler(async function(this: ThisProfile) {
 
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.get<RawUserInfoData<UserId>>(`${baseUrl}/v1/users/${userId}`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawUserInfoData<UserId>>(`${baseUrl}/v1/users/${userId}`, {
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "userInfo")),
       credentialsOverride: getCredentialsOverride(overrides)
     })
@@ -241,7 +241,7 @@ export async function userInfo<UserId extends number>(this: ThisAllOverrides, us
 export async function authenticatedUserInfo(this: ThisAllOverrides): ApiMethodResponse<AuthenticatedUserInfoData> {
   const overrides = this
   return baseHandler(async function(this: ThisProfile) {
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserInfoData>(`${baseUrl}/v1/users/authenticated`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserInfoData>(`${baseUrl}/v1/users/authenticated`, {
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "authenticatedUserInfo")),
       credentialsOverride: getCredentialsOverride(overrides)
     })
@@ -265,7 +265,7 @@ export async function authenticatedUserAgeBracket(this: ThisAllOverrides): ApiMe
 > {
   const overrides = this
   return baseHandler(async function(this: ThisProfile) {
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserAgeBracketData>(`${baseUrl}/v1/users/authenticated/age-bracket`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserAgeBracketData>(`${baseUrl}/v1/users/authenticated/age-bracket`, {
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "authenticatedUserAgeBracket")),
       credentialsOverride: getCredentialsOverride(overrides)
     })
@@ -289,7 +289,7 @@ export async function authenticatedUserCountryCode(this: ThisAllOverrides): ApiM
 > {
   const overrides = this
   return baseHandler(async function(this: ThisProfile) {
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserCountryCodeData>(`${baseUrl}/v1/users/authenticated/country-code`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserCountryCodeData>(`${baseUrl}/v1/users/authenticated/country-code`, {
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "authenticatedUserCountryCode")),
       credentialsOverride: getCredentialsOverride(overrides)
     })
@@ -313,7 +313,7 @@ export async function authenticatedUserRoles(this: ThisAllOverrides): ApiMethodR
 > {
   const overrides = this
   return baseHandler(async function(this: ThisProfile) {
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserRolesData>(`${baseUrl}/v1/users/authenticated/roles`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserRolesData>(`${baseUrl}/v1/users/authenticated/roles`, {
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "authenticatedUserRoles")),
       credentialsOverride: getCredentialsOverride(overrides)
     })
@@ -339,7 +339,7 @@ export async function usernamesToUsersInfo<Username extends string>(
 ): ApiMethodResponse<UsernamesToUsersInfoData, FormattedUsernamesToUsersInfoData<Username>> { 
   const overrides = this
   return baseHandler(async function(this: ThisProfile) {
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.post<UsernamesToUsersInfoData>(`${baseUrl}/v1/usernames/users`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<UsernamesToUsersInfoData>(`${baseUrl}/v1/usernames/users`, {
       body: { usernames, excludeBannedUsers },
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "usernamesToUsersInfo")),
       credentialsOverride: getCredentialsOverride(overrides)
@@ -371,7 +371,7 @@ export async function userIdsToUsersInfo<UserId extends number>(
 ): ApiMethodResponse<UserIdsToUsersInfoData, FormattedUserIdsToUsersInfoData<UserId>> {
   const overrides = this
   return baseHandler(async function(this: ThisProfile) {
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.post<UserIdsToUsersInfoData>(`${baseUrl}/v1/users`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<UserIdsToUsersInfoData>(`${baseUrl}/v1/users`, {
       body: { userIds, excludeBannedUsers },
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "userIdsToUsersInfo")),
       credentialsOverride: getCredentialsOverride(overrides)
@@ -409,7 +409,7 @@ export async function usernameHistory(this: ThisAllOverrides, userId: number, li
 ) {
   const overrides = this
   return await baseHandler(async function(this: ThisProfile) {
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.get<UsernameHistoryData>(`${baseUrl}/v1/users/${userId}/username-history`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<UsernameHistoryData>(`${baseUrl}/v1/users/${userId}/username-history`, {
       searchParams: { limit, sortOrder, cursor },
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "usernameHistory")),
       credentialsOverride: getCredentialsOverride(overrides)
@@ -445,7 +445,7 @@ export async function userSearch(this: ThisAllOverrides, keyword:string, limit:1
   const overrides = this
   
   return baseHandler(async function(this: ThisProfile) {
-    const { body:rawBody, response, cachedResultType:cache } = await this.http.get<SearchData>(`${baseUrl}/v1/users/search`, {
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<SearchData>(`${baseUrl}/v1/users/search`, {
       searchParams: { keyword, limit, cursor },
       cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "userSearch")),
       credentialsOverride: getCredentialsOverride(overrides)

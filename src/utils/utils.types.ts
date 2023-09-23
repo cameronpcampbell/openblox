@@ -24,6 +24,8 @@ export type OptionalHttp = `https://${OptionalWww}` | `http://${OptionalWww}` | 
 export type UnionRange<Start extends number, End extends number> = Start extends End ? Start : Start | UnionRange<Add<Start, 1>, End>
 
 export type UnionLength<T> = ArrayLength<UnionToArray<T>>
+
+export type SecureUrl = `https://${string}`
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

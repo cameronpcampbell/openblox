@@ -42,11 +42,11 @@ var config: Config = {
   findSettings: findSettings
 }
 
-export const setConfig = (configSettings: PrettifyKeyof<ConfigSettings>) => {
+export const setOpenbloxConfig = (configSettings: PrettifyKeyof<ConfigSettings>) => {
   config = createConfig(configSettings)
 }
 
-export const getConfig = () => config
+export const getOpenbloxConfig = () => config
 
 export const getCacheSettingsOverride = (overrides: ThisAllOverrides): { cacheSettingsOverride: any | "!", preCache?: any } | false => {
   const cacheSettingsOverride = overrides?.cacheSettings

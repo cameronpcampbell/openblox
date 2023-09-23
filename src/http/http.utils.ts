@@ -8,7 +8,7 @@ export const formatSearchParams = async (params?: { [key: string]:any }) => {
   const [paramsKeys, paramsValues] = [Object.keys(params), Object.values(params)]
   const formattedParams: { [key: string]:string } = {}
 
-  await forEach(paramsValues, async (param:any, i:number) => {
+  paramsValues.forEach((param:any, i:number) => {
     if (param == undefined || param == null) return
     if (typeof(param) == "string") return formattedParams[paramsKeys[i]] = param
     if (Array.isArray(param)) return formattedParams[paramsKeys[i]] = param.join(",")

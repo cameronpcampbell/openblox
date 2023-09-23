@@ -43,7 +43,7 @@ export type DataWithCursors<Data extends AnyObject> = {
 export type ReturnedCursors = { previous: string | null, next: string | null }
 
 type ApiMethodResponseBase<RawBody, Data> = PrettifyKeyof<{
-  rawBody?: RawBody,
+  rawBody: RawBody,
   data: Data,
   response?: AgnosticResponse,
   cache: CacheResultType

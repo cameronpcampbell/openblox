@@ -349,11 +349,11 @@ end)
 # Logging In Example
 ```ts
 import "dotenv/config"
-import { setConfig, RobloSecurityCookie } from "openblox/config";
+import { setOpenbloxConfig, RobloSecurityCookie } from "openblox/config";
 import { ClassicUsersApi } from "openblox/apis/classic";
 
 // Creates an authenticated openblox client from a `.ROBLOSECURITY` cookie.
-setConfig({
+setOpenbloxConfig({
   cookie: process.env.ROBLOX_COOKIE as RobloSecurityCookie,
 });
 

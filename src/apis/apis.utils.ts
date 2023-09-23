@@ -2,7 +2,7 @@
 import { ApiError, InvalidRequestDataError, UnexpectedError } from "../errors"
 import { isObjectOrArray, isOneOfMany } from "../utils"
 import { AgnosticResponse } from "../http/httpAdapters/httpAdapters.utils"
-import { getConfig } from "../config/config"
+import { getOpenbloxConfig } from "../config/config"
 import { CacheResultType } from "../cacheAdapters/cacheAdapters.types";
 import cloneDeep from "lodash.clonedeep";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ export const apiFuncBaseHandler = async <T extends (...args: any) => any>(fn: T,
   Promise<ResolvedType<ReturnType<T>>>
 ) => {
   try {
-    return await fn.call(getConfig())
+    return await fn.call(getOpenbloxConfig())
 
   } catch (error: unknown) {
     await handleApiErrors(error, knownErrorStatusCodes)
@@ -79,7 +79,7 @@ export const buildApiMethodResponse = <Data, RawBody, Cursors extends { previous
     return { get data() { return createdFormattedData() as Data }, rawBody, response, cache, cursors: cursors as Cursors }
 
   // Makes sure that "data" is not a reference to "rawBody".
-  } else if (isObjectOrArray(data) && getConfig().methodsDataEnforceNoReferences) {
+  } else if (isObjectOrArray(data) && getOpenbloxConfig().methodsDataEnforceNoReferences) {
     //console.log(">> object/array - no references")
     const createdFormattedData = createFormattedData(() => cloneDeep(data) as (() => Data))
     return { get data() { return createdFormattedData() as Data }, rawBody, response, cache, cursors: cursors as Cursors }
