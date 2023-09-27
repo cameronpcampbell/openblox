@@ -7,8 +7,9 @@ import { getCacheSettingsOverride, getCredentialsOverride } from "../../../confi
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 import type { Config, ThisAllOverrides } from "../../../config/config.types"
+import { PrettifyUnion } from "../../../utils/utils.types"
 import type { ApiMethodResponse } from "../../apis.types"
-import type { InventoryItemsForUserData, InventoryItemsForUserFilter } from "./inventoryApi.types"
+import type { RawInventoryItemsForUserData, FormattedInventoryItemsForUserData, InventoryItemsForUserFilter } from "./inventoryApi.types"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -51,17 +52,19 @@ export const shouldNotCacheMethods = []
   nextPageToken: 'djEveyJGaWVsZEluZGV4IjoyLCJWYWx1ZUluZGV4IjowLCJDdXJzb3IiOiIxMjUyNyIsIkZpbHRlckhhc2giOiJrV3Y2VFQ0ZW1FOGgzT1RQL1hjOXFkdGIwR0JiWjNySkRMU3FTSmV5TUVJPSJ9' }
  */
 export async function inventoryItemsForUser(
-  this: ThisAllOverrides, userId: number, maxPageSize: number = 10, filter?:InventoryItemsForUserFilter, pageToken?: string
-): ApiMethodResponse<InventoryItemsForUserData, InventoryItemsForUserData, "PAGINATED"> {
+  this: ThisAllOverrides, userId: number, maxPageSize: number = 10, filter?:PrettifyUnion<InventoryItemsForUserFilter>, pageToken?: string
+): ApiMethodResponse<RawInventoryItemsForUserData, FormattedInventoryItemsForUserData, "PAGINATED"> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<InventoryItemsForUserData>(`${baseUrl}/v2/users/${userId}/inventory-items`, {
-      searchParams: { maxPageSize, pageToken, filter: filter && formatFilter(filter) },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "inventoryItemsForUser")),
-      credentialsOverride: getCredentialsOverride(overrides)
-    })
+    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawInventoryItemsForUserData>(
+      `${baseUrl}/v2/users/${userId}/inventory-items`, {
+        searchParams: { maxPageSize, pageToken, filter: filter && formatFilter(filter) },
+        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "inventoryItemsForUser")),
+        credentialsOverride: getCredentialsOverride(overrides)
+      }
+    )
 
-    return buildResponse({ rawBody, data: rawBody, response, cursors: { next: rawBody.nextPageToken }, cache })
+    return buildResponse({ rawBody, data: rawBody.inventoryItems, response, cursors: { next: rawBody.nextPageToken }, cache })
   }, [])
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -55,5 +55,5 @@ export const getCacheSettingsOverride = (overrides: ThisAllOverrides): { cacheSe
   return cacheSettingsOverride
 }
 export const getCredentialsOverride = (overrides: ThisAllOverrides) => (
-  overrides ? ({ cloudKey: overrides?.cloudKey, cookie: overrides?.cookie }) : undefined
+  overrides ? ({ cloudKey: overrides?.cloudKey, cookie: overrides?.cookie, oauthToken: overrides?.oauthToken }) : undefined
 )

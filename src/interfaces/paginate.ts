@@ -46,21 +46,14 @@ export const Paginate = <T extends (...args: any) => FnResponse>(
   fn: T, middleware?: (...args: any) => Promise<any> & any
 ) => {
   return async function*(...fnArgs: Parameters<T>) {
-    // Creates an object with arguments as key-value pairs.
-    const fnArgNames: string[] = getParams(fn);
-    const fnArgValues = Object.values({ ...fnArgs })
-    const formattedFnArgs: { [key: string]: any } = {};
-    await forEach(fnArgNames, async (item: string, i: number) => formattedFnArgs[item] = fnArgValues[i] )
 
     while (true) {
       try {
-        const response: Awaited<ReturnType<T>> = await (middleware ? middleware(fn) : fn)(...Object.values(formattedFnArgs))
+        const response = await fn(...(fnArgs as any)) as Awaited<ReturnType<T>>
         yield response
 
         // Gets the cursor
-        const cursor = response.cursors.next
-
-        formattedFnArgs.cursor = cursor
+        fnArgs[fnArgs.length] = response.cursors.next
 
       } catch (error:unknown) {
         if (!(error instanceof InvalidRequestDataError)) throw error

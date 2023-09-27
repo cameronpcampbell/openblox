@@ -19,8 +19,8 @@ export const HttpHandler = ({ cookie, cloudKey, cacheAdapter, csrfRetries=1, htt
 
   const methods = {
 
-    get: async <ResponseBody = any>(
-      url: SecureUrl, { cacheSettings, searchParams, credentialsOverride, validStatusCodes }: HttpRequestConfigSafeMethod
+    get: async <ResponseBody = void>(
+      url: SecureUrl, { cacheSettings, searchParams, credentialsOverride, validStatusCodes, headers }: HttpRequestConfigSafeMethod
     ): MethodResponse<ResponseBody> => {
       try {
         const fullUrl = searchParams ? buildFullUrl(url, searchParams) : url
@@ -37,6 +37,8 @@ export const HttpHandler = ({ cookie, cloudKey, cacheAdapter, csrfRetries=1, htt
           headers: {
             Cookie: cookieToUse && `.ROBLOSECURITY=${cookieToUse}`,
             "x-api-key": isOpenCloud && (credentialsOverride?.cloudKey || cloudKey),
+            "Authorization": (isOpenCloud && credentialsOverride?.oauthToken) && `Bearer ${ credentialsOverride?.oauthToken }`,
+            ...headers
           }
         })
         const responseStatusCode = response.statusCode
@@ -55,9 +57,9 @@ export const HttpHandler = ({ cookie, cloudKey, cacheAdapter, csrfRetries=1, htt
       }
     },
 
-    post: async <ResponseBody = any>(
+    post: async <ResponseBody = void>(
       url: SecureUrl,
-      { cacheSettings, searchParams, credentialsOverride, validStatusCodes, body, formData, csrfData }: HttpRequestConfigUnsafeMethod
+      { cacheSettings, searchParams, credentialsOverride, validStatusCodes, body, formData, csrfData, headers }: HttpRequestConfigUnsafeMethod
     ): MethodResponse<ResponseBody> => {
       let cookieToUse
       try {
@@ -76,7 +78,9 @@ export const HttpHandler = ({ cookie, cloudKey, cacheAdapter, csrfRetries=1, htt
           headers: {
             Cookie: cookieToUse && `.ROBLOSECURITY=${cookieToUse}`,
             "x-api-key": isOpenCloud && (credentialsOverride?.cloudKey || cloudKey),
-            "x-csrf-token": csrfData?.token || savedCSRFToken
+            "x-csrf-token": csrfData?.token || savedCSRFToken,
+            "Authorization": (isOpenCloud && credentialsOverride?.oauthToken) && `Bearer ${ credentialsOverride?.oauthToken }`,
+            ...headers
           }
         })
         const responseStatusCode = response.statusCode
@@ -113,9 +117,9 @@ export const HttpHandler = ({ cookie, cloudKey, cacheAdapter, csrfRetries=1, htt
       }
     },
 
-    patch: async <ResponseBody = any>(
+    patch: async <ResponseBody = void>(
       url: SecureUrl,
-      { cacheSettings, searchParams, credentialsOverride, validStatusCodes, body, formData, csrfData }: HttpRequestConfigUnsafeMethod
+      { cacheSettings, searchParams, credentialsOverride, validStatusCodes, body, formData, csrfData, headers }: HttpRequestConfigUnsafeMethod
     ): MethodResponse<ResponseBody> => {
       let cookieToUse
       try {
@@ -134,7 +138,9 @@ export const HttpHandler = ({ cookie, cloudKey, cacheAdapter, csrfRetries=1, htt
           headers: {
             Cookie: cookieToUse && `.ROBLOSECURITY=${cookieToUse}`,
             "x-api-key": isOpenCloud && (credentialsOverride?.cloudKey || cloudKey),
-            "x-csrf-token": csrfData?.token || savedCSRFToken
+            "x-csrf-token": csrfData?.token || savedCSRFToken,
+            "Authorization": (isOpenCloud && credentialsOverride?.oauthToken) && `Bearer ${ credentialsOverride?.oauthToken }`,
+            ...headers
           }
         })
         const responseStatusCode = response.statusCode
@@ -171,9 +177,9 @@ export const HttpHandler = ({ cookie, cloudKey, cacheAdapter, csrfRetries=1, htt
       }
     },
 
-    delete: async <ResponseBody = any>(
+    delete: async <ResponseBody = void>(
       url: SecureUrl,
-      { cacheSettings, searchParams, credentialsOverride, validStatusCodes, body, formData, csrfData }: HttpRequestConfigUnsafeMethod
+      { cacheSettings, searchParams, credentialsOverride, validStatusCodes, body, formData, csrfData, headers }: HttpRequestConfigUnsafeMethod
     ): MethodResponse<ResponseBody> => {
       let cookieToUse
       try {
@@ -192,7 +198,9 @@ export const HttpHandler = ({ cookie, cloudKey, cacheAdapter, csrfRetries=1, htt
           headers: {
             Cookie: cookieToUse && `.ROBLOSECURITY=${cookieToUse}`,
             "x-api-key": isOpenCloud && (credentialsOverride?.cloudKey || cloudKey),
-            "x-csrf-token": csrfData?.token || savedCSRFToken
+            "x-csrf-token": csrfData?.token || savedCSRFToken,
+            "Authorization": (isOpenCloud && credentialsOverride?.oauthToken) && `Bearer ${ credentialsOverride?.oauthToken }`,
+            ...headers
           }
         })
         const responseStatusCode = response.statusCode
