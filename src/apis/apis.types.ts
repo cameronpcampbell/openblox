@@ -1,6 +1,4 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 import * as _AllClassicApis from "./classic"
 import * as _AllCloudApis from "./cloud"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,8 +14,6 @@ import { CacheResultType } from "../cacheAdapters/cacheAdapters.types"
 export type AllClassicApis = typeof _AllClassicApis
 export type AllCloudApis = typeof _AllCloudApis
 export type AllApis = AllClassicApis & AllCloudApis
-
-type XXXX = ApiMethods["GroupsApi"]
 
 export type ApiName = keyof AllClassicApis | keyof AllCloudApis
 

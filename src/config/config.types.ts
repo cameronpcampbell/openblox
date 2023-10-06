@@ -38,4 +38,4 @@ export type Config<ThisApiName extends ApiName = any> = ConfigSettings & {
 export type CredentialsOverride = { cookie?: RobloSecurityCookie | "", cloudKey?: string, oauthToken?: string }
 export type CacheSettingsOverride = { cacheSettings?: any }
 export type AllOverrides = PrettifyKeyof<CredentialsOverride & CacheSettingsOverride>
-export type ThisAllOverrides = AllOverrides | void | undefined
+export type ThisAllOverrides = AllOverrides | void | undefined | null | any
