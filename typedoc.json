@@ -6,5 +6,6 @@
   "tsconfig": "./tsconfig.json",
   "includes": "includes",
   "excludeExternals": true,
-  "excludePrivate": true
+  "excludePrivate": true,
+  "out": "./docs"
 }
