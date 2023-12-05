@@ -4,7 +4,7 @@
   "includes": "./src/**/*.ts",
   "json": "./docs.json",
   "tsconfig": "./tsconfig.json",
-  "includeDeclarations": "includes",
   "excludeExternals": true,
-  "excludePrivate": true
+  "excludePrivate": true,
+  "out": "./docs"
 }
