@@ -36,7 +36,7 @@ export type RawStandardDatastoreKeysData<Prefix extends string|undefined> = Pret
   nextPageCursor: string
 }>
 
-export type FormattedStandardDatastoreKeysData<Prefix extends string|undefined> = Prefixify<Prefix>
+export type FormattedStandardDatastoreKeysData<Prefix extends string|undefined> = Prefixify<Prefix>[]
 // -------------------------------------------------------------------------------------------------------------------
 
 

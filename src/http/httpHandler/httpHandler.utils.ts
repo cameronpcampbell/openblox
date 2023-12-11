@@ -1,6 +1,5 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
-import { AnyError, parseBEDEV1ErrorFromJSON, parseBEDEV2ErrorFromJSON } from "parse-roblox-errors-node"
-import { parseAnyError } from "parse-roblox-errors-node/dist/utils/parseAnyError"
+import { AnyError, parseBEDEV1ErrorFromStringAndHeaders, parseBEDEV2ErrorFromStringAndHeaders } from "parse-roblox-errors"
 import { AgnosticResponse } from "../httpAdapters"
 import { AuthorizationDeniedError, ThrottledError } from "../../errors"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -8,11 +7,8 @@ import { AuthorizationDeniedError, ThrottledError } from "../../errors"
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 import { AnyObject, SecureUrl } from "../../utils/utils.types"
-import { CacheAdapterConfig, CacheResultType } from "../../cacheAdapters/cacheAdapters.types"
+import { createHash } from "crypto"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-export const cacheDisabledData: { cachedData: AnyObject | undefined, cachedResultType: CacheResultType } = { cachedData: undefined, cachedResultType: "DISABLED" }
 
 
 export const buildFullUrl = (url: SecureUrl, searchParams: AnyObject) => {
@@ -28,7 +24,7 @@ export const buildFullUrl = (url: SecureUrl, searchParams: AnyObject) => {
     if (typeof(param) == "boolean") return formattedParams[paramsKeys[i]] = param.toString()
     return formattedParams[paramsKeys[i]] = encodeURIComponent(param.toString())
   })
-  
+
   return `${url}${searchParams ? `?${
     Object.entries(formattedParams).map(([ key, value ]) => `${key}=${value}`).join("&")
   }` : ""}`
@@ -40,18 +36,6 @@ export const isOpenCloudUrl = (url: string): boolean =>
   || url.startsWith("https://apis.roblox.com/messaging-service")
   || url.startsWith("https://apis.roblox.com/ordered-data-stores")
 
-export const cacheAdapterGet = async (cacheAdapter?: CacheAdapterConfig, ...args: Parameters<CacheAdapterConfig["get"]>): Promise<
-  { cachedData: AnyObject | undefined, cachedResultType: CacheResultType }
-> => {
-  try {
-    const cachedResult = await cacheAdapter?.get(...args)
-    return { cachedData: cachedResult, cachedResultType: cachedResult ? "HIT" : "MISS" }
-
-  } catch {
-    return { cachedData: undefined, cachedResultType: "MISS" }
-  }
-}
-
 export const detectBEDEVVersionForUrl = (url: string): 1 | 2 | undefined => {
   const urlObject = new URL(url)
 
@@ -60,28 +44,12 @@ export const detectBEDEVVersionForUrl = (url: string): 1 | 2 | undefined => {
   return undefined
 }
 
-export function parseBEDEV1ErrorFromStringAndHeaders(text: string, headers: Map<string, string>) {
-  return parseAnyError(
-    () => text.trim(),
-    parseBEDEV1ErrorFromJSON,
-    headers as any,
-  );
-}
-
-export function parseBEDEV2ErrorFromStringAndHeaders(text: string, headers: Map<string, string>) {
-  return parseAnyError(
-    () => text.trim(),
-    parseBEDEV2ErrorFromJSON,
-    headers as any,
-  );
-}
-
 export const getParsedErrors = async (errorRes: AgnosticResponse): Promise<AnyError[] | undefined> => {
   const BEDEVVersion = detectBEDEVVersionForUrl(errorRes.url)
   return BEDEVVersion == 1 ?
-    await parseBEDEV1ErrorFromStringAndHeaders(JSON.stringify(errorRes.body), errorRes.headers)
+    await parseBEDEV1ErrorFromStringAndHeaders(JSON.stringify(errorRes.body), errorRes.headers as any as Headers)
   : BEDEVVersion == 2 ?
-    await parseBEDEV2ErrorFromStringAndHeaders(JSON.stringify(errorRes.body), errorRes.headers)
+    await parseBEDEV2ErrorFromStringAndHeaders(JSON.stringify(errorRes.body), errorRes.headers as any as Headers)
   : undefined
 }
 
@@ -94,4 +62,60 @@ export const handleErrors = async (errorResponse: AgnosticResponse) => {
   } else if (errorResponse.statusCode == 401) {
     throw new AuthorizationDeniedError(errorResponse)
   }
+}
+
+export const md5HashOfReqBody = (reqBody: AnyObject | undefined | string) => {
+  if (!reqBody) return ""
+  return createHash("md5").update(typeof(reqBody) == "string" ? reqBody : JSON.stringify(reqBody)).digest("hex")
+}
+
+type EndpointsAffectedByAccountSessionProtection = {
+  [key: string]: "*" | [ url: string | RegExp, methods: string[] ][]
+}
+
+export const endpointsAffectedByAccountSessionProtection: EndpointsAffectedByAccountSessionProtection = {
+  "https://auth.roblox.com": "*",
+
+  "https://accountinformation.roblox.com": [
+    ["v1/birthdate", [ "get", "post" ]],
+    ["v1/gender", [ "get", "post" ]],
+    ["v1/phone", [ "get", "post" ]],
+    ["v1/phone/delete", [ "post" ]],
+    ["v1/phone/resend", [ "post" ]],
+    ["v1/phone/verify", [ "post" ]],
+    ["v1/star-code-affiliates", [ "post", "delete" ]],
+    ["v1/email/verify", [  "post" ]],
+  ],
+
+  "https://trades.roblox.com": [
+   [/v1\/trades\/\d+\/accept/, [ "post" ]],
+   [/v1\/trades\/\d+\/counter/, [ "post" ]],
+   [/v1\/trades\/\d+\/decline/, [ "post" ]],
+   ["v1/trades/expire-outdated", [ "post" ]],
+   ["v1/trades/send", [ "post" ]],
+  ],
+
+  "https://billing.roblox.com": "*"
+}
+
+export const isUrlAccountSessionProtected = (urlStr: string, urlMethod: "post" | "patch" | "delete" | "get") => {
+  const urlPath = new URL(urlStr).pathname.replace(/^\//, "")
+
+  for (const baseUrl in endpointsAffectedByAccountSessionProtection) {
+    if (!urlStr.startsWith(baseUrl)) continue
+
+    const endpoints = endpointsAffectedByAccountSessionProtection[baseUrl]
+    if (endpoints == "*") return true
+    
+    for (const endpointIndex in endpoints) {
+      const [ endpointPath, methods ] = endpoints[endpointIndex]
+
+      if (!methods.includes(urlMethod)) return false
+
+      if (typeof endpointPath == "string" && urlPath.startsWith(endpointPath)) return true
+      else if (endpointPath instanceof RegExp && endpointPath.test(urlPath)) return true
+    }
+  }
+
+  return false
 }

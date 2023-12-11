@@ -1,15 +1,12 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
-import utf8 from "crypto-js/enc-utf8"
-
 import { apiFuncBaseHandler as BaseHandler, buildApiMethodResponse as buildResponse } from "../../../apis/apis.utils"
-import { getCacheSettingsOverride, getCredentialsOverride } from "../../../config/config"
+import { calculateContentMD5, cloneAndMutateObject } from "../../../utils"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 import type { Config, ThisAllOverrides } from "../../../config/config.types"
-import { calculateContentMD5, cloneAndMutateObject } from "../../../utils"
-import { AnyObject, PrettifyKeyof } from "../../../utils/utils.types"
+import type { AnyObject, Identifier, PrettifyKeyof } from "../../../utils/utils.types"
 import type { ApiMethodResponse } from "../../apis.types"
 
 import type { FormattedListStandardDatastoreData, FormattedListStandardDatastoreEntryVersionsData, FormattedSetStandardDatastoreEntryData, FormattedStandardDatastoreKeysData, IncrementStandardDatastoreEntryConfig, ListStandardDatastoreEntryVersionsConfig, RawListStandardDatastoreData, RawListStandardDatastoreEntryVersionsData, RawSetStandardDatastoreEntryData, RawStandardDatastoreKeysData, SetStandardDatastoreEntryConfig, StandardDatastoreEntryData } from "./standardDatastoresApi.types"
@@ -40,15 +37,14 @@ export const shouldNotCacheMethods = [ "setStandardDatastoreEntry", "deleteStand
  * @exampleRawBody { datastores: [ { name: "InventoryStore", createdTime: "2023-09-16T11:03:03.868331Z" } ], nextPageCursor: "" }
  */
 export async function listStandardDatastores<Prefix extends string|undefined>(
-  this: ThisAllOverrides, universeId: number, prefix?: Prefix, limit?: number, cursor?: string
+  this: ThisAllOverrides, universeId: Identifier, prefix?: Prefix, limit?: number, cursor?: string
 ): ApiMethodResponse<RawListStandardDatastoreData<Prefix>, FormattedListStandardDatastoreData<Prefix>, "PAGINATED"> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawListStandardDatastoreData<Prefix>>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<RawListStandardDatastoreData<Prefix>>(
       `${baseUrl}/v1/universes/${universeId}/standard-datastores`, {
         searchParams: { prefix, limit, cursor },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "listStandardDatastores")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "listStandardDatastores", overrides
       }
     )
 
@@ -58,8 +54,8 @@ export async function listStandardDatastores<Prefix extends string|undefined>(
       obj.forEach(store => store.createdTime = new Date(store.createdTime))
     })
 
-    return buildResponse({ rawBody, data: getFormattedData, response, cursors: { next: rawBody.nextPageCursor }, cache })
-  }, [])
+    return buildResponse({ rawBody, data: getFormattedData, response, cursors: { next: rawBody.nextPageCursor }, cacheMetadata })
+  })
 }
 
 
@@ -81,23 +77,22 @@ export async function listStandardDatastores<Prefix extends string|undefined>(
  * @exampleRawBody { keys: [ { key: "user/45348281" } ], nextPageCursor: "eyJ2ZXJzaW9uIjoxLCJjdXJzb3IiOiIxMyMifQ==" }
  */
 export async function standardDatastoreKeys<Prefix extends string|undefined>(
-  this: ThisAllOverrides, universeId: number, datastoreName: string, scope?: string,
+  this: ThisAllOverrides, universeId: Identifier, datastoreName: string, scope?: string,
   allScopes?: boolean, prefix?: Prefix, limit?: number, cursor?: string
-): ApiMethodResponse<RawStandardDatastoreKeysData<Prefix>, FormattedStandardDatastoreKeysData<Prefix>[]> {
+): ApiMethodResponse<RawStandardDatastoreKeysData<Prefix>, FormattedStandardDatastoreKeysData<Prefix>> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawStandardDatastoreKeysData<Prefix>>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<RawStandardDatastoreKeysData<Prefix>>(
       `${baseUrl}/v1/universes/${universeId}/standard-datastores/datastore/entries`, {
         searchParams: { datastoreName, scope, allScopes, prefix, limit, cursor },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "standardDatastoreKeys")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "standardDatastoreKeys", overrides
       }
     )
 
-    const getFormattedData = (): FormattedStandardDatastoreKeysData<Prefix>[] => rawBody.keys.map(key => key.key)
+    const getFormattedData = (): FormattedStandardDatastoreKeysData<Prefix> => rawBody.keys.map(key => key.key)
 
-    return buildResponse({ rawBody, data: getFormattedData, response, cursors: { next: rawBody.nextPageCursor }, cache })
-  }, [])
+    return buildResponse({ rawBody, data: getFormattedData, response, cursors: { next: rawBody.nextPageCursor }, cacheMetadata })
+  })
 }
 
 
@@ -118,15 +113,14 @@ export async function standardDatastoreKeys<Prefix extends string|undefined>(
  * @exampleRawBody { entry: { Gold: 6, Iron: 57 }, checksumsMatch: true, metadata: { contentMD5: "hGwoaGwduF4bOhexREYGkA==", entryVersion: "08DBB6A47FDE6132.0000000016.08DBB782CEE11766.01", entryCreatedTime: 2023-09-16T11:03:03.922Z, entryVersionCreatedTime: 2023-09-17T13:34:24.754Z, entryAttributes: null, entryUserIds: [ 45348281 ] } }
  */ 
 export async function standardDatastoreEntry<Schema>(
-  this: ThisAllOverrides, universeId: number, datastoreName: string, entryKey: string, scope?: string
+  this: ThisAllOverrides, universeId: Identifier, datastoreName: string, entryKey: string, scope?: string
 ): ApiMethodResponse<PrettifyKeyof<Schema>, StandardDatastoreEntryData<Schema>> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<PrettifyKeyof<Schema>>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<PrettifyKeyof<Schema>>(
       `${baseUrl}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`, {
         searchParams: { datastoreName, entryKey, scope },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "standardDatastoreEntry")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "standardDatastoreEntry", overrides
       }
     )
     
@@ -153,8 +147,8 @@ export async function standardDatastoreEntry<Schema>(
       }
     }
 
-    return buildResponse({ rawBody, data: getFormattedData, response, cache })
-  }, [204])
+    return buildResponse({ rawBody, data: getFormattedData, response, cacheMetadata })
+  })
 }
 
 
@@ -184,7 +178,7 @@ export async function standardDatastoreEntry<Schema>(
  * @exampleRawBody { version: "08DBB6A47FDE6132.000000000E.08DBB780C616DF0C.01", deleted: false, contentLength: 20, createdTime: "2023-09-17T13:19:51.014Z", objectCreatedTime: "2023-09-16T11:03:03.922Z" }
  */ 
   export async function setStandardDatastoreEntry<Schema extends AnyObject>(
-  this: ThisAllOverrides, universeId: number, datastoreName: string, entryKey: string, data:Schema, config?: SetStandardDatastoreEntryConfig
+  this: ThisAllOverrides, universeId: Identifier, datastoreName: string, entryKey: string, entryValue:Schema, config?: SetStandardDatastoreEntryConfig
 ): ApiMethodResponse<RawSetStandardDatastoreEntryData, FormattedSetStandardDatastoreEntryData> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
@@ -192,8 +186,8 @@ export async function standardDatastoreEntry<Schema>(
       config?.matchVersion, config?.exclusiveCreate, config?.scope, config?.entryAttributes, config?.entryUserIds 
     ]
 
-    const stringifiedData = JSON.stringify(data)
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<RawSetStandardDatastoreEntryData>(
+    const stringifiedData = JSON.stringify(entryValue)
+    const { rawBody, response, cacheMetadata } = await this.http.post<RawSetStandardDatastoreEntryData>(
       `${baseUrl}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`, {
         searchParams: {  datastoreName, entryKey, matchVersion, exclusiveCreate, scope },
         body: stringifiedData, 
@@ -202,8 +196,7 @@ export async function standardDatastoreEntry<Schema>(
           "roblox-entry-userids": entryUserIds && `[${entryUserIds?.join(",")}]`,
           "content-md5": calculateContentMD5(stringifiedData)
         },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "setStandardDatastoreEntry")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "setStandardDatastoreEntry", overrides
       }
     )
 
@@ -214,8 +207,8 @@ export async function standardDatastoreEntry<Schema>(
       obj.objectCreatedTime = new Date(obj.objectCreatedTime)
     })
 
-    return buildResponse({ rawBody, data: getFormattedData, response, cache })
-  }, [204])
+    return buildResponse({ rawBody, data: getFormattedData, response, cacheMetadata })
+  })
 }
 
 
@@ -234,21 +227,20 @@ export async function standardDatastoreEntry<Schema>(
  * @exampleRawBody ""
  */ 
 export async function deleteStandardDatastoreEntry(
-  this: ThisAllOverrides, universeId: number, datastoreName: string, entryKey: string, scope?: string
+  this: ThisAllOverrides, universeId: Identifier, datastoreName: string, entryKey: string, scope?: string
 ): ApiMethodResponse<"", true> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<"">(
+    const { rawBody, response, cacheMetadata } = await this.http.delete<"">(
       `${baseUrl}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`, {
         searchParams: { datastoreName, entryKey, scope },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "deleteStandardDatastoreEntry")),
-        credentialsOverride: getCredentialsOverride(overrides),
-        validStatusCodes: [ 204 ]
+        validStatusCodes: [ 204 ],
+        apiName, methodName: "deleteStandardDatastoreEntry", overrides
       }
     )
 
-    return buildResponse({ rawBody, data: true as const, response, cache })
-  }, [204])
+    return buildResponse({ rawBody, data: true as const, response, cacheMetadata })
+  })
 }
 
 
@@ -276,28 +268,25 @@ export async function deleteStandardDatastoreEntry(
  * @exampleRawBody 2
  */ 
   export async function incrementStandardDatastoreEntry(
-  this: ThisAllOverrides, universeId: number, datastoreName: string, entryKey: string, incrementBy: number, config?: IncrementStandardDatastoreEntryConfig
+  this: ThisAllOverrides, universeId: Identifier, datastoreName: string, entryKey: string, incrementBy: number, config?: IncrementStandardDatastoreEntryConfig
 ): ApiMethodResponse<number> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
     const [ scope, entryAttributes, entryUserIds ] = [ config?.scope, config?.entryAttributes, config?.entryUserIds ]
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<number>(
+    const { rawBody, response, cacheMetadata } = await this.http.post<number>(
       `${baseUrl}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/increment`, {
         searchParams: {  datastoreName, entryKey, incrementBy, scope },
         headers: {
           "roblox-entry-attributes": entryAttributes && JSON.stringify(entryAttributes),
           "roblox-entry-userids": entryUserIds && `[${entryUserIds?.join(",")}]`,
         },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
-          apiName, "incrementStandardDatastoreEntry"
-        )),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "incrementStandardDatastoreEntry", overrides
       }
     )
 
-    return buildResponse({ rawBody, data: rawBody, response, cache })
-  }, [204])
+    return buildResponse({ rawBody, data: rawBody, response, cacheMetadata })
+  })
 }
 
 
@@ -322,16 +311,15 @@ export async function deleteStandardDatastoreEntry(
  * @exampleRawBody { entry: { Gold: 6, Iron: 57 }, checksumsMatch: true, metadata: { contentMD5: "hGwoaGwduF4bOhexREYGkA==", entryVersion: "08DBB6A47FDE6132.0000000016.08DBB782CEE11766.01", entryCreatedTime: 2023-09-16T11:03:03.922Z, entryVersionCreatedTime: 2023-09-17T13:34:24.754Z, entryAttributes: null, entryUserIds: [ 45348281 ] } }
  */ 
 export async function standardDatastoreEntryVersion<Schema>(
-  this: ThisAllOverrides, universeId: number, datastoreName: string, entryKey: string, versionId: string, scope?: string
+  this: ThisAllOverrides, universeId: Identifier, datastoreName: string, entryKey: string, versionId: string, scope?: string
 ): ApiMethodResponse<PrettifyKeyof<Schema>, StandardDatastoreEntryData<Schema>> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<PrettifyKeyof<Schema>>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<PrettifyKeyof<Schema>>(
       `${baseUrl}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions/version`, {
         searchParams: {  datastoreName, entryKey, versionId, scope },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "standardDatastoreEntryVersion")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "standardDatastoreEntryVersion", overrides
       }
     )
 
@@ -358,8 +346,8 @@ export async function standardDatastoreEntryVersion<Schema>(
       }
     }
 
-    return buildResponse({ rawBody, data: getFormattedData, response, cache })
-  }, [204])
+    return buildResponse({ rawBody, data: getFormattedData, response, cacheMetadata })
+  })
 }
 
 
@@ -388,20 +376,17 @@ export async function standardDatastoreEntryVersion<Schema>(
  * @exampleRawBody { versions: [ { version: "08DBB6A47FDE6132.0000000010.08DBB781B9579F00.01", deleted: false, contentLength: 20, createdTime: "2023-09-17T13:26:39.124Z", objectCreatedTime: "2023-09-16T11:03:03.922Z" } ] }
  */ 
 export async function listStandardDatastoreEntryVersions(
-  this: ThisAllOverrides, universeId: number, datastoreName: string, entryKey: string,
+  this: ThisAllOverrides, universeId: Identifier, datastoreName: string, entryKey: string,
   config?: ListStandardDatastoreEntryVersionsConfig, cursor?: string
 ): ApiMethodResponse<RawListStandardDatastoreEntryVersionsData, FormattedListStandardDatastoreEntryVersionsData, "PAGINATED"> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
     const [ scope, startTime, endTime, sortOrder, limit ] = [ config?.scope, config?.startTime, config?.endTime, config?.sortOrder, config?.limit ]
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawListStandardDatastoreEntryVersionsData>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<RawListStandardDatastoreEntryVersionsData>(
       `${baseUrl}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions`, {
         searchParams: {  datastoreName, entryKey, scope, startTime, endTime, sortOrder, limit, cursor },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
-          apiName, "listStandardDatastoreEntryVersions")
-        ),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "listStandardDatastoreEntryVersions", overrides
       }
     )
 
@@ -414,7 +399,7 @@ export async function listStandardDatastoreEntryVersions(
       })
     })
 
-    return buildResponse({ rawBody, data: getFormattedData, response, cache, cursors: { next: rawBody.nextPageCursor } })
-  }, [204])
+    return buildResponse({ rawBody, data: getFormattedData, response, cacheMetadata, cursors: { next: rawBody.nextPageCursor } })
+  })
 }
 

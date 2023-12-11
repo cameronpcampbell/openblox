@@ -1,11 +1,10 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
-import { MD5 } from "crypto-js"
 import { Redis } from "ioredis"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
-import type { CacheAdapterConfig, IncludedConfig } from "../cacheAdapters.types"
+import type { CacheAdapter } from "../cacheAdapters.types"
 
 type IncludedSettings = { lifetime: number | "inf" }
 
@@ -14,45 +13,43 @@ export type RedisConnectionUrl = `redis://${string}` | `rediss://${string}`
 type RedisCacheAdapterConfig = {
   connectionUrl: RedisConnectionUrl,
   keysPrefix?: string,
-  included?: IncludedConfig<IncludedSettings & {}> & {}
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const RedisCacheAdapter = ({ connectionUrl, keysPrefix = "openblox", included = "!" }: RedisCacheAdapterConfig): CacheAdapterConfig<IncludedSettings> => {
+export const RedisCacheAdapter: CacheAdapter<IncludedSettings, RedisCacheAdapterConfig> = (
+  { connectionUrl, included = "!", alias }
+) => {
   return {
-    get: async ({ key, keyData }) => {
+    get: async (key) => {
       try {
-        console.log("Getting")
-        
-        const fullKey = `${keysPrefix ? `${keysPrefix}:` : ""}${key}${keyData ? `:${MD5(JSON.stringify(keyData)).toString()}` : ""}`
+        console.log("Getting") // temporary for debug purposes
 
         const redis = new Redis(connectionUrl)
   
-        const data = await redis.get(fullKey)
+        const data = await redis.get(key)
         redis.disconnect()
-    
+        
         return data ? JSON.parse(data) : undefined
       } catch (e) { console.log("Failed To Get", e) }
     },
 
-    set: async ({ key, keyData, value }, cacheSettings) => {
+    set: async (key, value, cacheSettings) => {
       try {
-        console.log("Setting")
+        console.log("Setting") // temporary for debug purposes
 
         const lifetime = cacheSettings.lifetime
-        const fullKey = `${keysPrefix ? `${keysPrefix}:` : ""}${key}${keyData ? `:${MD5(JSON.stringify(keyData)).toString()}` : ""}`
-
-        console.log(lifetime)
 
         const redis = new Redis(connectionUrl)
         lifetime == "inf" ?
-          await redis.set(fullKey, JSON.stringify(value))
+          await redis.set(key, JSON.stringify(value.rawBody ?? value.dataAndRawBody))
         :
-          await redis.setex(fullKey, lifetime, JSON.stringify(value))
+          await redis.setex(key, lifetime, JSON.stringify({
+            rawBody: value.rawBody ?? value.dataAndRawBody, timestamp: value.timestamp
+          }))
         redis.disconnect()
       } catch (e) { console.log("Failed To Set", e) }
     },
 
-    included: included
+    included, alias
   }
 }

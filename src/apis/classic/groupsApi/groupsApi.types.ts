@@ -1,11 +1,11 @@
-import type { AnyObject, ArrWithObjectsToCamelCase, KeysToCamelCase, ObjectValues, OptionalHttp, PrettifyKeyof, PrettifyUnion, UnionToArray } from "../../../utils/utils.types"
+import type { AnyObject, ArrWithObjectsToCamelCase, Identifier, IdentifierToNumber, KeysToCamelCase, ObjectValues, OptionalHttp, PrettifyKeyof, PrettifyUnion, UnionToArray } from "../../../utils/utils.types"
 import type { DataWithCursors } from "../../apis.types"
 
 
 // [ GROUPS ] ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/groups/{groupId} ------------------------------------------------------------------------------------------
-export type GroupInfoData<GroupId extends number> = PrettifyKeyof<{
-  id: GroupId,
+export type GroupInfoData<GroupId extends Identifier> = PrettifyKeyof<{
+  id: IdentifierToNumber<GroupId>,
   name: string,
   description: string,
   owner: {
@@ -31,7 +31,7 @@ export type GroupInfoData<GroupId extends number> = PrettifyKeyof<{
   hasVerifiedBadge: boolean
 }>
 
-export type FormattedGroupInfoData<GroupId extends number> = PrettifyKeyof<Omit<GroupInfoData<GroupId>, "shout"> & {
+export type FormattedGroupInfoData<GroupId extends Identifier> = PrettifyKeyof<Omit<GroupInfoData<GroupId>, "shout"> & {
   shout?: {
     body: string,
     poster: {
@@ -342,7 +342,7 @@ export type RawGroupPolicyInfoData = PrettifyKeyof<{
   }[]
 }>
 
-export type FormattedGroupPolicyInfoData<GroupId extends number> = PrettifyKeyof<
+export type FormattedGroupPolicyInfoData<GroupId extends Identifier> = PrettifyKeyof<
   Record<GroupId, { 
     canViewGroup: boolean,
   }>
@@ -381,11 +381,11 @@ export type FormattedGroupShoutData<Body extends string> = GroupShoutData<Body, 
 
 
 // [ MEMBERSHIP ] ////////////////////////////////////////////////////////////////////////////////////////////////////
-type GroupJoinRequest<TimeType, UserId = number> = PrettifyKeyof<{
+type GroupJoinRequest<TimeType, UserId extends Identifier = number> = PrettifyKeyof<{
   requester: {
     buildersClubMembershipType: number,
     hasVerifiedBadge: true,
-    userId: UserId,
+    userId: IdentifierToNumber<UserId>,
     username: string,
     displayName: string
   },
@@ -402,15 +402,15 @@ export type FormattedGroupJoinRequests = GroupJoinRequests<Date>
 
 
 // GET /v1/groups/{groupId}/join-requests ----------------------------------------------------------------------------
-export type RawGroupJoinRequestForUser<UserId extends number = number> = GroupJoinRequest<string, UserId>
+export type RawGroupJoinRequestForUser<UserId extends Identifier> = GroupJoinRequest<string, UserId>
 
-export type FormattedGroupJoinRequestForUser<UserId extends number = number> = PrettifyKeyof<GroupJoinRequest<Date, UserId>>
+export type FormattedGroupJoinRequestForUser<UserId extends Identifier> = PrettifyKeyof<GroupJoinRequest<Date, UserId>>
 // -------------------------------------------------------------------------------------------------------------------
 
 
 // GET /v1/groups/{groupId}/membership -------------------------------------------------------------------------------
-export type AuthenticatedUserGroupMembershipInfoData<GroupId extends number> = PrettifyKeyof<{
-  groupId: GroupId,
+export type AuthenticatedUserGroupMembershipInfoData<GroupId extends Identifier> = PrettifyKeyof<{
+  groupId: IdentifierToNumber<GroupId>,
   isPrimary: boolean,
   isPendingJoin: boolean,
   userRole: {
@@ -479,8 +479,8 @@ export type FormattedAllRolesForGroupData = PrettifyKeyof<{
   memberCount: number
 }[]>
 
-export type RawAllRolesForGroupData<GroupId extends number> = PrettifyKeyof<{
-  groupId: GroupId,
+export type RawAllRolesForGroupData<GroupId extends Identifier> = PrettifyKeyof<{
+  groupId: IdentifierToNumber<GroupId>,
   roles: FormattedAllRolesForGroupData
 }>
 // -------------------------------------------------------------------------------------------------------------------
@@ -681,8 +681,8 @@ export type RawGroupPayoutsData = PrettifyKeyof<{
 // [ RELATIONSHIPS ] /////////////////////////////////////////////////////////////////////////////////////////////////
 export type GroupRelationshipType = "Enemies" | "Allies"
 
-type GroupRelationshipsData<GroupId extends number, TimeType> = PrettifyKeyof<{
-  groupId: GroupId,
+type GroupRelationshipsData<GroupId extends Identifier, TimeType> = PrettifyKeyof<{
+  groupId: IdentifierToNumber<GroupId>,
   relationshipType: GroupRelationshipType,
   totalGroupCount: number,
   relatedGroups: {
@@ -715,17 +715,17 @@ type GroupRelationshipsData<GroupId extends number, TimeType> = PrettifyKeyof<{
   nextRowIndex: number
 }>
 
-export type RawGroupRelationshipsData<GroupId extends number> = PrettifyKeyof<GroupRelationshipsData<GroupId, string>>
+export type RawGroupRelationshipsData<GroupId extends Identifier> = PrettifyKeyof<GroupRelationshipsData<GroupId, string>>
 
-export type FormattedGroupRelationshipsData<GroupId extends number> = GroupRelationshipsData<GroupId, Date>
+export type FormattedGroupRelationshipsData<GroupId extends Identifier> = GroupRelationshipsData<GroupId, Date>
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // [ PERMISSIONS ] ///////////////////////////////////////////////////////////////////////////////////////////////////
-export type GroupRolePermissionsData<GroupId extends number, RoleId extends number> = PrettifyKeyof<{
-  groupId: GroupId,
+export type GroupRolePermissionsData<GroupId extends Identifier, RoleSetId extends Identifier> = PrettifyKeyof<{
+  groupId: IdentifierToNumber<GroupId>,
   role: {
-    id: RoleId,
+    id: IdentifierToNumber<RoleSetId>,
     name: string,
     description: string,
     rank: number
@@ -793,11 +793,11 @@ export type GroupRolePermissions = {
 
 
 // GET /v1/groups/{groupId}/roles/permissions ------------------------------------------------------------------------
-export type RawGroupPermissionsForAllRoles<GroupId extends number> = PrettifyKeyof<{
+export type RawGroupPermissionsForAllRoles<GroupId extends Identifier> = PrettifyKeyof<{
   data: GroupRolePermissionsData<GroupId, number>[]
 }>
 
-export type FormattedGroupPermissionsForAllRoles<GroupId extends number> = PrettifyKeyof<GroupRolePermissionsData<GroupId, number>[]>
+export type FormattedGroupPermissionsForAllRoles<GroupId extends Identifier> = PrettifyKeyof<GroupRolePermissionsData<GroupId, number>[]>
 // -------------------------------------------------------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -916,7 +916,7 @@ export type FormattedGroupSearchMetadata = PrettifyKeyof<KeysToCamelCase<RawGrou
 
 // [ ROLES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/roles -----------------------------------------------------------------------------------------------------
-export type RawGroupRolesFromIdsData<RoleId extends number> = PrettifyKeyof<{
+export type RawGroupRolesFromIdsData<RoleId extends Identifier> = PrettifyKeyof<{
   data: UnionToArray<ObjectValues<{
     [Key in RoleId]: PrettifyKeyof<{
       groupId: number,
@@ -927,7 +927,7 @@ export type RawGroupRolesFromIdsData<RoleId extends number> = PrettifyKeyof<{
   }>>
 }>
 
-export type FormattedGroupRolesFromIdsData<RoleId extends number> = PrettifyKeyof<{
+export type FormattedGroupRolesFromIdsData<RoleId extends Identifier> = PrettifyKeyof<{
   [Key in RoleId]: PrettifyKeyof<{
     groupId: number,
     name: string,
@@ -1002,7 +1002,7 @@ export type UpdateRoleSetData<Request extends UpdateRoleSetRequest> = PrettifyKe
 
 // [ GROUPS V2 ] /////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v2/groups ----------------------------------------------------------------------------------------------------
-export type RawGroupIdsToGroupsInfoData<GroupId extends number>= PrettifyKeyof<{
+export type RawGroupIdsToGroupsInfoData<GroupId extends Identifier>= PrettifyKeyof<{
   data: UnionToArray<ObjectValues<{
     [Key in GroupId]: PrettifyKeyof<{
       id: Key,
@@ -1018,7 +1018,7 @@ export type RawGroupIdsToGroupsInfoData<GroupId extends number>= PrettifyKeyof<{
   }>>
 }>
 
-export type FormattedGroupIdsToGroupsInfoData<GroupId extends number> = PrettifyKeyof<Record<GroupId, {
+export type FormattedGroupIdsToGroupsInfoData<GroupId extends Identifier> = PrettifyKeyof<Record<GroupId, {
   name: string,
   description: string,
   owner: {

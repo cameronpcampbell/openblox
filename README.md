@@ -111,7 +111,8 @@ const { data:success } = await ClassicGroupsApi.setGroupSettings(5850082, {
   isBuildersClubRequired: false,
   areEnemiesAllowed: true,
   areGroupFundsVisible: false,
-  areGroupGamesVisible: true, isGroupNameChangeEnabled: true
+  areGroupGamesVisible: true,
+  isGroupNameChangeEnabled: true
 })
 const { data:configMetadata } = await ClassicGroupsApi.groupConfigMetadata()
 const { data:metadata } = await ClassicGroupsApi.groupsMetadata()
@@ -399,29 +400,42 @@ Main();
 # Redis Caching
 Openblox has in built support for caching. With caching, the results from specific wrapper functions are stored. This means that when you use one of these wrapper functions again it uses the stored result instead of sending a request to the Roblox API endpoint again. This can help against being throttled in a way that does not abuse the Roblox API or violate the Roblox TOS.
 
-Caching can be enabled via the `setConfig` function.
+Caching can be enabled via the `setOpenbloxConfig` function.
 
-The example below demonstrates how caching works (it also assumes that the cache is empty before it is ran):
+The example below demonstrates how caching works (it also assumes the cache is empty before it is ran):
 
 ```ts
 import "dotenv/config"
-import { setConfig, RobloSecurityCookie } from "openblox/config";
+import { setOpenbloxConfig, cacheKeyBuildFunctions, type RobloSecurityCookie } from "openblox/config";
 import { RedisCacheAdapter, RedisConnectionUrl } from "openblox/cacheAdapters/redis"
 import { ClassicUsersApi } from "openblox/apis/classic";
 
-setConfig({
+setOpenbloxConfig({
   cookie: process.env.ROBLOX_COOKIE as RobloSecurityCookie,
 
-  cacheAdapter: RedisCacheAdapter({
-    // Specifies the redis db to connect to.
-    connectionUrl: process.env.REDIS_URL as RedisConnectionUrl,
+  caching: {
     // The prefix to use for all keys for cached api data (optional).
-    keysPrefix: "openblox",
-    // The wrapper functions to enable caching for (below only the `ClassicUsersApi` is specified to be cached).
-    included: {
-      ClassicUsersApi: { lifetime: 500 }
+    keyPrefix: "openblox",
+
+    // If enabled then the formatted data (the "data" property returned by all api wrapper functions) will be cached as well as the raw data (response body).
+    formattedDataIsCached: true,
+
+    // The function to use to build the cache key (defaults to "cacheKeyBuildFunctions.md5" if this property is omitted).
+    keyBuildFn: cacheKeyBuildFunctions.md5,
+
+    adapters: {
+      // creates a new redis cache with the alias (key) "myRedisCache". Alias's can be set to anything.
+      myRedisCache: RedisCacheAdapter({
+        // Specifies the redis db to connect to.
+        connectionUrl: process.env.REDIS_URL as RedisConnectionUrl,
+        
+        // The wrapper functions to enable caching for (below only the `ClassicUsersApi` is specified to be cached).
+        included: {
+          ClassicUsersApi: { lifetime: 500 }
+        }
+      })
     }
-  })
+  }
 });
 
 const Main = async () => {

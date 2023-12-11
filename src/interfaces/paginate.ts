@@ -2,6 +2,7 @@ import { find, forEach } from "p-iteration"
 import { InvalidRequestDataError } from "../errors"
 import { ApiMethodResponse } from "../apis/apis.types";
 import { ResolvedType } from "../utils/utils.types";
+import { mutateObject } from "../utils";
 
 type FnResponse = ApiMethodResponse<any, any, "PAGINATED">
 
@@ -42,18 +43,27 @@ function getParams(func:(...args: any[]) => any) {
   return params;
 }
 
+
 export const Paginate = <T extends (...args: any) => FnResponse>(
-  fn: T, middleware?: (...args: any) => Promise<any> & any
+  fn: T
 ) => {
   return async function*(...fnArgs: Parameters<T>) {
 
+    // Gets the arguments
+    let fnArgsObj: { [Key: string]: any } = {}
+    getParams(fn).forEach((name, index) => fnArgsObj[name] = fnArgs[index])
+
     while (true) {
       try {
-        const response = await fn(...(fnArgs as any)) as Awaited<ReturnType<T>>
-        yield response
+        const result = await fn(...(fnArgs as any)) as Awaited<ReturnType<T>>
+        yield result
 
-        // Gets the cursor
-        fnArgs[fnArgs.length] = response.cursors.next
+        // Gets the cursor.
+        const cursor = result.cursors.next
+        if (!cursor) return
+
+        fnArgsObj.cursor = cursor
+        fnArgs = Object.values(fnArgsObj) as Parameters<T>
 
       } catch (error:unknown) {
         if (!(error instanceof InvalidRequestDataError)) throw error

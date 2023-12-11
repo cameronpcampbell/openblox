@@ -1,4 +1,4 @@
-import { FirstChild, Prettify, PrettifyKeyof } from "../../../utils/utils.types"
+import { Identifier, Prettify, PrettifyArray, PrettifyKeyof, IdentifierToNumber } from "../../../utils/utils.types"
 
 // [ ACCOUNT INFORMATION ] ///////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/birthdate
@@ -32,18 +32,18 @@ export type FormattedValidateDisplayNameForExistingUserData = Prettify<boolean>
 
 // [ USERS ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/users/{userId}
-type UserInfoData<UserId extends number, TimeType> = PrettifyKeyof<{
+type UserInfoData<UserId extends Identifier, TimeType> = PrettifyKeyof<{
   description: string,
   created: TimeType,
   isBanned: boolean,
   externalAppDisplayName: string | null,
   hasVerifiedBadge: boolean,
-  id: UserId,
+  id: IdentifierToNumber<UserId>,
   name: string,
   displayName: string
 }>
-export type RawUserInfoData<UserId extends number> = UserInfoData<UserId, string>
-export type FormattedUserInfoData<UserId extends number> = UserInfoData<UserId, Date>
+export type RawUserInfoData<UserId extends Identifier> = UserInfoData<UserId, string>
+export type FormattedUserInfoData<UserId extends Identifier> = UserInfoData<UserId, Date>
 
 // GET /v1/users/authenticated
 export type AuthenticatedUserInfoData = PrettifyKeyof<{
@@ -92,7 +92,7 @@ export type UserIdsToUsersInfoData = Prettify<{
     displayName: string
   }[]
 }>
-export type FormattedUserIdsToUsersInfoData<UserId extends number> = PrettifyKeyof<
+export type FormattedUserIdsToUsersInfoData<UserId extends Identifier> = PrettifyKeyof<
   Record<UserId, { 
     hasVerifiedBadge: boolean,
     name: string,

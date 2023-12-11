@@ -5,7 +5,7 @@ type InventoryItem_Asset = PrettifyKeyof<{
   path: string,
   assetDetails?: {
     assetId: string,
-    inventoryItemAssetType: InventoryItemType_Asset,
+    inventoryItemAssetType: PrettifyUnion<InventoryItemType_Asset>,
     instanceId: string,
     collectibleDetails?: {
       itemId: string,
@@ -36,7 +36,7 @@ type InventoryItemType_PrivateServer = PrettifyKeyof<{
 
 export type InventoryItemsForUserFilter_TypeFields = {
   onlyCollectibles?: boolean,
-  inventoryItemAssetTypes?: InventoryItemType_Asset[] | "*",
+  inventoryItemAssetTypes?: PrettifyUnion<InventoryItemType_Asset[] | "*">,
   badges?: true,
   gamePasses?: true,
   privateServers?: true
@@ -50,7 +50,7 @@ export type InventoryItemsForUserFilter_IdFields = {
 export type InventoryItemsForUserFilter = Either<InventoryItemsForUserFilter_TypeFields, InventoryItemsForUserFilter_IdFields>
 
 export type RawInventoryItemsForUserData = PrettifyKeyof<{
-  inventoryItems: PrettifyArray<Array<InventoryItem_Asset & InventoryItemType_Badge & InventoryItemType_GamePass & InventoryItemType_PrivateServer>>,
+  inventoryItems: PrettifyKeyof<InventoryItem_Asset & InventoryItemType_Badge & InventoryItemType_GamePass & InventoryItemType_PrivateServer>[],
   nextPageToken?: string
 }>
 

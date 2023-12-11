@@ -4,27 +4,30 @@ import { AgnosticResponse } from "../httpAdapters"
 
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
-import type { CacheAdapterConfig, CacheResultType } from "../../cacheAdapters/cacheAdapters.types"
-import type { CredentialsOverride, RobloSecurityCookie } from "../../config/config.types"
+import type { AllOverrides, CacheSettings, RobloSecurityCookie } from "../../config/config.types"
 import type { AnyObject, NonEmptyArray, PrettifyKeyof } from "../../utils/utils.types"
 import type { HttpAdapterConfig } from "../httpAdapters/httpAdapters.types"
+import { ApiName } from "../../apis/apis.types"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 export type HttpHandlerConfig = {
-  cookie?: RobloSecurityCookie,
+  cookie?: `.ROBLOSECURITY=${RobloSecurityCookie}`,
   cloudKey?: string,
-  cacheAdapter?: CacheAdapterConfig,
-  csrfRetries?: number,
+  caching?: CacheSettings,
+  maxCsrfAttempts?: number,
   httpAdapter?: HttpAdapterConfig,
+  hardwareBackedAuthentication?: boolean
 }
 
 export type HttpRequestConfigSafeMethod = PrettifyKeyof<{
   searchParams?: { [key: string]: any },
-  credentialsOverride?: CredentialsOverride | undefined,
-  cacheSettings?: AnyObject | "!",
   validStatusCodes?: NonEmptyArray<number>,
-  headers?: { [key: string]: string|undefined|null|false }
+  headers?: { [key: string]: string|undefined|null|false },
+
+  apiName: ApiName,
+  methodName: string,
+  overrides?: AllOverrides,
 }>
 
 export type HttpRequestConfigUnsafeMethod = PrettifyKeyof<HttpRequestConfigSafeMethod & {
@@ -34,5 +37,10 @@ export type HttpRequestConfigUnsafeMethod = PrettifyKeyof<HttpRequestConfigSafeM
 }>
 
 export type MethodResponse<ResponseBody extends any = {}> = Promise<{
-  response?: AgnosticResponse, data: ResponseBody, cachedResultType: CacheResultType
+  response?: AgnosticResponse, rawBody: ResponseBody, cacheMetadata: any/*CacheMetadata*/
 }>
+
+/*export type CacheAdapterGetResponse<ResponseBody> = {
+  /*cacheMetadata: CacheMetadata,
+  rawBodyAndData?: { rawBody: ResponseBody, data?: any }
+}*/

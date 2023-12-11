@@ -6,7 +6,7 @@ import { AgnosticResponse } from "../http/httpAdapters/httpAdapters.utils"
 
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
-import type { AnyError } from "parse-roblox-errors-node"
+import type { AnyError } from "parse-roblox-errors"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export class ThrottledError extends Error {
@@ -64,6 +64,7 @@ export class NoCsrfTokenError extends Error {
   errors: AnyError[]
 
   constructor(errorRes: AgnosticResponse) {
+    console.log(errorRes)
     const errors = errorRes.errors as AnyError[]
 
     super(errors?.[0]?.message ?? "CSRF token was missing.")

@@ -1,4 +1,4 @@
-import { PrettifyKeyof, PrettifyUnion, UnionLength, UnionRange } from "../../../utils/utils.types"
+import { Identifier, IdentifierToNumber, PrettifyKeyof, PrettifyUnion, UnionLength, UnionRange } from "../../../utils/utils.types"
 
 
 export type SubscriptionType = "Durable" | "Consumable" | "Currency"
@@ -15,11 +15,11 @@ type SubscriptionTypeToId<Type extends SubscriptionType> = (
 
 // POST /v1/experiences/{universeId}/experience-subscriptions --------------------------------------------------------
 export type RawCreateSubscriptionData<
-UniverseId extends number, Name extends string, Description extends string, Type extends SubscriptionType
+UniverseId extends Identifier, Name extends string, Description extends string, Type extends SubscriptionType
 > = PrettifyKeyof<{
   developerSubscription: {
       id: `${number}`,
-      universeId: UniverseId,
+      universeId: IdentifierToNumber<UniverseId>,
       shopId: number,
       name: Name,
       description: Description,
@@ -33,10 +33,10 @@ UniverseId extends number, Name extends string, Description extends string, Type
 }>
 
 export type FormattedCreateSubscriptionData<
-  UniverseId extends number, Name extends string, Description extends string, Type extends SubscriptionType
+  UniverseId extends Identifier, Name extends string, Description extends string, Type extends SubscriptionType
 > = PrettifyKeyof<{
   id: `${number}`,
-  universeId: UniverseId,
+  universeId: IdentifierToNumber<UniverseId>,
   shopId: number,
   name: Name,
   description: Description,
@@ -51,9 +51,9 @@ export type FormattedCreateSubscriptionData<
 
 
 // GET /v1/experiences/{universeId}/experience-subscriptions ---------------------------------------------------------
-export type FormattedSubscriptionsForUniverseData<UniverseId extends number> = PrettifyKeyof<{
+export type FormattedSubscriptionsForUniverseData<UniverseId extends Identifier> = PrettifyKeyof<{
     id: `${number}`,
-    universeId: UniverseId,
+    universeId: IdentifierToNumber<UniverseId>,
     name: string,
     description: string,
     imageAssetId: number,
@@ -66,10 +66,10 @@ export type FormattedSubscriptionsForUniverseData<UniverseId extends number> = P
     updatedTimestampMs: number,
 }[]>
 
-export type RawSubscriptionsForUniverseData<UniverseId extends number> = PrettifyKeyof<{
+export type RawSubscriptionsForUniverseData<UniverseId extends Identifier> = PrettifyKeyof<{
   developerSubscriptions: {
     id: `${number}`,
-    universeId: UniverseId,
+    universeId: IdentifierToNumber<UniverseId>,
     name: string,
     description: string,
     imageAssetId: number,
@@ -88,9 +88,9 @@ export type RawSubscriptionsForUniverseData<UniverseId extends number> = Prettif
 
 
 // GET /v1/experiences/{universeId}/experience-subscriptions/{subscriptionId} ----------------------------------------
-export type RawSubscriptionInfoData<UniverseId extends number, SubscriptionId extends `${number}`> = PrettifyKeyof<{
+export type RawSubscriptionInfoData<UniverseId extends Identifier, SubscriptionId extends `${number}`> = PrettifyKeyof<{
   id: SubscriptionId,
-  universeId: UniverseId,
+  universeId: IdentifierToNumber<UniverseId>,
   name: string,
   description: string,
   imageAssetId: number,
@@ -102,9 +102,9 @@ export type RawSubscriptionInfoData<UniverseId extends number, SubscriptionId ex
   updatedTimestampMs: number
 }>
 
-export type FormattedSubscriptionInfoData<UniverseId extends number, SubscriptionId extends `${number}`> = PrettifyKeyof<{
+export type FormattedSubscriptionInfoData<UniverseId extends Identifier, SubscriptionId extends `${number}`> = PrettifyKeyof<{
   id: SubscriptionId,
-  universeId: UniverseId,
+  universeId: IdentifierToNumber<UniverseId>,
   name: string,
   description: string,
   imageAssetId: number,

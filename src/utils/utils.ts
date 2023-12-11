@@ -1,7 +1,6 @@
 import { every, filter, forEach, map, some } from "p-iteration";
-import cloneDeep from "lodash.clonedeep"
-import { MD5 } from 'crypto-js';
-import base64 from "crypto-js/enc-base64"
+import { cloneDeep } from "lodash"
+import { createHash } from "crypto"
 
 type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 
@@ -136,7 +135,7 @@ export const removeEntriesWhereUndefinedValues = (inputObject: { [key: string]: 
   return filteredObject;
 }
 
-export const calculateContentMD5 = (content: string) => MD5(content).toString(base64)
+export const calculateContentMD5 = (content: string) => createHash("md5").update(content).digest("base64")
 
 export const isObjectOrArray = (arg: any) => {
   if (arg !== undefined && arg !== null && (Array.isArray(arg) || typeof arg === "object")) return true

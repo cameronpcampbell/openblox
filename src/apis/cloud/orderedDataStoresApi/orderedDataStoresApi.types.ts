@@ -1,7 +1,7 @@
-import { PrettifyKeyof } from "../../../utils/utils.types"
+import { Identifier, PrettifyKeyof } from "../../../utils/utils.types"
 
 export type OrderedDatastoreEntry<
-  UniverseId extends number, OrderedDataStore extends string, Scope extends string, Id extends string, Value extends number = number
+  UniverseId extends Identifier, OrderedDataStore extends string, Scope extends string, Id extends string, Value extends number = number
 > = PrettifyKeyof<{
   path: `universes/${UniverseId}/orderedDataStores/${OrderedDataStore}/scopes/${Scope}/entries/${Id}`,
   value: Value,
@@ -10,9 +10,9 @@ export type OrderedDatastoreEntry<
 
 // GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries ------------------------
 export type ListOrderedDatastoreEntriesConfig = PrettifyKeyof<{
-  maxPageSize: number,
-  orderBy: "desc" | "asc",
-  filter: string
+  maxPageSize?: number,
+  orderBy?: "desc" | "asc",
+  filter?: string
 }>
 
 export type FormattedListOrderedDatastoreEntriesData = PrettifyKeyof<{

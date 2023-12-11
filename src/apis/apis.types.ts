@@ -5,11 +5,11 @@ import * as _AllCloudApis from "./cloud"
 
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
-import type { AnyObject, Only, KeysOfTypeFunction, PrettifyKeyof } from "../utils/utils.types"
+import type { AnyObject, KeysOfTypeFunction, ObjectValues, PrettifyKeyof, PrettifyUnion, UnionToArray } from "../utils/utils.types"
 import { AgnosticResponse } from "../http/httpAdapters"
-import { CacheResultType } from "../cacheAdapters/cacheAdapters.types"
+import { CacheMetadata } from "../cache/cacheAdapters/cacheAdapters.types"
+import { Add } from "ts-arithmetic"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 export type AllClassicApis = typeof _AllClassicApis
 export type AllCloudApis = typeof _AllCloudApis
@@ -27,7 +27,6 @@ export type ApiMethodNames = {
   [ApiKey in ApiName]: keyof ApiMethods[ApiKey] & {}
 }
 
-
 export type SortOrder = "Asc" | "Desc"
 
 export type DataWithCursors<Data extends AnyObject> = {
@@ -42,18 +41,20 @@ type ApiMethodResponseBase<RawBody, Data> = PrettifyKeyof<{
   rawBody: RawBody,
   data: Data,
   response?: AgnosticResponse,
-  cache: CacheResultType
+  cacheMetadata: CacheMetadata<RawBody, Data>
 }>
 
+export type ApiMethodResponse_Cursors = {
+  previous?: string|number,
+  next?: string|number
+}
+
 export type ApiMethodResponse<
-  RawData, FormattedData = RawData, Pagination extends "PAGINATED" | false = false
+  RawData = unknown, FormattedData = RawData, Pagination extends "PAGINATED" | false = false
 > = Promise<
   PrettifyKeyof<
     Pagination extends "PAGINATED" ? ApiMethodResponseBase<RawData, FormattedData> & {
-      cursors: {
-        previous?: string|number,
-        next?: string|number
-      }
+      cursors: ApiMethodResponse_Cursors
     }
 
     : ApiMethodResponseBase<RawData, FormattedData>

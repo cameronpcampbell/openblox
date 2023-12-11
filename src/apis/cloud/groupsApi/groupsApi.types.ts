@@ -1,9 +1,9 @@
-import { Either, PrettifyKeyof } from "../../../utils/utils.types"
+import { Either, Identifier, PrettifyKeyof } from "../../../utils/utils.types"
 
 
 // [ GROUPS ] ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v2/groups/{groupId} ------------------------------------------------------------------------------------------
-type GroupInfoData<GroupId extends number, TimeType> = PrettifyKeyof<{
+type GroupInfoData<GroupId extends Identifier, TimeType> = PrettifyKeyof<{
   path: `groups/${GroupId}`,
   createTime: TimeType,
   updateTime: TimeType,
@@ -17,9 +17,9 @@ type GroupInfoData<GroupId extends number, TimeType> = PrettifyKeyof<{
   verified: boolean
 }>
 
-export type RawGroupInfoData<GroupId extends number> = PrettifyKeyof<GroupInfoData<GroupId, string>>
+export type RawGroupInfoData<GroupId extends Identifier> = PrettifyKeyof<GroupInfoData<GroupId, string>>
 
-export type FormattedGroupInfoData<GroupId extends number>  = PrettifyKeyof<GroupInfoData<GroupId, Date>>
+export type FormattedGroupInfoData<GroupId extends Identifier>  = PrettifyKeyof<GroupInfoData<GroupId, Date>>
 // -------------------------------------------------------------------------------------------------------------------
 
 
@@ -28,7 +28,7 @@ type GroupMembershipsFilterByUser = { userId: number }
 type GroupMembershipsFilterByRole = { roleId: number }
 type GroupMembershipsFilterByUsers = { userIds: number[] }
 
-export type GroupMembershipsFilter<GroupId extends number | "-" | void = void> =
+export type GroupMembershipsFilter<GroupId extends Identifier | "-" | void = void> =
 GroupId extends "-" ?
   GroupMembershipsFilterByUsers
 : GroupId extends number ?
@@ -37,7 +37,7 @@ GroupId extends "-" ?
   GroupMembershipsFilterByUser | GroupMembershipsFilterByRole | GroupMembershipsFilterByUsers
 : never
 
-type GroupMemberships<GroupId extends number | "-", TimeFormat> = PrettifyKeyof<{
+type GroupMemberships<GroupId extends Identifier | "-", TimeFormat> = PrettifyKeyof<{
   path: `groups/${GroupId}/memberships/${string}`,
     createTime: TimeFormat,
     updateTime: TimeFormat,
@@ -45,12 +45,12 @@ type GroupMemberships<GroupId extends number | "-", TimeFormat> = PrettifyKeyof<
     role: `groups/${GroupId}/roles/${number}`
 }>
 
-export type RawGroupMembershipsData<GroupId extends number | "-"> = PrettifyKeyof<{
+export type RawGroupMembershipsData<GroupId extends Identifier | "-"> = PrettifyKeyof<{
   groupMemberships: GroupMemberships<GroupId, string>[],
   nextPageToken?: string
 }>
 
-export type FormattedGroupMembershipsData<GroupId extends number | "-"> = PrettifyKeyof<GroupMemberships<GroupId, Date>[]>
+export type FormattedGroupMembershipsData<GroupId extends Identifier | "-"> = PrettifyKeyof<GroupMemberships<GroupId, Date>[]>
 // -------------------------------------------------------------------------------------------------------------------
 
 
@@ -76,7 +76,7 @@ type GroupRolesPermissions = {
   manageApiKeys: boolean
 }
 
-type GroupRolesData<GroupId extends number, TimeType> = PrettifyKeyof<{
+type GroupRolesData<GroupId extends Identifier, TimeType> = PrettifyKeyof<{
   path: `groups/${GroupId}/roles/${number}`,
   createTime: TimeType,
   updateTime: TimeType,
@@ -88,19 +88,19 @@ type GroupRolesData<GroupId extends number, TimeType> = PrettifyKeyof<{
   permissions: GroupRolesPermissions
 }[]>
 
-export type RawGroupRolesData<GroupId extends number> = PrettifyKeyof<{
+export type RawGroupRolesData<GroupId extends Identifier> = PrettifyKeyof<{
   groupRoles: GroupRolesData<GroupId, string>,
   nextPageToken?: string
 }>
 
-export type FormattedGroupRolesData<GroupId extends number> = PrettifyKeyof<
+export type FormattedGroupRolesData<GroupId extends Identifier> = PrettifyKeyof<
   GroupRolesData<GroupId, Date>
 >
 // -------------------------------------------------------------------------------------------------------------------
 
 
 // GET /v2/groups/{groupId}/shout ------------------------------------------------------------------------------------
-type GroupShoutData<GroupId extends number, TimeType> = PrettifyKeyof<{
+type GroupShoutData<GroupId extends Identifier, TimeType> = PrettifyKeyof<{
   path: `groups/${GroupId}/shout`,
   createTime: TimeType,
   updateTime: TimeType,
@@ -108,8 +108,8 @@ type GroupShoutData<GroupId extends number, TimeType> = PrettifyKeyof<{
   poster: `users/${number}`
 }>
 
-export type RawGroupShoutData<GroupId extends number> = GroupShoutData<GroupId, string>
+export type RawGroupShoutData<GroupId extends Identifier> = GroupShoutData<GroupId, string>
 
-export type FormattedGroupShoutData<GroupId extends number> = GroupShoutData<GroupId, Date>
+export type FormattedGroupShoutData<GroupId extends Identifier> = GroupShoutData<GroupId, Date>
 // -------------------------------------------------------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

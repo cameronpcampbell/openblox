@@ -1,6 +1,7 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
-import { apiFuncBaseHandler as BaseHandler, buildApiMethodResponse as buildResponse, dataIsSuccess } from "../../apis.utils";
-import { getCacheSettingsOverride, getCredentialsOverride } from "../../../config/config";
+import { apiFuncBaseHandler as BaseHandler, buildApiMethodResponse as buildResponse } from "../../apis.utils";
+
+import * as fs from "fs"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -9,6 +10,7 @@ import type { AuthenticatedUserSubscriptionsPermissionsForUniverseData, Formatte
 import type { Config, ThisAllOverrides } from "../../../config/config.types"
 import type { ApiMethodResponse } from "../../apis.types"
 import { cloneAndMutateObject } from "../../../utils";
+import type { Identifier } from "../../../utils/utils.types";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -65,7 +67,7 @@ const subscriptionIdToPrice: { [key in SubscriptionBasePriceId]: SubsriptionPric
  * @exampleRawBody { developerSubscription: { id: "2129699544299733115", universeId: 4383627529, shopId: 4383760479, name: "Amazing Subscription", description: "Lorem Ipsum", imageAssetId: 0, periodType: 1, developerSubscriptionProductType: 2, productStatusType: 1, createdTimestampMs: 1695244795883, updatedTimestampMs: 1695244795883 } }
  */
 export async function createSubscription<
-  UniverseId extends number, Name extends string, Description extends string, Type extends SubscriptionType
+  UniverseId extends Identifier, Name extends string, Description extends string, Type extends SubscriptionType
 >(
   this: ThisAllOverrides, universeId: UniverseId, name: Name, description: Description, type: Type, price: SubsriptionPrice
 ): ApiMethodResponse<
@@ -74,7 +76,7 @@ export async function createSubscription<
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<
+    const { rawBody, response, cacheMetadata } = await this.http.post<
       RawCreateSubscriptionData<UniverseId, Name, Description, Type>
     >(
       `${baseUrl}/v1/experiences/${universeId}/experience-subscriptions`, {
@@ -82,10 +84,7 @@ export async function createSubscription<
           productName: name, productDescription: description,
           productType: subscriptionTypeToId[type], basePriceId: subscriptionPriceToId[price]
         },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
-          apiName, "createSubscription"
-        )),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "createSubscription", overrides
       }
     )
 
@@ -97,8 +96,8 @@ export async function createSubscription<
       obj.developerSubscriptionProductType = subsriptionIdToType[obj.developerSubscriptionProductType as any] as any
     })
 
-    return buildResponse({ rawBody, data: getFormattedData, response, cache })
-  }, [])
+    return buildResponse({ rawBody, data: getFormattedData, response, cacheMetadata })
+  })
 }
 
 
@@ -116,25 +115,22 @@ export async function createSubscription<
  * @exampleRawBody { status: true }
  */
   export async function setSubscriptionIcon(
-  this: ThisAllOverrides, universeId: number, subscriptionId: `${number}`, actingUserId: number, icon: Buffer
+  this: ThisAllOverrides, universeId: Identifier, subscriptionId: Identifier, actingUserId: Identifier, icon: string | Buffer
 ): ApiMethodResponse<
   { status: boolean }, boolean
 > {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<{ status: boolean }>(
+    const { rawBody, response, cacheMetadata } = await this.http.post<{ status: boolean }>(
       `${baseUrl}/v1/experiences/${universeId}/experience-subscriptions/${subscriptionId}/upload-image`, {
-        formData: { ActingUserId: actingUserId, ImageFile: new Blob([icon]) },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
-          apiName, "setSubscriptionIcon"
-        )),
-        credentialsOverride: getCredentialsOverride(overrides)
+        formData: { ActingUserId: actingUserId, ImageFile: new Blob([ typeof icon == "string" ? fs.readFileSync(icon) : icon ]) },
+        apiName, methodName: "setSubscriptionIcon", overrides
       }
     )
 
-    return buildResponse({ rawBody, data: rawBody.status, response, cache })
-  }, [])
+    return buildResponse({ rawBody, data: rawBody.status, response, cacheMetadata })
+  })
 }
 
 
@@ -150,7 +146,7 @@ export async function createSubscription<
  * @exampleData [ { id: "6209937874256396403", universeId: 4383627529, name: "Amazing Subscription", description: "Lorem Ipsum", imageAssetId: 0, periodType: "Monthly", productType: "Currency", productStatusType: 1, basePriceId: "790ff0ac-ef4b-490e-9b95-89f9249b8f51", createdTimestampMs: 1695165195861, updatedTimestampMs: 1695165195861, basePrice: "$14.99" } ]
  * @exampleRawBody { developerSubscriptions: [ { id: "6209937874256396403", universeId: 4383627529, name: "Amazing Subscription", description: "Lorem Ipsum", imageAssetId: 0, periodType: 1, productType: 2, productStatusType: 1, basePriceId: "790ff0ac-ef4b-490e-9b95-89f9249b8f51", createdTimestampMs: 1695165195861, updatedTimestampMs: 1695165195861 } ], previousCursor: "id_2Ac8aYv8wUEwAZg", nextCursor: "id_2Ac9WLiGYUEwAcw", hasMoreResults: false }
  */
-export async function subscriptionsForUniverse<UniverseId extends number>(
+export async function subscriptionsForUniverse<UniverseId extends Identifier>(
   this: ThisAllOverrides, universeId: UniverseId, resultsPerPage?: number, cursor?: string
 ): ApiMethodResponse<
   RawSubscriptionsForUniverseData<UniverseId>, FormattedSubscriptionsForUniverseData<UniverseId>, "PAGINATED"
@@ -158,11 +154,10 @@ export async function subscriptionsForUniverse<UniverseId extends number>(
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawSubscriptionsForUniverseData<UniverseId>>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<RawSubscriptionsForUniverseData<UniverseId>>(
       `${baseUrl}/v1/experiences/${universeId}/experience-subscriptions`, {
         searchParams: { ResultsPerPage: resultsPerPage, Cursor: cursor },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "subscriptionsForUniverse")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "subscriptionsForUniverse", overrides
       }
     )
 
@@ -177,9 +172,9 @@ export async function subscriptionsForUniverse<UniverseId extends number>(
     })
 
     return buildResponse(
-      { rawBody, data: getFormattedData, response, cache, cursors: { previous: rawBody.previousCursor, next: rawBody.nextCursor } }
+      { rawBody, data: getFormattedData, response, cacheMetadata, cursors: { previous: rawBody.previousCursor, next: rawBody.nextCursor } }
     )
-  }, [])
+  })
 }
 
 
@@ -195,17 +190,16 @@ export async function subscriptionsForUniverse<UniverseId extends number>(
  * @exampleRawBody { id: '6209937874256396403', universeId: 4383627529, name: 'Amazing Subscription',  description: 'Lorem Ipsum', imageAssetId: 0, periodType: 1, productType: 2, productStatusType: 1, basePriceId: '790ff0ac-ef4b-490e-9b95-89f9249b8f51', createdTimestampMs: 1695165195861, updatedTimestampMs: 1695165195861 }
  */
 export async function subscriptionInfo<
-  UniverseId extends number, SubscriptionId extends `${number}`
+  UniverseId extends Identifier, SubscriptionId extends `${number}`
 >(this: ThisAllOverrides, universeId: UniverseId, subscriptionId: SubscriptionId): ApiMethodResponse<
   RawSubscriptionInfoData<UniverseId, SubscriptionId>, FormattedSubscriptionInfoData<UniverseId, SubscriptionId>
 > {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawSubscriptionInfoData<UniverseId, SubscriptionId>>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<RawSubscriptionInfoData<UniverseId, SubscriptionId>>(
       `${baseUrl}/v1/experiences/${universeId}/experience-subscriptions/${subscriptionId}`, {
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "subscriptionInfo")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "subscriptionInfo", overrides
       }
     )
 
@@ -217,8 +211,8 @@ export async function subscriptionInfo<
       obj.productType = subsriptionIdToType[obj.productType as any as number]
     })
 
-    return buildResponse({ rawBody, data: getFormattedData, response, cache })
-  }, [])
+    return buildResponse({ rawBody, data: getFormattedData, response, cacheMetadata })
+  })
 }
 
 
@@ -241,17 +235,14 @@ export async function subscriptionsPriceTiersForUniverse<UniverseId extends numb
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawSubscriptionsPriceTiersForUniverseData>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<RawSubscriptionsPriceTiersForUniverseData>(
       `${baseUrl}/v1/experiences/${universeId}/experience-subscriptions/prices`, {
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
-          apiName, "subscriptionsPriceTiersForUniverse"
-        )),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "subscriptionsPriceTiersForUniverse", overrides
       }
     )
 
-    return buildResponse({ rawBody, data: rawBody.priceTierPrices, response, cache })
-  }, [])
+    return buildResponse({ rawBody, data: rawBody.priceTierPrices, response, cacheMetadata })
+  })
 }
 
 
@@ -266,24 +257,21 @@ export async function subscriptionsPriceTiersForUniverse<UniverseId extends numb
  * @exampleRawBody { canUserEditExperienceSubscription: true }
  */
 export async function authenticatedUserSubscriptionsPermissionsForUniverse(
-  this: ThisAllOverrides, universeId: number
+  this: ThisAllOverrides, universeId: Identifier
 ): ApiMethodResponse<
   AuthenticatedUserSubscriptionsPermissionsForUniverseData
 > {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AuthenticatedUserSubscriptionsPermissionsForUniverseData>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<AuthenticatedUserSubscriptionsPermissionsForUniverseData>(
       `${baseUrl}/v1/experiences/${universeId}/experience-subscriptions/permission`, {
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
-          apiName, "authenticatedUserSubscriptionsPermissionsForUniverse"
-        )),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "authenticatedUserSubscriptionsPermissionsForUniverse", overrides
       }
     )
 
-    return buildResponse({ rawBody, data: rawBody, response, cache })
-  }, [])
+    return buildResponse({ rawBody, data: rawBody, response, cacheMetadata })
+  })
 }
 
 

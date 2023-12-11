@@ -1,20 +1,19 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
 import { apiFuncBaseHandler as BaseHandler, buildApiMethodResponse as buildResponse } from "../../../apis/apis.utils"
-
-import { getCacheSettingsOverride, getCredentialsOverride } from "../../../config/config"
+import { cloneAndMutateObject } from "../../../utils"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 import type { Config, ThisAllOverrides } from "../../../config/config.types"
-import { cloneAndMutateObject } from "../../../utils"
 import type { ApiMethodResponse } from "../../apis.types"
 import type { FormattedGroupInfoData, FormattedGroupMembershipsData, FormattedGroupRolesData, FormattedGroupShoutData, GroupMembershipsFilter, RawGroupInfoData, RawGroupMembershipsData, RawGroupRolesData, RawGroupShoutData } from "./groupsApi.types"
+import { Identifier } from "../../../utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // [ HELPER FUNCTIONS ] //////////////////////////////////////////////////////////////////////////////////////////////
-const formatGroupMembershipsFilter = (filter: GroupMembershipsFilter, groupId: number | "-") => {
+const formatGroupMembershipsFilter = (filter: GroupMembershipsFilter, groupId: Identifier | "-") => {
   if ("userIds" in filter) {
     return `user in [${ filter.userIds.map(id => `'users/${id}'`).join(", ") }]`
 
@@ -49,14 +48,13 @@ export const shouldNotCacheMethods = []
  * @exampleData { path: "groups/5850082", createTime: 2020-03-29T18:15:20.100Z, updateTime: 2023-08-26T19:19:43.360Z, id: "5850082", displayName: "MightyPart Games", description: "lorem ipsum dolor sit amet.", owner: "users/45348281", memberCount: 102, publicEntryAllowed: false, locked: false, verified: false }
  * @exampleRawBody { path: "groups/5850082", createTime: "2020-03-29T18:15:20.100Z", updateTime: "2023-08-26T19:19:43.360Z", id: "5850082", displayName: "MightyPart Games", description: "lorem ipsum dolor sit amet.", owner: "users/45348281", memberCount: 102, publicEntryAllowed: false, locked: false, verified: false }
  */
-export async function groupInfo<GroupId extends number>(
+export async function groupInfo<GroupId extends Identifier>(
   this: ThisAllOverrides, groupId: GroupId
 ): ApiMethodResponse<RawGroupInfoData<GroupId>, FormattedGroupInfoData<GroupId>> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupInfoData<GroupId>>(`${baseUrl}/v2/groups/${groupId}`, {
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupInfo")),
-      credentialsOverride: getCredentialsOverride(overrides)
+    const { rawBody, response, cacheMetadata } = await this.http.get<RawGroupInfoData<GroupId>>(`${baseUrl}/v2/groups/${groupId}`, {
+      apiName, methodName: "groupInfo", overrides
     })
 
     const getFormattedData = () => cloneAndMutateObject<RawGroupInfoData<GroupId>, FormattedGroupInfoData<GroupId>>(rawBody, obj => {
@@ -64,8 +62,8 @@ export async function groupInfo<GroupId extends number>(
       obj.updateTime = new Date(obj.updateTime)
     })
 
-    return buildResponse({ rawBody, data: getFormattedData, response, cache })
-  }, [])
+    return buildResponse({ rawBody, data: getFormattedData, response, cacheMetadata })
+  })
 }
 
 
@@ -83,17 +81,16 @@ export async function groupInfo<GroupId extends number>(
  * @exampleData [ { path: "groups/698855/memberships/NDUzNDgyODE", createTime: 2018-02-23T17:18:02.630Z, updateTime: 2018-02-23T17:18:02.630Z, user: "users/45348281", role: "groups/698855/roles/26237353" } ]
  * @exampleRawBody { groupMemberships: [ { path: "groups/698855/memberships/NDUzNDgyODE", createTime: "2018-02-23T17:18:02.630Z", updateTime: "2018-02-23T17:18:02.630Z", user: "users/45348281", role: "groups/698855/roles/26237353" } ], nextPageToken: "324439743" }
  */
-export async function groupMemberships<GroupId extends number | "-">(
+export async function groupMemberships<GroupId extends Identifier | "-">(
   this: ThisAllOverrides, groupId: GroupId, maxPageSize: number = 100, filter: GroupMembershipsFilter<GroupId>, pageToken?: string
 ): ApiMethodResponse<RawGroupMembershipsData<GroupId>, FormattedGroupMembershipsData<GroupId>, "PAGINATED"> {
   const overrides = this
 
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupMembershipsData<GroupId>>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<RawGroupMembershipsData<GroupId>>(
       `${baseUrl}/v2/groups/${groupId}/memberships`, {
         searchParams: { groupId, maxPageSize, filter: filter && formatGroupMembershipsFilter(filter, groupId), pageToken },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupMemberships")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "groupMemberships", overrides
       }
     )
 
@@ -106,8 +103,8 @@ export async function groupMemberships<GroupId extends number | "-">(
       })
     })
 
-    return buildResponse({ rawBody, data: getFormattedData, response, cache, cursors: { next: rawBody.nextPageToken } })
-  }, [])
+    return buildResponse({ rawBody, data: getFormattedData, response, cacheMetadata, cursors: { next: rawBody.nextPageToken } })
+  })
 }
 
 
@@ -125,17 +122,16 @@ export async function groupMemberships<GroupId extends number | "-">(
  * @exampleData [ { path: "groups/5850082/roles/38353811", createTime: 2020-03-29T13:15:20.020Z, updateTime: 2020-09-20T08:04:35.850Z, id: "38353811", displayName: "NamelessGuy2005 - Scriptor", description: "", rank: 255, memberCount: 1, permissions: { viewWallPosts: true, createWallPosts: true, deleteWallPosts: true, viewGroupShout: true, createGroupShout: true, changeRank: true, acceptRequests: true, exileMembers: true, manageRelationships: true, viewAuditLog: true, spendGroupFunds: true, advertiseGroup: true, createAvatarItems: true, manageAvatarItems: true, manageGroupUniverses: true, viewUniverseAnalytics: true, createApiKeys: true, manageApiKeys: true } } ]
  * @exampleRawBody { groupRoles: [ {  path: "groups/5850082/roles/38353811", createTime: "2020-03-29T13:15:20.020Z", updateTime: "2020-09-20T08:04:35.850Z", id: "38353811", displayName: "NamelessGuy2005 - Scriptor", description: "", rank: 255, memberCount: 1, permissions: permissions: { viewWallPosts: true, createWallPosts: true, deleteWallPosts: true, viewGroupShout: true, createGroupShout: true, changeRank: true, acceptRequests: true, exileMembers: true, manageRelationships: true, viewAuditLog: true, spendGroupFunds: true, advertiseGroup: true, createAvatarItems: true, manageAvatarItems: true, manageGroupUniverses: true, viewUniverseAnalytics: true, createApiKeys: true, manageApiKeys: true } } ], nextPageToken: "38353811" }
  */
-export async function groupRoles<GroupId extends number>(
+export async function groupRoles<GroupId extends Identifier>(
   this: ThisAllOverrides, groupId: GroupId, maxPageSize: number = 100, pageToken?: string
 ): ApiMethodResponse<RawGroupRolesData<GroupId>, FormattedGroupRolesData<GroupId>, "PAGINATED"> {
   const overrides = this
 
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGroupRolesData<GroupId>>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<RawGroupRolesData<GroupId>>(
       `${baseUrl}/v2/groups/${groupId}/roles`, {
         searchParams: { groupId, maxPageSize, pageToken },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupRoles")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "groupRoles", overrides
       }
     )
 
@@ -148,8 +144,8 @@ export async function groupRoles<GroupId extends number>(
       })
     })
 
-    return buildResponse({ rawBody, data: getFormattedData, response, cache, cursors: { next: rawBody.nextPageToken } })
-  }, [])
+    return buildResponse({ rawBody, data: getFormattedData, response, cacheMetadata, cursors: { next: rawBody.nextPageToken } })
+  })
 }
 
 
@@ -164,16 +160,15 @@ export async function groupRoles<GroupId extends number>(
  * @exampleData { path: "groups/5850082/shout", createTime: 2020-03-31T18:36:51.607Z, updateTime: 2023-07-30T12:26:28.257Z, content: "hi guys", poster: "users/45348281" }
  * @exampleRawBody { path: "groups/5850082/shout", createTime: "2020-03-31T18:36:51.607Z", updateTime: "2023-07-30T12:26:28.257Z", content: "hi guys", poster: "users/45348281" }
  */
-export async function groupShout<GroupId extends number>(this: ThisAllOverrides, groupId: GroupId): ApiMethodResponse<
+export async function groupShout<GroupId extends Identifier>(this: ThisAllOverrides, groupId: GroupId): ApiMethodResponse<
   RawGroupShoutData<GroupId>, FormattedGroupShoutData<GroupId>
 > {
   const overrides = this
 
   return BaseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<any>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<any>(
       `${baseUrl}/v2/groups/${groupId}/shout`, {
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupRoles")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "groupShout", overrides
       }
     )
 
@@ -182,7 +177,7 @@ export async function groupShout<GroupId extends number>(this: ThisAllOverrides,
       obj.updateTime = new Date(obj.updateTime)
     })
 
-    return buildResponse({ rawBody, data: getFormattedData, response, cache, cursors: { next: rawBody.nextPageToken } })
-  }, [])
+    return buildResponse({ rawBody, data: getFormattedData, response, cacheMetadata, cursors: { next: rawBody.nextPageToken } })
+  })
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

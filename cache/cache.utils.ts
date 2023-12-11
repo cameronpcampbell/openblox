@@ -1,14 +1,12 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
-import { map } from "p-iteration";
-
 import * as AllClassicApis from "../apis/classic";
 import * as AllCloudApis from "../apis/cloud";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
-import { ApiName, ApiMethods } from "../apis/apis.types";
-import { IncludedConfig } from "./cacheAdapters.types";
+import type { ApiName, ApiMethods, AllApis as _AllApis } from "../apis/apis.types";
+import type { IncludedConfig } from "./cacheAdapters/cacheAdapters.types";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -16,14 +14,13 @@ import { IncludedConfig } from "./cacheAdapters.types";
 const doesOverlap = (array1: any[], array2:any[]) => !!(array1.filter(item => array2.includes(item)).length)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+let AllApis: _AllApis
 
-const AllApis = { ...AllClassicApis, ...AllCloudApis }
-
-
-export const FindSettings = async (included: IncludedConfig<Object>, apiName: ApiName, methodName: string): Promise<Object | undefined> => {
+export const FindSettings = (included: IncludedConfig<Object>, apiName: ApiName, methodName: string): Object | undefined => {
   let settings: any = included
   if (!settings || settings == "!") return
 
+  if (!AllApis) AllApis = { ...AllClassicApis, ...AllCloudApis }
   const isUnsafeMethod = (AllApis[apiName] as any).shouldNotCacheMethods.includes(methodName)
 
   settings = settings?.[apiName] ?? (!isUnsafeMethod && settings.default) ?? settings.defaultForce ?? settings
@@ -38,7 +35,7 @@ export const FindSettings = async (included: IncludedConfig<Object>, apiName: Ap
 
   let apiExports = (AllApis as ApiMethods)[apiName]
   const [allApiFuncsKeys, allApiFuncsValues] = [Object.keys(apiExports), Object.values(apiExports)]
-  const apiMethods = await map(allApiFuncsValues, async (item:any, i:number) => typeof item == "function" ? allApiFuncsKeys[i] : undefined )
+  const apiMethods = allApiFuncsValues.map((item:any, i:number) => typeof item == "function" ? allApiFuncsKeys[i] : undefined)
   if (doesOverlap(settingsKeys, apiMethods)) return
 
   if (isUnsafeMethod && settings.default) return

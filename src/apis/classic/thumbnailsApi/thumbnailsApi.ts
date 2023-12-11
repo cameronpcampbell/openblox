@@ -1,18 +1,16 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
-import { forEach, map } from "p-iteration"
-
 import { apiFuncBaseHandler as baseHandler, buildApiMethodResponse as buildResponse } from "../../apis.utils"
 import { createObjectMapByKeyWithMiddleware } from "../../../utils"
-import { getCacheSettingsOverride, getCredentialsOverride } from "../../../config/config"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
-import {
+import type {
   AssetsData, Asset3dData, AssetAnimatedData, AssetSize, AvatarBustSize, AvatarFullSize, AvatarHeadshotSize, BadgesData, BundlesData, BundleSize, DeveloperProductsData, DeveloperProductSize, GamePassesData, ThumbnailFormat, GameThumbnailSize, ThumbnailReturnPolicy, GamesIconSize, GroupEmblemSize, MetadataData, GamesIconsData, GroupsEmblemsData, PlacesIconsData, PlaceThumbnailSize, Avatar3dData, Outfit3dData, OutfitsData, OutfitSize, BatchRequest, BatchData, FormattedAssetsData, FormattedBadgesData, FormattedBundlesData, FormattedGamePassesData, FormattedGamesIconsData, FormattedDeveloperProductsData, FormattedGamesData, GamesData, FormattedGroupsEmblemsData, FormattedPlacesIconsData, FormattedOutfitsData, BatchResponseElement, AvatarsBustsData, FormattedAvatarsBustsData, FormattedAvatarsFullData, AvatarsFullData, FormattedAvatarsHeadshotsData, AvatarsHeadshotsData, FormattedBatchData, RawGameThumbnailsFromIdsData, FormattedGameThumbnailsFromIdsData
 } from "./thumbnailsApi.types"
 import type { Config, ThisAllOverrides } from "../../../config/config.types"
 import type { ApiMethodResponse } from "../../apis.types"
+import { Identifier } from "../../../utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -41,16 +39,15 @@ export const shouldNotCacheMethods = []
  * @exampleData { "7229442422": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/7da8e78d9e2e303f0122c355f19f66d5/420/420/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 7229442422, state: "Completed", imageUrl: "https://tr.rbxcdn.com/7da8e78d9e2e303f0122c355f19f66d5/420/420/Image/Png" } ] }
  */
-export async function assetsThumbnails<AssetId extends number>(
-  this: ThisAllOverrides, assetIds: AssetId[], returnPolicy: ThumbnailReturnPolicy="PlaceHolder", size: AssetSize, format: ThumbnailFormat="Png", isCircular: boolean=false
+export async function assetsThumbnails<AssetId extends Identifier>(
+  this: ThisAllOverrides, assetIds: AssetId[], size: AssetSize, returnPolicy: ThumbnailReturnPolicy="PlaceHolder", format: ThumbnailFormat="Png", isCircular: boolean=false
 ): ApiMethodResponse<AssetsData, FormattedAssetsData<AssetId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AssetsData>(`${baseUrl}/v1/assets`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<AssetsData>(`${baseUrl}/v1/assets`, {
       searchParams: { assetIds, returnPolicy, size, format, isCircular },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "assetsThumbnails")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "assetsThumbnails", overrides
     })
 
     const getFormattedData = (): FormattedAssetsData<AssetId> => createObjectMapByKeyWithMiddleware(
@@ -58,8 +55,8 @@ export async function assetsThumbnails<AssetId extends number>(
       ({state, imageUrl}) => ({ state, imageUrl })
     )
 
-    return buildResponse({ data:getFormattedData, rawBody, response, cache })
-  }, [400, 403]) 
+    return buildResponse({ data:getFormattedData, rawBody, response, cacheMetadata })
+  }) 
 }
 
 /**
@@ -73,18 +70,19 @@ export async function assetsThumbnails<AssetId extends number>(
  * @exampleData { targetId: 6768917255, state: "Completed", imageUrl: 'https://t2.rbxcdn.com/30ac72dfa05dff91baae9b8c0f9049e3' }
  * @exampleRawBody { targetId: 6768917255, state: "Completed", imageUrl: 'https://t2.rbxcdn.com/30ac72dfa05dff91baae9b8c0f9049e3' }
  */
-export async function asset3dThumbnail(this: ThisAllOverrides, assetId: number): ApiMethodResponse<Asset3dData> {
+export async function asset3dThumbnail<AssetId extends Identifier>(this: ThisAllOverrides, assetId: AssetId): ApiMethodResponse<
+  Asset3dData<AssetId>
+> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<Asset3dData>(`${baseUrl}/v1/assets-thumbnail-3d`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<Asset3dData<AssetId>>(`${baseUrl}/v1/assets-thumbnail-3d`, {
       searchParams: { assetId },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "asset3dThumbnail")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "asset3dThumbnail", overrides
     })
 
-    return buildResponse({ data:rawBody, rawBody, response, cache })
-  }, [400])
+    return buildResponse({ data:rawBody, rawBody, response, cacheMetadata })
+  })
 }
 
 /**
@@ -98,18 +96,19 @@ export async function asset3dThumbnail(this: ThisAllOverrides, assetId: number):
  * @exampleData { targetId: 6768917255, state: "Completed", imageUrl: null }
  * @exampleRawBody { targetId: 6768917255, state: "Completed", imageUrl: null }
  */
-export async function assetAnimatedThumbnail(this: ThisAllOverrides, assetId: number): ApiMethodResponse<AssetAnimatedData> {
+export async function assetAnimatedThumbnail<AssetId extends Identifier>(this: ThisAllOverrides, assetId: AssetId): ApiMethodResponse<
+  AssetAnimatedData<AssetId>
+> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AssetAnimatedData>(`${baseUrl}/v1/asset-thumbnail-animated`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<AssetAnimatedData<AssetId>>(`${baseUrl}/v1/asset-thumbnail-animated`, {
       searchParams: { assetId },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "assetAnimatedThumbnail")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "assetAnimatedThumbnail", overrides
     })
 
-    return buildResponse({ data:rawBody, rawBody, response, cache })
-  }, [400])
+    return buildResponse({ data:rawBody, rawBody, response, cacheMetadata })
+  })
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -128,24 +127,23 @@ export async function assetAnimatedThumbnail(this: ThisAllOverrides, assetId: nu
  * @exampleData  { "2124533401": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/87105a9a85ea09e7591cfdd3f0825225/150/150/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 2124533401, state: "Completed", imageUrl: "https://tr.rbxcdn.com/87105a9a85ea09e7591cfdd3f0825225/150/150/Image/Png" } ] }
  */
-export async function badgesThumbnails<BadgeId extends number>(
+export async function badgesThumbnails<BadgeId extends Identifier>(
   this: ThisAllOverrides, badgeIds: BadgeId[], format: "Png"|"Jpeg"="Png", isCircular: boolean=false
 ): ApiMethodResponse<BadgesData, FormattedBadgesData<BadgeId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<BadgesData>(`${baseUrl}/v1/badges/icons`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<BadgesData>(`${baseUrl}/v1/badges/icons`, {
       searchParams: { badgeIds, size:"150x150", format, isCircular },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "badgesThumbnails")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "badgesThumbnails", overrides
     })
 
     const getFormattedData = (): FormattedBadgesData<BadgeId> => createObjectMapByKeyWithMiddleware(
       rawBody.data, "targetId",
       ({state, imageUrl}) => ({ state, imageUrl })
     )
-    return buildResponse({ data:getFormattedData, rawBody, response, cache })
-  }, [400])
+    return buildResponse({ data:getFormattedData, rawBody, response, cacheMetadata })
+  })
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -165,16 +163,15 @@ export async function badgesThumbnails<BadgeId extends number>(
  * @exampleData { "181": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/12ff41b547ee75865bb60d0f3ae5508b/420/420/Avatar/Png" } }
  * @exampleRawBody { data: [ { targetId: 181, state: "Completed", imageUrl: "https://tr.rbxcdn.com/12ff41b547ee75865bb60d0f3ae5508b/420/420/Avatar/Png" } ] }
  */
-export async function bundlesThumbnails<BundleId extends number>(
+export async function bundlesThumbnails<BundleId extends Identifier>(
   this: ThisAllOverrides, bundleIds: BundleId[], size: BundleSize="420x420", format: "Png"|"Jpeg"="Png", isCircular: boolean=false
 ): ApiMethodResponse<BundlesData, FormattedBundlesData<BundleId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<BundlesData>(`${baseUrl}/v1/bundles/thumbnails`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<BundlesData>(`${baseUrl}/v1/bundles/thumbnails`, {
       searchParams: { bundleIds, size, format, isCircular },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "bundlesThumbnails")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "bundlesThumbnails", overrides
     })
 
     const getFormattedData = (): FormattedBundlesData<BundleId> => createObjectMapByKeyWithMiddleware(
@@ -182,8 +179,8 @@ export async function bundlesThumbnails<BundleId extends number>(
       ({state, imageUrl}) => ({ state, imageUrl })
     )
 
-    return buildResponse({ data:getFormattedData, rawBody, response, cache })
-  }, [400])
+    return buildResponse({ data:getFormattedData, rawBody, response, cacheMetadata })
+  })
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -203,18 +200,15 @@ export async function bundlesThumbnails<BundleId extends number>(
  * @exampleData { "3616425": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/3e495c43b44b85cd3dd1afee9df3636b/420/420/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 3616425, state: "Completed", imageUrl: "https://tr.rbxcdn.com/3e495c43b44b85cd3dd1afee9df3636b/420/420/Image/Png" } ] }
  */
-export async function developerProductsThumbnails<DeveloperProductId extends number>(
+export async function developerProductsThumbnails<DeveloperProductId extends Identifier>(
   this: ThisAllOverrides, developerProductIds: DeveloperProductId[], size: DeveloperProductSize="420x420", format: "Png"|"Jpeg"="Png", isCircular: boolean=false
 ): ApiMethodResponse<DeveloperProductsData, FormattedDeveloperProductsData<DeveloperProductId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<DeveloperProductsData>(`${baseUrl}/v1/developer-products/icons`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<DeveloperProductsData>(`${baseUrl}/v1/developer-products/icons`, {
       searchParams: { developerProductIds, size, format, isCircular },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
-        apiName, "developerProductsThumbnails"
-      )),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "developerProductsThumbnails", overrides
     })
 
     const getFormattedData = (): FormattedDeveloperProductsData<DeveloperProductId> => createObjectMapByKeyWithMiddleware(
@@ -222,8 +216,8 @@ export async function developerProductsThumbnails<DeveloperProductId extends num
       ({state, imageUrl}) => ({ state, imageUrl })
     )
 
-    return buildResponse({ data:getFormattedData, rawBody, response, cache })
-  }, [400])
+    return buildResponse({ data:getFormattedData, rawBody, response, cacheMetadata })
+  })
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -242,16 +236,15 @@ export async function developerProductsThumbnails<DeveloperProductId extends num
  * @exampleData { "9063647": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/4464935a3f7b124ba0a315cb3ff8113d/150/150/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 9063647, state: "Completed", imageUrl: "https://tr.rbxcdn.com/4464935a3f7b124ba0a315cb3ff8113d/150/150/Image/Png" } ] }
  */
-export async function gamePassesThumbnails<GamepassId extends number>(
+export async function gamePassesThumbnails<GamepassId extends Identifier>(
   this: ThisAllOverrides, gamePassIds: GamepassId[], format: ThumbnailFormat="Png", isCircular: boolean=false
 ): ApiMethodResponse<GamePassesData, FormattedGamePassesData<GamepassId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<GamePassesData>(`${baseUrl}/v1/game-passes`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<GamePassesData>(`${baseUrl}/v1/game-passes`, {
       searchParams: { gamePassIds, size:"150x150", format, isCircular },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "gamePassesThumbnails")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "gamePassesThumbnails", overrides
     })
 
     const getFormattedData = (): FormattedGamePassesData<GamepassId> => createObjectMapByKeyWithMiddleware(
@@ -259,8 +252,8 @@ export async function gamePassesThumbnails<GamepassId extends number>(
       ({state, imageUrl}) => ({ state, imageUrl })
     )
     
-    return buildResponse({ data:getFormattedData, rawBody, response, cache })
-  }, [400])
+    return buildResponse({ data:getFormattedData, rawBody, response, cacheMetadata })
+  })
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -281,17 +274,16 @@ export async function gamePassesThumbnails<GamepassId extends number>(
  * @exampleData { "5030792576": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/e997db8b4e41b08acb49b9d2bb021b23/768/432/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: "5030792576", state: "Completed", imageUrl: "https://tr.rbxcdn.com/e997db8b4e41b08acb49b9d2bb021b23/768/432/Image/Png" } ] }
  */
-export async function gameThumbnailsFromIds<GameThumbnailId extends number>(
-  this: ThisAllOverrides, universeId: number, thumbnailIds: GameThumbnailId[], size:GameThumbnailSize="768x432", format: ThumbnailFormat="Png", isCircular: boolean=false
+export async function gameThumbnailsFromIds<GameThumbnailId extends Identifier>(
+  this: ThisAllOverrides, universeId: Identifier, thumbnailIds: GameThumbnailId[], size:GameThumbnailSize="768x432", format: ThumbnailFormat="Png", isCircular: boolean=false
 ): ApiMethodResponse<RawGameThumbnailsFromIdsData, FormattedGameThumbnailsFromIdsData<GameThumbnailId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawGameThumbnailsFromIdsData>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<RawGameThumbnailsFromIdsData>(
       `${baseUrl}/v1/games/${universeId}/thumbnails`, {
         searchParams: { thumbnailIds, size, format, isCircular },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "gameThumbnailsFromIds")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "gameThumbnailsFromIds", overrides
       }
     )
 
@@ -300,8 +292,8 @@ export async function gameThumbnailsFromIds<GameThumbnailId extends number>(
       ({state, imageUrl}) => ({ state, imageUrl })
     )
 
-    return buildResponse({ data:getFormattedData, rawBody, response, cache })
-  }, [400, 403])
+    return buildResponse({ data:getFormattedData, rawBody, response, cacheMetadata })
+  })
 }
 
 /**
@@ -319,16 +311,15 @@ export async function gameThumbnailsFromIds<GameThumbnailId extends number>(
  * @exampleData { "1685831367": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 1685831367, state: "Completed", imageUrl: "https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png" } ] }
  */
-export async function gamesIcons<UniverseId extends number>(
+export async function gamesIcons<UniverseId extends Identifier>(
   this: ThisAllOverrides, universeIds: UniverseId[], returnPolicy: ThumbnailReturnPolicy="PlaceHolder", size: GamesIconSize="512x512", format: ThumbnailFormat="Png", isCircular: boolean=false
 ): ApiMethodResponse<GamesIconsData, FormattedGamesIconsData<UniverseId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<GamesIconsData>(`${baseUrl}/v1/games/icons`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<GamesIconsData>(`${baseUrl}/v1/games/icons`, {
       searchParams: { universeIds, size, format, isCircular, returnPolicy },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "gamesIcons")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "gamesIcons", overrides
     })
 
     const getFormattedData = (): FormattedGamesIconsData<UniverseId> => createObjectMapByKeyWithMiddleware(
@@ -336,8 +327,8 @@ export async function gamesIcons<UniverseId extends number>(
       ({state, imageUrl}) => ({ state, imageUrl })
     )
 
-    return buildResponse({ data:getFormattedData, rawBody, response, cache })
-  }, [400, 403])
+    return buildResponse({ data:getFormattedData, rawBody, response, cacheMetadata })
+  })
 } 
 
 /**
@@ -356,24 +347,23 @@ export async function gamesIcons<UniverseId extends number>(
  * @exampleData { '1685831367': { error: null, thumbnails: [ { targetId: 5130624799, state: "Completed", imageUrl: "https://tr.rbxcdn.com/0f512e630d474b19fa1df57c23f43e38/768/432/Image/Png" }, { targetId: "Completed", state: "Completed", imageUrl: "https://tr.rbxcdn.com/e997db8b4e41b08acb49b9d2bb021b23/768/432/Image/Png" }, { targetId: 5030792559, state: "Completed", imageUrl: "https://tr.rbxcdn.com/b1692e3153721873906198c78ebfba91/768/432/Image/Png" }, { targetId: 5055393500, state: "Completed", imageUrl: "https://tr.rbxcdn.com/40915531d1f92e2f4307069c7c1233e3/768/432/Image/Png" } ] } }
  * @exampleRawBody { data: [ { universeId: 1685831367, error: null, thumbnails: [ { targetId: 5130624799, state: "Completed", imageUrl: "https://tr.rbxcdn.com/0f512e630d474b19fa1df57c23f43e38/768/432/Image/Png" }, { targetId: "Completed", state: "Completed", imageUrl: "https://tr.rbxcdn.com/e997db8b4e41b08acb49b9d2bb021b23/768/432/Image/Png" }, { targetId: 5030792559, state: "Completed", imageUrl: "https://tr.rbxcdn.com/b1692e3153721873906198c78ebfba91/768/432/Image/Png" }, { targetId: 5055393500, state: "Completed", imageUrl: "https://tr.rbxcdn.com/40915531d1f92e2f4307069c7c1233e3/768/432/Image/Png" } ] } ] }
  */
-export async function gamesThumbnails<UniverseId extends number>(
+export async function gamesThumbnails<UniverseId extends Identifier>(
   this: ThisAllOverrides, universeIds: UniverseId[], countPerUniverse: number=10, defaults: boolean=true, size:GameThumbnailSize="768x432", format:ThumbnailFormat="Png", isCircular: boolean=false
 ): ApiMethodResponse<GamesData, FormattedGamesData<UniverseId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<GamesData>(`${baseUrl}/v1/games/multiget/thumbnails`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<GamesData>(`${baseUrl}/v1/games/multiget/thumbnails`, {
       searchParams: { universeIds, countPerUniverse, defaults, size, format, isCircular },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "gamesThumbnails")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "gamesThumbnails", overrides
     })
 
     const getFormattedData = (): FormattedGamesData<UniverseId> => createObjectMapByKeyWithMiddleware(rawBody.data, "universeId",
       async ({ error, thumbnails }) => ({ error, thumbnails })
     )
 
-    return buildResponse({ data:getFormattedData, rawBody, response, cache })
-  }, [400])
+    return buildResponse({ data:getFormattedData, rawBody, response, cacheMetadata })
+  })
 } 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -393,24 +383,23 @@ export async function gamesThumbnails<UniverseId extends number>(
  * @exampleData { "5850082": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/caadbbddbed97108cfcff64fd1258b8f/420/420/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 5850082, state: "Completed", imageUrl: "https://tr.rbxcdn.com/caadbbddbed97108cfcff64fd1258b8f/420/420/Image/Png" } ] }
  */
-export async function groupsEmblems<GroupId extends number>(
+export async function groupsEmblems<GroupId extends Identifier>(
   this: ThisAllOverrides, groupIds: GroupId[], size: GroupEmblemSize="420x420", format: ThumbnailFormat="Png", isCircular: boolean=false
 ): ApiMethodResponse<GroupsEmblemsData, FormattedGroupsEmblemsData<GroupId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<GroupsEmblemsData>(`${baseUrl}/v1/groups/icons`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<GroupsEmblemsData>(`${baseUrl}/v1/groups/icons`, {
       searchParams: { groupIds, size, format, isCircular },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "groupsEmblems")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "groupsEmblems", overrides
     })
 
     const getFormattedData = (): FormattedGroupsEmblemsData<GroupId> => createObjectMapByKeyWithMiddleware(
       rawBody.data, "targetId", ({ state, imageUrl }) => ({ state, imageUrl })
     )
 
-    return buildResponse({ data:getFormattedData, rawBody, response, cache })
-  }, [400])
+    return buildResponse({ data:getFormattedData, rawBody, response, cacheMetadata })
+  })
 } 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -429,13 +418,12 @@ export async function thumbnailsMetadata(this: ThisAllOverrides): ApiMethodRespo
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<MetadataData>(`${baseUrl}/v1/metadata`, {
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "thumbnailsMetadata")),
-      credentialsOverride: getCredentialsOverride(overrides)
+    const { rawBody, response, cacheMetadata } = await this.http.get<MetadataData>(`${baseUrl}/v1/metadata`, {
+      apiName, methodName: "thumbnailsMetadata", overrides
     })
 
-    return buildResponse({ data: rawBody, rawBody, response, cache })
-  }, [400])
+    return buildResponse({ data: rawBody, rawBody, response, cacheMetadata })
+  })
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -456,24 +444,23 @@ export async function thumbnailsMetadata(this: ThisAllOverrides): ApiMethodRespo
  * @exampleData { "4922741943": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 4922741943, state: "Completed", imageUrl: "https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png" } ] }
  */
-export async function placesIcons<PlaceId extends number>(
+export async function placesIcons<PlaceId extends Identifier>(
   this: ThisAllOverrides, placeIds: PlaceId[], returnPolicy: ThumbnailReturnPolicy="PlaceHolder", size: PlaceThumbnailSize="512x512", format: ThumbnailFormat="Png", isCircular: boolean=false
 ): ApiMethodResponse<PlacesIconsData, FormattedPlacesIconsData<PlaceId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<PlacesIconsData>(`${baseUrl}/v1/places/gameicons`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<PlacesIconsData>(`${baseUrl}/v1/places/gameicons`, {
       searchParams: { placeIds, returnPolicy, size, format, isCircular },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "placesIcons")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "placesIcons", overrides
     })
 
     const getFormattedData = (): FormattedPlacesIconsData<PlaceId> => createObjectMapByKeyWithMiddleware(
       rawBody.data, "targetId", ({ state, imageUrl }) => ({ state, imageUrl })
     )
 
-    return buildResponse({ data:getFormattedData, rawBody, response, cache })
-  }, [400, 403])
+    return buildResponse({ data:getFormattedData, rawBody, response, cacheMetadata })
+  })
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -493,24 +480,23 @@ export async function placesIcons<PlaceId extends number>(
  * @exampleData { "45348281": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/b91cd7a2d531a50be786e08c7739c56a/150/150/Avatar/Png" } }
  * @exampleRawBody { data: [ { targetId: 45348281, state: "Completed", imageUrl: "https://tr.rbxcdn.com/b91cd7a2d531a50be786e08c7739c56a/150/150/Avatar/Png" } ] }
  */
-export async function avatarsFullThumbnails<UserId extends number>(
+export async function avatarsFullThumbnails<UserId extends Identifier>(
   this: ThisAllOverrides, userIds: UserId[], size: AvatarFullSize="720x720", format: ThumbnailFormat="Png", isCircular: boolean=false
 ): ApiMethodResponse<AvatarsFullData, FormattedAvatarsFullData<UserId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AvatarsFullData>(`${baseUrl}/v1/users/avatar`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<AvatarsFullData>(`${baseUrl}/v1/users/avatar`, {
       searchParams: { size, format, isCircular, userIds },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "avatarsFullThumbnails")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "avatarsFullThumbnails", overrides
     })
 
     const getFormattedData = (): FormattedAvatarsFullData<UserId> => createObjectMapByKeyWithMiddleware(
       rawBody.data, "targetId", ({ state, imageUrl }) => ({ state, imageUrl })
     )
 
-    return buildResponse({ data: getFormattedData, rawBody, response, cache })
-  }, [400, 403])
+    return buildResponse({ data: getFormattedData, rawBody, response, cacheMetadata })
+  })
 }
 
 /**
@@ -524,18 +510,17 @@ export async function avatarsFullThumbnails<UserId extends number>(
  * @exampleData { targetId: 45348281, state: "Completed", imageUrl: "https://t6.rbxcdn.com/7927ecfe11399126171f4cd2939dc511" }
  * @exampleRawBody { targetId: 45348281, state: "Completed", imageUrl: "https://t6.rbxcdn.com/7927ecfe11399126171f4cd2939dc511" }
  */
-export async function avatar3dThumbnail<UserId extends number>(this: ThisAllOverrides, userId: UserId): ApiMethodResponse<Avatar3dData<UserId>> {
+export async function avatar3dThumbnail<UserId extends Identifier>(this: ThisAllOverrides, userId: UserId): ApiMethodResponse<Avatar3dData<UserId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<Avatar3dData<UserId>>(`${baseUrl}/v1/users/avatar-3d`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<Avatar3dData<UserId>>(`${baseUrl}/v1/users/avatar-3d`, {
       searchParams: { userId },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "avatar3dThumbnail")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "avatar3dThumbnail", overrides
     })
 
-    return buildResponse({ data: rawBody, rawBody, response, cache })
-  }, [400])
+    return buildResponse({ data: rawBody, rawBody, response, cacheMetadata })
+  })
 }
 
 /**
@@ -552,24 +537,23 @@ export async function avatar3dThumbnail<UserId extends number>(this: ThisAllOver
  * @exampleData { "45348281": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/4b3c0e5b4efdda3bdfd94e77b2850ea5/150/150/AvatarBust/Png" } }
  * @exampleRawBody { data: [ { targetId: 45348281, state: 'Completed', imageUrl: 'https://tr.rbxcdn.com/4b3c0e5b4efdda3bdfd94e77b2850ea5/150/150/AvatarBust/Png' } ] }
  */
-export async function avatarsBustsThumbnails<UserId extends number>(
+export async function avatarsBustsThumbnails<UserId extends Identifier>(
   this: ThisAllOverrides, userIds: UserId[], size: AvatarBustSize="420x420", format: ThumbnailFormat="Png", isCircular: boolean=false
 ): ApiMethodResponse<AvatarsBustsData, FormattedAvatarsBustsData<UserId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AvatarsBustsData>(`${baseUrl}/v1/users/avatar-bust`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<AvatarsBustsData>(`${baseUrl}/v1/users/avatar-bust`, {
       searchParams: { size, format, isCircular, userIds },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "avatarsBustsThumbnails")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "avatarsBustsThumbnails", overrides
     })
 
     const getFormattedData = (): FormattedAvatarsBustsData<UserId> => createObjectMapByKeyWithMiddleware(
       rawBody.data, "targetId", ({ state, imageUrl }) => ({ state, imageUrl })
     )
 
-    return buildResponse({ data: getFormattedData, rawBody, response, cache })
-  }, [400, 403])
+    return buildResponse({ data: getFormattedData, rawBody, response, cacheMetadata })
+  })
 }
 
 /**
@@ -586,26 +570,23 @@ export async function avatarsBustsThumbnails<UserId extends number>(
  * @exampleData { "45348281": { state: "Completed", imageUrl: "https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f" } }
  * @exampleRawBody { data: [ { targetId: 45348281, state: "Completed", imageUrl: "https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f" } ] }
  */
-export async function avatarsHeadshotsThumbnails<UserId extends number>(
+export async function avatarsHeadshotsThumbnails<UserId extends Identifier>(
   this: ThisAllOverrides, userIds: UserId[], size: AvatarHeadshotSize="720x720", format: ThumbnailFormat="Png", isCircular: boolean=false
 ): ApiMethodResponse<AvatarsHeadshotsData, FormattedAvatarsHeadshotsData<UserId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<AvatarsHeadshotsData>(`${baseUrl}/v1/users/avatar-headshot`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<AvatarsHeadshotsData>(`${baseUrl}/v1/users/avatar-headshot`, {
       searchParams: { size, format, isCircular, userIds },
-      cacheSettings:  this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
-        apiName, "avatarsHeadshotsThumbnails"
-      )),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "avatarsHeadshotsThumbnails", overrides
     })
 
     const getFormattedData = () => createObjectMapByKeyWithMiddleware(
       rawBody.data, "targetId", ({ state, imageUrl }) => ({ state, imageUrl })
     )
 
-    return buildResponse({ data: getFormattedData, rawBody, response, cache })
-  }, [400, 403])
+    return buildResponse({ data: getFormattedData, rawBody, response, cacheMetadata })
+  })
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -622,22 +603,21 @@ export async function avatarsHeadshotsThumbnails<UserId extends number>(
  * @exampleData { targetId: 110540093, state: "Completed", imageUrl: "https://t7.rbxcdn.com/24eea0d840fe712230943a3bead4659a" }
  * @exampleRawBody { targetId: 110540093, state: "Completed", imageUrl: "https://t7.rbxcdn.com/24eea0d840fe712230943a3bead4659a" }
  */
-export async function outfit3dThumbnail<OutfitId extends number>(
+export async function outfit3dThumbnail<OutfitId extends Identifier>(
   this: ThisAllOverrides, outfitId: OutfitId
 ): ApiMethodResponse<Outfit3dData<OutfitId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<Outfit3dData<OutfitId>>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<Outfit3dData<OutfitId>>(
       `${baseUrl}/v1/users/outfit-3d`, {
         searchParams: { outfitId },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "outfit3dThumbnail")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "outfit3dThumbnail", overrides
       }
     )
 
-    return buildResponse({ data: rawBody, rawBody, response, cache })
-  }, [])
+    return buildResponse({ data: rawBody, rawBody, response, cacheMetadata })
+  })
 }
 
 /**
@@ -654,24 +634,23 @@ export async function outfit3dThumbnail<OutfitId extends number>(
  * @exampleData { "110540093": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/41b9a3552f17cc2d7bca01b37be25d40/420/420/Avatar/Png" } }
  * @exampleRawBody { data: [ { targetId: 110540093, state: "Completed", imageUrl: "https://tr.rbxcdn.com/41b9a3552f17cc2d7bca01b37be25d40/420/420/Avatar/Png" } ] }
  */
-export async function outfitsThumbnails<OutfitId extends number>(
+export async function outfitsThumbnails<OutfitId extends Identifier>(
   this: ThisAllOverrides, userOutfitIds: OutfitId[], size: OutfitSize="420x420", format: ThumbnailFormat="Png", isCircular: boolean=false
 ): ApiMethodResponse<OutfitsData, FormattedOutfitsData<OutfitId>> {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<OutfitsData>(`${baseUrl}/v1/users/outfits`, {
+    const { rawBody, response, cacheMetadata } = await this.http.get<OutfitsData>(`${baseUrl}/v1/users/outfits`, {
       searchParams: { userOutfitIds, size, format, isCircular },
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "outfitsThumbnails")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "outfitsThumbnails", overrides
     })
 
     const getFormattedData = (): FormattedOutfitsData<OutfitId> => createObjectMapByKeyWithMiddleware(
       rawBody.data, "targetId", ({ state, imageUrl }) => ({ state, imageUrl })
     )
     
-    return buildResponse({ data: getFormattedData, rawBody, response, cache })
-  }, [400])
+    return buildResponse({ data: getFormattedData, rawBody, response, cacheMetadata })
+  })
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -697,16 +676,15 @@ export async function outfitsThumbnails<OutfitId extends number>(
  * @exampleData { AvatarHeadShot: { "45348281": { requestId: null, errorCode: 0, errorMessage: "", state: "Completed", imageUrl: "https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f" } } }
  * @exampleRawBody { data: [ { requestId: null, errorCode: 0, errorMessage: "", targetId: 45348281, state: "Completed", imageUrl: "https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f" } ] }
   */
-export async function batchThumbnails<BReq extends BatchRequest>(this: ThisAllOverrides, requests: readonly BReq[]): ApiMethodResponse<
+export async function batchThumbnails<const BReq extends BatchRequest>(this: ThisAllOverrides, requests: readonly BReq[]): ApiMethodResponse<
   BatchData, FormattedBatchData<BReq>
 > {
   const overrides = this
 
   return baseHandler(async function(this: ThisProfile) {
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<BatchData>(`${baseUrl}/v1/batch`, {
+    const { rawBody, response, cacheMetadata } = await this.http.post<BatchData>(`${baseUrl}/v1/batch`, {
       body: requests,
-      cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "batchThumbnails")),
-      credentialsOverride: getCredentialsOverride(overrides)
+      apiName, methodName: "batchThumbnails", overrides
     })
 
     const getFormattedData = () => {
@@ -728,7 +706,7 @@ export async function batchThumbnails<BReq extends BatchRequest>(this: ThisAllOv
       return formattedData as Record<BReq["type"], Record<BReq["targetId"], BatchResponseElement>>
     }
 
-    return buildResponse({ data: getFormattedData, rawBody, response, cache })
-  }, [400])
+    return buildResponse({ data: getFormattedData, rawBody, response, cacheMetadata })
+  })
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,16 +1,13 @@
 // [ MODULES ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
 import { apiFuncBaseHandler as BaseHandler, buildApiMethodResponse as buildResponse, dataIsSuccess } from "../../../apis/apis.utils"
-
-import { getCacheSettingsOverride, getCredentialsOverride } from "../../../config/config"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // [ TYPES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 import type { Config, ThisAllOverrides } from "../../../config/config.types"
-import { calculateContentMD5, cloneAndMutateObject } from "../../../utils"
-import { AnyObject, PrettifyKeyof } from "../../../utils/utils.types"
+import { Identifier } from "../../../utils/utils.types"
 import type { ApiMethodResponse } from "../../apis.types"
-import { FormattedListOrderedDatastoreEntriesData, ListOrderedDatastoreEntriesConfig, OrderedDatastoreEntry, RawListOrderedDatastoreEntriesData } from "./orderedDataStoresApi.types"
+import type { FormattedListOrderedDatastoreEntriesData, ListOrderedDatastoreEntriesConfig, OrderedDatastoreEntry, RawListOrderedDatastoreEntriesData } from "./orderedDataStoresApi.types"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -42,23 +39,22 @@ export const shouldNotCacheMethods = [ "createOrderedDatastoreEntry", "deleteOrd
  * @exampleRawBody { entries: [ { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 54, id: "45348281" } ], nextPageToken: "" }
  */
 export async function listOrderedDatastoreEntries(
-  this: ThisAllOverrides, universeId: number, orderedDataStore: string, scope: string, config?: ListOrderedDatastoreEntriesConfig, cursor?: string
+  this: ThisAllOverrides, universeId: Identifier, orderedDataStore: string, scope: string, config?: ListOrderedDatastoreEntriesConfig, cursor?: string
 ): ApiMethodResponse<RawListOrderedDatastoreEntriesData, FormattedListOrderedDatastoreEntriesData, "PAGINATED"> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
     const [ maxPageSize, orderBy, filter ] = [ config?.maxPageSize, config?.orderBy, config?.filter ]
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<RawListOrderedDatastoreEntriesData>(
+    const { rawBody, response, cacheMetadata } = await this.http.get<RawListOrderedDatastoreEntriesData>(
       `${baseUrl}/v1/universes/${universeId}/orderedDataStores/${orderedDataStore}/scopes/${scope}/entries`, {
         searchParams: { max_page_size: maxPageSize, page_token: cursor, order_by: orderBy, filter },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "listOrderedDatastoreEntries")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "listOrderedDatastoreEntries", overrides
       }
     )
 
-    return buildResponse({ rawBody, data: rawBody.entries, response, cursors: { next: rawBody.nextPageToken }, cache })
-  }, [])
+    return buildResponse({ rawBody, data: rawBody.entries, response, cursors: { next: rawBody.nextPageToken }, cacheMetadata })
+  })
 }
 
 
@@ -82,25 +78,24 @@ export async function listOrderedDatastoreEntries(
  * @exampleRawBody { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 54, id: "45348281" }
  */
 export async function createOrderedDatastoreEntry<
-  UniverseId extends number, OrderedDataStore extends string, Scope extends string, Id extends string, Value extends number
+  UniverseId extends Identifier, OrderedDataStore extends string, Scope extends string, Id extends string, Value extends number
 >(
   this: ThisAllOverrides, universeId: UniverseId, orderedDataStore: OrderedDataStore, scope: Scope, id: Id, value: Value 
 ): ApiMethodResponse<OrderedDatastoreEntry<UniverseId, OrderedDataStore, Scope, Id, Value>> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<
+    const { rawBody, response, cacheMetadata } = await this.http.post<
       OrderedDatastoreEntry<UniverseId, OrderedDataStore, Scope, Id, Value>
     >(
       `${baseUrl}/v1/universes/${universeId}/orderedDataStores/${orderedDataStore}/scopes/${scope}/entries`, {
         searchParams: { id }, body: { value },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "createOrderedDatastoreEntry")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "createOrderedDatastoreEntry", overrides
       }
     )
 
-    return buildResponse({ rawBody, data: rawBody, response, cache })
-  }, [])
+    return buildResponse({ rawBody, data: rawBody, response, cacheMetadata })
+  })
 }
 
 
@@ -119,24 +114,23 @@ export async function createOrderedDatastoreEntry<
  * @exampleRawBody { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 54, id: "45348281" }
  */
 export async function orderedDatastoreEntry<
-  UniverseId extends number, OrderedDataStore extends string, Scope extends string, Id extends string
+  UniverseId extends Identifier, OrderedDataStore extends string, Scope extends string, Id extends string
 >(
   this: ThisAllOverrides, universeId: UniverseId, orderedDataStore: OrderedDataStore, scope: Scope, id: Id
 ): ApiMethodResponse<OrderedDatastoreEntry<UniverseId, OrderedDataStore, Scope, Id>> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.get<
+    const { rawBody, response, cacheMetadata } = await this.http.get<
       OrderedDatastoreEntry<UniverseId, OrderedDataStore, Scope, Id>
     >(
       `${baseUrl}/v1/universes/${universeId}/orderedDataStores/${orderedDataStore}/scopes/${scope}/entries/${id}`, {
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(apiName, "orderedDatastoreEntry")),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "orderedDatastoreEntry", overrides
       }
     )
 
-    return buildResponse({ rawBody, data: rawBody, response, cache })
-  }, [])
+    return buildResponse({ rawBody, data: rawBody, response, cacheMetadata })
+  })
 }
 
 
@@ -155,22 +149,19 @@ export async function orderedDatastoreEntry<
  * @exampleRawBody {}
  */
 export async function deleteOrderedDatastoreEntry(
-  this: ThisAllOverrides, universeId: number, orderedDataStore: string, scope: string, id: string
+  this: ThisAllOverrides, universeId: Identifier, orderedDataStore: string, scope: string, id: string
 ): ApiMethodResponse<{}, boolean> {
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.delete<{}>(
+    const { rawBody, response, cacheMetadata } = await this.http.delete<{}>(
       `${baseUrl}/v1/universes/${universeId}/orderedDataStores/${orderedDataStore}/scopes/${scope}/entries/${id}`, {
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
-          apiName, "deleteOrderedDatastoreEntry"
-        )),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "deleteOrderedDatastoreEntry", overrides
       }
     )
 
-    return buildResponse({ rawBody, data: () => dataIsSuccess(rawBody), response, cache })
-  }, [])
+    return buildResponse({ rawBody, data: () => dataIsSuccess(rawBody), response, cacheMetadata })
+  })
 }
 
 
@@ -195,7 +186,7 @@ export async function deleteOrderedDatastoreEntry(
  * @exampleRawBody { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 58, id: "45348281" }
  */
 export async function updateOrderedDatastoreEntry<
-  UniverseId extends number, OrderedDataStore extends string, Scope extends string, Id extends string, NewValue extends number
+  UniverseId extends Identifier, OrderedDataStore extends string, Scope extends string, Id extends string, NewValue extends number
 >(
   this: ThisAllOverrides, universeId: UniverseId, orderedDataStore: OrderedDataStore, scope: Scope,
   id: Id, newValue: NewValue, createIfNoEntryExists?:boolean
@@ -203,21 +194,18 @@ export async function updateOrderedDatastoreEntry<
   const overrides = this
   return BaseHandler(async function(this: ThisProfile) {
 
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.patch<
+    const { rawBody, response, cacheMetadata } = await this.http.patch<
       OrderedDatastoreEntry<UniverseId, OrderedDataStore, Scope, Id, NewValue>
     >(
       `${baseUrl}/v1/universes/${universeId}/orderedDataStores/${orderedDataStore}/scopes/${scope}/entries/${id}`, {
         searchParams: { allow_missing: createIfNoEntryExists || false },
         body: { value: newValue },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
-          apiName, "updateOrderedDatastoreEntry"
-        )),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "updateOrderedDatastoreEntry", overrides
       }
     )
 
-    return buildResponse({ rawBody, data: rawBody, response, cache })
-  }, [])
+    return buildResponse({ rawBody, data: rawBody, response, cacheMetadata })
+  })
 }
 
 
@@ -241,7 +229,7 @@ export async function updateOrderedDatastoreEntry<
  * @exampleRawBody { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 66, id: "45348281" }
  */
    export async function incrementOrderedDatastoreEntry<
-   UniverseId extends number, OrderedDataStore extends string, Scope extends string, Id extends string
+   UniverseId extends Identifier, OrderedDataStore extends string, Scope extends string, Id extends string
  >(
    this: ThisAllOverrides, universeId: UniverseId, orderedDataStore: OrderedDataStore, scope: Scope,
    id: Id, incrementBy: number, createIfNoEntryExists?:boolean
@@ -249,19 +237,16 @@ export async function updateOrderedDatastoreEntry<
    const overrides = this
    return BaseHandler(async function(this: ThisProfile) {
  
-    const { data:rawBody, response, cachedResultType:cache } = await this.http.post<
+    const { rawBody, response, cacheMetadata } = await this.http.post<
       OrderedDatastoreEntry<UniverseId, OrderedDataStore, Scope, Id>
     >(
       `${baseUrl}/v1/universes/${universeId}/orderedDataStores/${orderedDataStore}/scopes/${scope}/entries/${id}:increment`, {
         searchParams: { allow_missing: createIfNoEntryExists || false },
         body: { amount: incrementBy },
-        cacheSettings: this.cacheAdapter && (getCacheSettingsOverride(overrides) || await this.findSettings(
-          apiName, "updateOrderedDatastoreEntry"
-        )),
-        credentialsOverride: getCredentialsOverride(overrides)
+        apiName, methodName: "incrementOrderedDatastoreEntry", overrides
       }
     )
  
-     return buildResponse({ rawBody, data: rawBody, response, cache })
-   }, [])
+     return buildResponse({ rawBody, data: rawBody, response, cacheMetadata })
+   })
  }
