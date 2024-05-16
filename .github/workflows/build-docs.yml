@@ -11,10 +11,10 @@ jobs:
       - uses: oven-sh/setup-bun@v1
 
       - uses: GuillaumeFalourd/clone-github-repo-action@v2.1
-          with:
-            owner: 'shuding'
-            repository: 'nextra-docs-template'
-            access-token: ${{ secrets.ACCESS_TOKEN }}
-            
+        with:
+          owner: 'shuding'
+          repository: 'nextra-docs-template'
+          access-token: ${{ secrets.ACCESS_TOKEN }}
+
 
 
