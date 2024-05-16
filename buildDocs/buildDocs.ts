@@ -156,6 +156,8 @@ ${highlightEndpointMethod(tags.endpoint)}
   `
 )
 
+let count = 0
+
 const buildMdForApis = async (apisJson: { [apiName: string]: { [apiMethod: string]: MdData } }, apisName: "classic" | "cloud", basePath: string) => {
   const apisMetaJson: Record<string, string> = {}
   await rmdir(`${basePath}/${apisName}`, { recursive: true })
@@ -169,6 +171,8 @@ const buildMdForApis = async (apisJson: { [apiName: string]: { [apiMethod: strin
     for (const [methodName, methodData] of Object.entries(apis)) {
       await Bun.write(`${basePath}/${apisName}/${apiName}/${methodName}.md`, createMdFile(methodName, methodData))
       apiMetaJson[methodName] = methodName
+
+      count += 1
     }
 
     await Bun.write(`${basePath}/${apisName}/${apiName}/_meta.json`, JSON.stringify(apiMetaJson, null, 4))
@@ -209,8 +213,11 @@ await Bun.write(`./buildDocs/docs_site/pages/styles.css`, `
 `)
 
 // builds markdown.
-buildMdForApis(allJsDocData["cloud"] as any, "cloud", "./buildDocs/docs_site/pages")
-buildMdForApis(allJsDocData["classic"] as any, "classic", "./buildDocs/docs_site/pages")
+await buildMdForApis(allJsDocData["cloud"] as any, "cloud", "./buildDocs/docs_site/pages")
+await buildMdForApis(allJsDocData["classic"] as any, "classic", "./buildDocs/docs_site/pages")
 
 
 console.log("done!")
+
+
+console.log(count)
