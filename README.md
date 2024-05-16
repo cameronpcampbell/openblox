@@ -49,7 +49,10 @@ import { UsersApi } from "openblox/cloud";
 import { ClassicUsersApi } from "openblox/classic"; // Classic (BEDEV & BEDEV2) APIs will always be prefixed with `Classic`.
 
 /*
-Naming your Roblox Cookie environment variable `ROBLOX_COOKIE` will automatically import it into your Openblox config, therefore voiding the need to set it in the config manually. Similarly, naming your OpenCloud API Key environment variable `ROBLOX_CLOUD_KEY` will also automatically import it into your Openblox config.
+Naming your Roblox Cookie environment variable `ROBLOX_COOKIE` will automatically
+import it into your Openblox config, therefore voiding the need to set it in the config
+manually. Similarly, naming your OpenCloud API Key environment variable `ROBLOX_CLOUD_KEY`
+will also automatically import it into your Openblox config.
 */
 setConfig({
   cookie: process.env.MY_ROBLOX_COOKIE,
