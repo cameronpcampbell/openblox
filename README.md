@@ -2,6 +2,10 @@
 
   <img src="./assets/logo.svg" height="70px" width="auto" height="auto" />
 
+  <img height="10px" width="100%" src="./assets/invis.png" />
+
+  A strictly typed Roblox API wrapper which supports both classic (BEDEV & BEDEV2) and OpenCloud endpoints.
+
   <img height="20px" width="100%" src="./assets/invis.png" />
 
   <div>
@@ -14,16 +18,11 @@
 
   </div>
 
-  </br>
-
-  A strictly typed Roblox API wrapper which supports both classic (BEDEV & BEDEV2) and OpenCloud endpoints.
-
   - - -
   
 </div>
 
-</br>
-
+<img height="20px" width="100%" src="./assets/invis.png" />
 
 Openblox allows your typescript (and javascript) codebase to communicate with the Roblox API extemely easily.
 
@@ -42,7 +41,7 @@ It wraps over 100+ Roblox API endpoints, each with its own strictly typed respon
 
 - - -
 
-</br>
+<img height="20px" width="100%" src="./assets/invis.png" />
 
 <h3>Example Usage</h3>
 
@@ -76,7 +75,7 @@ See more examples [here](https://github.com/MightyPart/openblox/tree/main/exampl
 
 - - -
 
-</br>
+<img height="20px" width="100%" src="./assets/invis.png" />
 
 <h3>Openblox Methods</h3>
 
