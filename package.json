@@ -1,0 +1,68 @@
+{
+  "name": "openblox",
+  "type": "commonjs",
+  "version": "1.0.0-canary.4",
+  "exports": {
+    ".": "./src/index.ts",
+    "./config": "./src/config/index.ts",
+    "./classic": "./src/apis/classic/index.ts",
+    "./classic/*": "./src/apis/classic/*/index.ts",
+    "./cloud": "./src/apis/cloud/index.ts",
+    "./cloud/*": "./src/apis/cloud/*/index.ts",
+    "./cache/adapters": "./src/cache/cacheAdapters/index.ts"
+  },
+  "exports_PROD": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./config": {
+      "types": "./dist/config/index.d.ts",
+      "default": "./dist/config/index.js"
+    },
+    "./classic": {
+      "types": "./dist/apis/classic/index.d.ts",
+      "default": "./dist/apis/classic/index.js"
+    },
+    "./classic/*": {
+      "types": "./dist/apis/classic/*/index.d.ts",
+      "default": "./dist/apis/classic/*/index.js"
+    },
+    "./cloud": {
+      "types": "./dist/apis/cloud/index.d.ts",
+      "default": "./dist/apis/cloud/index.js"
+    },
+    "./cloud/*": {
+      "types": "./dist/apis/cloud/*/index.d.ts",
+      "default": "./dist/apis/cloud/*/index.js"
+    },
+    "./cache/adapters": {
+      "types": "./dist/cache/cacheAdapters/index.d.ts",
+      "default": "./dist/cache/cacheAdapters/index.js"
+    }
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.2",
+    "@types/lodash": "^4.17.0",
+    "@types/node": "^20.12.12",
+    "ts-arithmetic": "^0.1.1",
+    "typeforge": "0.0.19"
+  },
+  "optionalDependencies": {
+    "prettier": "^3.2.5",
+    "tsup": "^8.0.2",
+    "ts-morph": "^22.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "tablemark": "^3.1.0"
+  },
+  "scripts": {
+    "build:code": "delete dist && tsup ./src --dts --config ./tsconfig.json",
+    "build:docs": "bun run ./buildDocs/buildDocs.ts && npm --prefix ./buildDocs/docs_site run build",
+    "build": "bun run build:docs && bun run build:code"
+  }
+}
