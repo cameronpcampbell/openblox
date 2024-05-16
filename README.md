@@ -40,9 +40,9 @@ It wraps over 100+ Roblox API endpoints, each with its own strictly typed respon
 
 - Scarcely utilise classes to ensure treeshakability.
 
-</br>
-
 - - -
+
+</br>
 
 <h3>Example Usage</h3>
 
@@ -74,9 +74,9 @@ setConfig({
 
 See more examples [here](https://github.com/MightyPart/openblox/tree/main/examples)!
 
-</br>
-
 - - -
+
+</br>
 
 <h3>Openblox Methods</h3>
 
