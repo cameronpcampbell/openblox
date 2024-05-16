@@ -15,8 +15,26 @@ jobs:
       - run: "echo 'Bun.write(`./nextra-docs-template/next.config.js`, `const withNextra = require(\"nextra\")({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\" }); module.exports = withNextra({ distDir: \"./build\" })`)' | bun run -"
       - run: npm run --prefix ./nextra-docs-template build
 
-      - run: ls
-      - run: cd ./nextra-docs-template && ls
+      - name: Upload artifact 📡
+      - uses: actions/configure-pages@v4
+        with:
+          static_site_generator: next
 
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          name: my-artifact
+          path: ./nextra-docs-template/build
 
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Publish to GitHub Pages 🚀
+        id: deployment
+        uses: actions/deploy-pages@v4
 
