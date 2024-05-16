@@ -4,9 +4,8 @@
 
   <img height="10px" width="100%" src="./assets/invis.png" />
 
-  A strictly typed Roblox API wrapper which supports both classic (BEDEV & BEDEV2) and OpenCloud endpoints.
-
   <img height="20px" width="100%" src="./assets/invis.png" />
+
 
   <div>
 
@@ -17,6 +16,8 @@
   [<img src="./assets/repo.svg" width="auto" height="18px" />](https://github.com/MightyPart/openblox)
 
   </div>
+
+  A strictly typed Roblox API wrapper which supports both classic (BEDEV & BEDEV2) and OpenCloud endpoints.
 
   - - -
   
