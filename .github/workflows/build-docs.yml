@@ -10,8 +10,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
 
-      - run: bunx create-next-app@^13.0.6 docs_site --ts --no-tailwind --no-eslint --no-app --no-src-dir --no-import-alias --empty --use-bun
-      - run: bun i next@^13.0.6 nextra@2.13.4 nextra-theme-docs@2.13.4 react@^18.2.0 react-dom@^18.2.0  
+      - run: git clone https://github.com/shuding/nextra-docs-template docs_site
       - run: cd docs_site
-      - run: "echo 'Bun.write(`./next.config.js`, `const withNextra = require(\"nextra\")({ output: \"build\" }); module.exports = withNextra()`)' | bun run -"
+      - run: "echo 'Bun.write(`./next.config.js`, `const withNextra = require('nextra')({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\", output: \"build\" })`)' | bun run -"
       - run: bun run build
+
+
