@@ -15,7 +15,6 @@ jobs:
       - run: "echo 'Bun.write(`./nextra-docs-template/next.config.js`, `const withNextra = require(\"nextra\")({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\" }); module.exports = withNextra({ distDir: \"./build\" })`)' | bun run -"
       - run: npm run --prefix ./nextra-docs-template build
 
-      - name: Upload artifact 📡
       - uses: actions/configure-pages@v4
         with:
           static_site_generator: next
