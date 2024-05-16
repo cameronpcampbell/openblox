@@ -16,5 +16,7 @@ jobs:
           repository: 'nextra-docs-template'
           access-token: ${{ secrets.ACCESS_TOKEN }}
 
+      - run: cd nextra-docs-template && ls
+
 
 
