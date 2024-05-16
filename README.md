@@ -16,7 +16,7 @@
 
   </br>
 
-  A strictly typed api wrapper for the roblox api which supports both classic (BEDEV & BEDEV2) and OpenCloud endpoints.
+  A strictly typed Roblox API wrapper which supports both classic (BEDEV & BEDEV2) and OpenCloud endpoints.
 
   - - -
   
