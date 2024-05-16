@@ -10,18 +10,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
 
-      - uses: GuillaumeFalourd/clone-github-repo-action@v2.1
-        with:
-          owner: 'shuding'
-          repository: 'nextra-docs-template'
-          access-token: ${{ secrets.ACCESS_TOKEN }}
-
-      - run: cd nextra-docs-template
-      - run: echo 'console.log(Bun.main)' | bun run -
-      - run: "echo 'Bun.write(`./next.config.js`, `const withNextra = require('nextra')({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\", output: \"build\" })`)' | bun run -"
-      - run: npm i
+      - run: git clone https://github.com/shuding/nextra-docs-template
       - run: ls
-      - run: cd ../ && npm run --prefix ./openblox/*  build
 
 
 
