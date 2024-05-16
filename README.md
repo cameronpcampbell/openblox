@@ -22,7 +22,7 @@
   
 </div>
 
-<img height="20px" width="100%" src="./assets/invis.png" />
+<img height="0px" width="100%" src="./assets/invis.png" />
 
 Openblox allows your typescript (and javascript) codebase to communicate with the Roblox API extemely easily.
 
@@ -41,7 +41,7 @@ It wraps over 100+ Roblox API endpoints, each with its own strictly typed respon
 
 - - -
 
-<img height="20px" width="100%" src="./assets/invis.png" />
+<img height="0px" width="100%" src="./assets/invis.png" />
 
 <h3>Example Usage</h3>
 
@@ -75,7 +75,7 @@ See more examples [here](https://github.com/MightyPart/openblox/tree/main/exampl
 
 - - -
 
-<img height="20px" width="100%" src="./assets/invis.png" />
+<img height="0px" width="100%" src="./assets/invis.png" />
 
 <h3>Openblox Methods</h3>
 
