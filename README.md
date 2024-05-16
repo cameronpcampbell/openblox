@@ -25,7 +25,7 @@
 </br>
 
 
-Openblox allows your typescript (and javascript) codebases to communicate with the roblox api extremely easily.
+Openblox allows your typescript (and javascript) codebase to communicate with the Roblox API extemely easily.
 
 It wraps over 100+ Roblox API endpoints, each with its own strictly typed response data. Typings were written manually as opposed to programatically generating them to ensure the strictest possible type-safety.
 
@@ -44,7 +44,7 @@ It wraps over 100+ Roblox API endpoints, each with its own strictly typed respon
 
 - - -
 
-<h3>Example</h3>
+<h3>Example Usage</h3>
 
 ```ts
 import "dotenv/config";
@@ -71,6 +71,8 @@ setConfig({
 
 })
 ```
+
+See more examples [here](https://github.com/MightyPart/openblox/tree/main/examples)!
 
 </br>
 
