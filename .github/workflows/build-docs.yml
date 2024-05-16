@@ -1,9 +1,9 @@
 name: build-docs
+on: push
 jobs:
   build-docs:
     name: build-docs
     runs-on: ubuntu-latest
-    on: push
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
