@@ -12,7 +12,13 @@ jobs:
 
       - run: git clone https://github.com/shuding/nextra-docs-template
       - run: cd ./nextra-docs-template && npm i && cd ../
+      - run: "echo 'Bun.write(`./nextra-docs-template/next.config.js`, `const withNextra = require('nextra')({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\", output: \"build\" })`)' | bun run -"
       - run: npm run --prefix ./nextra-docs-template build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          name: my-artifact
+          path: ./nextra-docs-template/build
 
 
 
