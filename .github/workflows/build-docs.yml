@@ -11,8 +11,7 @@ jobs:
       - uses: oven-sh/setup-bun@v1
 
       - run: git clone https://github.com/shuding/nextra-docs-template
-      - run: cd nextra-docs-template
-      - run: npm run build
+      - run: npm run --prefix ./nextra-docs-template build
 
 
 
