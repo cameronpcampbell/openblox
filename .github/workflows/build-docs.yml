@@ -16,7 +16,10 @@ jobs:
           repository: 'nextra-docs-template'
           access-token: ${{ secrets.ACCESS_TOKEN }}
 
-      - run: cd nextra-docs-template && ls
+      - run: cd nextra-docs-template
+      - run: "echo 'Bun.write(`./next.config.js`, `const withNextra = require('nextra')({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\", output: \"build\" })`)' | bun run -"
+      -run: bun i
+      -run: bun run build
 
 
 
