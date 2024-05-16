@@ -12,5 +12,4 @@ jobs:
 
       - run: bun i next@^13.0.6 nextra@2.13.4 nextra-theme-docs@2.13.4 react@^18.2.0 react-dom@^18.2.0  
       - run: bunx create-next-app docs_site --v 13.0.6 --ts --no-tailwind --no-eslint --no-app --no-src-dir --no-import-alias --empty --use-bun
-      - run: "echo 'Bun.write(`./next.config.js`, `const withNextra = require("nextra")({ output: \"build\" }); module.exports = withNextra()`)' | bun run -"
-      - run: cd docs_site && bun run build && cd ../
+      - run: "cd docs_site && bun run build && cd ../"
