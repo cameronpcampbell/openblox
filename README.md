@@ -1,17 +1,17 @@
 <div align="center">
 
-  <img src="./assets/logo.svg" height="70px" width="auto" height="auto" />
+  <img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/logo.svg" height="70px" width="auto" height="auto" />
 
-  <img height="10px" width="100%" src="./assets/invis.png" />
+  <img height="10px" width="100%" src="https://github.com/MightyPart/openblox/blob/rewrite/assets/invis.png" />
 
 
   <div>
 
-  [<img src="./assets/docs.svg" width="auto" height="18px" />](https:/open.blox.wiki)
-  <img src="./assets/dot.svg" width="auto" height="18px" />
-  [<img src="./assets/package.svg" width="auto" height="18px" />](https://www.npmjs.com/package/openblox)
-  <img src="./assets/dot.svg" width="auto" height="18px" />
-  [<img src="./assets/repo.svg" width="auto" height="18px" />](https://github.com/MightyPart/openblox)
+  [<img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/docs.svg" width="auto" height="18px" />](https://open.blox.wiki)
+  <img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/dot.svg" width="auto" height="18px" />
+  [<img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/package.svg" width="auto" height="18px" />](https://www.npmjs.com/package/openblox)
+  <img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/dot.svg" width="auto" height="18px" />
+  [<img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/repo.svg" width="auto" height="18px" />](https://github.com/MightyPart/openblox)
 
   </div>
 
@@ -21,7 +21,7 @@
   
 </div>
 
-<img height="0px" width="100%" src="./assets/invis.png" />
+<img height="0px" width="100%" src="https://github.com/MightyPart/openblox/blob/rewrite/assets/invis.png" />
 
 Openblox allows your typescript (and javascript) codebase to communicate with the Roblox API extemely easily.
 
