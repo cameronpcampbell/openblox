@@ -6,11 +6,11 @@
 
   <div>
 
-  [<img src="./assets/docs.svg" width="auto" height="16px" />](https:/open.blox.wiki)
-  <img src="./assets/dot.svg" width="auto" height="16px" />
-  [<img src="./assets/package.svg" width="auto" height="16px" />](https://www.npmjs.com/package/openblox)
-  <img src="./assets/dot.svg" width="auto" height="16px" />
-  [<img src="./assets/repo.svg" width="auto" height="16px" />](https://github.com/MightyPart/openblox)
+  [<img src="./assets/docs.svg" width="auto" height="18px" />](https:/open.blox.wiki)
+  <img src="./assets/dot.svg" width="auto" height="18px" />
+  [<img src="./assets/package.svg" width="auto" height="18px" />](https://www.npmjs.com/package/openblox)
+  <img src="./assets/dot.svg" width="auto" height="18px" />
+  [<img src="./assets/repo.svg" width="auto" height="18px" />](https://github.com/MightyPart/openblox)
 
   </div>
 
