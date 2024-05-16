@@ -25,9 +25,7 @@
 </br>
 
 
-Openblox allows your typescript (and javascript) codebases to communicate with the roblox api extremely easily.
-
-- Wraps over 100+ Roblox API endpoints, each with its own strictly typed response data.
+Openblox allows your typescript (and javascript) codebases to communicate with the roblox api extremely easily. It wraps over 100+ Roblox API endpoints, each with its own strictly typed response data. To ensure the strict possible type-safety typings were written manually as opposed to programatically generating them.
 
 - Automatically handles csrf tokens.
 
