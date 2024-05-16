@@ -12,7 +12,7 @@ jobs:
 
       - run: git clone https://github.com/shuding/nextra-docs-template
       - run: npm i --prefix ./nextra-docs-template
-      - run: "echo 'Bun.write(`./nextra-docs-template/next.config.js`, `const withNextra = require(\"nextra\")({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\", output: \"export\" }); module.exports = withNextra()`)' | bun run -"
+      - run: "echo 'Bun.write(`./nextra-docs-template/next.config.js`, `const withNextra = require(\"nextra\")({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\", distDir: \"./build\" }); module.exports = withNextra()`)' | bun run -"
       - run: npm run --prefix ./nextra-docs-template build
 
       - run: ls
