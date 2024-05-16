@@ -2,7 +2,7 @@
 
   <img src="./assets/logo.svg" height="70px" width="auto" height="auto" />
 
-  </br></br>
+  <br></br>
 
   <div>
 
