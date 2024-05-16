@@ -20,7 +20,7 @@ jobs:
       - run: "echo 'Bun.write(`./next.config.js`, `const withNextra = require('nextra')({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\", output: \"build\" })`)' | bun run -"
       - run: npm i
       - run: ls
-      -run: npm run build
+      - run: npm run build
 
 
 
