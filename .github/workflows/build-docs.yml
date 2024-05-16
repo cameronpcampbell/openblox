@@ -21,7 +21,7 @@ jobs:
 
       - run: git clone https://github.com/shuding/nextra-docs-template
       - run: npm i --prefix ./nextra-docs-template
-      - run: "echo 'Bun.write(`./nextra-docs-template/next.config.js`, `const withNextra = require(\"nextra\")({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\" }); module.exports = withNextra({ distDir: \"./build\", basePath: \"/pages\" })`)' | bun run -"
+      - run: "echo 'Bun.write(`./nextra-docs-template/next.config.js`, `const withNextra = require(\"nextra\")({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\" }); module.exports = withNextra({ output: \"export\", distDir: \"./build\", basePath: \"/openblox\" })`)' | bun run -"
       - run: "echo 'Bun.write(`./nextra-docs-template/.nojekyll`, ``)' | bun run -"
       - run: npm run --prefix ./nextra-docs-template build
 
