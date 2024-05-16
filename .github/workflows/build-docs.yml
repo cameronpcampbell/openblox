@@ -12,7 +12,7 @@ jobs:
 
       - run: git clone https://github.com/shuding/nextra-docs-template docs_site
       - run: cd docs_site
+      - run: ls
       - run: "echo 'Bun.write(`./next.config.js`, `const withNextra = require('nextra')({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\", output: \"build\" })`)' | bun run -"
-      - run: bun run build
 
 
