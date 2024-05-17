@@ -190,37 +190,6 @@
           }
         ]
       },
-      "groupJoinRequests": {
-        "description": "Gets join requests for a group.",
-        "tags": {
-          "endpoint": "GET /v2/groups/{groupId}/join-requests",
-          "example": "const { data: joinRequests } = await GroupsApi.groupJoinRequests({ groupId: 5850082 });",
-          "exampleData": "[\n  {\n    path: \"groups/5850082/join-requests/2655994471\",\n    createTime: \"2024-05-12T16:32:46.841Z\",\n    user: \"users/2655994471\",\n  },\n]\n",
-          "exampleRawBody": "{\n  groupJoinRequests: [\n    {\n      path: \"groups/5850082/join-requests/2655994471\",\n      createTime: \"2024-05-12T16:32:46.841Z\",\n      user: \"users/2655994471\",\n    },\n  ],\n  nextPageToken: \"\",\n}\n"
-        },
-        "params": [
-          {
-            "name": "groupId",
-            "type": "GroupId",
-            "description": "The id of the group to get join requests for."
-          },
-          {
-            "name": "limit",
-            "type": "?",
-            "description": "The maximum number of group join requests to return. The service might return fewer than this value. If unspecified, at most 10 group join requests are returned. The maximum value is 20 and higher values are set to 20."
-          },
-          {
-            "name": "filter",
-            "type": "?",
-            "description": "This field may be set in order to filter the resources returned."
-          },
-          {
-            "name": "cursor",
-            "type": "?",
-            "description": "A page token, received from a previous call, to retrieve a subsequent page."
-          }
-        ]
-      },
       "groupMembers": {
         "description": "Gets join requests for a group.",
         "tags": {
@@ -299,6 +268,79 @@
           {
             "name": "cursor",
             "description": "A page token, received from a previous call, to retrieve a subsequent page."
+          }
+        ]
+      },
+      "groupJoinRequests": {
+        "description": "Gets join requests for a group.",
+        "tags": {
+          "endpoint": "GET /v2/groups/{groupId}/join-requests",
+          "example": "const { data: joinRequests } = await GroupsApi.groupJoinRequests({ groupId: 5850082 });",
+          "exampleData": "[\n  {\n    path: \"groups/5850082/join-requests/2655994471\",\n    createTime: \"2024-05-12T16:32:46.841Z\",\n    user: \"users/2655994471\",\n  },\n]\n",
+          "exampleRawBody": "{\n  groupJoinRequests: [\n    {\n      path: \"groups/5850082/join-requests/2655994471\",\n      createTime: \"2024-05-12T16:32:46.841Z\",\n      user: \"users/2655994471\",\n    },\n  ],\n  nextPageToken: \"\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The id of the group to get join requests for."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The maximum number of group join requests to return. The service might return fewer than this value. If unspecified, at most 10 group join requests are returned. The maximum value is 20 and higher values are set to 20."
+          },
+          {
+            "name": "filter",
+            "type": "?",
+            "description": "This field may be set in order to filter the resources returned."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "A page token, received from a previous call, to retrieve a subsequent page."
+          }
+        ]
+      },
+      "acceptGroupJoinRequest": {
+        "description": "Accepts a group join request.",
+        "tags": {
+          "endpoint": "POST /v2/groups/{groupId}/join-requests/{userId}:accept",
+          "example": "const { data: success } = await GroupsApi.acceptGroupJoinRequest({ groupId: 5850082, userId: 2655994471 });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to accept a join request for."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to accept into the group."
+          }
+        ]
+      },
+      "declineGroupJoinRequest": {
+        "description": "Declines a group join request.",
+        "tags": {
+          "endpoint": "POST /v2/groups/{groupId}/join-requests/{userId}:decline",
+          "example": "const { data: success } = await GroupsApi.declineGroupJoinRequest({ groupId: 5850082, userId: 2655994471 });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to decline a join request for."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to decline from the group."
           }
         ]
       }
@@ -2045,13 +2087,13 @@
           }
         ]
       },
-      "removeAllGroupWallPostMadeByUser": {
+      "removeAllGroupWallPostsMadeByUser": {
         "description": "Removes all group wall posts made by a specific user.",
         "tags": {
           "category": "Wall",
           "endpoint": "GET /v1/groups/{groupId}/wall/users/{userId}/posts",
           "tags": "[ \"Cookie\" ]",
-          "example": "const { data: success } = await ClassicGroupsApi.removeAllGroupWallPostMadeByUser({\n  groupId: 5850082,\n  userId: 45348281,\n});",
+          "example": "const { data: success } = await ClassicGroupsApi.removeAllGroupWallPostsMadeByUser({\n  groupId: 5850082,\n  userId: 45348281,\n});",
           "exampleData": "",
           "exampleRawBody": "{}\n"
         },
@@ -2140,7 +2182,147 @@
         "params": [
           {
             "name": "roleIds",
+            "type": "ArrayNonEmpty<RoleId>",
             "description": "The ids of roles to get."
+          }
+        ]
+      },
+      "primaryGroupForUser": {
+        "description": "Gets a user's primary group.",
+        "tags": {
+          "category": "Primary Group",
+          "endpoint": "GET /v1/users/{userId}/groups/primary/role",
+          "example": "const { data: primaryGroup } = await ClassicGroupsApi.primaryGroupForUser({ userId: 45348281 });",
+          "exampleData": "{\n  group: {\n    id: 5850082,\n    name: \"MightyPart Games\",\n    description: \"Welcome to my amazing group\",\n    owner: {\n      hasVerifiedBadge: false,\n      userId: 45348281,\n      username: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n    shout: null,\n    isBuildersClubOnly: false,\n    publicEntryAllowed: true,\n    hasVerifiedBadge: false,\n  },\n  role: { id: 38353811, name: \"NamelessGuy2005 - Scriptor\", rank: 255 },\n}\n",
+          "exampleRawBody": "{\n  group: {\n    id: 5850082,\n    name: \"MightyPart Games\",\n    description: \"Welcome to my amazing group\",\n    owner: {\n      hasVerifiedBadge: false,\n      userId: 45348281,\n      username: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n    shout: null,\n    isBuildersClubOnly: false,\n    publicEntryAllowed: true,\n    hasVerifiedBadge: false,\n  },\n  role: { id: 38353811, name: \"NamelessGuy2005 - Scriptor\", rank: 255 },\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get the primary group for."
+          }
+        ]
+      },
+      "authenticatedUserRemovePrimaryGroup": {
+        "description": "Removes the authenticated user's primary group.",
+        "tags": {
+          "category": "Primary Group",
+          "endpoint": "DELETE /v1/user/groups/primary",
+          "example": "const { data: success } = await ClassicGroupsApi.authenticatedUserRemovePrimaryGroup();",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": []
+      },
+      "authenticatedUserSetPrimaryGroup": {
+        "description": "Sets the authenticated user's primary group.",
+        "tags": {
+          "category": "Primary Group",
+          "endpoint": "POST /v1/user/groups/primary",
+          "example": "const { data: success } = await ClassicGroupsApi.authenticatedUserSetPrimaryGroup({ groupId: 5850082 });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to set as the primary group."
+          }
+        ]
+      },
+      "updateGroupRoleSet": {
+        "description": "Updates an existing role set.",
+        "tags": {
+          "category": "Role Sets",
+          "endpoint": "PATCH /v1/groups/{groupId}/rolesets/{roleSetId}",
+          "example": "const { data: updatedRole } = await ClassicGroupsApi.updateGroupRoleSet({\n  groupId: 5850082,\n  roleSetId: 38353813,\n  newData: {\n    name: \"Mighty Member\",\n    description: \"A regular group member.\",\n    rank: 2,\n  },\n});",
+          "exampleData": "{\n  id: 38353813,\n  name: \"Mighty Member\",\n  description: \"A regular group member.\",\n  rank: 2,\n  memberCount: 94,\n}\n",
+          "exampleRawBody": "{\n  id: 38353813,\n  name: \"Mighty Member\",\n  description: \"A regular group member.\",\n  rank: 2,\n  memberCount: 94,\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group."
+          },
+          {
+            "name": "roleSetId",
+            "type": "Identifier",
+            "description": "The id of the role to update."
+          },
+          {
+            "name": "request",
+            "description": "The updated information."
+          }
+        ]
+      },
+      "groupIdsToGroupsInfo": {
+        "description": "Gets information about multiple groups.",
+        "tags": {
+          "category": "Groups",
+          "endpoint": "GET /v2/groups",
+          "example": "const { data: groupsInfo } = await ClassicGroupsApi.groupIdsToGroupsInfo({ groupIds: [5850082] });",
+          "exampleData": "{\n  \"5850082\": {\n    name: \"MightyPart Games\",\n    description: \"Welcome to my amazing group\",\n    owner: { id: 45348281, type: \"User\" },\n    created: \"2020-03-29T18:15:20.100Z\",\n    hasVerifiedBadge: false,\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      id: 5850082,\n      name: \"MightyPart Games\",\n      description: \"Welcome to my amazing group\",\n      owner: { id: 45348281, type: \"User\" },\n      created: \"2020-03-29T18:15:20.1Z\",\n      hasVerifiedBadge: false,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupIds",
+            "type": "GroupId[]",
+            "description": "The id of the groups to get information for."
+          }
+        ]
+      },
+      "allGroupRolesForUser_v2": {
+        "description": "Gets a list of all roles for every group that the specified user is in.",
+        "tags": {
+          "category": "Groups V2",
+          "endpoint": "GET /v2/users/{userId}/groups/roles",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: groups } = await ClassicGroupsApi.allGroupRolesForUser_v2({ userId: 45348281 });",
+          "exampleData": "[\n  {\n    group: {\n      id: 5850082,\n      name: \"MightyPart Games\",\n      memberCount: 108,\n      hasVerifiedBadge: false,\n    },\n    role: { id: 5850082, name: \"Mighty Member\", rank: 100 },\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      group: {\n        id: 5850082,\n        name: \"MightyPart Games\",\n        memberCount: 108,\n        hasVerifiedBadge: false,\n      },\n      role: { id: 5850082, name: \"Mighty Member\", rank: 100 },\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get roles for."
+          }
+        ]
+      },
+      "groupWallPosts_V2": {
+        "description": "Gets a list of group wall posts.",
+        "tags": {
+          "category": "Wall",
+          "endpoint": "GET /v2/groups/{groupId}/wall/posts",
+          "tags": "[ \"?Cookie\" ]",
+          "example": "const { data: wallPosts } = await ClassicGroupsApi.groupWallPosts_V2({ groupId: 5850082 });",
+          "exampleData": "[\n  {\n    id: 2724986278,\n    poster: {\n      user: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      role: { id: 38353813, name: \"Mighty Member\", rank: 1 },\n    },\n    body: \"Lorem ipsum dolor sit amet.\",\n    created: \"2022-11-19T16:30:38.197Z\",\n    updated: \"2022-11-19T16:30:38.197Z\",\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: \"2549745135_1_00ad0f026ca1d251093fc548c366b7ea\",\n  data: [\n    {\n      id: 2724986278,\n      poster: {\n        user: {\n          hasVerifiedBadge: false,\n          userId: 45348281,\n          username: \"MightyPart\",\n          displayName: \"MightyPart\",\n        },\n        role: { id: 38353813, name: \"Mighty Member\", rank: 1 },\n      },\n      body: \"Lorem ipsum dolor sit amet.\",\n      created: \"2022-11-19T16:30:38.197Z\",\n      updated: \"2022-11-19T16:30:38.197Z\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to get wall posts for."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The number of results to be returned."
+          },
+          {
+            "name": "sortOrder",
+            "type": "?",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "The paging cursor for the previous or next page."
           }
         ]
       }
@@ -2393,6 +2575,104 @@
       }
     },
     "thumbnails": {
+      "assetsThumbnails": {
+        "description": "Gets thumbnail for multiple assets.",
+        "tags": {
+          "category": "Assets",
+          "endpoint": "GET /v1/assets",
+          "example": "const { data: assetsThumbnails } = await ClassicThumbnailsApi.assetsThumbnails({\n  assetIds: [7229442422],\n  size: \"420x420\",\n});",
+          "exampleData": "{\n  \"7229442422\": {\n    state: \"Completed\",\n    imageUrl: \"https://tr.rbxcdn.com/7da8e78d9e2e303f0122c355f19f66d5/420/420/Image/Png\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      targetId: 7229442422,\n      state: \"Completed\",\n      imageUrl: \"https://tr.rbxcdn.com/7da8e78d9e2e303f0122c355f19f66d5/420/420/Image/Png\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "assetIds",
+            "type": "ArrayNonEmpty<AssetId>",
+            "description": "The ids of the assets to get thumbnails for."
+          },
+          {
+            "name": "returnPolicy",
+            "type": "?",
+            "description": "The policy to use in selecting the thumbnails to return."
+          },
+          {
+            "name": "size",
+            "type": "AssetSize",
+            "description": "The thumbnails size (formatted as {width}x{height})."
+          },
+          {
+            "name": "format",
+            "type": "?",
+            "description": "Specifies the format of the thumbnails."
+          },
+          {
+            "name": "isCircular",
+            "type": "?",
+            "description": "Dictates if the thumbnails should be masked by a circle."
+          }
+        ]
+      },
+      "asset3dThumbnail": {
+        "description": "Gets 3d thumbnail for an asset.",
+        "tags": {
+          "category": "Assets",
+          "endpoint": "GET /v1/assets-thumbnail-3d",
+          "example": "const { data: asset3dData } = await ClassicThumbnailsApi.asset3dThumbnail({ assetId: 6768917255 });",
+          "exampleData": "{\n  targetId: 6768917255,\n  state: \"Completed\",\n  imageUrl: \"https://t2.rbxcdn.com/30ac72dfa05dff91baae9b8c0f9049e3\",\n}\n",
+          "exampleRawBody": "{\n  targetId: 6768917255,\n  state: \"Completed\",\n  imageUrl: \"https://t2.rbxcdn.com/30ac72dfa05dff91baae9b8c0f9049e3\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "assetId",
+            "type": "AssetId",
+            "description": "The id of the asset to get a 3d thumbnail for."
+          }
+        ]
+      },
+      "assetAnimatedThumbnail": {
+        "description": "Gets animated thumbnail for an asset.",
+        "tags": {
+          "category": "Assets",
+          "endpoint": "GET /v1/asset-thumbnail-animated",
+          "example": "const { data: assetAnimatedData } = await ClassicThumbnailsApi.assetAnimatedThumbnail({ assetId: 6768917255 });",
+          "exampleData": "{ targetId: 6768917255, state: \"Completed\", imageUrl: null }\n",
+          "exampleRawBody": "{ targetId: 6768917255, state: \"Completed\", imageUrl: null }\n"
+        },
+        "params": [
+          {
+            "name": "assetId",
+            "type": "AssetId",
+            "description": "The id of the asset to get an animated thumbnail for."
+          }
+        ]
+      },
+      "badgesThumbnails": {
+        "description": "Gets thumbnail for multiple badges.",
+        "tags": {
+          "category": "Badges",
+          "endpoint": "GET /v1/badges/icons",
+          "example": "const { data: badgesThumbnails } = await ClassicThumbnailsApi.badgesThumbnails([2124533401]);",
+          "exampleData": "{\n  \"2124533401\": {\n    state: \"Completed\",\n    imageUrl: \"https://tr.rbxcdn.com/87105a9a85ea09e7591cfdd3f0825225/150/150/Image/Png\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      targetId: 2124533401,\n      state: \"Completed\",\n      imageUrl: \"https://tr.rbxcdn.com/87105a9a85ea09e7591cfdd3f0825225/150/150/Image/Png\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "badgeIds",
+            "type": "ArrayNonEmpty<BadgeId>",
+            "description": "The ids of the badges to get thumbnails for."
+          },
+          {
+            "name": "format",
+            "type": "ThumbnailFormat",
+            "description": "Specifies the format of the thumbnailS."
+          },
+          {
+            "name": "isCircular",
+            "type": "?",
+            "description": "Dictates if the thumbnails should be masked by a circle."
+          }
+        ]
+      },
       "gamesThumbnails": {
         "description": "Gets thumbnail(s) for multiple games.",
         "tags": {
