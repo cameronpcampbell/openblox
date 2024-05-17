@@ -54,7 +54,10 @@ const allJsDocData: {
 
 
 // [ Private Functions ] /////////////////////////////////////////////////////////
-const formatApiName = (apisName: string, apiName: string) => `${apisName === "classic" ? "Classic" : ""}${apiName.charAt(0).toUpperCase() + apiName.slice(1)}Api`
+const formatApiName = (apisName: string, apiName: string) => {
+  const [ _, apiBaseName, apiVer ] = /^([a-zA-Z]+)(_V[0-9]+)?$/.exec(apiName) as any as [ string, string, string | undefined ];
+  return `${apisName === "classic" ? "Classic" : ""}${apiBaseName.charAt(0).toUpperCase() + apiBaseName.slice(1)}Api${apiVer ? apiVer : ""}`
+}
 
 const getFullType = (typeNode: TypeLiteralNode) => {
   const typeNodeText = typeNode.getText()
