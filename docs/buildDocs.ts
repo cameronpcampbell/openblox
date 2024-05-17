@@ -11,9 +11,10 @@ import type { ArrowFunction, CallExpression, Directory, Identifier, Node, Parame
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
 const root = `${Bun.main.split("/openblox/", 2)[0]}/openblox`
+const docsSitePages = `${root}/docs_site/pages`
 
 const project = new Project({
-  tsConfigFilePath: `${root}/../tsconfig.json`,
+  tsConfigFilePath: `${root}/tsconfig.json`,
 })
 
 const isoDateRegex = /(\d{4})-(\d{2})-(\d{2})T((\d{2}):(\d{2}):(\d{2}))\.(\d{3})Z/g
@@ -188,16 +189,16 @@ const buildMdForApis = async (apisJson: { [apiName: string]: { [apiMethod: strin
 await buildDocsForApis(classicApis, "classic")
 await buildDocsForApis(cloudApis, "cloud")
 
-Bun.write(`${root}/buildDocs/docs.json`, JSON.stringify(allJsDocData, null, 2))
+Bun.write(`${root}/docs/docs.json`, JSON.stringify(allJsDocData, null, 2))
 
 // writes the root _meta.json
-await mkdir(`${root}/buildDocs/docs_site/pages`, { recursive: true })
-await Bun.write(`${root}/buildDocs/docs_site/pages/_meta.json`, JSON.stringify({
+await mkdir(docsSitePages, { recursive: true })
+await Bun.write(`${docsSitePages}/_meta.json`, JSON.stringify({
   "cloud": { type: "page", title: "Cloud APIs" },
   "classic": { type: "page", title: "Classic APIs" },
 }, null, 4))
 
-await Bun.write(`${root}/buildDocs/docs_site/pages/_app.js`, `
+await Bun.write(`${docsSitePages}/_app.js`, `
 import './styles.css'
  
 export default function MyApp({ Component, pageProps }) {
@@ -206,7 +207,7 @@ export default function MyApp({ Component, pageProps }) {
 `)
 
 
-await Bun.write(`./buildDocs/docs_site/pages/styles.css`, `
+await Bun.write(`${docsSitePages}/styles.css`, `
 @media (min-width:768px) {
   .nextra-sidebar-container {
     width: 22rem !important;
@@ -215,8 +216,8 @@ await Bun.write(`./buildDocs/docs_site/pages/styles.css`, `
 `)
 
 // builds markdown.
-await buildMdForApis(allJsDocData["cloud"] as any, "cloud", `${root}/buildDocs/docs_site/pages`)
-await buildMdForApis(allJsDocData["classic"] as any, "classic", `${root}/buildDocs/docs_site/pages`)
+await buildMdForApis(allJsDocData["cloud"] as any, "cloud", `${root}/docs_site/pages`)
+await buildMdForApis(allJsDocData["classic"] as any, "classic", `${root}/docs_site/pages`)
 
 
 console.log("done!")
