@@ -53,6 +53,8 @@ const allJsDocData: {
 
 
 // [ Private Functions ] /////////////////////////////////////////////////////////
+const formatApiName = (apisName: string, apiName: string) => `${apisName === "classic" ? "Classic" : ""}${apiName.charAt(0).toUpperCase() + apiName.slice(1)}Api`
+
 const getFullType = (typeNode: TypeLiteralNode) => {
   const typeNodeText = typeNode.getText()
   if (typeNodeText === "Identifier") return "Identifier"
@@ -180,7 +182,7 @@ const buildMdForApis = async (apisJson: { [apiName: string]: { [apiMethod: strin
   await rmdir(`${basePath}/${apisName}`, { recursive: true })
 
   for (const [apiName, apis] of Object.entries(apisJson)) {
-    apisMetaJson[apiName] = `${apisName === "classic" ? "Classic" : ""}${apiName.charAt(0).toUpperCase() + apiName.slice(1)}Api`
+    apisMetaJson[apiName] = formatApiName(apisName, apiName)
 
     const apiMetaJson: Record<string, string> = {}
     await mkdir(`${basePath}/${apisName}/${apiName}`, { recursive: true })
@@ -219,17 +221,20 @@ import './styles.css'
 export default function MyApp({ Component, pageProps }) {
   try {
     if (window.location.pathname === "/cloud") window.location.replace("/cloud/${
-      Object.keys(allJsDocData["cloud"])[0]
+      formatApiName("cloud", Object.keys(allJsDocData["cloud"])[0] as string)
     }/${
-      allJsDocData["cloud"][Object.keys(allJsDocData["cloud"])[0] as any]
+      Object.keys(allJsDocData["cloud"][Object.keys(allJsDocData["cloud"])[0] as any] as any)[0]
     }")
-    else if (window.location.pathname === "/classic") window.location.replace("/classic/friends/friendsMetadata")
+    else if (window.location.pathname === "/classic") window.location.replace("/classic/${
+      formatApiName("classic", Object.keys(allJsDocData["classic"])[0] as string)
+    }/${
+      Object.keys(allJsDocData["classic"][Object.keys(allJsDocData["classic"])[0] as any] as any)[0]
+    }")
   } catch {}
 
   return <Component {...pageProps} />
 }
 `)
-
 
 await Bun.write(`${docsSitePages}/styles.css`, `
 @media (min-width:768px) {
