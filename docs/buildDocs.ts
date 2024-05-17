@@ -25,7 +25,8 @@ const splitAtLastOccurrence = (str: string, separator: string) => {
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
 const root = `${splitAtLastOccurrence(Bun.main, "/openblox/")[0]}/openblox`
-const docsSitePages = `${root}/docs_site/pages`
+const docsSite = `${root}/docs_site`
+const docsSitePages = `${docsSite}/pages`
 
 const project = new Project({
   tsConfigFilePath: `${root}/tsconfig.json`,
@@ -234,6 +235,21 @@ export default function MyApp({ Component, pageProps }) {
 
   return <Component {...pageProps} />
 }
+`)
+
+await Bun.write(`${docsSite}/theme.config.tsx`, `
+import React from 'react'
+import { DocsThemeConfig } from 'nextra-theme-docs'
+
+const config: DocsThemeConfig = {
+  logo: <span>Openblox</span>,
+  project: {
+    link: 'https://github.com/mightypart/openblox',
+  },
+  docsRepositoryBase: 'https://github.com/mightypart/openblox',
+}
+
+export default config
 `)
 
 await Bun.write(`${docsSitePages}/styles.css`, `
