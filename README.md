@@ -36,7 +36,7 @@ It wraps over 100+ Roblox API endpoints, each with its own strictly typed respon
 
 - Each Openblox method utilises only one Roblox API endpoint to ensure clarity and efficiency in your codebase.
 
-- Scarcely utilise classes to ensure treeshakability.
+- Scarcely utilise classes to allow for treeshaking.
 
 - - -
 
