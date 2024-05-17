@@ -1,0 +1,10 @@
+{
+    "creatorStore": "CreatorStoreApi",
+    "experiences": "ExperiencesApi",
+    "groups": "GroupsApi",
+    "inventory": "InventoryApi",
+    "memoryStore": "MemoryStoreApi",
+    "messaging": "MessagingApi",
+    "subscriptions": "SubscriptionsApi",
+    "users": "UsersApi"
+}

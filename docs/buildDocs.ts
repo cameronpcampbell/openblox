@@ -9,8 +9,22 @@ import type { ArrowFunction, CallExpression, Directory, Identifier, Node, Parame
 //////////////////////////////////////////////////////////////////////////////////
 
 
+// [ Private Functions ] /////////////////////////////////////////////////////////
+const splitAtLastOccurrence = (str: string, separator: string) => {
+  const lastIndex = str.lastIndexOf(separator);
+  if (lastIndex === -1) {
+    return [str];
+  }
+  
+  const beforeLast = str.substring(0, lastIndex);
+  const afterLast = str.substring(lastIndex + separator.length);
+  return [beforeLast, afterLast];
+}
+//////////////////////////////////////////////////////////////////////////////////
+
+
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const root = Bun.main
+const root = `${splitAtLastOccurrence(Bun.main, "/openblox/")[0]}/openblox`
 const docsSitePages = `${root}/docs_site/pages`
 
 const project = new Project({

@@ -1,0 +1,8 @@
+{
+    "createSubscription": "createSubscription",
+    "setSubscriptionIcon": "setSubscriptionIcon",
+    "subscriptionsForUniverse": "subscriptionsForUniverse",
+    "subscriptionInfo": "subscriptionInfo",
+    "subscriptionsPriceTiersForUniverse": "subscriptionsPriceTiersForUniverse",
+    "authenticatedUserSubscriptionsPermissionsForUniverse": "authenticatedUserSubscriptionsPermissionsForUniverse"
+}
