@@ -8,7 +8,7 @@ import type { ArrayToUnion, Identifier, ObjectPrettify } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
 import { GroupMembers_Filter, GroupMembers_WildcardFilter, PrettifiedGroupInfoData, PrettifiedGroupJoinRequestsData, PrettifiedGroupMembersData, PrettifiedGroupRolesData, PrettifiedGroupShoutData, RawGroupInfoData, RawGroupJoinRequestsData, RawGroupMembersData, RawGroupRolesData, RawGroupShoutData } from "./groups.types"
-import { cloneAndMutateObject } from "~/utils/utils"
+import { cloneAndMutateObject, dataIsSuccess } from "~/utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -60,36 +60,6 @@ export const groupInfo = addApiMethod(async <GroupId extends Identifier>(
     obj.createTime = new Date(obj.createTime)
     obj.updateTime = new Date(obj.updateTime)
   })
-}))
-
-
-/**
- * Gets join requests for a group.
- * @endpoint GET /v2/groups/{groupId}/join-requests
- * 
- * @param groupId The id of the group to get join requests for.
- * @param limit The maximum number of group join requests to return. The service might return fewer than this value. If unspecified, at most 10 group join requests are returned. The maximum value is 20 and higher values are set to 20.
- * @param filter This field may be set in order to filter the resources returned.
- * @param cursor A page token, received from a previous call, to retrieve a subsequent page.
- * 
- * @example const { data:joinRequests } = await GroupsApi.groupJoinRequests({ groupId: 5850082 })
- * @exampleData [{"path":"groups/5850082/join-requests/2655994471","createTime":"2024-05-12T16:32:46.841Z","user":"users/2655994471"}]
- * @exampleRawBody {"groupJoinRequests":[{"path":"groups/5850082/join-requests/2655994471","createTime":"2024-05-12T16:32:46.841Z","user":"users/2655994471"}],"nextPageToken":""}
- */
-export const groupJoinRequests = addApiMethod(async <GroupId extends Identifier>(
-  { groupId, limit, filter:{userId:userIdFilter} = {} as any, cursor }
-  : { groupId: GroupId, limit?: number, filter?: { userId: Identifier }, cursor?: string }
-): ApiMethod<RawGroupJoinRequestsData<GroupId>, PrettifiedGroupJoinRequestsData<GroupId>> => ({
-  path: `/v2/groups/${groupId}/join-requests`,
-  method: "GET",
-  searchParams: { maxPageSize: limit, pageToken: cursor, filter: userIdFilter && `user == 'users/${userIdFilter}'` },
-  name: "groupJoinRequests",
-
-  prettifyFn: ({ groupJoinRequests }) => groupJoinRequests.map(request => cloneAndMutateObject(request, obj => {
-    obj.createTime = new Date(obj.createTime)
-  })),
-
-  getCursorsFn: ({ nextPageToken }) => [null, nextPageToken]
 }))
 
 
@@ -190,4 +160,80 @@ export const groupShout = addApiMethod(async <GroupId extends Identifier>(
     obj.createTime = new Date(obj.createTime)
     obj.updateTime = new Date(obj.updateTime)
   })
+}))
+
+
+/**
+ * Gets join requests for a group.
+ * @endpoint GET /v2/groups/{groupId}/join-requests
+ * 
+ * @param groupId The id of the group to get join requests for.
+ * @param limit The maximum number of group join requests to return. The service might return fewer than this value. If unspecified, at most 10 group join requests are returned. The maximum value is 20 and higher values are set to 20.
+ * @param filter This field may be set in order to filter the resources returned.
+ * @param cursor A page token, received from a previous call, to retrieve a subsequent page.
+ * 
+ * @example const { data:joinRequests } = await GroupsApi.groupJoinRequests({ groupId: 5850082 })
+ * @exampleData [{"path":"groups/5850082/join-requests/2655994471","createTime":"2024-05-12T16:32:46.841Z","user":"users/2655994471"}]
+ * @exampleRawBody {"groupJoinRequests":[{"path":"groups/5850082/join-requests/2655994471","createTime":"2024-05-12T16:32:46.841Z","user":"users/2655994471"}],"nextPageToken":""}
+ */
+export const groupJoinRequests = addApiMethod(async <GroupId extends Identifier>(
+  { groupId, limit, filter:{userId:userIdFilter} = {} as any, cursor }
+  : { groupId: GroupId, limit?: number, filter?: { userId: Identifier }, cursor?: string }
+): ApiMethod<RawGroupJoinRequestsData<GroupId>, PrettifiedGroupJoinRequestsData<GroupId>> => ({
+  path: `/v2/groups/${groupId}/join-requests`,
+  method: "GET",
+  searchParams: { maxPageSize: limit, pageToken: cursor, filter: userIdFilter && `user == 'users/${userIdFilter}'` },
+  name: "groupJoinRequests",
+
+  prettifyFn: ({ groupJoinRequests }) => groupJoinRequests.map(request => cloneAndMutateObject(request, obj => {
+    obj.createTime = new Date(obj.createTime)
+  })),
+
+  getCursorsFn: ({ nextPageToken }) => [null, nextPageToken]
+}))
+
+
+/**
+ * Accepts a group join request.
+ * @endpoint POST /v2/groups/{groupId}/join-requests/{userId}:accept
+ * 
+ * @param groupId The id of the group to accept a join request for.
+ * @param userId The id of the user to accept into the group.
+ * 
+ * @example const { data:success } = await GroupsApi.acceptGroupJoinRequest({ groupId: 5850082, userId: 2655994471 });
+ * @exampleData true
+ * @exampleRawBody {}
+ */
+export const acceptGroupJoinRequest = addApiMethod(async <GroupId extends Identifier>(
+  { groupId, userId }: { groupId: GroupId, userId: Identifier }
+): ApiMethod<{}, boolean> => ({
+  method: "POST",
+  path: `/v2/groups/${groupId}/join-requests/${userId}:accept`,
+  body: {},
+  name: "acceptGroupJoinRequest",
+
+  prettifyFn: (rawData) => dataIsSuccess(rawData)
+}))
+
+
+/**
+ * Declines a group join request.
+ * @endpoint POST /v2/groups/{groupId}/join-requests/{userId}:decline
+ * 
+ * @param groupId The id of the group to decline a join request for.
+ * @param userId The id of the user to decline from the group.
+ * 
+ * @example const { data:success } = await GroupsApi.declineGroupJoinRequest({ groupId: 5850082, userId: 2655994471 });
+ * @exampleData true
+ * @exampleRawBody {}
+ */
+export const declineGroupJoinRequest = addApiMethod(async <GroupId extends Identifier>(
+  { groupId, userId }: { groupId: GroupId, userId: Identifier }
+): ApiMethod<{}, boolean> => ({
+  method: "POST",
+  path: `/v2/groups/${groupId}/join-requests/${userId}:decline`,
+  body: {},
+  name: "declineGroupJoinRequest",
+
+  prettifyFn: (rawData) => dataIsSuccess(rawData)
 }))

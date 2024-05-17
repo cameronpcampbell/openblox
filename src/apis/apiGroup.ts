@@ -29,12 +29,6 @@ export type ApiMethod<
   PrettifiedData extends undefined ? {} : { prettifyFn: (rawData: RawData) => PrettifiedDataOrRawData }
 )>
 
-type Overrides = {
-  cookie?: RobloxCookie,
-  cloudKey?: string,
-  oauthToken?: string
-}
-
 type ApiMethodResult<
   Args extends Record<any, any> | undefined,
   RawData, PrettifiedData = RawData,
@@ -56,6 +50,7 @@ type PrettifiedCursors = ObjectPrettify<{
 
 export type PrettifyData<Input, _ExtendsDate extends boolean = Input extends Date ? true : false> = (
   _ExtendsDate extends true ? Input
+  : Input extends boolean ? boolean
   : Input extends Record<any, any> ? ObjectPrettify<Input>
   : IsUnion<Input> extends true ? UnionPrettify<Input>
   // @ts-ignore | hush hush shawty
@@ -64,7 +59,6 @@ export type PrettifyData<Input, _ExtendsDate extends boolean = Input extends Dat
   : Input
 )
 //////////////////////////////////////////////////////////////////////////////////
-
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
 const config = getConfig()
@@ -162,7 +156,3 @@ type NumberIsLiteral<Num extends number> = (
   : [Num] extends [string | number] ? true
   : false
 )
-
-
-
-type test = ApiMethodResult<any, any, any>
