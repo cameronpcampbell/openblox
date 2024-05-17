@@ -206,6 +206,7 @@ await buildDocsForApis(cloudApis, "cloud")
 Bun.write(`${root}/docs/docs.json`, JSON.stringify(allJsDocData, null, 2))
 
 // writes the root _meta.json
+await rmdir(docsSitePages, { recursive: true })
 await mkdir(docsSitePages, { recursive: true })
 await Bun.write(`${docsSitePages}/_meta.json`, JSON.stringify({
   "cloud": { type: "page", title: "Cloud APIs" },
