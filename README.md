@@ -7,11 +7,11 @@
 
   <div>
 
-  [<img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/docs.svg" width="auto" height="18px" />](https://open.blox.wiki)
+  <a href="https://open.blox.wiki" rel="noopener noreferrer" target="_blank"><img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/docs.svg" width="auto" height="18px" /></a>
   <img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/dot.svg" width="auto" height="18px" />
-  [<img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/package.svg" width="auto" height="18px" />](https://www.npmjs.com/package/openblox)
+  <a href="https://www.npmjs.com/package/openblox" rel="noopener noreferrer" target="_blank"><img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/package.svg" width="auto" height="18px" /></a>
   <img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/dot.svg" width="auto" height="18px" />
-  [<img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/repo.svg" width="auto" height="18px" />](https://github.com/MightyPart/openblox)
+  <a href="https://github.com/MightyPart/openblox" rel="noopener noreferrer" target="_blank"><img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/repo.svg" width="auto" height="18px" /></a>
 
   </div>
 
