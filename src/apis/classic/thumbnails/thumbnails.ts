@@ -8,7 +8,7 @@ import { createObjectMapByKeyWithMiddleware } from "../../../utils/utils"
 import type { ApiMethod } from "../../apiGroup"
 import { ArrayNonEmpty, Identifier } from "typeforge"
 
-import type { AssetAnimatedThumbnailData, AssetSize, AvatarsFullThumbnailsSize, BatchRequest, BatchResponseElement, BundleSize, DeveloperProductSize, GamesIconSize, GameThumbnailSize, GroupEmblemSize, MetadataData, OutfitSize, PlaceThumbnailSize, PrettifiedBatchThumbnailsData, PrettifiedGamesThumbnailsData, PrettifiedThumbnailsData, RawBatchThumbnailsData, RawThumbnailsData, ThumbnailData, ThumbnailFormat, ThumbnailReturnPolicy } from "./thumbnails.types"
+import type { AssetAnimatedThumbnailData, AssetSize, AvatarsFullThumbnailsSize, BatchRequest, BatchResponseElement, BundleSize, DeveloperProductSize, GamesIconSize, GameThumbnailSize, GroupEmblemSize, OutfitSize, PlaceThumbnailSize, PrettifiedBatchThumbnailsData, PrettifiedGamesThumbnailsData, PrettifiedThumbnailsData, RawBatchThumbnailsData, RawThumbnailsData, ThumbnailData, ThumbnailFormat, ThumbnailReturnPolicy, ThumbnailsMetadataData } from "./thumbnails.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -335,8 +335,8 @@ export const groupsEmblems = addApiMethod(async <GroupId extends Identifier>(
  * @exampleData { isWebappUseCacheEnabled: false, webappCacheExpirationTimspan: "00:00:00" }
  * @exampleRawBody { isWebappUseCacheEnabled: false, webappCacheExpirationTimspan: "00:00:00" }
  */
-export const metadata = addApiMethod(async (
-): ApiMethod<MetadataData> => ({
+export const thumbnailsMetadata = addApiMethod(async (
+): ApiMethod<ThumbnailsMetadataData> => ({
   method: "GET",
   path: `/v1/metadata`,
   name: `metadata`,

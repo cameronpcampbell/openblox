@@ -95,7 +95,7 @@ export type GroupEmblemSize = "150x150"|"420x420"
 
 // [ Metadata ] //////////////////////////////////////////////////////////////////////////////////////////////////////
 // /v1/metadata
-export type MetadataData = ObjectPrettify<{
+export type ThumbnailsMetadataData = ObjectPrettify<{
   isWebappUseCacheEnabled: boolean,
   webappCacheExpirationTimspan: string
 }>
