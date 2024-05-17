@@ -19,6 +19,7 @@ jobs:
       - uses: oven-sh/setup-bun@v1
 
       - run: git clone https://github.com/shuding/nextra-docs-template docs_site
+      - run: ls
       - run: npm i --prefix ./docs_site
       - run: "echo 'Bun.write(`./docs_site/next.config.js`, `const withNextra = require(\"nextra\")({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\" }); module.exports = withNextra({ output: \"export\", distDir: \"./build\", basePath: \"/openblox\", images: { loader: \"akamai\", path: \"\" } })`)' | bun run -"
       - run: "echo 'Bun.write(`./docs_site/.nojekyll`, ``)' | bun run -"
