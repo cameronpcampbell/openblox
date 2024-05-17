@@ -204,8 +204,8 @@ export const groupJoinRequests = addApiMethod(async <GroupId extends Identifier>
  * @exampleData true
  * @exampleRawBody {}
  */
-export const acceptGroupJoinRequest = addApiMethod(async <GroupId extends Identifier>(
-  { groupId, userId }: { groupId: GroupId, userId: Identifier }
+export const acceptGroupJoinRequest = addApiMethod(async (
+  { groupId, userId }: { groupId: Identifier, userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "POST",
   path: `/v2/groups/${groupId}/join-requests/${userId}:accept`,
@@ -227,8 +227,8 @@ export const acceptGroupJoinRequest = addApiMethod(async <GroupId extends Identi
  * @exampleData true
  * @exampleRawBody {}
  */
-export const declineGroupJoinRequest = addApiMethod(async <GroupId extends Identifier>(
-  { groupId, userId }: { groupId: GroupId, userId: Identifier }
+export const declineGroupJoinRequest = addApiMethod(async (
+  { groupId, userId }: { groupId: Identifier, userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "POST",
   path: `/v2/groups/${groupId}/join-requests/${userId}:decline`,
