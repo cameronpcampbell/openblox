@@ -2,6 +2,7 @@
 src/
 buildDocs/
 docs/
+docs_site/
 node_modules/
 assets/
 bun.lockb

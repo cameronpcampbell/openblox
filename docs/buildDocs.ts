@@ -217,6 +217,15 @@ await Bun.write(`${docsSitePages}/_app.js`, `
 import './styles.css'
  
 export default function MyApp({ Component, pageProps }) {
+  try {
+    if (window.location.pathname === "/cloud") window.location.replace("/cloud/${
+      Object.keys(allJsDocData["cloud"])[0]
+    }/${
+      allJsDocData["cloud"][Object.keys(allJsDocData["cloud"])[0] as any]
+    }")
+    else if (window.location.pathname === "/classic") window.location.replace("/classic/friends/friendsMetadata")
+  } catch {}
+
   return <Component {...pageProps} />
 }
 `)

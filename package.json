@@ -76,7 +76,7 @@
   },
   "scripts": {
     "build:code": "delete dist && tsup ./src --dts --config ./tsconfig.json",
-    "build:docs": "bun run ./buildDocs/buildDocs.ts && npm --prefix ./buildDocs/docs_site run build",
+    "build:docs": "bun run ./docs/buildDocs.ts",
     "build": "bun run build:docs && bun run build:code"
   }
 }
