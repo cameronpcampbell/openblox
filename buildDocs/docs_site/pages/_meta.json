@@ -1,0 +1,10 @@
+{
+    "cloud": {
+        "type": "page",
+        "title": "Cloud APIs"
+    },
+    "classic": {
+        "type": "page",
+        "title": "Classic APIs"
+    }
+}

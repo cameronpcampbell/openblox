@@ -1,0 +1,10 @@
+{
+    "friendsMetadata": "friendsMetadata",
+    "authenticatedUserFriendsCount": "authenticatedUserFriendsCount",
+    "authenticatedUserFriendRequests": "authenticatedUserFriendRequests",
+    "authenticatedUserFriendRequestsCount": "authenticatedUserFriendRequestsCount",
+    "friendsList": "friendsList",
+    "friendsCount": "friendsCount",
+    "findFriends": "findFriends",
+    "userfollowersCount": "userfollowersCount"
+}

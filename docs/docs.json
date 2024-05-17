@@ -1,0 +1,2739 @@
+{
+  "cloud": {
+    "creatorStore": {
+      "creatorStoreProductInfo": {
+        "description": "",
+        "tags": {
+          "endpoint": "GET /v2/creator-store-products/{productId}",
+          "tags": "[ \"CloudKey Needed\" ]",
+          "example": "const { data: productInfo } = await CreatorStoreApi.creatorStoreProductInfo({ modelAssetId: 16989381169 });",
+          "exampleData": "{\n  path: \"creator-store-products/CreatorMarketplaceAsset-Model-16989381169\",\n  displayName: \"monkey\",\n  description: \"\",\n  basePrice: {\n    currencyCode: \"USD\",\n    quantity: { significand: 0, exponent: 0 },\n  },\n  purchasePrice: {\n    currencyCode: \"USD\",\n    quantity: { significand: 0, exponent: 0 },\n  },\n  published: false,\n  restrictions: [],\n  purchasable: false,\n  userSeller: \"45348281\",\n  modelAssetId: \"16989381169\",\n}\n",
+          "exampleRawBody": "{\n  path: \"creator-store-products/CreatorMarketplaceAsset-Model-16989381169\",\n  displayName: \"monkey\",\n  description: \"\",\n  basePrice: {\n    currencyCode: \"USD\",\n    quantity: { significand: 0, exponent: 0 },\n  },\n  purchasePrice: {\n    currencyCode: \"USD\",\n    quantity: { significand: 0, exponent: 0 },\n  },\n  published: false,\n  restrictions: [],\n  purchasable: false,\n  userSeller: \"45348281\",\n  modelAssetId: \"16989381169\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "modelAssetId",
+            "description": "Use this if the creator product you are getting is a model."
+          },
+          {
+            "name": "pluginAssetId",
+            "description": "Use this if the creator product you are getting is a plugin."
+          },
+          {
+            "name": "audioAssetId",
+            "description": "Use this if the creator product you are getting is an audio."
+          },
+          {
+            "name": "decalAssetId",
+            "description": "Use this if the creator product you are getting is a decal."
+          },
+          {
+            "name": "meshPartAssetId",
+            "description": "Use this if the creator product you are getting is a mesh part."
+          },
+          {
+            "name": "videoAssetId",
+            "description": "Use this if the creator product you are getting is a video."
+          },
+          {
+            "name": "fontFamilyAssetId",
+            "description": "Use this if the creator product you are getting is a font family."
+          }
+        ]
+      },
+      "createCreatorStoreProduct": {
+        "description": "Creates a creator store product (doesnt work atm for some reason).",
+        "tags": {
+          "endpoint": "POST /v2/creator-store-products",
+          "tags": "[ \"CloudKey Needed\" ]",
+          "example": "",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "displayName",
+            "description": "The display name for the product."
+          },
+          {
+            "name": "description",
+            "description": "The description for the product."
+          },
+          {
+            "name": "basePrice",
+            "description": "basePrice"
+          }
+        ]
+      },
+      "updateCreatorStoreProduct": {
+        "tags": {},
+        "params": []
+      }
+    },
+    "experiences": {
+      "universeInfo": {
+        "description": "Gets information about a universe.",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universeId}",
+          "example": "const { data: universeInfo } = await ExperiencesApi.universeInfo({ universeId: 5795192361 });",
+          "exampleData": "{\n  path: \"universes/5795192361\",\n  createTime: \"2024-03-25T10:42:46.360Z\",\n  updateTime: \"2024-03-25T10:42:46.360Z\",\n  displayName: \"MightyPart's Place Number: 201\",\n  description: \"\",\n  user: \"users/45348281\",\n  visibility: \"PRIVATE\",\n  voiceChatEnabled: false,\n  ageRating: \"AGE_RATING_UNSPECIFIED\",\n  desktopEnabled: true,\n  mobileEnabled: true,\n  tabletEnabled: true,\n  consoleEnabled: false,\n  vrEnabled: true,\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5795192361\",\n  createTime: \"2024-03-25T10:42:46.360Z\",\n  updateTime: \"2024-03-25T10:42:46.360Z\",\n  displayName: \"MightyPart's Place Number: 201\",\n  description: \"\",\n  user: \"users/45348281\",\n  visibility: \"PRIVATE\",\n  voiceChatEnabled: false,\n  ageRating: \"AGE_RATING_UNSPECIFIED\",\n  desktopEnabled: true,\n  mobileEnabled: true,\n  tabletEnabled: true,\n  consoleEnabled: false,\n  vrEnabled: true,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The id of the universe to get information about."
+          }
+        ]
+      },
+      "updateUniverse": {
+        "description": "Updates a universes information.",
+        "tags": {
+          "endpoint": "PATCH /v2/universes/{universeId}",
+          "example": "const { data: updatedData } = await ExperiencesApi.updateUniverse({\n  universeId: 5795192361,\n  newData: { displayName: \"Lorem Ipsum\", visibility: \"PRIVATE\" },\n});",
+          "exampleData": "{\n  path: \"universes/5795192361\",\n  createTime: \"2024-03-25T10:42:46.360Z\",\n  updateTime: \"2024-03-25T10:42:46.360Z\",\n  displayName: \"MightyPart's Place Number: 201\",\n  description: \"\",\n  user: \"users/45348281\",\n  visibility: \"PRIVATE\",\n  voiceChatEnabled: false,\n  ageRating: \"AGE_RATING_UNSPECIFIED\",\n  desktopEnabled: true,\n  mobileEnabled: true,\n  tabletEnabled: true,\n  consoleEnabled: false,\n  vrEnabled: true,\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5795192361\",\n  createTime: \"2024-03-25T10:42:46.360Z\",\n  updateTime: \"2024-03-25T10:42:46.360Z\",\n  displayName: \"MightyPart's Place Number: 201\",\n  description: \"\",\n  user: \"users/45348281\",\n  visibility: \"PRIVATE\",\n  voiceChatEnabled: false,\n  ageRating: \"AGE_RATING_UNSPECIFIED\",\n  desktopEnabled: true,\n  mobileEnabled: true,\n  tabletEnabled: true,\n  consoleEnabled: false,\n  vrEnabled: true,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The id of the universe to update."
+          },
+          {
+            "name": "newData",
+            "type": "NewData",
+            "description": "the updated universe information."
+          }
+        ]
+      },
+      "restartUniverseServers": {
+        "description": "Restarts all currently running servers for a given universe. Used for releasing experience updates.",
+        "tags": {
+          "category": "Users",
+          "endpoint": "GET /v2/universes/{universeId}",
+          "example": "await ExperiencesApi.restartUniverseServers({ universeId: 5795192361 });",
+          "exampleData": "{}\n",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The id of the universe to restart servers for."
+          }
+        ]
+      },
+      "placeInfo": {
+        "description": "Gets information about a universes place.",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universeId}/{placeId}",
+          "example": "const { data: placeInfo } = await ExperiencesApi.placeInfo({ universeId: 5795192361, placeId: 16866553538 });",
+          "exampleData": "{\n  path: \"universes/5795192361/places/16866553538\",\n  createTime: \"2024-03-25T10:42:46.297Z\",\n  updateTime: \"2024-03-26T16:50:19.023Z\",\n  displayName: \"MightyPart's Place Number: 201\",\n  description: \"\",\n  serverSize: 50,\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5795192361/places/16866553538\",\n  createTime: \"2024-03-25T10:42:46.297Z\",\n  updateTime: \"2024-03-26T16:50:19.023Z\",\n  displayName: \"MightyPart's Place Number: 201\",\n  description: \"\",\n  serverSize: 50,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The id of the universe to get place information about."
+          },
+          {
+            "name": "placeId",
+            "type": "PlaceId",
+            "description": "The id of the place to get information about."
+          }
+        ]
+      },
+      "updatePlace": {
+        "description": "Updates a places information.",
+        "tags": {
+          "endpoint": "PATCH /v2/universes/{universeId}/places/{PlaceId}",
+          "example": "const { data: updatedInfo } = await ExperiencesApi.updatePlace({\n  universeId: 5795192361,\n  placeId: 16866553538,\n  newData: { displayName: \"Hello World\" },\n});",
+          "exampleData": "{\n  path: \"universes/5795192361/places/16866553538\",\n  createTime: \"2024-03-25T10:42:46.297Z\",\n  updateTime: \"2024-05-13T10:21:20.247Z\",\n  displayName: \"Hello World\",\n  description: \"\",\n  serverSize: 50,\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5795192361/places/16866553538\",\n  createTime: \"2024-03-25T10:42:46.297Z\",\n  updateTime: \"2024-05-13T10:21:20.247157600Z\",\n  displayName: \"Hello World\",\n  description: \"\",\n  serverSize: 50,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The id of the universe to update place information for."
+          },
+          {
+            "name": "placeId",
+            "type": "PlaceId",
+            "description": "The id of the place to update."
+          },
+          {
+            "name": "newData",
+            "type": "NewData",
+            "description": "the updated place information."
+          }
+        ]
+      }
+    },
+    "groups": {
+      "groupInfo": {
+        "description": "Gets information about a user from their id.",
+        "tags": {
+          "endpoint": "GET /v2/groups/{groupId}",
+          "example": "const { data: groupInfo } = await GroupsApi.groupInfo({ groupId: 5850082 });",
+          "exampleData": "{\n  path: \"groups/5850082\",\n  createTime: \"2020-03-29T18:15:20.100Z\",\n  updateTime: \"2024-05-12T13:17:41.639Z\",\n  id: \"5850082\",\n  displayName: \"MightyPart Games\",\n  description: \"Hello World!\",\n  owner: \"users/45348281\",\n  memberCount: 99,\n  publicEntryAllowed: true,\n  locked: false,\n  verified: false,\n}\n",
+          "exampleRawBody": "{\n  path: \"groups/5850082\",\n  createTime: \"2020-03-29T18:15:20.100Z\",\n  updateTime: \"2024-05-12T13:17:41.639132600Z\",\n  id: \"5850082\",\n  displayName: \"MightyPart Games\",\n  description: \"Hello World!\",\n  owner: \"users/45348281\",\n  memberCount: 99,\n  publicEntryAllowed: true,\n  locked: false,\n  verified: false,\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The id of the group to get info about."
+          }
+        ]
+      },
+      "groupJoinRequests": {
+        "description": "Gets join requests for a group.",
+        "tags": {
+          "endpoint": "GET /v2/groups/{groupId}/join-requests",
+          "example": "const { data: joinRequests } = await GroupsApi.groupJoinRequests({ groupId: 5850082 });",
+          "exampleData": "[\n  {\n    path: \"groups/5850082/join-requests/2655994471\",\n    createTime: \"2024-05-12T16:32:46.841Z\",\n    user: \"users/2655994471\",\n  },\n]\n",
+          "exampleRawBody": "{\n  groupJoinRequests: [\n    {\n      path: \"groups/5850082/join-requests/2655994471\",\n      createTime: \"2024-05-12T16:32:46.841Z\",\n      user: \"users/2655994471\",\n    },\n  ],\n  nextPageToken: \"\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The id of the group to get join requests for."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The maximum number of group join requests to return. The service might return fewer than this value. If unspecified, at most 10 group join requests are returned. The maximum value is 20 and higher values are set to 20."
+          },
+          {
+            "name": "filter",
+            "type": "?",
+            "description": "This field may be set in order to filter the resources returned."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "A page token, received from a previous call, to retrieve a subsequent page."
+          }
+        ]
+      },
+      "groupMembers": {
+        "description": "Gets join requests for a group.",
+        "tags": {
+          "endpoint": "GET /v2/groups/{groupId}/memberships",
+          "example": "const { data: members } = await GroupsApi.groupMembers({ groupId: 5850082, filter: { userId: 45348281 } });",
+          "exampleData": "[\n  {\n    path: \"groups/5850082/memberships/NDUzNDgyODE\",\n    createTime: \"2020-03-29T18:15:20.020Z\",\n    updateTime: \"2023-09-15T07:03:50.583Z\",\n    user: \"users/45348281\",\n    role: \"groups/5850082/roles/38353811\",\n  },\n]\n",
+          "exampleRawBody": "{\n  groupMemberships: [\n    {\n      path: \"groups/5850082/memberships/NDUzNDgyODE\",\n      createTime: \"2020-03-29T18:15:20.020Z\",\n      updateTime: \"2023-09-15T07:03:50.583Z\",\n      user: \"users/45348281\",\n      role: \"groups/5850082/roles/38353811\",\n    },\n  ],\n  nextPageToken: \"\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The id of the group to get join requests for."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The maximum number of group memberships to return. The service might return fewer than this value. If unspecified, at most 10 group memberships are returned. The maximum value is 100 and higher values are set to 100."
+          },
+          {
+            "name": "filter",
+            "type": "?",
+            "description": "This field may be set in order to filter the resources returned."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "A page token, received from a previous call, to retrieve a subsequent page."
+          }
+        ]
+      },
+      "groupRoles": {
+        "description": "Gets roles for a group.",
+        "tags": {
+          "endpoint": "GET /v2/groups/{groupId}/roles",
+          "example": "const { data: roles } = await GroupsApi.groupRoles({ groupId: 5850082, limit: 1 });",
+          "exampleData": "[\n  {\n    path: \"groups/5850082/roles/38353811\",\n    createTime: \"2020-03-29T13:15:20.020Z\",\n    updateTime: \"2020-09-20T08:04:35.850Z\",\n    id: \"38353811\",\n    displayName: \"NamelessGuy2005 - Scriptor\",\n    description: \"\",\n    rank: 255,\n    memberCount: 1,\n    permissions: {\n      viewWallPosts: true,\n      createWallPosts: true,\n      deleteWallPosts: true,\n      viewGroupShout: true,\n      createGroupShout: true,\n      changeRank: true,\n      acceptRequests: true,\n      exileMembers: true,\n      manageRelationships: true,\n      viewAuditLog: true,\n      spendGroupFunds: true,\n      advertiseGroup: true,\n      createAvatarItems: true,\n      manageAvatarItems: true,\n      manageGroupUniverses: true,\n      viewUniverseAnalytics: true,\n      createApiKeys: true,\n      manageApiKeys: true,\n    },\n  },\n]\n",
+          "exampleRawBody": "{\n  groupRoles: [\n    {\n      path: \"groups/5850082/roles/38353811\",\n      createTime: \"2020-03-29T13:15:20.020Z\",\n      updateTime: \"2020-09-20T08:04:35.850Z\",\n      id: \"38353811\",\n      displayName: \"NamelessGuy2005 - Scriptor\",\n      description: \"\",\n      rank: 255,\n      memberCount: 1,\n      permissions: {\n        viewWallPosts: true,\n        createWallPosts: true,\n        deleteWallPosts: true,\n        viewGroupShout: true,\n        createGroupShout: true,\n        changeRank: true,\n        acceptRequests: true,\n        exileMembers: true,\n        manageRelationships: true,\n        viewAuditLog: true,\n        spendGroupFunds: true,\n        advertiseGroup: true,\n        createAvatarItems: true,\n        manageAvatarItems: true,\n        manageGroupUniverses: true,\n        viewUniverseAnalytics: true,\n        createApiKeys: true,\n        manageApiKeys: true,\n      },\n    },\n  ],\n  nextPageToken: \"38353811\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The id of the group to get roles for."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The maximum number of group roles to return. The service might return fewer than this value. If unspecified, at most 10 group roles are returned. The maximum value is 20 and higher values are set to 20."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "A page token, received from a previous call, to retrieve a subsequent page."
+          }
+        ]
+      },
+      "groupShout": {
+        "description": "Gets roles for a group.",
+        "tags": {
+          "endpoint": "GET /v2/groups/{groupId}/roles",
+          "example": "const { data: shout } = await GroupsApi.groupShout({ groupId: 5850082 });",
+          "exampleData": "{\n  path: \"groups/5850082/shout\",\n  createTime: \"2020-03-31T18:36:51.607Z\",\n  updateTime: \"2023-09-17T20:35:48.213Z\",\n  content: \"Hello World!\",\n  poster: \"users/45348281\",\n}\n",
+          "exampleRawBody": "{\n  path: \"groups/5850082/shout\",\n  createTime: \"2020-03-31T18:36:51.607Z\",\n  updateTime: \"2023-09-17T20:35:48.213Z\",\n  content: \"Hello World!\",\n  poster: \"users/45348281\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The id of the group to get roles for."
+          },
+          {
+            "name": "limit",
+            "description": "The maximum number of group roles to return. The service might return fewer than this value. If unspecified, at most 10 group roles are returned. The maximum value is 20 and higher values are set to 20."
+          },
+          {
+            "name": "cursor",
+            "description": "A page token, received from a previous call, to retrieve a subsequent page."
+          }
+        ]
+      }
+    },
+    "inventory": {
+      "inventoryItemsForUser": {
+        "description": "",
+        "tags": {
+          "endpoint": "GET /v2/users/{userId}/inventory-items",
+          "tags": "[ \"CloudKey Needed\" ]",
+          "example": "const { data: inventoryItems } = await InventoryApi.inventoryItemsForUser({\n  userId: 45348281,\n  limit: 3,\n  filter: { privateServers: true },\n});",
+          "exampleData": "{\n  inventoryItems: [\n    {\n      path: \"users/45348281/inventory-items/R0FNRV9QQVNTX0lEPTEyNTI3\",\n      gamePassDetails: { gamePassId: \"12527\" },\n    },\n  ],\n  nextPageToken: \"djEveyJGaWVsZEluZGV4IjoyLCJWYWx1ZUluZGV4IjowLCJDdXJzb3IiOiIxMjUyNyIsIkZpbHRlckhhc2giOiJrV3Y2VFQ0ZW1FOGgzT1RQL1hjOXFkdGIwR0JiWjNySkRMU3FTSmV5TUVJPSJ9\",\n}\n",
+          "exampleRawBody": "{\n  inventoryItems: [\n    {\n      path: \"users/45348281/inventory-items/R0FNRV9QQVNTX0lEPTEyNTI3\",\n      gamePassDetails: { gamePassId: \"12527\" },\n    },\n  ],\n  nextPageToken: \"djEveyJGaWVsZEluZGV4IjoyLCJWYWx1ZUluZGV4IjowLCJDdXJzb3IiOiIxMjUyNyIsIkZpbHRlckhhc2giOiJrV3Y2VFQ0ZW1FOGgzT1RQL1hjOXFkdGIwR0JiWjNySkRMU3FTSmV5TUVJPSJ9\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get the inventory items for."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The maximum amount of items to return."
+          },
+          {
+            "name": "filter",
+            "type": "?",
+            "description": "Filters the returned inventory items by specified criterias."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "A paging cursor for a specified page."
+          }
+        ]
+      }
+    },
+    "memoryStore": {
+      "sortedMapItem": {
+        "description": "Gets a sorted map item.",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universeId}/memory-store/sorted-maps/{sortedMap}/items/{itemId}",
+          "example": "type Item = { isReal: boolean };\nconst { data } = await MemoryStoresApi.sortedMapItem<Item>({\n  universeId: 5243626809,\n  sortedMap: \"MySortedMap\",\n  itemId: \"Testing123\",\n});",
+          "exampleData": "{\n  path: \"cloud/v2/universes/5243626809/memory-stores/sorted-maps/MySortedMap/items/Testing123\",\n  value: { isReal: true },\n  etag: \"12\",\n  expireTime: \"2024-04-18T01:44:49.000Z\",\n  id: \"Testing123\",\n  numericSortKey: 1,\n}\n",
+          "exampleRawBody": "{\n  path: \"cloud/v2/universes/5243626809/memory-stores/sorted-maps/MySortedMap/items/Testing123\",\n  value: { isReal: true },\n  etag: \"12\",\n  expireTime: \"2024-04-18T01:44:49Z\",\n  id: \"Testing123\",\n  numericSortKey: 1,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The id of the universe to get the sorted map item from."
+          },
+          {
+            "name": "sortedMap",
+            "type": "string",
+            "description": "The sorted map to get the item from."
+          },
+          {
+            "name": "itemId",
+            "type": "string",
+            "description": "The id of the item to get."
+          }
+        ]
+      },
+      "listSortedMapItems": {
+        "description": "Lists items of a sorted map.",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universeId}/memory-store/sorted-maps/{sortedMap}/items",
+          "example": "const { data: items } = await MemoryStoresApi.listSortedMapItems<Item>({\n  universeId: 5243626809,\n  sortedMap: \"MySortedMap\",\n  maxPageSize: 1,\n});",
+          "exampleData": "[\n  {\n    path: \"cloud/v2/universes/5243626809/memory-store/sorted-maps/MySortedMap/items/Testing123\",\n    value: { isReal: true },\n    etag: \"24\",\n    expireTime: \"2024-04-18T04:31:14.000Z\",\n    id: \"Testing123\",\n    numericSortKey: 1,\n  },\n]\n",
+          "exampleRawBody": "{\n  items: [\n    {\n      path: \"cloud/v2/universes/5243626809/memory-store/sorted-maps/MySortedMap/items/Testing123\",\n      value: { isReal: true },\n      etag: \"24\",\n      expireTime: \"2024-04-18T04:31:14Z\",\n      id: \"Testing123\",\n      numericSortKey: 1,\n    },\n  ],\n  nextPageToken: \"S_USLzRFVMU73i67jNK349FgCtYxw4Wl18ziPHeFRZoACgBUZXN0aW5nMTIzCQAAv_AAAAAAAAA\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The id of the universe to get the sorted map item from."
+          },
+          {
+            "name": "sortedMap",
+            "type": "string",
+            "description": "The sorted map to get the item from."
+          },
+          {
+            "name": "maxPageSize",
+            "type": "?",
+            "description": "The id of the item to get."
+          },
+          {
+            "name": "orderBy",
+            "type": "?",
+            "description": "The order of the returned sorted map items."
+          },
+          {
+            "name": "filter",
+            "type": "?",
+            "description": "filter returned sorted map items."
+          }
+        ]
+      },
+      "createSortedMapItem": {
+        "description": "Creates a sorted map item.",
+        "tags": {
+          "endpoint": "POST /v2/universes/{universeId}/memory-store/sorted-maps/{sortedMap}/items",
+          "example": "type Item = { isReal: boolean };\nconst { data } = await MemoryStoresApi.createSortedMapItem<Item>({\n  universeId: 5243626809,\n  sortedMap: \"MySortedMap\",\n  item: { id: \"Testing123\", value: { isReal: true }, ttl: \"300s\", numericSortKey: 1 },\n});",
+          "exampleData": "{\n  path: \"cloud/v2/universes/5243626809/memory-store/sorted-maps/MySortedMap/items\",\n  value: { isReal: true },\n  etag: \"10\",\n  expireTime: \"2024-04-18T00:30:14.000Z\",\n  id: \"Testing123\",\n  numericSortKey: 1,\n}\n",
+          "exampleRawBody": "{\n  path: \"cloud/v2/universes/5243626809/memory-store/sorted-maps/MySortedMap/items\",\n  value: { isReal: true },\n  etag: \"10\",\n  expireTime: \"2024-04-18T00:30:14Z\",\n  id: \"Testing123\",\n  numericSortKey: 1,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The id of the universe to create the sorted map item in."
+          },
+          {
+            "name": "sortedMap",
+            "type": "string",
+            "description": "The sorted map to create the item in."
+          },
+          {
+            "name": "item",
+            "type": "CreateSortedMapItem_ConstructItemConfig<ItemValue>",
+            "description": "The sorted map item data."
+          }
+        ]
+      },
+      "updateSortedMapItem": {
+        "description": "Updates a sorted map item.",
+        "tags": {
+          "endpoint": "PATCH /v2/universes/{universeId}/memory-store/sorted-maps/{sortedMap}/items/{itemId}",
+          "example": "type Item = { isReal: boolean };\nconst { data: updatedItem } = await MemoryStoresApi.updateSortedMapItem<Item>({\n  universeId: 5243626809,\n  sortedMap: \"MySortedMap\",\n  itemId: \"Testing123\",\n  updatedItemData: { value: { isReal: true }, ttl: \"300s\", numericSortKey: 1 },\n});",
+          "exampleData": "{\n  path: \"cloud/v2/universes/5243626809/memory-store/sorted-maps/MySortedMap/items/\",\n  value: { isReal: false },\n  etag: \"20\",\n  expireTime: \"2024-04-18T03:48:53.000Z\",\n  numericSortKey: null,\n}\n",
+          "exampleRawBody": "{\n  path: \"cloud/v2/universes/5243626809/memory-store/sorted-maps/MySortedMap/items/\",\n  value: { isReal: false },\n  etag: \"20\",\n  expireTime: \"2024-04-18T03:48:53Z\",\n  numericSortKey: null,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The id of the universe to get the sorted map item from."
+          },
+          {
+            "name": "sortedMap",
+            "type": "string",
+            "description": "The sorted map to get the item from."
+          },
+          {
+            "name": "itemId",
+            "type": "string",
+            "description": "The id of the item to update."
+          },
+          {
+            "name": "updatedItemData",
+            "type": "UpdateSortedMapItem_ConstructItemConfig<ItemValue>",
+            "description": "The data to update the sorted map item with."
+          },
+          {
+            "name": "allowMissing",
+            "type": "?",
+            "description": "If set to true, and the item is not found, a new item will be created. Default false."
+          }
+        ]
+      },
+      "deleteSortedMapItem": {
+        "description": "Deletes a sorted map item.",
+        "tags": {
+          "endpoint": "DELETE /v2/universes/{universeId}/memory-store/sorted-maps/{sortedMap}/items/{itemId}",
+          "example": "await MemoryStoresApi.deleteSortedMapItem({ universeId: 5243626809, sortedMap: \"MySortedMap\", itemId: \"Testing1234\" });",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The id of the universe to get the sorted map item from."
+          },
+          {
+            "name": "sortedMap",
+            "type": "string",
+            "description": "The sorted map to get the item from."
+          },
+          {
+            "name": "itemId",
+            "type": "string",
+            "description": "The id of the item to update."
+          },
+          {
+            "name": "etag",
+            "type": "?",
+            "description": "Server generated id for conditional delete."
+          }
+        ]
+      },
+      "enqueueItem": {
+        "description": "Deletes a sorted map item.",
+        "tags": {
+          "endpoint": "DELETE /v2/universes/{universeId}/memory-store/sorted-maps/{sortedMap}/items/{itemId}",
+          "example": "await MemoryStoresApi.deleteSortedMapItem({ universeId: 5243626809, sortedMap: \"MySortedMap\", itemId: \"Testing1234\" });",
+          "exampleData": "{\n  path: \"cloud/v2/universes/5243626809/memory-store/queues/MyQueue/items:add\",\n  data: { name: \"Testing123\", value: { isReal: true } },\n  priority: 0,\n}\n",
+          "exampleRawBody": "{\n  path: \"cloud/v2/universes/5243626809/memory-store/queues/MyQueue/items:add\",\n  data: { name: \"Testing123\", value: { isReal: true } },\n  priority: 0,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The id of the universe to get the sorted map item from."
+          },
+          {
+            "name": "sortedMap",
+            "description": "The sorted map to get the item from."
+          },
+          {
+            "name": "itemId",
+            "description": "The id of the item to update."
+          },
+          {
+            "name": "etag",
+            "description": "Server generated id for conditional delete."
+          }
+        ]
+      },
+      "readQueueItems": {
+        "description": "Reads queue items.",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universeId}/memory-store/queues/{queue}/items:read",
+          "example": "type Item = { isReal: boolean };\nconst {\n  data: queueItems,\n  response: { body },\n} = await MemoryStoresApi.readQueueItems<Item>({ universeId: 5243626809, queue: \"MyQueue\", limit: 2 });",
+          "exampleData": "{\n  items: [\n    { name: \"Testing123\", value: { isReal: true } },\n    { name: \"Testing1234\", value: { isReal: true } },\n  ],\n  id: \"48e44da3c8754a4ab7ed728d07ac9526\",\n}\n",
+          "exampleRawBody": "{\n  data: [\n    { name: \"Testing123\", value: { isReal: true } },\n    { name: \"Testing1234\", value: { isReal: true } },\n  ],\n  id: \"5cfc27af46da4cf08b41aa9a3d78a75e\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The id of the universe to read queue items from."
+          },
+          {
+            "name": "queue",
+            "type": "string",
+            "description": "Name of the Queue."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "Maximum entries to read, Max 200, Default 1."
+          },
+          {
+            "name": "allOrNothing",
+            "type": "?",
+            "description": "Whether to read any items if >= count can’t be read. Default false."
+          },
+          {
+            "name": "invisibilityTimeoutSeconds",
+            "type": "?",
+            "description": "Invisibility timeout for items read, default 30s. This will make previously read items invisible for the provided duration in the next Read request."
+          }
+        ]
+      },
+      "dequeueItems": {
+        "description": "Dequeues queue items.",
+        "tags": {
+          "endpoint": "POST /v2/universes/{universeId}/memory-store/queues/{queue}/items:discard",
+          "example": "await MemoryStoresApi.dequeueItems({\n  universeId: 5243626809,\n  queue: \"MyQueue\",\n  readId: \"5cfc27af46da4cf08b41aa9a3d78a75e\",\n});",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The id of the universe to remove queue items from."
+          },
+          {
+            "name": "queue",
+            "type": "string",
+            "description": "Name of the Queue."
+          },
+          {
+            "name": "readId",
+            "type": "string",
+            "description": "ID returned from a previous Read Queue call. It will discard all items that were read from the previous call."
+          }
+        ]
+      },
+      "flushAllQueues": {
+        "description": "Removes all items from every queue in a given universe.",
+        "tags": {
+          "endpoint": "POST /v2/universes/${universeId}/memory-store:flush",
+          "example": "const { data: createdOperation } = await MemoryStoresApi.flushAllQueues({ universeId: 5243626809 });",
+          "exampleData": "{\n  path: \"cloud/v2/universes/5243626809/operations/AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ\",\n  done: false,\n  id: \"AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ\",\n}\n",
+          "exampleRawBody": "{\n  path: \"cloud/v2/universes/5243626809/operations/AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ\",\n  done: null,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The id of the universe to flush all queue items from."
+          }
+        ]
+      },
+      "operationStatus": {
+        "description": "Removes all items from every queue in a given universe.",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universeId}/memory-store/operations/{operation}",
+          "example": "const { data: operation } = await MemoryStoresApi.operationStatus({\n  universeId: 5243626809,\n  operation: \"AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ\",\n});",
+          "exampleData": "{\n  path: \"cloud/v2/universes/5243626809/operations/AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ\",\n  done: false,\n}\n",
+          "exampleRawBody": "{\n  path: \"cloud/v2/universes/5243626809/operations/AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ\",\n  done: false,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The id of the universe to flush all queue items from."
+          }
+        ]
+      }
+    },
+    "messaging": {
+      "publishMessage": {
+        "description": "Publishes a message to all servers of a universe.",
+        "tags": {
+          "endpoint": "POST /v1/universes/{universeId}/topics/{topic}",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "// Openblox (Typescript Code) - Sending Message\ntype Message = { targetId: number; reason: string };\nawait MessagingApi.publishMessage<Message>({\n  universeId: 5097539509,\n  topic: \"kickPlr\",\n  message: { targetId: 45348281, reason: \"You smell kinda funny.\" },\n});\n\n/* Roblox Luau Code - Recieving The Message Above\nlocal MessagingService = game:GetService(\"MessagingService\")\nlocal HttpService = game:GetService(\"HttpService\")\nlocal Players = game:GetService(\"Players\")\n\nMessagingService:SubscribeAsync(\"kickPlr\", function(msg)\n    local data = HttpService:JSONDecode(msg.Data)\n     \n    local plr = Players:GetPlayerByUserId(data.targetId)\n    if not plr then return end\n    \n    plr:Kick(`You have been kicked for: \"{data.reason}\"`)\nend) */",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": []
+      }
+    },
+    "subscriptions": {
+      "subscriptionInfo": {
+        "description": "",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universeId}/subscription-products/{subscriptionProductId}/subscriptions/{subscriptionId}",
+          "example": "",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The id of the universe."
+          },
+          {
+            "name": "subscriptionProductId",
+            "type": "SubscriptionProductId",
+            "description": "The id of the subscription."
+          },
+          {
+            "name": "subscriptionId",
+            "type": "SubscriptionId",
+            "description": "The Id of the user who subscribed."
+          }
+        ]
+      }
+    },
+    "users": {
+      "userInfo": {
+        "description": "Gets information about a user from their id.",
+        "tags": {
+          "endpoint": "GET /v2/users/{userId}",
+          "example": "const { data: userInfo } = await UsersApi.userInfo({ userId: 45348281 });",
+          "exampleData": "{\n  path: \"users/45348281\",\n  createTime: \"2013-07-13T07:50:00.083Z\",\n  id: \"45348281\",\n  name: \"MightyPart\",\n  displayName: \"Mighty\",\n  about: \"football nothing to is push sudden national\",\n  locale: \"en_us\",\n  premium: true,\n  idVerified: true,\n  socialNetworkProfiles: { visibility: \"EVERYONE\" },\n}\n",
+          "exampleRawBody": "{\n  path: \"users/45348281\",\n  createTime: \"2013-07-13T07:50:00.083Z\",\n  id: \"45348281\",\n  name: \"MightyPart\",\n  displayName: \"Mighty\",\n  about: \"football nothing to is push sudden national\",\n  locale: \"en_us\",\n  premium: true,\n  idVerified: true,\n  socialNetworkProfiles: {\n    facebook: \"\",\n    twitter: \"\",\n    youtube: \"\",\n    twitch: \"\",\n    guilded: \"\",\n    visibility: \"EVERYONE\",\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The id of the user to get detailed info about."
+          }
+        ]
+      },
+      "userThumbnail": {
+        "description": "Gets a users avatar.",
+        "tags": {
+          "endpoint": "GET /v2/users/{userId}:generateThumbnail",
+          "example": "const { data: userInfo } = await UsersApi.userInfo({ userId: 45348281 });",
+          "exampleData": "{\n  path: \"users/45348281/operations/eyJOb25jZSI6ImM5ZGZmN2E3OTQ1ZTQxYTc4M2E3OGY4Nzk2ZTYwOTczIiwiVHlwZSI6IkdlbmVyYXRlVXNlclRodW1ibmFpbFJlcXVlc3QiLCJQYXRoIjoidXNlcnMvNDUzNDgyODEiLCJTaXplIjoiMCIsIkZvcm1hdCI6IjAiLCJTaGFwZSI6IjAifQ==\",\n  done: true,\n  response: {\n    \"@type\": \"apis.roblox.com/roblox.open_cloud.cloud.v2.GenerateUserThumbnailResponse\",\n    imageUri: \"https://tr.rbxcdn.com/30DAY-AvatarHeadshot-8D297BB79DBA963A48A765F78DFC5D1B-Png/420/420/AvatarHeadshot/Png/isCircular\",\n  },\n}\n",
+          "exampleRawBody": "{\n  path: \"users/45348281/operations/eyJOb25jZSI6ImM5ZGZmN2E3OTQ1ZTQxYTc4M2E3OGY4Nzk2ZTYwOTczIiwiVHlwZSI6IkdlbmVyYXRlVXNlclRodW1ibmFpbFJlcXVlc3QiLCJQYXRoIjoidXNlcnMvNDUzNDgyODEiLCJTaXplIjoiMCIsIkZvcm1hdCI6IjAiLCJTaGFwZSI6IjAifQ==\",\n  done: true,\n  response: {\n    \"@type\": \"apis.roblox.com/roblox.open_cloud.cloud.v2.GenerateUserThumbnailResponse\",\n    imageUri: \"https://tr.rbxcdn.com/30DAY-AvatarHeadshot-8D297BB79DBA963A48A765F78DFC5D1B-Png/420/420/AvatarHeadshot/Png/isCircular\",\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The id of the user to get the thumbnail for."
+          },
+          {
+            "name": "size",
+            "type": "?",
+            "description": "The size of the thumbnail to be returned."
+          },
+          {
+            "name": "format",
+            "type": "?",
+            "description": "The format of the thumbnail to be returned."
+          },
+          {
+            "name": "shape",
+            "type": "?",
+            "description": "The shape of the thumbnail to be returned."
+          }
+        ]
+      },
+      "sendNotificationToUser": {
+        "description": "Sends a notification to a user.",
+        "tags": {
+          "endpoint": "POST /v2/users/{userId}/notifications",
+          "example": "const { data: notification } = await UsersApi.sendNotificationToUser<Parameters>({\n  universeId: 1685831367,\n  userId: 45348281,\n  notificationData: {\n    messageId: \"f70b6a49-a5e5-a048-b1a4-10f9e930614f\",\n    parameters: { questsLeft: \"15\", custom: \"lorem ipsum dolor sit amet\" },\n    launchData: \"joined from foobar\",\n    analyticsCategory: \"foobar\",\n  },\n});",
+          "exampleData": "{\n  path: \"users/45348281/notifications/05268fb7-3a73-4d07-9972-65e7a6063892\",\n  id: \"05268fb7-3a73-4d07-9972-65e7a6063892\",\n}\n",
+          "exampleRawBody": "{\n  path: \"users/45348281/notifications/05268fb7-3a73-4d07-9972-65e7a6063892\",\n  id: \"05268fb7-3a73-4d07-9972-65e7a6063892\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user send the notification to."
+          },
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The id of the universe to send the notification from."
+          },
+          {
+            "name": "notificationData",
+            "type": "SendNotificationToUser_NotificationData<Parameters>",
+            "description": "The data of the notification."
+          }
+        ]
+      }
+    }
+  },
+  "classic": {
+    "friends": {
+      "friendsMetadata": {
+        "description": "Gets friends metadata.",
+        "tags": {
+          "endpoint": "GET /v1/metadata",
+          "example": "const { data: metadata } = await ClassicFriendsApi.friendsMetadata();",
+          "exampleData": "{\n  isFriendsFilterBarEnabled: true,\n  isFriendsPageSortExperimentEnabled: false,\n  isFriendsUserDataStoreCacheEnabled: true,\n  frequentFriendSortRollout: 0,\n  userName: null,\n  displayName: null,\n}\n",
+          "exampleRawBody": "{\n  isFriendsFilterBarEnabled: true,\n  isFriendsPageSortExperimentEnabled: false,\n  isFriendsUserDataStoreCacheEnabled: true,\n  frequentFriendSortRollout: 0,\n  userName: null,\n  displayName: null,\n}\n"
+        },
+        "params": []
+      },
+      "authenticatedUserFriendsCount": {
+        "description": "Gets the amount of friends the authenticated user has.",
+        "tags": {
+          "endpoint": "GET /v1/my/friends/count",
+          "example": "const { data: metadata } = await ClassicFriendsApi.friendsMetadata();",
+          "exampleData": "",
+          "exampleRawBody": "{ count: 47 }\n"
+        },
+        "params": []
+      },
+      "authenticatedUserFriendRequests": {
+        "description": "Gets friends requests sent to the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v1/my/friends/requests",
+          "example": "const { data: requests } = await ClassicFriendsApi.authenticatedUserFriendRequests({ limit: 10 });",
+          "exampleData": "[\n  {\n    friendRequest: {\n      sentAt: \"2024-03-24T02:25:33.095Z\",\n      senderId: 5635371081,\n      sourceUniverseId: 2549415383,\n      originSourceType: \"InGame\",\n      contactName: null,\n    },\n    mutualFriendsList: [],\n    hasVerifiedBadge: false,\n    description: \"\",\n    created: \"2024-03-04T15:20:32.033Z\",\n    isBanned: false,\n    externalAppDisplayName: null,\n    id: 5635371081,\n    name: \"loremIpsum\",\n    displayName: \"loremIpsum\",\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: \"638366615689560000-0_1_bcccef3d2c3547470ca9dc3072eedfec\",\n  data: [\n    {\n      friendRequest: {\n        sentAt: \"2024-03-24T02:25:33.095Z\",\n        senderId: 5635371081,\n        sourceUniverseId: 2549415383,\n        originSourceType: \"InGame\",\n        contactName: null,\n      },\n      mutualFriendsList: [],\n      hasVerifiedBadge: false,\n      description: \"\",\n      created: \"2024-03-04T15:20:32.033Z\",\n      isBanned: false,\n      externalAppDisplayName: null,\n      id: 5635371081,\n      name: \"loremIpsum\",\n      displayName: \"loremIpsum\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "limit"
+          },
+          {
+            "name": "sortOrder",
+            "type": "?",
+            "description": "sortOrder"
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "cursor"
+          }
+        ]
+      },
+      "authenticatedUserFriendRequestsCount": {
+        "description": "Gets the amount of friend requests the authenticated user has.",
+        "tags": {
+          "endpoint": "GET /v1/user/friend-requests/count",
+          "example": "const { data: requestsCount } = await ClassicFriendsApi.authenticatedUserFriendRequestsCount();",
+          "exampleData": "",
+          "exampleRawBody": "{ count: 82 }\n"
+        },
+        "params": []
+      },
+      "friendsList": {
+        "description": "Gets friends for a specified user.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/friends",
+          "example": "const { data: friends } = await ClassicFriendsApi.friendsList({ userId: 45348281 });",
+          "exampleData": "[\n  {\n    isOnline: true,\n    presenceType: 1,\n    isDeleted: false,\n    friendFrequentScore: 0,\n    friendFrequentRank: 1,\n    hasVerifiedBadge: false,\n    description: null,\n    created: \"0001-01-01T05:52:00Z\",\n    isBanned: false,\n    externalAppDisplayName: null,\n    id: 1999518862,\n    name: \"Ipsum\",\n    displayName: \"Lorem\",\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      isOnline: true,\n      presenceType: 1,\n      isDeleted: false,\n      friendFrequentScore: 0,\n      friendFrequentRank: 1,\n      hasVerifiedBadge: false,\n      description: null,\n      created: \"0001-01-01T05:52:00Z\",\n      isBanned: false,\n      externalAppDisplayName: null,\n      id: 1999518862,\n      name: \"Ipsum\",\n      displayName: \"Lorem\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get friends for."
+          },
+          {
+            "name": "userSort",
+            "type": "?",
+            "description": "Specifies how to sort the returned friends."
+          }
+        ]
+      },
+      "friendsCount": {
+        "description": "Gets friends count for a specified user.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/friends/count",
+          "example": "const { data: count } = await ClassicFriendsApi.friendsCount({ userId: 45348281 });",
+          "exampleData": "",
+          "exampleRawBody": "{ count: 47 }\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get friends for."
+          }
+        ]
+      },
+      "findFriends": {
+        "description": "Gets a paginated list of all friends for the specified user.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/friends/find",
+          "example": "const { data: friends } = await ClassicFriendsApi.userfollowersCount({ userId: 45348281 });",
+          "exampleData": "[\n  { id: 2820974191, hasVerifiedBadge: false },\n  { id: 29992184, hasVerifiedBadge: true },\n]\n",
+          "exampleRawBody": "{\n  PreviousCursor: null,\n  PageItems: [\n    { id: 2820974191, hasVerifiedBadge: false },\n    { id: 29992184, hasVerifiedBadge: true },\n  ],\n  NextCursor: \"MTk5OTIxODE2MiYxNzYxMjQwMTYmMg==\",\n  HasMore: null,\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get friends for."
+          },
+          {
+            "name": "userSort",
+            "type": "?",
+            "description": "Specifies how to sort the returned friends."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The number of results to be returned"
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "userfollowersCount": {
+        "description": "Gets the followers count for a specific user.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/followers/count",
+          "example": "const { data: followersCount } = await ClassicFriendsApi.userfollowersCount({ userId: 45348281 });",
+          "exampleData": "",
+          "exampleRawBody": "{ count: 510 }\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get the follower count for."
+          }
+        ]
+      }
+    },
+    "games": {
+      "gamesInfo": {
+        "description": "Gets a list of games info from universe ids.",
+        "tags": {
+          "endpoint": "GET /v1/games",
+          "example": "",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "userId",
+            "description": "The id of the user to get games for."
+          },
+          {
+            "name": "limit",
+            "description": "The maximum amount of games to return."
+          },
+          {
+            "name": "sortOrder",
+            "description": "The order the results are sorted it."
+          },
+          {
+            "name": "cursor",
+            "description": "the paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "userGames": {
+        "description": "Gets a list of games made by a specific user.",
+        "tags": {
+          "endpoint": "GET /v2/users/{userId}/games",
+          "example": "",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get games for."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The maximum amount of games to return."
+          },
+          {
+            "name": "sortOrder",
+            "type": "?",
+            "description": "The order the results are sorted it."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "the paging cursor for the previous or next page."
+          }
+        ]
+      }
+    },
+    "groups": {
+      "groupInfo": {
+        "description": "Gets information about a group.",
+        "tags": {
+          "category": "Groups",
+          "endpoint": "GET /v1/groups/{groupId}",
+          "tags": "[ \"?Cookie\" ]",
+          "example": "const { data: groupInfo } = await ClassicGroupsApi.groupInfo({ groupId: 5850082 });",
+          "exampleData": "{\n  id: 5850082,\n  name: \"MightyPart Games\",\n  description: \"Lorem ipsum dolor sit amet consectetur adipiscing elit.\",\n  owner: {\n    hasVerifiedBadge: false,\n    userId: 45348281,\n    username: \"MightyPart\",\n    displayName: \"MightyPart\",\n  },\n  shout: null,\n  memberCount: 102,\n  isBuildersClubOnly: false,\n  publicEntryAllowed: true,\n  hasVerifiedBadge: false,\n}\n",
+          "exampleRawBody": "{\n  id: 5850082,\n  name: \"MightyPart Games\",\n  description: \"Lorem ipsum dolor sit amet consectetur adipiscing elit.\",\n  owner: {\n    hasVerifiedBadge: false,\n    userId: 45348281,\n    username: \"MightyPart\",\n    displayName: \"MightyPart\",\n  },\n  shout: null,\n  memberCount: 102,\n  isBuildersClubOnly: false,\n  publicEntryAllowed: true,\n  hasVerifiedBadge: false,\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The id of the group."
+          }
+        ]
+      },
+      "groupAuditLog": {
+        "description": "Gets audit log entries for a group.",
+        "tags": {
+          "category": "Groups",
+          "endpoint": "GET /v1/groups/{groupId}/audit-log",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: auditLog } = await ClassicGroupsApi.groupAuditLog({ groupId: 5850082 });",
+          "exampleData": "{\n  previousPageCursor: null,\n  nextPageCursor: null,\n  data: [\n    {\n      actor: {\n        user: {\n          hasVerifiedBadge: false,\n          userId: 45348281,\n          username: \"MightyPart\",\n          displayName: \"MightyPart\",\n        },\n        role: {\n          id: 38353811,\n          name: \"NamelessGuy2005 - Scriptor\",\n          rank: 255,\n        },\n      },\n      actionType: \"Accept Ally Request\",\n      description: {\n        TargetGroupId: 6333562,\n        TargetGroupName: \"Mine Ways Talk Show\",\n      },\n      created: \"2020-05-18T12:06:34Z\",\n    },\n    {\n      actor: {\n        user: {\n          hasVerifiedBadge: false,\n          userId: 45348281,\n          username: \"MightyPart\",\n          displayName: \"MightyPart\",\n        },\n        role: {\n          id: 38353811,\n          name: \"NamelessGuy2005 - Scriptor\",\n          rank: 255,\n        },\n      },\n      actionType: \"Accept Ally Request\",\n      description: {\n        TargetGroupId: 5257567,\n        TargetGroupName: \"The X1 Team\",\n      },\n      created: \"2020-05-13T13:52:57Z\",\n    },\n    {\n      actor: {\n        user: {\n          hasVerifiedBadge: false,\n          userId: 45348281,\n          username: \"MightyPart\",\n          displayName: \"MightyPart\",\n        },\n        role: {\n          id: 38353811,\n          name: \"NamelessGuy2005 - Scriptor\",\n          rank: 255,\n        },\n      },\n      actionType: \"Accept Ally Request\",\n      description: {\n        TargetGroupId: 5894486,\n        TargetGroupName: \"Sky-Blox Studio\",\n      },\n      created: \"2020-05-13T13:52:56Z\",\n    },\n  ],\n}\n",
+          "exampleRawBody": "[\n  {\n    actor: {\n      user: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      role: {\n        id: 38353811,\n        name: \"NamelessGuy2005 - Scriptor\",\n        rank: 255,\n      },\n    },\n    actionType: \"AcceptAllyRequest\",\n    description: {\n      targetGroupId: 6333562,\n      targetGroupName: \"Mine Ways Talk Show\",\n    },\n    created: \"2020-05-18T12:06:34Z\",\n  },\n  {\n    actor: {\n      user: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      role: {\n        id: 38353811,\n        name: \"NamelessGuy2005 - Scriptor\",\n        rank: 255,\n      },\n    },\n    actionType: \"AcceptAllyRequest\",\n    description: {\n      targetGroupId: 5257567,\n      targetGroupName: \"The X1 Team\",\n    },\n    created: \"2020-05-13T13:52:57Z\",\n  },\n  {\n    actor: {\n      user: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      role: {\n        id: 38353811,\n        name: \"NamelessGuy2005 - Scriptor\",\n        rank: 255,\n      },\n    },\n    actionType: \"AcceptAllyRequest\",\n    description: {\n      targetGroupId: 5894486,\n      targetGroupName: \"Sky-Blox Studio\",\n    },\n    created: \"2020-05-13T13:52:56Z\",\n  },\n]\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group."
+          },
+          {
+            "name": "actionType",
+            "type": "?",
+            "description": "The action to filter the audit logs by. (no filter will be applied if actionType is undefined)."
+          },
+          {
+            "name": "userId",
+            "type": "?",
+            "description": "Filter for specific user by their id."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The number of results to be returned."
+          },
+          {
+            "name": "sortOrder",
+            "type": "?",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "groupNameHistory": {
+        "description": "Gets name history of a group.",
+        "tags": {
+          "category": "Groups",
+          "endpoint": "GET /v1/groups/{groupId}/name-history",
+          "example": "const { data: nameHistory } = await ClassicGroupsApi.groupNameHistory({ groupId: 5850082 });",
+          "exampleData": "[{ name: \"Nameless Game Studio\", created: \"2022-01-06T00:01:47.193Z\" }]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: null,\n  data: [\n    { name: \"Nameless Game Studio\", created: \"2022-01-06T00:01:47.193Z\" },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The number of results to be returned."
+          },
+          {
+            "name": "sortOrder",
+            "type": "?",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "groupSettings": {
+        "description": "Gets settings for a group.",
+        "tags": {
+          "category": "Groups",
+          "endpoint": "GET /v1/groups/{groupId}/settings",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: settings } = await ClassicGroupsApi.groupSettings({ groupId: 5850082 });",
+          "exampleData": "{\n  isApprovalRequired: true,\n  isBuildersClubRequired: false,\n  areEnemiesAllowed: true,\n  areGroupFundsVisible: false,\n  areGroupGamesVisible: true,\n  isGroupNameChangeEnabled: true,\n}\n",
+          "exampleRawBody": "{\n  isApprovalRequired: true,\n  isBuildersClubRequired: false,\n  areEnemiesAllowed: true,\n  areGroupFundsVisible: false,\n  areGroupGamesVisible: true,\n  isGroupNameChangeEnabled: true,\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to get settings for."
+          }
+        ]
+      },
+      "setGroupSettings": {
+        "description": "Sets settings for a group.",
+        "tags": {
+          "category": "Groups",
+          "endpoint": "PATCH /v1/groups/{groupId}/settings",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.setGroupSettings({\n  groupId: 5850082,\n  newSettings: {\n    isApprovalRequired: true,\n    isBuildersClubRequired: false,\n    areEnemiesAllowed: true,\n    areGroupFundsVisible: false,\n    areGroupGamesVisible: true,\n    isGroupNameChangeEnabled: true,\n  },\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group."
+          },
+          {
+            "name": "newSettings",
+            "type": "GroupSettingsData",
+            "description": "The new settings for the group."
+          }
+        ]
+      },
+      "groupsConfigMetadata": {
+        "description": "Gets groups configuration metadata.",
+        "tags": {
+          "category": "Groups",
+          "endpoint": "GET /v1/groups/configuration/metadata",
+          "example": "const { data: configMetadata } = await ClassicGroupsApi.groupsConfigMetadata();",
+          "exampleData": "{\n  groupConfiguration: {\n    nameMaxLength: 50,\n    descriptionMaxLength: 1000,\n    iconMaxFileSizeMb: 20,\n    cost: 100,\n    isUsingTwoStepWebviewComponent: true,\n  },\n  recurringPayoutsConfiguration: { maxPayoutPartners: 20 },\n  roleConfiguration: {\n    nameMaxLength: 100,\n    descriptionMaxLength: 1000,\n    limit: 40,\n    cost: 25,\n    minRank: 0,\n    maxRank: 255,\n  },\n  groupNameChangeConfiguration: {\n    cost: 100,\n    cooldownInDays: 90,\n    ownershipCooldownInDays: 90,\n  },\n  isPremiumPayoutsEnabled: true,\n  isDefaultEmblemPolicyEnabled: true,\n}\n",
+          "exampleRawBody": "{\n  groupConfiguration: {\n    nameMaxLength: 50,\n    descriptionMaxLength: 1000,\n    iconMaxFileSizeMb: 20,\n    cost: 100,\n    isUsingTwoStepWebviewComponent: true,\n  },\n  recurringPayoutsConfiguration: { maxPayoutPartners: 20 },\n  roleConfiguration: {\n    nameMaxLength: 100,\n    descriptionMaxLength: 1000,\n    limit: 40,\n    cost: 25,\n    minRank: 0,\n    maxRank: 255,\n  },\n  groupNameChangeConfiguration: {\n    cost: 100,\n    cooldownInDays: 90,\n    ownershipCooldownInDays: 90,\n  },\n  isPremiumPayoutsEnabled: true,\n  isDefaultEmblemPolicyEnabled: true,\n}\n"
+        },
+        "params": []
+      },
+      "groupsMetadata": {
+        "description": "Gets groups metadata.",
+        "tags": {
+          "category": "Groups",
+          "endpoint": "GET /v1/groups/metadata",
+          "example": "const { data: metadata } = await ClassicGroupsApi.groupsMetadata();",
+          "exampleData": "{\n  groupLimit: 100,\n  currentGroupCount: 57,\n  groupStatusMaxLength: 255,\n  groupPostMaxLength: 500,\n  isGroupWallNotificationsEnabled: false,\n  groupWallNotificationsSubscribeIntervalInMilliseconds: 60000,\n  areProfileGroupsHidden: false,\n  isGroupDetailsPolicyEnabled: true,\n  showPreviousGroupNames: true,\n}\n",
+          "exampleRawBody": "{\n  groupLimit: 100,\n  currentGroupCount: 57,\n  groupStatusMaxLength: 255,\n  groupPostMaxLength: 500,\n  isGroupWallNotificationsEnabled: false,\n  groupWallNotificationsSubscribeIntervalInMilliseconds: 60000,\n  areProfileGroupsHidden: false,\n  isGroupDetailsPolicyEnabled: true,\n  showPreviousGroupNames: true,\n}\n"
+        },
+        "params": []
+      },
+      "groupsPolicyInfo": {
+        "description": "Gets group policy info used for compliance.",
+        "tags": {
+          "category": "Groups",
+          "endpoint": "GET /v1/groups/policies",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: policyInfo } = await ClassicGroupsApi.groupsPolicyInfo({ groupIds: [5850082] });",
+          "exampleData": "{ \"5850082\": { canViewGroup: true } }\n",
+          "exampleRawBody": "{ groups: [{ canViewGroup: true, groupId: 5850082 }] }\n"
+        },
+        "params": [
+          {
+            "name": "groupIds",
+            "type": "ArrayNonEmpty<GroupId>",
+            "description": "the ids of groups to get policy info for."
+          }
+        ]
+      },
+      "setGroupDescription": {
+        "description": "Sets group description.",
+        "tags": {
+          "category": "Groups",
+          "endpoint": "PATCH /v1/groups/{groupId}/description",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: newDescription } = await ClassicGroupsApi.setGroupDescription({\n  groupId: 5850082,\n  newDescription: \"Hello World!\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{ newDescription: \"Hello World!\" }\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to set the description for."
+          },
+          {
+            "name": "newDescription",
+            "type": "NewDescription",
+            "description": "The content of the new description."
+          }
+        ]
+      },
+      "setGroupShout": {
+        "description": "Sets group shout (status).",
+        "tags": {
+          "category": "Groups",
+          "endpoint": "PATCH /v1/groups/{groupId}/status",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: newShout } = await ClassicGroupsApi.setGroupShout({ groupId: 5850082, newShout: \"Hello World!\" });",
+          "exampleData": "{\n  body: \"Hello World!\",\n  poster: {\n    hasVerifiedBadge: false,\n    userId: 45348281,\n    username: \"MightyPart\",\n    displayName: \"MightyPart\",\n  },\n  created: \"2020-03-31T18:36:51.607Z\",\n  updated: \"2023-09-15T16:21:00.272Z\",\n}\n",
+          "exampleRawBody": "{\n  body: \"Hello World!\",\n  poster: {\n    hasVerifiedBadge: false,\n    userId: 45348281,\n    username: \"MightyPart\",\n    displayName: \"MightyPart\",\n  },\n  created: \"2020-03-31T18:36:51.607Z\",\n  updated: \"2023-09-15T16:21:00.272Z\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to set the shout for."
+          },
+          {
+            "name": "message",
+            "description": "The content of the new shout."
+          }
+        ]
+      },
+      "setGroupIcon": {
+        "description": "Sets group icon.",
+        "tags": {
+          "category": "Groups",
+          "endpoint": "PATCH /v1/groups/{groupId}/status",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.setGroupIcon({ groupId: 5850082, newIcon: \"./newGroupIcon.png\" });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to set the icon for."
+          },
+          {
+            "name": "newIcon",
+            "type": "string | File",
+            "description": "The new icon for the group."
+          }
+        ]
+      },
+      "batchDeclineGroupJoinRequests": {
+        "description": "Batch declines join requests.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "DELETE /v1/groups/{groupId}/join-requests",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.batchDeclineGroupJoinRequests({\n  groupId: 5850082,\n  userIds: [2655994471],\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to batch decline join requests for."
+          },
+          {
+            "name": "userIds",
+            "type": "ArrayNonEmpty<Identifier>",
+            "description": "The ids of the user to decline."
+          }
+        ]
+      },
+      "groupJoinRequests": {
+        "description": "gets join requests.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "GET /v1/groups/{groupId}/join-requests",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: joinRequests } = await ClassicGroupsApi.groupJoinRequests({ groupId: 5850082 });",
+          "exampleData": "[\n  {\n    requester: {\n      hasVerifiedBadge: false,\n      userId: 2655994471,\n      username: \"MightyPartJr\",\n      displayName: \"MightyPartJr\",\n    },\n    created: \"2023-09-12T09:35:49.287Z\",\n  },\n]\n",
+          "exampleRawBody": "[\n  {\n    requester: {\n      hasVerifiedBadge: false,\n      userId: 2655994471,\n      username: \"MightyPartJr\",\n      displayName: \"MightyPartJr\",\n    },\n    created: \"2023-09-12T09:35:49.287Z\",\n  },\n]\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to get join requests for."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The number of results to be returned."
+          },
+          {
+            "name": "sortOrder",
+            "type": "?",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "batchAcceptGroupJoinRequests": {
+        "description": "Batch accepts join requests.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "POST /v1/groups/{groupId}/join-requests",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.batchAcceptGroupJoinRequests({\n  groupId: 5850082,\n  userIds: [2655994471],\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to batch accepts join requests for."
+          },
+          {
+            "name": "userIds",
+            "type": "ArrayNonEmpty<Identifier>",
+            "description": "The ids of the user to accept."
+          }
+        ]
+      },
+      "declineGroupJoinRequest": {
+        "description": "Declines a join request.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "DELETE /v1/groups/{groupId}/join-requests/users/${userId}",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.declineGroupJoinRequest({ groupId: 5850082, userId: 2655994471 });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to decline a join request for."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to decline."
+          }
+        ]
+      },
+      "groupJoinRequestInfo": {
+        "description": "Gets a join request for a user.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "DELETE /v1/groups/{groupId}/join-requests/users/${userId}",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: joinRequest } = await ClassicGroupsApi.groupJoinRequestInfo({ groupId: 5850082, userId: 2655994471 });",
+          "exampleData": "{\n  requester: {\n    hasVerifiedBadge: false,\n    userId: 2655994471,\n    username: \"MightyPartJr\",\n    displayName: \"MightyPartJr\",\n  },\n  created: \"2023-09-12T11:31:18.933Z\",\n}\n",
+          "exampleRawBody": "{\n  requester: {\n    hasVerifiedBadge: false,\n    userId: 2655994471,\n    username: \"MightyPartJr\",\n    displayName: \"MightyPartJr\",\n  },\n  created: \"2023-09-12T11:31:18.933Z\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group."
+          },
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The id of the user."
+          }
+        ]
+      },
+      "acceptGroupJoinRequest": {
+        "description": "Accepts a join request.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "POST /v1/groups/{groupId}/join-requests/users/${userId}",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.acceptGroupJoinRequest({ groupId: 5850082, userId: 2655994471 });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to accept a join request for."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to accept."
+          }
+        ]
+      },
+      "authenticatedUserGroupMembershipInfo": {
+        "description": "Gets group membership info for the currently authenticated user.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "GET /v1/groups/{groupId}/membership",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: membershipInfo } = await ClassicGroupsApi.authenticatedUserGroupMembershipInfo({ groupId: 5850082 });",
+          "exampleData": "{\n  groupId: 5850082,\n  isPrimary: false,\n  isPendingJoin: false,\n  userRole: {\n    user: {\n      hasVerifiedBadge: false,\n      userId: 45348281,\n      username: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n    role: { id: 38353811, name: \"NamelessGuy2005 - Scriptor\", rank: 255 },\n  },\n  permissions: {\n    groupPostsPermissions: {\n      viewWall: true,\n      postToWall: true,\n      deleteFromWall: true,\n      viewStatus: true,\n      postToStatus: true,\n    },\n    groupMembershipPermissions: {\n      changeRank: true,\n      inviteMembers: true,\n      removeMembers: true,\n    },\n    groupManagementPermissions: {\n      manageRelationships: true,\n      manageClan: true,\n      viewAuditLogs: true,\n    },\n    groupEconomyPermissions: {\n      spendGroupFunds: true,\n      advertiseGroup: true,\n      createItems: true,\n      manageItems: true,\n      addGroupPlaces: true,\n      manageGroupGames: true,\n      viewGroupPayouts: true,\n      viewAnalytics: true,\n    },\n    groupOpenCloudPermissions: {\n      useCloudAuthentication: true,\n      administerCloudAuthentication: true,\n    },\n  },\n  areGroupGamesVisible: true,\n  areGroupFundsVisible: false,\n  areEnemiesAllowed: true,\n  canConfigure: true,\n}\n",
+          "exampleRawBody": "{\n  groupId: 5850082,\n  isPrimary: false,\n  isPendingJoin: false,\n  userRole: {\n    user: {\n      hasVerifiedBadge: false,\n      userId: 45348281,\n      username: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n    role: { id: 38353811, name: \"NamelessGuy2005 - Scriptor\", rank: 255 },\n  },\n  permissions: {\n    groupPostsPermissions: {\n      viewWall: true,\n      postToWall: true,\n      deleteFromWall: true,\n      viewStatus: true,\n      postToStatus: true,\n    },\n    groupMembershipPermissions: {\n      changeRank: true,\n      inviteMembers: true,\n      removeMembers: true,\n    },\n    groupManagementPermissions: {\n      manageRelationships: true,\n      manageClan: true,\n      viewAuditLogs: true,\n    },\n    groupEconomyPermissions: {\n      spendGroupFunds: true,\n      advertiseGroup: true,\n      createItems: true,\n      manageItems: true,\n      addGroupPlaces: true,\n      manageGroupGames: true,\n      viewGroupPayouts: true,\n      viewAnalytics: true,\n    },\n    groupOpenCloudPermissions: {\n      useCloudAuthentication: true,\n      administerCloudAuthentication: true,\n    },\n  },\n  areGroupGamesVisible: true,\n  areGroupFundsVisible: false,\n  areEnemiesAllowed: true,\n  canConfigure: true,\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The id of the group to get membership info for."
+          }
+        ]
+      },
+      "groupRoles": {
+        "description": "Gets all roles in a group.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "GET /v1/groups/{groupId}/roles",
+          "example": "const { data: roles } = await ClassicGroupsApi.groupRoles({ groupId: 5850082 });",
+          "exampleData": "[\n  {\n    id: 38353814,\n    name: \"Guest\",\n    description: \"A non-group member.\",\n    rank: 0,\n    memberCount: 0,\n  },\n  {\n    id: 38353811,\n    name: \"Owner\",\n    description: \"\",\n    rank: 255,\n    memberCount: 1,\n  },\n]\n",
+          "exampleRawBody": "{\n  groupId: 5850082,\n  roles: [\n    {\n      id: 38353814,\n      name: \"Guest\",\n      description: \"A non-group member.\",\n      rank: 0,\n      memberCount: 0,\n    },\n    {\n      id: 38353811,\n      name: \"Owner\",\n      description: \"\",\n      rank: 255,\n      memberCount: 1,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The id of the group to get roles for."
+          }
+        ]
+      },
+      "groupMembersWithRole": {
+        "description": "Gets group members that have a specified role.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "GET /v1/groups/{groupId}/roles/{roleSetId}/users",
+          "example": "const { data: membersWithRole } = await ClassicGroupsApi.groupMembersWithRole({\n  groupId: 5850082,\n  roleSetId: 38353811,\n});",
+          "exampleData": "[\n  {\n    hasVerifiedBadge: false,\n    userId: 45348281,\n    username: \"MightyPart\",\n    displayName: \"MightyPart\",\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: null,\n  data: [\n    {\n      hasVerifiedBadge: false,\n      userId: 45348281,\n      username: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group."
+          },
+          {
+            "name": "roleSetId",
+            "type": "Identifier",
+            "description": "The id of the role."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The number of results to be returned."
+          },
+          {
+            "name": "sortOrder",
+            "type": "?",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "groupMembers": {
+        "description": "Gets a page of members of a group.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "GET /v1/groups/{groupId}/users",
+          "example": "const { data: members } = await ClassicGroupsApi.groupMembers({ groupId: 5850082 });",
+          "exampleData": "[\n  {\n    user: {\n      hasVerifiedBadge: false,\n      userId: 45348281,\n      username: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n    role: { id: 38353811, name: \"NamelessGuy2005 - Scriptor\", rank: 255 },\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: \"3023291639_1_8ba111cfa4097b6dd27d851a15353a1f\",\n  data: [\n    {\n      user: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      role: {\n        id: 38353811,\n        name: \"NamelessGuy2005 - Scriptor\",\n        rank: 255,\n      },\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The number of results to be returned."
+          },
+          {
+            "name": "sortOrder",
+            "type": "?",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "authenticatedUserPendingGroups": {
+        "description": "Gets groups that the authenticated user has requested to join.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "GET /v1/user/groups/pending",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: pendingGroups } = await ClassicGroupsApi.authenticatedUserPendingGroups();",
+          "exampleData": "[\n  {\n    id: 5850082,\n    name: \"lorem ipsum\",\n    description: \"\",\n    owner: {\n      hasVerifiedBadge: false,\n      userId: 45348281,\n      username: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n    shout: null,\n    isBuildersClubOnly: false,\n    publicEntryAllowed: false,\n    hasVerifiedBadge: false,\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      id: 5850082,\n      name: \"lorem ipsum\",\n      description: \"\",\n      owner: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      shout: null,\n      isBuildersClubOnly: false,\n      publicEntryAllowed: false,\n      hasVerifiedBadge: false,\n    },\n  ],\n}\n"
+        },
+        "params": []
+      },
+      "groupsThatUsersFriendsAreIn": {
+        "description": "Gets a list of all groups the specified users' friends are in.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "GET /v1/users/{userId}/friends/groups/roles",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: groupsThatUsersFriendsAreIn } = await ClassicGroupsApi.groupsThatUsersFriendsAreIn({ userId: 45348281 });",
+          "exampleData": "[\n  {\n    user: {\n      hasVerifiedBadge: false,\n      userId: 45348281,\n      username: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n    groups: [\n      {\n        group: {\n          id: 5850082,\n          name: \"Lorem ipsum\",\n          description: \"Lorem ipsum dolor sit amet.\",\n          owner: {\n            hasVerifiedBadge: false,\n            userId: 45348281,\n            username: \"MightyPart\",\n            displayName: \"MightyPart\",\n          },\n          shout: null,\n          isBuildersClubOnly: false,\n          publicEntryAllowed: true,\n          hasVerifiedBadge: false,\n        },\n        role: { id: 45348281, name: \"MightyPart\", rank: 1 },\n      },\n    ],\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      user: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      groups: [\n        {\n          group: {\n            id: 5850082,\n            name: \"Lorem ipsum\",\n            description: \"Lorem ipsum dolor sit amet.\",\n            owner: {\n              hasVerifiedBadge: false,\n              userId: 45348281,\n              username: \"MightyPart\",\n              displayName: \"MightyPart\",\n            },\n            shout: null,\n            isBuildersClubOnly: false,\n            publicEntryAllowed: true,\n            hasVerifiedBadge: false,\n          },\n          role: { id: 45348281, name: \"MightyPart\", rank: 1 },\n        },\n      ],\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get friends groups for."
+          }
+        ]
+      },
+      "allGroupRolesForUser_V1": {
+        "description": "Gets a list of all roles for every group that the specified user is in.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "GET /v1/users/{userId}/groups/roles",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: allRoles } = await ClassicGroupsApi.allGroupRolesForUser_V1({ userId: 45348281 });",
+          "exampleData": "[\n  {\n    group: {\n      id: 5855434,\n      name: \"MightyPart Games\",\n      description: \"Lorem ipsum dolor sit amet...\",\n      owner: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      shout: null,\n      memberCount: 102,\n      isBuildersClubOnly: false,\n      publicEntryAllowed: true,\n      hasVerifiedBadge: false,\n    },\n    role: { id: 5855434, name: \"MightyPart\", rank: 1 },\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      group: {\n        id: 5855434,\n        name: \"MightyPart Games\",\n        description: \"Lorem ipsum dolor sit amet...\",\n        owner: {\n          hasVerifiedBadge: false,\n          userId: 45348281,\n          username: \"MightyPart\",\n          displayName: \"MightyPart\",\n        },\n        shout: null,\n        memberCount: 102,\n        isBuildersClubOnly: false,\n        publicEntryAllowed: true,\n        hasVerifiedBadge: false,\n      },\n      role: { id: 5855434, name: \"MightyPart\", rank: 1 },\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get roles for."
+          }
+        ]
+      },
+      "removeGroupMember": {
+        "description": "Removes a user from a group.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "DELETE /v1/groups/{groupId}/users/{userId}",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.removeGroupMember({ groupId: 5850082, userId: 2655994471 });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to remove the user from."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to be removed."
+          }
+        ]
+      },
+      "updateGroupMemberRole": {
+        "description": "Changes a members' role in a group.",
+        "tags": {
+          "category": "Membership",
+          "endpoint": "PATCH /v1/groups/{groupId}/users/{userId}",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.updateGroupMemberRole({\n  groupId: 5850082,\n  userId: 2655994471,\n  roleId: 38354760,\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group"
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to change role for."
+          },
+          {
+            "name": "roleId",
+            "type": "Identifier",
+            "description": "The id of the role."
+          }
+        ]
+      },
+      "groupPayoutRestrictionsInfo": {
+        "description": "Gets values indicating if the specified group can use payout features.",
+        "tags": {
+          "category": "Revenue",
+          "endpoint": "GET /v1/groups/{groupId}/payout-restriction",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: payoutRestrictions } = await ClassicGroupsApi.groupPayoutRestrictionsInfo({ groupId: 5850082 });",
+          "exampleData": "{ canUseRecurringPayout: true, canUseOneTimePayout: true }\n",
+          "exampleRawBody": "{ canUseRecurringPayout: true, canUseOneTimePayout: true }\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group."
+          }
+        ]
+      },
+      "groupPayoutsInfo": {
+        "description": "Gets a list of the group payout percentages.",
+        "tags": {
+          "category": "Revenue",
+          "endpoint": "GET /v1/groups/{groupId}/payouts",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: payouts } = await ClassicGroupsApi.groupPayoutsInfo({ groupId: 5850082 });",
+          "exampleData": "[\n  {\n    user: {\n      hasVerifiedBadge: false,\n      userId: 45348281,\n      username: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n    percentage: 50,\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      user: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      percentage: 50,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group."
+          }
+        ]
+      },
+      "groupRelationships": {
+        "description": "Gets a group's relationships.",
+        "tags": {
+          "category": "Relationships",
+          "endpoint": "GET /v1/groups/{groupId}/relationships/{groupRelationshipType}",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: relationships } = await ClassicGroupsApi.groupRelationships({\n  groupId: 5850082,\n  groupRelationshipType: \"Allies\",\n  maxRows: 1,\n});",
+          "exampleData": "{\n  groupId: 5850082,\n  relationshipType: \"Allies\",\n  totalGroupCount: 2,\n  relatedGroups: [\n    {\n      id: 50,\n      name: \"Lorem Ipsum\",\n      description: \"Hello World\",\n      owner: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      shout: null,\n      memberCount: 38,\n      isBuildersClubOnly: false,\n      publicEntryAllowed: true,\n      hasVerifiedBadge: false,\n    },\n  ],\n}\n",
+          "exampleRawBody": "{\n  groupId: 5850082,\n  relationshipType: \"Allies\",\n  totalGroupCount: 2,\n  relatedGroups: [\n    {\n      id: 50,\n      name: \"Lorem Ipsum\",\n      description: \"Hello World\",\n      owner: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      shout: null,\n      memberCount: 38,\n      isBuildersClubOnly: false,\n      publicEntryAllowed: true,\n      hasVerifiedBadge: false,\n    },\n  ],\n  nextRowIndex: 1,\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group."
+          },
+          {
+            "name": "groupRelationshipType",
+            "type": "GroupRelationshipType",
+            "description": "The group relationship type, \"Enemies\" or \"Allies\"."
+          },
+          {
+            "name": "maxRows",
+            "type": "?",
+            "description": "The maximum number of rows for the page request, should be at least 1."
+          },
+          {
+            "name": "startRowIndex",
+            "type": "?",
+            "description": "The start index of the page request."
+          }
+        ]
+      },
+      "batchDeclineGroupRelationshipRequests": {
+        "description": "Batch declines relationship requests.",
+        "tags": {
+          "category": "Relationships",
+          "endpoint": "DELETE /v1/groups/{groupId}/relationships/{groupRelationshipType}/requests",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.batchDeclineGroupRelationshipRequests({\n  groupId: 5850082,\n  groupRelationshipType: \"Allies\",\n  groupIds: [15842838],\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to batch decline relationship requests for."
+          },
+          {
+            "name": "groupRelationshipType",
+            "type": "GroupRelationshipType",
+            "description": "The type of group relationship to batch decline for."
+          },
+          {
+            "name": "groupIds",
+            "type": "Identifier[]",
+            "description": "The ids of the groups to decline."
+          }
+        ]
+      },
+      "groupRelationshipRequests": {
+        "description": "Gets relationship requests.",
+        "tags": {
+          "category": "Relationships",
+          "endpoint": "GET /v1/groups/{groupId}/relationships/{groupRelationshipType}/requests",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: relationshipRequests, cursors } = await ClassicGroupsApi.groupRelationshipRequests({\n  groupId: 5850082,\n  groupRelationshipType: \"Allies\",\n  maxRows: 1,\n});",
+          "exampleData": "{\n  groupId: 5850082,\n  relationshipType: \"Allies\",\n  totalGroupCount: 2,\n  relatedGroups: [\n    {\n      id: 50,\n      name: \"Lorem Ipsum\",\n      description: \"Hello World\",\n      owner: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      shout: null,\n      memberCount: 38,\n      isBuildersClubOnly: false,\n      publicEntryAllowed: true,\n      hasVerifiedBadge: false,\n    },\n  ],\n}\n",
+          "exampleRawBody": "{\n  groupId: 5850082,\n  relationshipType: \"Allies\",\n  totalGroupCount: 2,\n  relatedGroups: [\n    {\n      id: 50,\n      name: \"Lorem Ipsum\",\n      description: \"Hello World\",\n      owner: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      shout: null,\n      memberCount: 38,\n      isBuildersClubOnly: false,\n      publicEntryAllowed: true,\n      hasVerifiedBadge: false,\n    },\n  ],\n  nextRowIndex: 1,\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group."
+          },
+          {
+            "name": "groupRelationshipType",
+            "type": "GroupRelationshipType",
+            "description": "The group relationship type, \"Enemies\" or \"Allies\"."
+          },
+          {
+            "name": "maxRows",
+            "type": "?",
+            "description": "The maximum number of rows for the page request, should be at least 1."
+          },
+          {
+            "name": "startRowIndex",
+            "type": "?",
+            "description": "The start index of the page request."
+          }
+        ]
+      },
+      "batchAcceptGroupRelationshipRequests": {
+        "description": "Batch accepts relationship requests.",
+        "tags": {
+          "category": "Relationships",
+          "endpoint": "POST /v1/groups/{groupId}/relationships/{groupRelationshipType}/requests",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.batchAcceptGroupRelationshipRequests({\n  groupId: 5850082,\n  groupRelationshipType: \"Allies\",\n  groupIds: [15842838],\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to batch accept relationship requests for."
+          },
+          {
+            "name": "groupRelationshipType",
+            "type": "GroupRelationshipType",
+            "description": "The type of group relationship to batch accept for."
+          },
+          {
+            "name": "groupIds",
+            "type": "Identifier[]",
+            "description": "The ids of the groups to accept."
+          }
+        ]
+      },
+      "removeGroupRelationship": {
+        "description": "Removes an already existing group relationship",
+        "tags": {
+          "category": "Relationships",
+          "endpoint": "POST /v1/groups/{groupId}/relationships/{groupRelationshipType}/{relatedGroupId}",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.removeGroupRelationship({\n  groupId: 5850082,\n  groupRelationshipType: \"Allies\",\n  relatedGroupId: 3843784,\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to remove the relationship from."
+          },
+          {
+            "name": "groupRelationshipType",
+            "type": "GroupRelationshipType",
+            "description": "The type of group relationship to remove."
+          },
+          {
+            "name": "relatedGroupId",
+            "type": "Identifier",
+            "description": "The id of the group to remove."
+          }
+        ]
+      },
+      "requestGroupRelationship": {
+        "description": "Sends a group relationship request to a group.",
+        "tags": {
+          "category": "Relationships",
+          "endpoint": "POST /v1/groups/{groupId}/relationships/{groupRelationshipType}/{relatedGroupId}",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.requestGroupRelationship({\n  groupId: 5850082,\n  groupRelationshipType: \"Allies\",\n  relatedGroupId: 3843784,\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to send a request for."
+          },
+          {
+            "name": "groupRelationshipType",
+            "type": "GroupRelationshipType",
+            "description": "The type of group relationship to request."
+          },
+          {
+            "name": "relatedGroupId",
+            "type": "Identifier",
+            "description": "The id of the group to request a relationship with."
+          }
+        ]
+      },
+      "declineGroupRelationshipRequest": {
+        "description": "Declines a group relationship request.",
+        "tags": {
+          "category": "Relationships",
+          "endpoint": "DELETE /v1/groups/{groupId}/relationships/{groupRelationshipType}/requests/{relatedGroupId}",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.declineGroupRelationshipRequest({\n  groupId: 5850082,\n  groupRelationshipType: \"Allies\",\n  relatedGroupId: 3843784,\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to decline for."
+          },
+          {
+            "name": "groupRelationshipType",
+            "type": "GroupRelationshipType",
+            "description": "The type of group relationship to decline."
+          },
+          {
+            "name": "relatedGroupId",
+            "type": "Identifier",
+            "description": "The id of the group to decline a relationship with."
+          }
+        ]
+      },
+      "acceptGroupRelationshipRequest": {
+        "description": "Accepts a group relationship request.",
+        "tags": {
+          "category": "Relationships",
+          "endpoint": "POST /v1/groups/{groupId}/relationships/{groupRelationshipType}/requests/{relatedGroupId}",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.acceptGroupRelationshipRequest({\n  groupId: 5850082,\n  groupRelationshipType: \"Allies\",\n  relatedGroupId: 3843784,\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to accept for."
+          },
+          {
+            "name": "groupRelationshipType",
+            "type": "GroupRelationshipType",
+            "description": "The type of group relationship to accept."
+          },
+          {
+            "name": "relatedGroupId",
+            "type": "Identifier",
+            "description": "The id of the group to accept a relationship with."
+          }
+        ]
+      },
+      "groupPermissionsForRole": {
+        "description": "Gets permissions for a role in a group.",
+        "tags": {
+          "category": "Permissions",
+          "endpoint": "GET /v1/groups/{groupId}/roles/{roleSetId}/permissions",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: rolePerms } = await ClassicGroupsApi.groupPermissionsForRole({ groupId: 5850082, roleSetId: 38353814 });",
+          "exampleData": "{\n  groupId: 5850082,\n  role: {\n    id: 38353814,\n    name: \"Guest\",\n    description: \"A non-group member.\",\n    rank: 0,\n  },\n  permissions: {\n    groupPostsPermissions: {\n      viewWall: true,\n      postToWall: false,\n      deleteFromWall: false,\n      viewStatus: false,\n      postToStatus: false,\n    },\n    groupMembershipPermissions: {\n      changeRank: false,\n      inviteMembers: false,\n      removeMembers: false,\n    },\n    groupManagementPermissions: {\n      manageRelationships: false,\n      manageClan: false,\n      viewAuditLogs: false,\n    },\n    groupEconomyPermissions: {\n      spendGroupFunds: false,\n      advertiseGroup: false,\n      createItems: false,\n      manageItems: false,\n      addGroupPlaces: false,\n      manageGroupGames: false,\n      viewGroupPayouts: false,\n      viewAnalytics: false,\n    },\n    groupOpenCloudPermissions: {\n      useCloudAuthentication: false,\n      administerCloudAuthentication: false,\n    },\n  },\n}\n",
+          "exampleRawBody": "{\n  groupId: 5850082,\n  role: {\n    id: 38353814,\n    name: \"Guest\",\n    description: \"A non-group member.\",\n    rank: 0,\n  },\n  permissions: {\n    groupPostsPermissions: {\n      viewWall: true,\n      postToWall: false,\n      deleteFromWall: false,\n      viewStatus: false,\n      postToStatus: false,\n    },\n    groupMembershipPermissions: {\n      changeRank: false,\n      inviteMembers: false,\n      removeMembers: false,\n    },\n    groupManagementPermissions: {\n      manageRelationships: false,\n      manageClan: false,\n      viewAuditLogs: false,\n    },\n    groupEconomyPermissions: {\n      spendGroupFunds: false,\n      advertiseGroup: false,\n      createItems: false,\n      manageItems: false,\n      addGroupPlaces: false,\n      manageGroupGames: false,\n      viewGroupPayouts: false,\n      viewAnalytics: false,\n    },\n    groupOpenCloudPermissions: {\n      useCloudAuthentication: false,\n      administerCloudAuthentication: false,\n    },\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The id of the group."
+          },
+          {
+            "name": "roleSetId",
+            "type": "RoleSetId",
+            "description": "The id of the role to get permissions for."
+          }
+        ]
+      },
+      "setGroupRolePermissions": {
+        "description": "Sets permissions for a role in a group.",
+        "tags": {
+          "category": "Permissions",
+          "endpoint": "PATCH /v1/groups/{groupId}/roles/{roleSetId}/permissions",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.setGroupRolePermissions({\n  groupId: 5850082,\n  roleSetId: 38353813,\n  permissions: { viewStatus: true },\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The id of the group."
+          },
+          {
+            "name": "roleSetId",
+            "type": "RoleSetId",
+            "description": "The id of the role to set permissions for."
+          },
+          {
+            "name": "permissions",
+            "type": "GroupRolePermissions",
+            "description": "An object of permissions to set."
+          }
+        ]
+      },
+      "groupGuestRolePermissions": {
+        "description": "Gets permissions for the guest role of a group.",
+        "tags": {
+          "category": "Permissions",
+          "endpoint": "GET /v1/groups/{groupId}/roles/guest/permissions",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: rolePerms } = await ClassicGroupsApi.groupGuestRolePermissions({ groupId: 5850082 });",
+          "exampleData": "{\n  groupId: 5850082,\n  role: {\n    id: 38353814,\n    name: \"Guest\",\n    description: \"A non-group member.\",\n    rank: 0,\n  },\n  permissions: {\n    groupPostsPermissions: {\n      viewWall: true,\n      postToWall: false,\n      deleteFromWall: false,\n      viewStatus: false,\n      postToStatus: false,\n    },\n    groupMembershipPermissions: {\n      changeRank: false,\n      inviteMembers: false,\n      removeMembers: false,\n    },\n    groupManagementPermissions: {\n      manageRelationships: false,\n      manageClan: false,\n      viewAuditLogs: false,\n    },\n    groupEconomyPermissions: {\n      spendGroupFunds: false,\n      advertiseGroup: false,\n      createItems: false,\n      manageItems: false,\n      addGroupPlaces: false,\n      manageGroupGames: false,\n      viewGroupPayouts: false,\n      viewAnalytics: false,\n    },\n    groupOpenCloudPermissions: {\n      useCloudAuthentication: false,\n      administerCloudAuthentication: false,\n    },\n  },\n}\n",
+          "exampleRawBody": "{\n  groupId: 5850082,\n  role: {\n    id: 38353814,\n    name: \"Guest\",\n    description: \"A non-group member.\",\n    rank: 0,\n  },\n  permissions: {\n    groupPostsPermissions: {\n      viewWall: true,\n      postToWall: false,\n      deleteFromWall: false,\n      viewStatus: false,\n      postToStatus: false,\n    },\n    groupMembershipPermissions: {\n      changeRank: false,\n      inviteMembers: false,\n      removeMembers: false,\n    },\n    groupManagementPermissions: {\n      manageRelationships: false,\n      manageClan: false,\n      viewAuditLogs: false,\n    },\n    groupEconomyPermissions: {\n      spendGroupFunds: false,\n      advertiseGroup: false,\n      createItems: false,\n      manageItems: false,\n      addGroupPlaces: false,\n      manageGroupGames: false,\n      viewGroupPayouts: false,\n      viewAnalytics: false,\n    },\n    groupOpenCloudPermissions: {\n      useCloudAuthentication: false,\n      administerCloudAuthentication: false,\n    },\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The id of the group."
+          }
+        ]
+      },
+      "groupPermissionsForAllRoles": {
+        "description": "Gets permissions for all roles in a group.",
+        "tags": {
+          "category": "Permissions",
+          "endpoint": "GET /v1/groups/{groupId}/roles/permissions",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: allPerms } = await ClassicGroupsApi.groupPermissionsForAllRoles({ groupId: 5850082 });",
+          "exampleData": "[\n  {\n    groupId: 5850082,\n    role: {\n      id: 38353814,\n      name: \"Guest\",\n      description: \"A non-group member.\",\n      rank: 0,\n    },\n    permissions: {\n      groupPostsPermissions: {\n        viewWall: true,\n        postToWall: false,\n        deleteFromWall: false,\n        viewStatus: false,\n        postToStatus: false,\n      },\n      groupMembershipPermissions: {\n        changeRank: false,\n        inviteMembers: false,\n        removeMembers: false,\n      },\n      groupManagementPermissions: {\n        manageRelationships: false,\n        manageClan: false,\n        viewAuditLogs: false,\n      },\n      groupEconomyPermissions: {\n        spendGroupFunds: false,\n        advertiseGroup: false,\n        createItems: false,\n        manageItems: false,\n        addGroupPlaces: false,\n        manageGroupGames: false,\n        viewGroupPayouts: false,\n        viewAnalytics: false,\n      },\n      groupOpenCloudPermissions: {\n        useCloudAuthentication: false,\n        administerCloudAuthentication: false,\n      },\n    },\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      groupId: 5850082,\n      role: {\n        id: 38353814,\n        name: \"Guest\",\n        description: \"A non-group member.\",\n        rank: 0,\n      },\n      permissions: {\n        groupPostsPermissions: {\n          viewWall: true,\n          postToWall: false,\n          deleteFromWall: false,\n          viewStatus: false,\n          postToStatus: false,\n        },\n        groupMembershipPermissions: {\n          changeRank: false,\n          inviteMembers: false,\n          removeMembers: false,\n        },\n        groupManagementPermissions: {\n          manageRelationships: false,\n          manageClan: false,\n          viewAuditLogs: false,\n        },\n        groupEconomyPermissions: {\n          spendGroupFunds: false,\n          advertiseGroup: false,\n          createItems: false,\n          manageItems: false,\n          addGroupPlaces: false,\n          manageGroupGames: false,\n          viewGroupPayouts: false,\n          viewAnalytics: false,\n        },\n        groupOpenCloudPermissions: {\n          useCloudAuthentication: false,\n          administerCloudAuthentication: false,\n        },\n      },\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The id of the group."
+          }
+        ]
+      },
+      "groupSocialLinks": {
+        "description": "Gets socials links for a group.",
+        "tags": {
+          "category": "Social Links",
+          "endpoint": "GET /v1/groups/{groupId}/social-links",
+          "tags": "[ \"?Cookie\" ]",
+          "example": "const { rawBody: socials } = await ClassicGroupsApi.groupSocialLinks(5850082);",
+          "exampleData": "[\n  {\n    id: 3412774,\n    type: \"Discord\",\n    url: \"https://discord.gg/4hDH5s52a\",\n    title: \"Support Server\",\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      id: 3412774,\n      type: \"Discord\",\n      url: \"https://discord.gg/4hDH5s52a\",\n      title: \"Support Server\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to get social links for."
+          }
+        ]
+      },
+      "addGroupSocialLink": {
+        "description": "Adds a new social link to a group.",
+        "tags": {
+          "category": "Social Links",
+          "endpoint": "POST /v1/groups/{groupId}/social-links",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: addedSocial } = await ClassicGroupsApi.addGroupSocialLink({\n  groupId: 5850082,\n  newSocial: {\n    type: \"Twitch\",\n    title: \"Follow My Twitch\",\n    url: \"twitch.tv/fooBar\",\n  },\n});",
+          "exampleData": "{\n  id: 10791942,\n  type: \"Twitch\",\n  url: \"https://twitch.tv/fooBar\",\n  title: \"Follow My Twitch\",\n}\n",
+          "exampleRawBody": "{\n  id: 10791942,\n  type: \"Twitch\",\n  url: \"https://twitch.tv/fooBar\",\n  title: \"Follow My Twitch\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to add a social link to."
+          },
+          {
+            "name": "request",
+            "description": "The social link request data."
+          }
+        ]
+      },
+      "removeGroupSocialLink": {
+        "description": "Removes an existing social link from a group.",
+        "tags": {
+          "category": "Social Links",
+          "endpoint": "DELETE /v1/groups/{groupId}/social-links/{socialLinkId}",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.removeGroupSocialLink({ groupId: 5850082, socialLinkId: 10792025 });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to add a social link to."
+          },
+          {
+            "name": "socialLinkId",
+            "type": "Identifier",
+            "description": "The id of the social link to remove."
+          }
+        ]
+      },
+      "updateGroupSocialLink": {
+        "description": "Updates an existing social link.",
+        "tags": {
+          "category": "Social Links",
+          "endpoint": "PATCH /v1/groups/{groupId}/social-links/{socialLinkId}",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: updatedSocial } = await ClassicGroupsApi.updateGroupSocialLink({\n  groupId: 5850082,\n  socialLinkId: addedSocial.id,\n  newSocial: {\n    type: \"Twitch\",\n    title: \"Follow My Twitch lol\",\n    url: \"https://twitch.tv/fooBar\",\n  },\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to add a social link to."
+          },
+          {
+            "name": "newSocial",
+            "type": "NewSocial",
+            "description": "The social link request data."
+          }
+        ]
+      },
+      "groupWallPosts_V1": {
+        "description": "Gets a list of group wall posts.",
+        "tags": {
+          "category": "Wall",
+          "endpoint": "GET /v1/groups/{groupId}/wall/posts",
+          "tags": "[ \"?Cookie\" ]",
+          "example": "const { data: wallPosts } = await ClassicGroupsApi.groupWallPosts_V1({ groupId: 5850082 });",
+          "exampleData": "[\n  {\n    id: 2727146317,\n    poster: {\n      hasVerifiedBadge: false,\n      userId: 45348281,\n      username: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n    body: \"Lorem Ipsum dolor sit amet...\",\n    created: \"2022-11-24T15:31:28.157Z\",\n    updated: \"2022-11-24T15:31:28.157Z\",\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: \"2550358523_1_75917f56fab75bb02bd9d16be933b95a\",\n  data: [\n    {\n      id: 2727146317,\n      poster: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      body: \"Lorem Ipsum dolor sit amet...\",\n      created: \"2022-11-24T15:31:28.157Z\",\n      updated: \"2022-11-24T15:31:28.157Z\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group to get wall posts for."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The number of results to be returned."
+          },
+          {
+            "name": "sortOrder",
+            "type": "?",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "authenticatedUserSubscribeToGroupWallNotificationEvents": {
+        "description": "(THIS ENDPOINT PROBABLY DOESN'T WORK). Subscribes the authenticated user to notifications of group wall events.",
+        "tags": {
+          "category": "Wall",
+          "endpoint": "GET /v1/groups/{groupId}/wall/posts/subscribe",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data } = await ClassicGroupsApi.authenticatedUserSubscribeToGroupWallNotificationEvents({ groupId: 5850082 });"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group."
+          }
+        ]
+      },
+      "removeGroupWallPost": {
+        "description": "Removes a group wall post.",
+        "tags": {
+          "category": "Wall",
+          "endpoint": "GET /v1/groups/{groupId}/wall/posts/{wallPostId}",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.removeGroupWallPost({ groupId: 5850082, wallPostId: 2727146317 });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group."
+          },
+          {
+            "name": "wallPostId",
+            "type": "Identifier",
+            "description": "The id of the wall post to be removed."
+          }
+        ]
+      },
+      "removeAllGroupWallPostMadeByUser": {
+        "description": "Removes all group wall posts made by a specific user.",
+        "tags": {
+          "category": "Wall",
+          "endpoint": "GET /v1/groups/{groupId}/wall/users/{userId}/posts",
+          "tags": "[ \"Cookie\" ]",
+          "example": "const { data: success } = await ClassicGroupsApi.removeAllGroupWallPostMadeByUser({\n  groupId: 5850082,\n  userId: 45348281,\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The id of the group."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user."
+          }
+        ]
+      },
+      "groupSearch": {
+        "description": "Search for groups by keyword.",
+        "tags": {
+          "category": "Group Search",
+          "endpoint": "GET /v1/groups/search",
+          "example": "const { data: results } = await ClassicGroupsApi.groupSearch({\n  keyword: \"MightyPart Games\",\n  prioritizeExactMatch: true,\n});",
+          "exampleData": "[\n  {\n    id: 5850082,\n    name: \"MightyPart Games\",\n    description: \"Welcome to my amazing group\",\n    memberCount: 102,\n    previousName: \"Nameless Game Studio\",\n    publicEntryAllowed: true,\n    created: \"2020-03-29T18:15:20.1Z\",\n    updated: '\"2023-09-14T06:34:36.243Z\"',\n    hasVerifiedBadge: false,\n  },\n]\n",
+          "exampleRawBody": "{\n  keyword: \"MightyPart Games\",\n  previousPageCursor: null,\n  nextPageCursor: \"eyJzdGFydEluZGV4IjoxMCwiZGlzY3JpbWluYXRvciI6ImtleXdvcmQ6TWlnaHR5UGFydCBHYW1lcyIsImNvdW50IjoxMH0KOTIwMGU5MzQwMTBlM2IzOTBlNmU3M2E3MzJkNzhhYzRkZjU1ZGM2ZGEwNWUwMDRjMmM1ZmRmZDlhMzk3YjRhNA==\",\n  data: [\n    {\n      id: 5850082,\n      name: \"MightyPart Games\",\n      description: \"Welcome to my amazing group\",\n      memberCount: 102,\n      previousName: \"Nameless Game Studio\",\n      publicEntryAllowed: true,\n      created: \"2020-03-29T18:15:20.1Z\",\n      updated: '\"2023-09-14T06:34:36.243Z\"',\n      hasVerifiedBadge: false,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "keyword",
+            "type": "string",
+            "description": "The keyword or phrase to use as the search parameter."
+          },
+          {
+            "name": "prioritizeExactMatch",
+            "type": "?",
+            "description": "Whether or not to prioritize the exact match for the keyword."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The number of results to be returned."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "groupLookupSearch": {
+        "description": "Search for groups by keyword.",
+        "tags": {
+          "category": "Group Search",
+          "endpoint": "GET /v1/groups/search/lookup",
+          "example": "const { data: results } = await ClassicGroupsApi.groupLookupSearch({ groupName: \"MightyPart Games\" });",
+          "exampleData": "[\n  {\n    id: 5850082,\n    name: \"MightyPart Games\",\n    memberCount: 102,\n    hasVerifiedBadge: false,\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      id: 5850082,\n      name: \"MightyPart Games\",\n      memberCount: 102,\n      hasVerifiedBadge: false,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupName",
+            "type": "string",
+            "description": "The name of the group to lookup."
+          }
+        ]
+      },
+      "groupSearchMetadata": {
+        "description": "Gets suggested groups and other miscellaneous information needed for the group/join page like flags.",
+        "tags": {
+          "category": "Group Search",
+          "endpoint": "GET /v1/groups/search/metadata",
+          "example": "const { data: searchMetadata } = await ClassicGroupsApi.groupSearchMetadata();",
+          "exampleData": "{\n  suggestedGroupKeywords: [\n    \"Experience Studios\",\n    \"Building\",\n    \"Roleplaying\",\n    \"Fan\",\n  ],\n  showFriendsGroupsSort: true,\n}\n",
+          "exampleRawBody": "{\n  SuggestedGroupKeywords: [\n    \"Experience Studios\",\n    \"Building\",\n    \"Roleplaying\",\n    \"Fan\",\n  ],\n  ShowFriendsGroupsSort: true,\n}\n"
+        },
+        "params": []
+      },
+      "groupRolesFromIds": {
+        "description": "Gets a list of roles from role ids.",
+        "tags": {
+          "category": "Roles",
+          "endpoint": "GET /v1/roles",
+          "example": "const { data: roles } = await ClassicGroupsApi.groupRolesFromIds([38353811]);",
+          "exampleData": "{\n  \"38353811\": {\n    groupId: 5850082,\n    name: \"NamelessGuy2005 - Scriptor\",\n    rank: 255,\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      groupId: 5850082,\n      id: 38353811,\n      name: \"NamelessGuy2005 - Scriptor\",\n      rank: 255,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "roleIds",
+            "description": "The ids of roles to get."
+          }
+        ]
+      }
+    },
+    "premiumFeatures": {
+      "userHasPremium": {
+        "description": "Gets the followers count for a specific user.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/validate-membership",
+          "example": "const { data: hasPremium } = await ClassicPremiumFeaturesApi.userHasPremium({ userId: 45348281 });",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get the follower count for."
+          }
+        ]
+      }
+    },
+    "subscriptions": {
+      "createSubscription": {
+        "description": "Creates a subscription for a specified universe.",
+        "tags": {
+          "endpoint": "POST /v1/experiences/{universeId}/experience-subscriptions",
+          "example": "const { data } = await ClassicSubscriptionsApi.createSubscription({\n  universeId: 5795192361,\n  name: \"Cool Subscription\",\n  description: \"Lorem ipsum dolor sit amet.\",\n  type: \"Durable\",\n  price: \"$7.99\",\n});",
+          "exampleData": "{\n  id: \"8517167288618319987\",\n  universeId: 5795192361,\n  shopId: 5795481121,\n  name: \"Cool Subscription\",\n  description: \"Lorem ipsum dolor sit amet.\",\n  imageAssetId: 0,\n  periodType: \"Monthly\",\n  developerSubscriptionProductType: \"Durable\",\n  productStatusType: 1,\n  initialActivationTimestampMs: null,\n  createdTimestampMs: 1713322834753,\n  updatedTimestampMs: 1713322834753,\n}\n",
+          "exampleRawBody": "{\n  developerSubscription: {\n    id: \"8517167288618319987\",\n    universeId: 5795192361,\n    shopId: 5795481121,\n    name: \"Cool Subscription\",\n    description: \"Lorem ipsum dolor sit amet.\",\n    imageAssetId: 0,\n    periodType: 1,\n    developerSubscriptionProductType: 3,\n    productStatusType: 1,\n    initialActivationTimestampMs: null,\n    createdTimestampMs: 1713322834753,\n    updatedTimestampMs: 1713322834753,\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The id of the universe to create a subscription for."
+          },
+          {
+            "name": "name",
+            "type": "Name",
+            "description": "The subscription name."
+          },
+          {
+            "name": "description",
+            "type": "Description",
+            "description": "The subscription description."
+          },
+          {
+            "name": "type",
+            "type": "Type",
+            "description": "The subscription type."
+          },
+          {
+            "name": "price",
+            "type": "SubsriptionPrice",
+            "description": "The subscription price."
+          }
+        ]
+      },
+      "setSubscriptionIcon": {
+        "description": "Sets the icon of a subscription.",
+        "tags": {
+          "endpoint": "POST /v1/experiences/{universeId}/experience-subscriptions/{subscriptionId}/upload-image",
+          "example": "const { data: success } = await ClassicSubscriptionsApi.setSubscriptionIcon({\n  universeId: 5795192361,\n  subscriptionId: \"3656348821302804581\",\n  actingUserId: 45348281,\n  icon: \"./src/image.png\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{ status: true }\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The id of the universe to create a subscription for."
+          }
+        ]
+      },
+      "subscriptionsForUniverse": {
+        "description": "Lists subscriptions for a specified universe.",
+        "tags": {
+          "endpoint": "GET /v1/experiences/{universeId}/experience-subscriptions",
+          "exampleconst": "{ data:subscriptions } = await ClassicSubscriptionsApi.subscriptionsForUniverse({ universeId: 5795192361 })",
+          "exampleData": "[\n  {\n    id: \"3656348821302804581\",\n    universeId: 5795192361,\n    name: \"Testing\",\n    description: \"Lorem ipsum dolor sit amet.\",\n    imageAssetId: 17095512680,\n    periodType: \"Monthly\",\n    productType: \"Consumable\",\n    productStatusType: 1,\n    basePriceId: \"919c5912-7de8-413c-9756-d4265b3cbd3a\",\n    initialActivationTimestampMs: 0,\n    createdTimestampMs: 1712783803427,\n    updatedTimestampMs: 1712783804047,\n    basePrice: \"$2.99\",\n  },\n]\n",
+          "exampleRawBody": "{\n  developerSubscriptions: [\n    {\n      id: \"3656348821302804581\",\n      universeId: 5795192361,\n      name: \"Testing\",\n      description: \"Lorem ipsum dolor sit amet.\",\n      imageAssetId: 17095512680,\n      periodType: 1,\n      productType: 1,\n      productStatusType: 1,\n      basePriceId: \"919c5912-7de8-413c-9756-d4265b3cbd3a\",\n      initialActivationTimestampMs: 0,\n      createdTimestampMs: 1712783803427,\n      updatedTimestampMs: 1712783804047,\n    },\n  ],\n  previousCursor: \"id_2Ac8yvfXhfKwAZQ\",\n  nextCursor: \"id_2Ac8yvfXhfKwAZQ\",\n  hasMoreResults: false,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The id of the universe to create a subscription for."
+          },
+          {
+            "name": "resultsPerPage",
+            "type": "?",
+            "description": "The number of results to show per page."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "A pagination cursor for the next or previous page."
+          }
+        ]
+      },
+      "subscriptionInfo": {
+        "description": "Gets information about a subscription for a specified universe.",
+        "tags": {
+          "endpoint": "GET /v1/experiences/{universeId}/experience-subscriptions/{subscriptionId}",
+          "example": "const { data: subscription } = await ClassicSubscriptionsApi.subscriptionInfo({\n  universeId: 5795192361,\n  subscriptionId: \"3656348821302804581\",\n});",
+          "exampleData": "{\n  id: \"3656348821302804581\",\n  universeId: 5795192361,\n  name: \"Testing\",\n  description: \"Lorem ipsum dolor sit amet.\",\n  imageAssetId: 17175811135,\n  periodType: \"Monthly\",\n  productType: \"Consumable\",\n  productStatusType: 1,\n  basePriceId: \"919c5912-7de8-413c-9756-d4265b3cbd3a\",\n  initialActivationTimestampMs: 0,\n  createdTimestampMs: 1712783803427,\n  updatedTimestampMs: 1713318949692,\n  basePrice: \"$2.99\",\n}\n",
+          "exampleRawBody": "{\n  id: \"3656348821302804581\",\n  universeId: 5795192361,\n  name: \"Testing\",\n  description: \"Lorem ipsum dolor sit amet.\",\n  imageAssetId: 17175811135,\n  periodType: 1,\n  productType: 1,\n  productStatusType: 1,\n  basePriceId: \"919c5912-7de8-413c-9756-d4265b3cbd3a\",\n  initialActivationTimestampMs: 0,\n  createdTimestampMs: 1712783803427,\n  updatedTimestampMs: 1713318949692,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The id of the universe."
+          },
+          {
+            "name": "subscriptionId",
+            "type": "SubscriptionId",
+            "description": "The id of the subscription to get."
+          }
+        ]
+      },
+      "subscriptionsPriceTiersForUniverse": {
+        "description": "Gets all of the availible price tiers that a universe's subscriptions can have.",
+        "tags": {
+          "endpoint": "GET /v1/experiences/{universeId}/experience-subscriptions/prices",
+          "example": "const { data: tiers } = await ClassicSubscriptionsApi.subscriptionsPriceTiersForUniverse({ universeId: 5795192361 });",
+          "exampleData": "{\n  \"919c5912-7de8-413c-9756-d4265b3cbd3a\": \"$2.99\",\n  \"c0516080-fc44-42a2-bc23-3c6dbfd0772d\": \"$4.99\",\n  \"75c782ff-9d8b-4cf0-b3d8-64dd0ec4676a\": \"$7.99\",\n  \"1adf5d0a-eabb-4d5d-a9e7-d9ab28dcb7c7\": \"$9.99\",\n  \"790ff0ac-ef4b-490e-9b95-89f9249b8f51\": \"$14.99\",\n}\n",
+          "exampleRawBody": "{\n  priceTierPrices: {\n    \"919c5912-7de8-413c-9756-d4265b3cbd3a\": { units: 2, cents: 99 },\n    \"c0516080-fc44-42a2-bc23-3c6dbfd0772d\": { units: 4, cents: 99 },\n    \"75c782ff-9d8b-4cf0-b3d8-64dd0ec4676a\": { units: 7, cents: 99 },\n    \"1adf5d0a-eabb-4d5d-a9e7-d9ab28dcb7c7\": { units: 9, cents: 99 },\n    \"790ff0ac-ef4b-490e-9b95-89f9249b8f51\": { units: 14, cents: 99 },\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The id of the universe."
+          }
+        ]
+      },
+      "authenticatedUserSubscriptionsPermissionsForUniverse": {
+        "description": "Gets permissions the authenticated user can perform of a specified universes subscriptions.",
+        "tags": {
+          "endpoint": "GET /v1/experiences/{universeId}/experience-subscriptions/permission",
+          "example": "const { data: perms } = await ClassicSubscriptionsApi.authenticatedUserSubscriptionsPermissionsForUniverse({\n  universeId: 5795192361,\n});",
+          "exampleData": "{ canUserEditExperienceSubscription: true }\n",
+          "exampleRawBody": "{ canUserEditExperienceSubscription: true }\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The id of the universe to get subscription permissions for."
+          }
+        ]
+      }
+    },
+    "talent": {
+      "creatorProfile": {
+        "description": "Gets profile information about someones talent hub profile.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/profile",
+          "example": "const { data: profile } = await ClassicTalentApi.creatorProfile({ userId: 45348281 });",
+          "exampleData": "{\n  creatorUserId: 45348281,\n  createdUtc: \"2021-08-13T01:21:19.146Z\",\n  updatedUtc: \"2024-05-05T01:24:58.442Z\",\n  isPublic: true,\n  isContactAllowed: false,\n  creatorDescription: \"Lorem ipsum dolor sit amet.\",\n  isOpenToWork: false,\n  interestDescription: \"\",\n  linkTypes: [\"DeveloperForum\", \"Roblox\", \"Twitter\"],\n  preferredContactLinkType: \"DeveloperForum\",\n  socialLinks: [],\n  jobTypes: [],\n  skillTypes: [\"Programmer\"],\n  requiresAction: \"NoAction\",\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      creatorUserId: 45348281,\n      createdUtc: \"2021-08-13T01:21:19.1463527Z\",\n      updatedUtc: \"2024-05-05T01:24:58.4421938Z\",\n      isPublic: true,\n      isContactAllowed: false,\n      creatorDescription: \"Lorem ipsum dolor sit amet.\",\n      isOpenToWork: false,\n      interestDescription: \"\",\n      linkTypes: [\"DeveloperForum\", \"Roblox\", \"Twitter\"],\n      preferredContactLinkType: \"DeveloperForum\",\n      socialLinks: [],\n      jobTypes: [],\n      skillTypes: [\"Programmer\"],\n      requiresAction: \"NoAction\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The id of the user to get verification info about."
+          }
+        ]
+      },
+      "creatorExperiences": {
+        "description": "Gets someones work history (experiences / games) from their talent hub profile.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/experiences",
+          "example": "const { data: experiences } = await ClassicTalentApi.creatorExperiences({ userId: 45348281 });",
+          "exampleData": "[\n  {\n    experienceId: 21126,\n    creatorUserId: 45348281,\n    createdUtc: \"2022-01-16T16:09:30.161Z\",\n    updatedUtc: \"2022-07-29T12:23:28.866Z\",\n    projectName: \"RoCamping\",\n    experienceDescription: \"RoCamping was my first game, it was a survival game where you built a shelter and tried to survive. My role was the manage the project as well as script and create the UI .\",\n    jobRole: \"Programmer & UI Designer\",\n    teamName: \"\",\n    experienceMedia: [],\n    experienceLinks: [\n      \"[The Game](https://www.roblox.com/games/4922741943/RoCamping)\",\n    ],\n    teamId: null,\n    robloxExperienceIds: [],\n    robloxAssetIds: [],\n    startedUtc: \"2020-03-31T23:00:00.000Z\",\n    endedUtc: \"2020-09-30T23:00:00.000Z\",\n    isCurrent: false,\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      experienceId: 21126,\n      creatorUserId: 45348281,\n      createdUtc: \"2022-01-16T16:09:30.1614813Z\",\n      updatedUtc: \"2022-07-29T12:23:28.8660325Z\",\n      projectName: \"RoCamping\",\n      experienceDescription: \"RoCamping was my first game, it was a survival game where you built a shelter and tried to survive. My role was the manage the project as well as script and create the UI .\",\n      jobRole: \"Programmer & UI Designer\",\n      teamName: \"\",\n      experienceMedia: [],\n      experienceLinks: [\n        \"[The Game](https://www.roblox.com/games/4922741943/RoCamping)\",\n      ],\n      teamId: null,\n      robloxExperienceIds: [],\n      robloxAssetIds: [],\n      startedUtc: \"2020-03-31T23:00:00Z\",\n      endedUtc: \"2020-09-30T23:00:00Z\",\n      isCurrent: false,\n    },\n  ],\n  nextPageCursor: null,\n  previousPageCursor: null,\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The id of the user to get verification info about."
+          },
+          {
+            "name": "sortOrder",
+            "type": "?",
+            "description": "The order the results are sorted it."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The number of results to be returned"
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "creatorIsIdVerified": {
+        "description": "Gets ID verification status for a user that has a public talent hub profile.",
+        "tags": {
+          "endpoint": "GET /v1/users/verification",
+          "example": "const { data: isIdVerified } = await ClassicTalentApi.creatorIsIdVerified({ userId: 45348281 });",
+          "exampleData": "{ data: [{ userId: 45348281, isVerified: false }] }\n",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The id of the user to get verification info about."
+          }
+        ]
+      },
+      "jobSearch": {
+        "description": "Searches talent hub job posts.",
+        "tags": {
+          "endpoint": "GET /v1/search/jobs",
+          "example": "const { data: jobSearchData } = await ClassicTalentApi.jobSearch({ query: \"simulator\", limit: 1, cursor: 1 });",
+          "exampleData": "{\n  results: [\n    {\n      id: \"2428901580346619\",\n      jobPosterId: \"419693467\",\n      title: \"Frontend Scripter for a simulator game\",\n      description: \"Hi I'm looking for 1 scripter that can work on the frontend script in my new game i already have a talented scripter that wanna focus on the backend but if you are good at booth we can se what we can do. The game function in a way where you collect different instruments and pets to become one of the best musicians in the game, if you want more information about the game, just ask. Below you can see pictures of models but also UI that we have right now but of course these are just a beginning and we will upgrade these.\",\n      jobType: \"FullTime\",\n      paymentTypes: [\"RevenuePercent\"],\n      skillTypes: [\"Scripting\"],\n      publishedUtc: \"2024-04-10T19:37:08.749Z\",\n      expiresUtc: \"2024-07-09T19:37:08.749Z\",\n      minAgeRequirement: 0,\n      isVerifiedRequirement: true,\n      isVerified: \"true\",\n      paymentAmount: 25,\n      paymentAmountType: \"Total\",\n    },\n  ],\n  meta: {\n    page: { totalPages: 184, totalResults: 184, current: 1, size: 1 },\n  },\n}\n",
+          "exampleRawBody": "{\n  meta: {\n    page: { totalPages: 184, totalResults: 184, current: 1, size: 1 },\n  },\n  results: [\n    {\n      id: { raw: \"2428901580346619\" },\n      jobPosterId: { raw: \"419693467\" },\n      title: { raw: \"Frontend Scripter for a simulator game\" },\n      description: {\n        raw: \"Hi I'm looking for 1 scripter that can work on the frontend script in my new game i already have a talented scripter that wanna focus on the backend but if you are good at booth we can se what we can do. The game function in a way where you collect different instruments and pets to become one of the best musicians in the game, if you want more information about the game, just ask. Below you can see pictures of models but also UI that we have right now but of course these are just a beginning and we will upgrade these.\",\n      },\n      jobType: { raw: \"FullTime\" },\n      paymentTypes: { raw: [\"RevenuePercent\"] },\n      skillTypes: { raw: [\"Scripting\"] },\n      publishedUtc: { raw: \"2024-04-10T19:37:08.749Z\" },\n      expiresUtc: { raw: \"2024-07-09T19:37:08.749Z\" },\n      minAgeRequirement: { raw: 0 },\n      isVerifiedRequirement: { raw: \"false\" },\n      isVerified: { raw: \"true\" },\n      paymentAmount: { raw: 25 },\n      paymentAmountType: { raw: \"Total\" },\n      _meta: { score: 0 },\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "query",
+            "type": "?",
+            "description": "The query to search for."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The maxium amount of items to return."
+          },
+          {
+            "name": "filter",
+            "type": "?",
+            "description": "Filter the returned job posts to match specific requirements."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      }
+    },
+    "thumbnails": {
+      "gamesThumbnails": {
+        "description": "Gets thumbnail(s) for multiple games.",
+        "tags": {
+          "category": "Games",
+          "endpoint": "GET /v1/games/multiget/thumbnails",
+          "example": "const { data: gamesThumbnails } = await ClassicThumbnailsApi.gamesThumbnails({ universeIds: [1685831367] });",
+          "exampleData": "{\n  \"1685831367\": {\n    error: null,\n    thumbnails: [\n      {\n        targetId: 5130624799,\n        state: \"Completed\",\n        imageUrl: \"https://tr.rbxcdn.com/611f558eaab21d31a688b0523cb12433/480/270/Image/Webp\",\n        version: \"TN2\",\n      },\n    ],\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      error: null,\n      thumbnails: [\n        {\n          targetId: 5130624799,\n          state: \"Completed\",\n          imageUrl: \"https://tr.rbxcdn.com/611f558eaab21d31a688b0523cb12433/480/270/Image/Webp\",\n          version: \"TN2\",\n        },\n      ],\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeIds",
+            "type": "ArrayNonEmpty<UniverseId>",
+            "description": "The ids of the universe to get thumbnails for."
+          },
+          {
+            "name": "countPerUniverse",
+            "type": "?",
+            "description": "The amount of thumbnails to return for each universe"
+          },
+          {
+            "name": "defaults",
+            "type": "?",
+            "description": "True if defaults (if any) should be returned if no media exists."
+          },
+          {
+            "name": "size",
+            "type": "?",
+            "description": "The thumbnails size (formatted as {width}x{height})."
+          },
+          {
+            "name": "format",
+            "type": "?",
+            "description": "Specifies the format of the thumbnails."
+          },
+          {
+            "name": "isCircular",
+            "type": "?",
+            "description": "Dictates if the thumbnails should be masked by a circle."
+          }
+        ]
+      },
+      "gamesIcons": {
+        "tags": {},
+        "params": []
+      }
+    },
+    "universes": {
+      "universeIdFromPlaceId": {
+        "description": "Gets the parent universe Id from a place Id.",
+        "tags": {
+          "endpoint": "GET /v1/places/{placeId}/universe",
+          "example": "const { data: universeId } = await ClassicUniversesApi.universeIdFromPlaceId({ placeId: 16349154726 });",
+          "exampleData": "",
+          "exampleRawBody": "{ universeId: 5638577595 }\n"
+        },
+        "params": [
+          {
+            "name": "placeId",
+            "type": "Identifier",
+            "description": "The id of the place to get the universe id for."
+          }
+        ]
+      }
+    },
+    "users": {
+      "authenticatedUserBirthdate": {
+        "description": "Gets the birthdate for the currently authenticated user.",
+        "tags": {
+          "category": "Account Information",
+          "endpoint": "GET /v1/birthdate",
+          "tags": "[ \"Auth Needed\" ]",
+          "example": "const { data: birthdate } = await ClassicUsersApi.authenticatedUserBirthdate();",
+          "exampleData": "",
+          "exampleRawBody": "{ birthMonth: 2, birthDay: 3, birthYear: 2005 }\n"
+        },
+        "params": []
+      },
+      "authenticatedUserDescription": {
+        "description": "Gets the description for the currently authenticated user.",
+        "tags": {
+          "category": "Account Information",
+          "endpoint": "GET /v1/description",
+          "tags": "[ \"Auth Needed\" ]",
+          "example": "const { data: description } = await ClassicUsersApi.authenticatedUserDescription();",
+          "exampleData": "",
+          "exampleRawBody": "{ description: \"Lorem ipsum dolor sit amet consectetur adipiscing elit.\" }\n"
+        },
+        "params": []
+      },
+      "authenticatedUserGender": {
+        "description": "Gets the gender for the currently authenticated user.",
+        "tags": {
+          "category": "Account Information",
+          "endpoint": "GET /v1/gender",
+          "tags": "[ \"Auth Needed\" ]",
+          "example": "const { data: description } = await ClassicUsersApi.authenticatedUserGender();",
+          "exampleData": "",
+          "exampleRawBody": "{ gender: 2 }\n"
+        },
+        "params": []
+      },
+      "validateDisplayNameForNewUser": {
+        "description": "Validates a display name for a new user (NOTE: This does not change the display name).",
+        "tags": {
+          "category": "Display Names",
+          "endpoint": "GET /v1/display-names/validate",
+          "detailedEndpoint": "GET /v1/display-names/validate ? displayName={displayName} & birthdate={birthdate}",
+          "example": "const { data: displayNameIsValid } = await ClassicUsersApi.validateDisplayNameForNewUser({\n  displayName: \"Hello\",\n  birthdate: \"2023-07-27T04:14:57+0000\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "displayName",
+            "type": "string",
+            "description": "The display name to be validated."
+          },
+          {
+            "name": "birthdate",
+            "type": "ISODateTime | Date",
+            "description": "The birthdate of the new user."
+          }
+        ]
+      },
+      "validateDisplayNameForExistingUser": {
+        "description": "Validates a display name for an existing user (NOTE: This does not change the display name).",
+        "tags": {
+          "category": "Display Names",
+          "endpoint": "GET /v1/users/{userId}/display-names/validate",
+          "detailedEndpoint": "GET /v1/users/{userId}/display-names/validate ? displayName={displayName}",
+          "example": "const { data: displayNameIsValid } = await ClassicUsersApi.validateDisplayNameForExistingUser({\n  userId: 45348281,\n  displayName: \"Hello\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "displayName",
+            "type": "string",
+            "description": "The display name to be validated."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the existing user."
+          }
+        ]
+      },
+      "authenticatedUserSetDisplayName": {
+        "description": "Sets the display name for the currently authenticated user.",
+        "tags": {
+          "category": "Display Names",
+          "endpoint": "PATCH /v1/users/{userId}/display-names",
+          "tags": "[ \"Auth Needed\", \"XCSRF\" ]",
+          "example": "const { data: displayNameUpdated } = await ClassicUsersApi.authenticatedUserSetDisplayName({\n  userId: 45348281,\n  newDisplayName: \"LoremIpsum\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "newDisplayName",
+            "type": "string",
+            "description": "The new display name for the authenticated user."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the currently authenticated user (the endpoint requires this for some reason)."
+          }
+        ]
+      },
+      "userInfo": {
+        "description": "Gets information about a user from their id.",
+        "tags": {
+          "category": "Users",
+          "endpoint": "GET /v1/users/{userId}",
+          "example": "const { data: userInfo } = await ClassicUsersApi.userInfo({ userId: 45348281 });",
+          "exampleData": "{\n  description: \"Lorem ipsum dolor sit amet consectetur adipiscing elit.\",\n  created: \"2013-07-13T07:50:00.083Z\",\n  isBanned: false,\n  externalAppDisplayName: null,\n  hasVerifiedBadge: false,\n  id: 45348281,\n  name: \"MightyPart\",\n  displayName: \"MightyPart\",\n}\n",
+          "exampleRawBody": "{\n  description: \"Lorem ipsum dolor sit amet consectetur adipiscing elit.\",\n  created: \"2013-07-13T07:50:00.083Z\",\n  isBanned: false,\n  externalAppDisplayName: null,\n  hasVerifiedBadge: false,\n  id: 45348281,\n  name: \"MightyPart\",\n  displayName: \"MightyPart\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The id of the user to get detailed info about."
+          }
+        ]
+      },
+      "authenticatedUserInfo": {
+        "description": "Gets information about the currently authenticated user.",
+        "tags": {
+          "category": "Users",
+          "endpoint": "GET /v1/users/authenticated",
+          "tags": "[ \"Auth Needed\" ]",
+          "example": "const { data: userInfo } = await ClassicUsersApi.authenticatedUserInfo();",
+          "exampleData": "{ id: 45348281, name: \"MightyPart\", displayName: \"MightyPart\" }\n",
+          "exampleRawBody": "{ id: 45348281, name: \"MightyPart\", displayName: \"MightyPart\" }\n"
+        },
+        "params": []
+      },
+      "authenticatedUserAgeBracket": {
+        "description": "Gets the currently authenticated user's age bracket.",
+        "tags": {
+          "category": "Users",
+          "endpoint": "GET /v1/users/authenticated/age-bracket",
+          "tags": "[ \"Auth Needed\" ]",
+          "example": "const { data: ageBracket } = await ClassicUsersApi.authenticatedUserAgeBracket();",
+          "exampleData": "",
+          "exampleRawBody": "{ ageBracket: 0 }\n"
+        },
+        "params": []
+      },
+      "authenticatedUserCountryCode": {
+        "description": "Gets the currently authenticated user's country code.",
+        "tags": {
+          "category": "Users",
+          "endpoint": "GET /v1/users/authenticated/country-code",
+          "tags": "[ \"Auth Needed\" ]",
+          "example": "const { data: countryCode } = await ClassicUsersApi.authenticatedUserCountryCode();",
+          "exampleData": "",
+          "exampleRawBody": "{ countryCode: \"DE\" }\n"
+        },
+        "params": []
+      },
+      "authenticatedUserRoles": {
+        "description": "Gets the currently authenticated user's roles.",
+        "tags": {
+          "category": "Users",
+          "endpoint": "GET /v1/users/authenticated/roles",
+          "tags": "[ \"Auth Needed\" ]",
+          "example": "const { data: roles } = await ClassicUsersApi.authenticatedUserRoles();",
+          "exampleData": "[\"BetaTester\"]\n",
+          "exampleRawBody": "{ roles: [\"BetaTester\"] }\n"
+        },
+        "params": []
+      },
+      "usernamesToUsersInfo": {
+        "description": "Gets information about multiple users from their usernames.",
+        "tags": {
+          "category": "Users",
+          "endpoint": "POST /v1/usernames/users",
+          "example": "const { data: usersInfo } = await ClassicUsersApi.usernamesToUsersInfo({ usernames: [\"MightyPart\"] });",
+          "exampleData": "{\n  MightyPart: {\n    hasVerifiedBadge: false,\n    id: 45348281,\n    name: \"MightyPart\",\n    displayName: \"MightyPart\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      requestedUsername: \"MightyPart\",\n      hasVerifiedBadge: false,\n      id: 45348281,\n      name: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "usernames",
+            "type": "ArrayNonEmpty<Username>",
+            "description": "The usernames of the users to get info about."
+          },
+          {
+            "name": "excludeBannedUsers",
+            "type": "?",
+            "description": "Dictates if info about banned users should be excluded from the returned data. (defaults to false)."
+          }
+        ]
+      },
+      "userIdsToUsersInfo": {
+        "description": "Gets information about multiple users from their ids.",
+        "tags": {
+          "category": "Users",
+          "endpoint": "POST /v1/users",
+          "example": "const { data: usersInfo } = await ClassicUsersApi.userIdsToUsersInfo({ userIds: [45348281] });",
+          "exampleData": "{\n  \"45348281\": {\n    hasVerifiedBadge: false,\n    name: \"MightyPart\",\n    displayName: \"MightyPart\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      hasVerifiedBadge: false,\n      id: 45348281,\n      name: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userIds",
+            "type": "ArrayNonEmpty<UserId>",
+            "description": "The ids of the users to get info about."
+          },
+          {
+            "name": "excludeBannedUsers",
+            "type": "?",
+            "description": "Dictates if info about banned users should be excluded from the returned data. (defaults to false)."
+          }
+        ]
+      },
+      "usernameHistory": {
+        "description": "Gets a users previous usernames.",
+        "tags": {
+          "category": "Usernames",
+          "endpoint": "GET /v1/users/{userId}/username-history",
+          "detailedEndpoint": "GET /v1/users/{userId}/username-history ? limit={limit} & sortOrder={sortOrder} & cursor={cursor}",
+          "example": "const { data: previousUsernames } = await ClassicUsersApi.usernameHistory({ userId: 45348281 });",
+          "exampleData": "[\"NamelessGuy2005\", \"parrrty\"]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: null,\n  data: [{ name: \"NamelessGuy2005\" }, { name: \"parrrty\" }],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get the username history for."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The number of results to be returned."
+          },
+          {
+            "name": "sortOrder",
+            "type": "?",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "userSearch": {
+        "description": "Searched for users.",
+        "tags": {
+          "category": "Usernames",
+          "endpoint": "GET /v1/users/search",
+          "detailedEndpoint": "GET /v1/users/search ? keyword={keyword} & limit={limit} & cursor={cursor}",
+          "example": "const { data: searchResults } = await ClassicUsersApi.userSearch({ keyword: \"MightyPart\", limit: 10 });",
+          "exampleData": "[\n  {\n    previousUsernames: [\"parrrty\", \"NamelessGuy2005\"],\n    hasVerifiedBadge: false,\n    id: 45348281,\n    name: \"MightyPart\",\n    displayName: \"MightyPart\",\n  },\n  {\n    previousUsernames: [],\n    hasVerifiedBadge: false,\n    id: 2655994471,\n    name: \"MightyPartJr\",\n    displayName: \"MightyPartJr\",\n  },\n  {\n    previousUsernames: [],\n    hasVerifiedBadge: false,\n    id: 109174199,\n    name: \"MightyPartyAnimal\",\n    displayName: \"jonny\",\n  },\n  {\n    previousUsernames: [],\n    hasVerifiedBadge: false,\n    id: 151051171,\n    name: \"MightyPartygirl101\",\n    displayName: \"india\",\n  },\n  {\n    previousUsernames: [],\n    hasVerifiedBadge: false,\n    id: 3886457808,\n    name: \"mightypartxl\",\n    displayName: \"mightypartxl\",\n  },\n  {\n    previousUsernames: [],\n    hasVerifiedBadge: false,\n    id: 31488865,\n    name: \"mightypartyrocker101\",\n    displayName: \"mightypartyrocker101\",\n  },\n  {\n    previousUsernames: [],\n    hasVerifiedBadge: false,\n    id: 35463215,\n    name: \"mightyparty3\",\n    displayName: \"mightyparty3\",\n  },\n  {\n    previousUsernames: [],\n    hasVerifiedBadge: false,\n    id: 152196440,\n    name: \"MightyPartygirl234\",\n    displayName: \"MightyPartygirl234\",\n  },\n  {\n    previousUsernames: [],\n    hasVerifiedBadge: false,\n    id: 141415414,\n    name: \"MightyPartygod49\",\n    displayName: \"MightyPartygod49\",\n  },\n  {\n    previousUsernames: [],\n    hasVerifiedBadge: false,\n    id: 153951993,\n    name: \"Mightypartylove\",\n    displayName: \"Mightypartylove\",\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: \"eyJzdGFydEluZGV4IjoxMCwiZGlzY3JpbWluYXRvciI6ImtleXdvcmQ6TWlnaHR5UGFydCIsImNvdW50IjoxMH0KNzU4ZDExMWU1NjYwZGI1YWQ3ZDk4ZTJhMzI3ZTQzNjA0ZjdkYzI0NGRjODlkMWY1YjczMDBjY2E3NDI4YmMxOQ==\",\n  data: [\n    {\n      previousUsernames: [\"parrrty\", \"NamelessGuy2005\"],\n      hasVerifiedBadge: false,\n      id: 45348281,\n      name: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n    {\n      previousUsernames: [],\n      hasVerifiedBadge: false,\n      id: 2655994471,\n      name: \"MightyPartJr\",\n      displayName: \"MightyPartJr\",\n    },\n    {\n      previousUsernames: [],\n      hasVerifiedBadge: false,\n      id: 109174199,\n      name: \"MightyPartyAnimal\",\n      displayName: \"jonny\",\n    },\n    {\n      previousUsernames: [],\n      hasVerifiedBadge: false,\n      id: 151051171,\n      name: \"MightyPartygirl101\",\n      displayName: \"india\",\n    },\n    {\n      previousUsernames: [],\n      hasVerifiedBadge: false,\n      id: 3886457808,\n      name: \"mightypartxl\",\n      displayName: \"mightypartxl\",\n    },\n    {\n      previousUsernames: [],\n      hasVerifiedBadge: false,\n      id: 31488865,\n      name: \"mightypartyrocker101\",\n      displayName: \"mightypartyrocker101\",\n    },\n    {\n      previousUsernames: [],\n      hasVerifiedBadge: false,\n      id: 35463215,\n      name: \"mightyparty3\",\n      displayName: \"mightyparty3\",\n    },\n    {\n      previousUsernames: [],\n      hasVerifiedBadge: false,\n      id: 152196440,\n      name: \"MightyPartygirl234\",\n      displayName: \"MightyPartygirl234\",\n    },\n    {\n      previousUsernames: [],\n      hasVerifiedBadge: false,\n      id: 141415414,\n      name: \"MightyPartygod49\",\n      displayName: \"MightyPartygod49\",\n    },\n    {\n      previousUsernames: [],\n      hasVerifiedBadge: false,\n      id: 153951993,\n      name: \"Mightypartylove\",\n      displayName: \"Mightypartylove\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "keyword",
+            "type": "string",
+            "description": "The keyword to search users by."
+          },
+          {
+            "name": "limit",
+            "type": "?",
+            "description": "The number of results to be returned"
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      }
+    }
+  }
+}

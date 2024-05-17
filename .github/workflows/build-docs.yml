@@ -1,5 +1,4 @@
 name: docs
-
 on: push
 
 permissions:
@@ -19,11 +18,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
 
-      - run: git clone https://github.com/shuding/nextra-docs-template
-      - run: npm i --prefix ./nextra-docs-template
-      - run: "echo 'Bun.write(`./nextra-docs-template/next.config.js`, `const withNextra = require(\"nextra\")({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\" }); module.exports = withNextra({ output: \"export\", distDir: \"./build\", basePath: \"/openblox\", images: { loader: \"akamai\", path: \"\" } })`)' | bun run -"
-      - run: "echo 'Bun.write(`./nextra-docs-template/.nojekyll`, ``)' | bun run -"
-      - run: npm run --prefix ./nextra-docs-template build
+      - run: git clone https://github.com/shuding/nextra-docs-template docs_site
+      - run: npm i --prefix ./docs_site
+      - run: "echo 'Bun.write(`./docs_site/next.config.js`, `const withNextra = require(\"nextra\")({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\" }); module.exports = withNextra({ output: \"export\", distDir: \"./build\", basePath: \"/openblox\", images: { loader: \"akamai\", path: \"\" } })`)' | bun run -"
+      - run: "echo 'Bun.write(`./docs_site/.nojekyll`, ``)' | bun run -"
+      - run: npm run --prefix ./docs_site build
 
       - uses: actions/configure-pages@v4
         with:
@@ -32,7 +31,7 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
-          path: ./nextra-docs-template/build
+          path: .docs_site/build
 
   deploy:
     environment:
@@ -46,4 +45,5 @@ jobs:
       - name: Publish to GitHub Pages 🚀
         id: deployment
         uses: actions/deploy-pages@v4
+
 

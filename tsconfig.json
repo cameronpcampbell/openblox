@@ -34,7 +34,7 @@
     "typeRoots": ["./node_modules/@types"]
   },
   "include": [
-   "./src", "./buildDocs"
+   "./src", "./docs"
   ],
   "exclude": ["node_modules"],
 }
