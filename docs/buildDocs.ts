@@ -10,8 +10,7 @@ import type { ArrowFunction, CallExpression, Directory, Identifier, Node, Parame
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-console.log(Bun.main)
-const root = `${Bun.main.split("/openblox/", 2)[0]}/openblox`
+const root = Bun.main
 const docsSitePages = `${root}/docs_site/pages`
 
 const project = new Project({
