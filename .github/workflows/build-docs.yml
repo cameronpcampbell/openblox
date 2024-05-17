@@ -20,7 +20,7 @@ jobs:
 
       - name: Setting up nextra template. ⚙️
         run: |
-          git clone https://github.com/shuding/nextra-docs-template docs_site
+          git clone https://github.com/MightyPart/nextra-docs-template docs_site
           npm i --prefix ./docs_site 
           npm i prettier@^3.2.5 ts-morph@^22.0.0 tablemark@^3.1.0
           echo 'Bun.write(`./docs_site/next.config.js`, `const withNextra = require(\"nextra\")({ theme: \"nextra-theme-docs\", themeConfig: \"./theme.config.tsx\" }); module.exports = withNextra({ output: \"export\", distDir: \"./build\", basePath: \"\", images: { loader: \"akamai\", path: \"\" } })`)' | bun run -

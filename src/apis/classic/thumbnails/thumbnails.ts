@@ -8,7 +8,7 @@ import { createObjectMapByKeyWithMiddleware } from "../../../utils/utils"
 import type { ApiMethod } from "../../apiGroup"
 import { ArrayNonEmpty, Identifier } from "typeforge"
 
-import type { AssetAnimatedThumbnailData, AssetSize, BundleSize, DeveloperProductSize, GamesIconSize, GameThumbnailSize, GroupEmblemSize, PrettifiedAssetsThumbnailsData, PrettifiedBadgesThumbnailsData, PrettifiedBundlesThumbnailsData, PrettifiedDeveloperProductsThumbnails, PrettifiedGamePassesThumbnailsData, PrettifiedGamesIconsData, PrettifiedGamesThumbnailsData, PrettifiedGameThumbnailsFromIdsData, PrettifiedGroupsEmblemsData, RawAssetsThumbnailsData, RawBadgesThumbnailsData, RawBundlesThumbnailsData, RawDeveloperProductsThumbnails, RawGamePassesThumbnailsData, RawGamesIconsData, RawGamesThumbnailsData, RawGameThumbnailsFromIdsData, RawGroupsEmblemsData, ThumbnailData, ThumbnailFormat, ThumbnailReturnPolicy } from "./thumbnails.types"
+import type { AssetAnimatedThumbnailData, AssetSize, AvatarsFullThumbnailsSize, BatchRequest, BatchResponseElement, BundleSize, DeveloperProductSize, GamesIconSize, GameThumbnailSize, GroupEmblemSize, MetadataData, OutfitSize, PlaceThumbnailSize, PrettifiedBatchThumbnailsData, PrettifiedGamesThumbnailsData, PrettifiedThumbnailsData, RawBatchThumbnailsData, RawThumbnailsData, ThumbnailData, ThumbnailFormat, ThumbnailReturnPolicy } from "./thumbnails.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -36,7 +36,7 @@ const addApiMethod = createApiGroup({ groupName: "ClassicThumbnails", baseUrl: "
 export const assetsThumbnails = addApiMethod(async <AssetId extends Identifier>(
   { assetIds, returnPolicy = "PlaceHolder", size, format = "WebP", isCircular }:
   { assetIds: ArrayNonEmpty<AssetId>, returnPolicy?: ThumbnailReturnPolicy, size: AssetSize, format?: ThumbnailFormat, isCircular?: boolean }
-): ApiMethod<RawAssetsThumbnailsData<AssetId>, PrettifiedAssetsThumbnailsData<AssetId>> => ({
+): ApiMethod<RawThumbnailsData<AssetId>, PrettifiedThumbnailsData<AssetId>> => ({
   path: `/v1/assets`,
   method: "GET",
   searchParams: { assetIds, returnPolicy, size, format, isCircular },
@@ -104,7 +104,7 @@ export const assetAnimatedThumbnail = addApiMethod(async <AssetId extends Identi
  */
 export const badgesThumbnails = addApiMethod(async <BadgeId extends Identifier>(
   { badgeIds, format  = "WebP", isCircular }: { badgeIds: ArrayNonEmpty<BadgeId>, format?: ThumbnailFormat, isCircular?: boolean }
-): ApiMethod<RawBadgesThumbnailsData<BadgeId>, PrettifiedBadgesThumbnailsData<BadgeId>> => ({
+): ApiMethod<RawThumbnailsData<BadgeId>, PrettifiedThumbnailsData<BadgeId>> => ({
   method: "GET",
   path: `/v1/badges/icons`,
   searchParams: { badgeIds, size:"150x150", format, isCircular },
@@ -135,7 +135,7 @@ export const badgesThumbnails = addApiMethod(async <BadgeId extends Identifier>(
 export const bundlesThumbnails = addApiMethod(async <BundleId extends Identifier>(
   { bundleIds, size="420x420", format = "WebP", isCircular }:
   { bundleIds: ArrayNonEmpty<BundleId>, size?: BundleSize, format?: ThumbnailFormat, isCircular?: boolean }
-): ApiMethod<RawBundlesThumbnailsData<BundleId>, PrettifiedBundlesThumbnailsData<BundleId>> => ({
+): ApiMethod<RawThumbnailsData<BundleId>, PrettifiedThumbnailsData<BundleId>> => ({
   method: "GET",
   path: `/v1/bundles/thumbnails`,
   searchParams: { bundleIds, size, format, isCircular },
@@ -164,7 +164,7 @@ export const developerProductsThumbnails = addApiMethod(async <DeveloperProductI
   { developerProductIds, size = "420x420", format = "WebP", isCircular }: {
     developerProductIds: ArrayNonEmpty<DeveloperProductId>, size?: DeveloperProductSize, format?: ThumbnailFormat, isCircular?: boolean 
   }
-): ApiMethod<RawDeveloperProductsThumbnails<DeveloperProductId>, PrettifiedDeveloperProductsThumbnails<DeveloperProductId>> => ({
+): ApiMethod<RawThumbnailsData<DeveloperProductId>, PrettifiedThumbnailsData<DeveloperProductId>> => ({
   method: "GET",
   path: `/v1/developer-products/icons`,
   searchParams: { developerProductIds, size, format, isCircular },
@@ -192,7 +192,7 @@ export const developerProductsThumbnails = addApiMethod(async <DeveloperProductI
 export const gamePassesThumbnails = addApiMethod(async <GamePassId extends Identifier>(
   { gamePassIds, format = "WebP", isCircular }:
   { gamePassIds: ArrayNonEmpty<GamePassId>, format?: ThumbnailFormat, isCircular?: boolean }
-): ApiMethod<RawGamePassesThumbnailsData<GamePassId>, PrettifiedGamePassesThumbnailsData<GamePassId>> => ({
+): ApiMethod<RawThumbnailsData<GamePassId>, PrettifiedThumbnailsData<GamePassId>> => ({
   method: "GET",
   path: `/v1/game-passes`,
   searchParams: { gamePassIds, format, size:"150x150", isCircular },
@@ -221,7 +221,7 @@ export const gamePassesThumbnails = addApiMethod(async <GamePassId extends Ident
 export const gameThumbnailsFromIds = addApiMethod(async <ThumbnailId extends Identifier>(
   { universeId, thumbnailIds, size = "480x270", format = "WebP", isCircular }:
   { universeId: Identifier, thumbnailIds: ArrayNonEmpty<ThumbnailId>, size?: GameThumbnailSize, format?: ThumbnailFormat, isCircular?: boolean }
-): ApiMethod<RawGameThumbnailsFromIdsData<ThumbnailId>, PrettifiedGameThumbnailsFromIdsData<ThumbnailId>> => ({
+): ApiMethod<RawThumbnailsData<ThumbnailId>, PrettifiedThumbnailsData<ThumbnailId>> => ({
   method: "GET",
   path: `/v1/games/${universeId}/thumbnails`,
   searchParams: { thumbnailIds, size, format, isCircular },
@@ -251,7 +251,7 @@ export const gamesIcons = addApiMethod(async <UniverseId extends Identifier>(
   {
     universeIds: ArrayNonEmpty<UniverseId>, returnPolicy?: ThumbnailReturnPolicy, size?: GamesIconSize, format?: ThumbnailFormat, isCircular?: boolean
   }
-): ApiMethod<RawGamesIconsData<UniverseId>, PrettifiedGamesIconsData<UniverseId>> => ({
+): ApiMethod<RawThumbnailsData<UniverseId>, PrettifiedThumbnailsData<UniverseId>> => ({
   path: `/v1/games/icons`,
   method: "GET",
   searchParams: { universeIds, returnPolicy, size, format, isCircular },
@@ -282,7 +282,7 @@ export const gamesThumbnails = addApiMethod(async <UniverseId extends Identifier
     universeIds: ArrayNonEmpty<UniverseId>, countPerUniverse?: number, defaults?: boolean,
     size?: GameThumbnailSize, format?: ThumbnailFormat, isCircular?: boolean
   }
-): ApiMethod<RawGamesThumbnailsData<UniverseId>, PrettifiedGamesThumbnailsData<UniverseId>> => ({
+): ApiMethod<RawThumbnailsData<UniverseId>, PrettifiedGamesThumbnailsData<UniverseId>> => ({
   path: `/v1/games/multiget/thumbnails`,
   method: "GET",
   searchParams: { universeIds, countPerUniverse, defaults, size, format, isCircular },
@@ -314,7 +314,7 @@ export const gamesThumbnails = addApiMethod(async <UniverseId extends Identifier
 export const groupsEmblems = addApiMethod(async <GroupId extends Identifier>(
   { groupIds, size = "420x420", format = "WebP", isCircular }:
   { groupIds: ArrayNonEmpty<GroupId>, size?: GroupEmblemSize, format?: ThumbnailFormat, isCircular?: boolean }
-): ApiMethod<RawGroupsEmblemsData<GroupId>, PrettifiedGroupsEmblemsData<GroupId>> => ({
+): ApiMethod<RawThumbnailsData<GroupId>, PrettifiedThumbnailsData<GroupId>> => ({
   method: "GET",
   path: `/v1/groups/icons`,
   searchParams: { groupIds, size, format, isCircular },
@@ -324,3 +324,253 @@ export const groupsEmblems = addApiMethod(async <GroupId extends Identifier>(
 }))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+// [ METADATA ] //////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Gets thumbnail metadata.
+ * @category Metadata
+ * @endpoint GET /v1/metadata
+ * 
+ * @example const { data:metadata } = await ClassicThumbnailsApi.metadata();
+ * @exampleData { isWebappUseCacheEnabled: false, webappCacheExpirationTimspan: "00:00:00" }
+ * @exampleRawBody { isWebappUseCacheEnabled: false, webappCacheExpirationTimspan: "00:00:00" }
+ */
+export const metadata = addApiMethod(async (
+): ApiMethod<MetadataData> => ({
+  method: "GET",
+  path: `/v1/metadata`,
+  name: `metadata`,
+}))
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// [ PLACES ] ////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Gets thumbnail icon for multiple places.
+ * @category Places
+ * @endpoint GET /v1/places/gameicons
+ * 
+ * @param placeIds The ids of the places to get thumbnails for.
+ * @param returnPolicy The policy to use in selecting the thumbnail icons to return.
+ * @param size The thumbnails size (formatted as {width}x{height}).
+ * @param format Specifies the format of the thumbnails.
+ * @param isCircular Dictates if the thumbnails should be masked by a circle.
+ * 
+ * @example const { data:placesIconsThumbnails } = await ClassicThumbnailsApi.placesIcons([4922741943]);
+ * @exampleData { "4922741943": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png" } }
+ * @exampleRawBody { data: [ { targetId: 4922741943, state: "Completed", imageUrl: "https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png" } ] }
+ */
+export const placesIcons = addApiMethod(async <PlaceId extends Identifier>(
+  { placeIds, returnPolicy, size = "256x256", format = "WebP", isCircular }:
+  { placeIds: ArrayNonEmpty<PlaceId>, returnPolicy?: ThumbnailReturnPolicy, size?: PlaceThumbnailSize, format?: ThumbnailFormat, isCircular?: boolean }
+): ApiMethod<RawThumbnailsData<PlaceId>, PrettifiedThumbnailsData<PlaceId>> => ({
+  method: "GET",
+  path: `/v1/places/gameicons`,
+  searchParams: { placeIds, returnPolicy, size, format, isCircular },
+  name: `placesIcons`,
+
+  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+}))
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// [ Avatar ] ////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Gets full avatar thumbnail for multiple users.
+ * @category Avatar
+ * @endpoint GET /v1/users/avatar
+ * 
+ * @param userIds The ids of the users to get thumbnails for.
+ * @param size The avatar thumbnails size (formatted as {width}x{height}).
+ * @param format Specifies the format of the thumbnails.
+ * @param isCircular Dictates if the thumbnails should be masked by a circle.
+ * 
+ * @example const { data:avatarsFullThumbnails } = await ClassicThumbnailsApi.avatarsFullThumbnails({ userIds: [45348281], size:"150x150" });
+ * @exampleData { "45348281": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/b91cd7a2d531a50be786e08c7739c56a/150/150/Avatar/Png" } }
+ * @exampleRawBody { data: [ { targetId: 45348281, state: "Completed", imageUrl: "https://tr.rbxcdn.com/b91cd7a2d531a50be786e08c7739c56a/150/150/Avatar/Png" } ] }
+ */
+export const avatarsFullThumbnails = addApiMethod(async <UserId extends Identifier>(
+  { userIds, size = "420x420", format = "WebP", isCircular }:
+  { userIds: ArrayNonEmpty<UserId>, size?: AvatarsFullThumbnailsSize, format?: ThumbnailFormat, isCircular?: boolean }
+): ApiMethod<RawThumbnailsData<UserId>, PrettifiedThumbnailsData<UserId>> => ({
+  method: "GET",
+  path: `/v1/users/avatar`,
+  searchParams: { userIds, size, format, isCircular },
+  name: `avatarsFullThumbnails`,
+
+  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+}))
+
+/**
+ * Gets avatar bust thumbnail for multiple users.
+ * @category Avatar
+ * @endpoint GET /v1/users/avatar-bust
+ * 
+ * @param userIds The ids of the users to get thumbnails for.
+ * @param size The avatar thumbnails size (formatted as {width}x{height}).
+ * @param format Specifies the format of the thumbnails.
+ * @param isCircular Dictates if the thumbnails should be masked by a circle.
+ * 
+ * @example const { data:avatarsBustsThumbnails } = await ClassicThumbnailsApi.avatarsBustsThumbnails({ userIds: [45348281], size:"150x150" });
+ * @exampleData { "45348281": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/4b3c0e5b4efdda3bdfd94e77b2850ea5/150/150/AvatarBust/Png" } }
+ * @exampleRawBody { data: [ { targetId: 45348281, state: 'Completed', imageUrl: 'https://tr.rbxcdn.com/4b3c0e5b4efdda3bdfd94e77b2850ea5/150/150/AvatarBust/Png' } ] }
+ */
+export const avatarsBustsThumbnails = addApiMethod(async <UserId extends Identifier>(
+  { userIds, size = "420x420", format = "WebP", isCircular }:
+  { userIds: ArrayNonEmpty<UserId>, size?: AvatarsFullThumbnailsSize, format?: ThumbnailFormat, isCircular?: boolean }
+): ApiMethod<RawThumbnailsData<UserId>, PrettifiedThumbnailsData<UserId>> => ({
+  method: "GET",
+  path: `/v1/users/avatar-bust`,
+  searchParams: { userIds, size, format, isCircular },
+  name: `avatarsBustsThumbnails`,
+
+  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+}))
+
+
+/**
+ * Gets avatar headshot thumbnail for multiple users.
+ * @category Avatar
+ * @endpoint GET /v1/users/avatar-headshot
+ * 
+ * @param userIds The ids of the users to get thumbnails for.
+ * @param size The avatar thumbnails size (formatted as {width}x{height}).
+ * @param format Specifies the format of the thumbnails.
+ * @param isCircular Dictates if the thumbnails should be masked by a circle.
+ * 
+ * @example const { data:avatarsHeadshotsThumbnails } = await ClassicThumbnailsApi.avatarsHeadshotsThumbnails({ userIds: [45348281], size:"720x720" });
+ * @exampleData { "45348281": { state: "Completed", imageUrl: "https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f" } }
+ * @exampleRawBody { data: [ { targetId: 45348281, state: "Completed", imageUrl: "https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f" } ] }
+ */
+export const avatarsHeadshotsThumbnails = addApiMethod(async <UserId extends Identifier>(
+  { userIds, size = "420x420", format = "WebP", isCircular }:
+  { userIds: ArrayNonEmpty<UserId>, size?: AvatarsFullThumbnailsSize, format?: ThumbnailFormat, isCircular?: boolean }
+): ApiMethod<RawThumbnailsData<UserId>, PrettifiedThumbnailsData<UserId>> => ({
+  method: "GET",
+  path: `/v1/users/avatar-headshot`,
+  searchParams: { userIds, size, format, isCircular },
+  name: `avatarsHeadshotsThumbnails`,
+
+  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+}))
+
+/**
+ * Gets 3d avatar thumbnail for multiple users.
+ * @category Avatar
+ * @endpoint GET /v1/users/avatar-3d
+ * 
+ * @param userId The id of the user to get a 3d avatar thumbnail for.
+ * 
+ * @example const { data:avatar3dData } = await ClassicThumbnailsApi.avatar3dThumbnail({ userId: 45348281 });
+ * @exampleData { targetId: 45348281, state: "Completed", imageUrl: "https://t6.rbxcdn.com/7927ecfe11399126171f4cd2939dc511" }
+ * @exampleRawBody { targetId: 45348281, state: "Completed", imageUrl: "https://t6.rbxcdn.com/7927ecfe11399126171f4cd2939dc511" }
+ */
+export const avatar3dThumbnail = addApiMethod(async <UserId extends Identifier>(
+  { userId }: { userId: UserId }
+): ApiMethod<ThumbnailData<UserId>> => ({
+  method: "GET",
+  path: `/v1/users/avatar-3d`,
+  searchParams: { userId },
+  name: `avatar3dThumbnail`
+}))
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// [ OUTFITS ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Gets 3d outfit thumbnail for an outfit.
+ * @category Outfits
+ * @endpoint GET /v1/users/outfit-3d
+ * 
+ * @param outfitId The id of the outfit to get a 3d thumbnail for.
+ * 
+ * @example const { data:outfit3dData } = await ClassicThumbnailsApi.outfit3dThumbnail({ outfitId: 110540093 });
+ * @exampleData { targetId: 110540093, state: "Completed", imageUrl: "https://t7.rbxcdn.com/24eea0d840fe712230943a3bead4659a" }
+ * @exampleRawBody { targetId: 110540093, state: "Completed", imageUrl: "https://t7.rbxcdn.com/24eea0d840fe712230943a3bead4659a" }
+ */
+export const outfit3dThumbnail = addApiMethod(async <OutfitId extends Identifier>(
+  { outfitId }: { outfitId: OutfitId }
+): ApiMethod<ThumbnailData<OutfitId>> => ({
+  method: "GET",
+  path: `/v1/users/outfit-3d`,
+  searchParams: { outfitId },
+  name: `outfit3dThumbnail`,
+}))
+
+/**
+ * Gets outfit thumbnail for multiple outfits.
+ * @category Outfits
+ * @endpoint GET /v1/users/outfits
+ * 
+ * @param outfitIds The ids of the outfits to get thumbnails for.
+ * @param size The thumbnails size (formatted as {width}x{height}).
+ * @param format Specifies the format of the thumbnails.
+ * @param isCircular Dictates if the thumbnails should be masked by a circle.
+ * 
+ * @example const { data:outfitsThumbnails } = await ClassicThumbnailsApi.outfitsThumbnails({ outfitIds: [110540093] });
+ * @exampleData { "110540093": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/41b9a3552f17cc2d7bca01b37be25d40/420/420/Avatar/Png" } }
+ * @exampleRawBody { data: [ { targetId: 110540093, state: "Completed", imageUrl: "https://tr.rbxcdn.com/41b9a3552f17cc2d7bca01b37be25d40/420/420/Avatar/Png" } ] }
+ */
+export const outfitsThumbnails = addApiMethod(async <OutfitId extends Identifier>(
+  { outfitIds, size = "420x420", format = "WebP", isCircular }:
+  { outfitIds: ArrayNonEmpty<OutfitId>, size?: OutfitSize, format?: ThumbnailFormat, isCircular?: boolean }
+): ApiMethod<RawThumbnailsData<OutfitId>, PrettifiedThumbnailsData<OutfitId>> => ({
+  method: "GET",
+  path: `/v1/users/outfits`,
+  searchParams: { userOutfitIds: outfitIds, size, format, isCircular },
+  name: `outfitsThumbnails`,
+
+  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+}))
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// [ BATCH ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Gets thumbnail for multiple things.
+ * @category Batch
+ * @endpoint POST /v1/batch
+ * 
+ * @param requests An array of BatchRequest objects.
+ * 
+ * @example
+ * const { data:thumbnails } = await ClassicThumbnailsApi.batchThumbnails({ requests: [
+     {
+       type: "AvatarHeadShot",
+       targetId: 45348281,
+       size: "720x720",
+       format: "Png",
+       isCircular: false
+     }
+   ]});
+ * @exampleData { AvatarHeadShot: { "45348281": { requestId: null, errorCode: 0, errorMessage: "", state: "Completed", imageUrl: "https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f" } } }
+ * @exampleRawBody { data: [ { requestId: null, errorCode: 0, errorMessage: "", targetId: 45348281, state: "Completed", imageUrl: "https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f" } ] }
+ */
+export const batchThumbnails = addApiMethod(async <const BReq extends BatchRequest>(
+  { requests }: { requests: BReq[] }
+): ApiMethod<RawBatchThumbnailsData, PrettifiedBatchThumbnailsData<BReq>> => ({
+  method: "POST",
+  path: `/v1/batch`,
+  body: requests,
+  name: `batchThumbnails`,
+
+  prettifyFn: ({ data }) => {
+    const rawBodyDataLength = data.length - 1
+    let insertedTypeData: any = data.map((item:any, i: number) => {
+      item = { ...item }
+      item.type = requests[rawBodyDataLength - i]?.type
+      return item
+    })
+    let formattedData: { [key:string]: any } = {}
+    insertedTypeData.forEach((item: any) => {
+      item = { ...item }
+      const { type, targetId }: { type: string, targetId: number } = item
+      if (!formattedData[type]) formattedData[type] = {}
+
+      delete item.type
+      delete item.targetId
+      formattedData[type][targetId] = item
+    })
+    return formattedData as any
+  }
+}))

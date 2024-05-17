@@ -2651,7 +2651,7 @@
         "tags": {
           "category": "Badges",
           "endpoint": "GET /v1/badges/icons",
-          "example": "const { data: badgesThumbnails } = await ClassicThumbnailsApi.badgesThumbnails([2124533401]);",
+          "example": "const { data: badgesThumbnails } = await ClassicThumbnailsApi.badgesThumbnails({ badgeIds: [2124533401] });",
           "exampleData": "{\n  \"2124533401\": {\n    state: \"Completed\",\n    imageUrl: \"https://tr.rbxcdn.com/87105a9a85ea09e7591cfdd3f0825225/150/150/Image/Png\",\n  },\n}\n",
           "exampleRawBody": "{\n  data: [\n    {\n      targetId: 2124533401,\n      state: \"Completed\",\n      imageUrl: \"https://tr.rbxcdn.com/87105a9a85ea09e7591cfdd3f0825225/150/150/Image/Png\",\n    },\n  ],\n}\n"
         },
@@ -2663,13 +2663,178 @@
           },
           {
             "name": "format",
-            "type": "ThumbnailFormat",
+            "type": "?",
             "description": "Specifies the format of the thumbnailS."
           },
           {
             "name": "isCircular",
             "type": "?",
             "description": "Dictates if the thumbnails should be masked by a circle."
+          }
+        ]
+      },
+      "bundlesThumbnails": {
+        "description": "Gets thumbnail for multiple bundles.",
+        "tags": {
+          "category": "Bundles",
+          "endpoint": "GET /v1/bundles/thumbnails",
+          "example": "const { data: bundlesThumbnails } = await ClassicThumbnailsApi.bundlesThumbnails({ bundleIds: [181] });",
+          "exampleData": "{\n  \"181\": {\n    state: \"Completed\",\n    imageUrl: \"https://tr.rbxcdn.com/12ff41b547ee75865bb60d0f3ae5508b/420/420/Avatar/Png\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      targetId: 181,\n      state: \"Completed\",\n      imageUrl: \"https://tr.rbxcdn.com/12ff41b547ee75865bb60d0f3ae5508b/420/420/Avatar/Png\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "bundleIds",
+            "type": "ArrayNonEmpty<BundleId>",
+            "description": "The ids of the bundles to get thumbnails for."
+          },
+          {
+            "name": "size",
+            "type": "?",
+            "description": "The thumbnails size (formatted as {width}x{height})."
+          },
+          {
+            "name": "format",
+            "type": "?",
+            "description": "Specifies the format of the thumbnails."
+          },
+          {
+            "name": "isCircular",
+            "type": "?",
+            "description": "Dictates if the thumbnails should be masked by a circle."
+          }
+        ]
+      },
+      "developerProductsThumbnails": {
+        "description": "Gets thumbnail for multiple developer products.",
+        "tags": {
+          "category": "Developer Products",
+          "endpoint": "GET /v1/developer-products/icons",
+          "example": "const { data: developerProductsThumbnails } = await ClassicThumbnailsApi.developerProductsThumbnails({\n  developerProductIds: [3616425],\n});",
+          "exampleData": "{\n  \"3616425\": {\n    state: \"Completed\",\n    imageUrl: \"https://tr.rbxcdn.com/3e495c43b44b85cd3dd1afee9df3636b/420/420/Image/Png\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      targetId: 3616425,\n      state: \"Completed\",\n      imageUrl: \"https://tr.rbxcdn.com/3e495c43b44b85cd3dd1afee9df3636b/420/420/Image/Png\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "developerProductIds",
+            "type": "ArrayNonEmpty<DeveloperProductId>",
+            "description": "The ids of the developer products to get thumbnails for."
+          },
+          {
+            "name": "size",
+            "type": "?",
+            "description": "The thumbnails size (formatted as {width}x{height})."
+          },
+          {
+            "name": "format",
+            "type": "?",
+            "description": "Specifies the format of the thumbnails."
+          },
+          {
+            "name": "isCircular",
+            "type": "?",
+            "description": "Dictates if the thumbnails should be masked by a circle."
+          }
+        ]
+      },
+      "gamePassesThumbnails": {
+        "description": "Gets thumbnail for multiple game passes.",
+        "tags": {
+          "category": "Game Passes",
+          "endpoint": "GET /v1/game-passes",
+          "example": "const { data: gamePassesThumbnails } = await ClassicThumbnailsApi.gamePassesThumbnails({ gamePassIds: [9063647] });",
+          "exampleData": "{\n  \"9063647\": {\n    state: \"Completed\",\n    imageUrl: \"https://tr.rbxcdn.com/4464935a3f7b124ba0a315cb3ff8113d/150/150/Image/Png\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      targetId: 9063647,\n      state: \"Completed\",\n      imageUrl: \"https://tr.rbxcdn.com/4464935a3f7b124ba0a315cb3ff8113d/150/150/Image/Png\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "gamePassIds",
+            "type": "ArrayNonEmpty<GamePassId>",
+            "description": "The ids of the game passes to get thumbnails for."
+          },
+          {
+            "name": "format",
+            "type": "?",
+            "description": "Specifies the format of the thumbnails."
+          },
+          {
+            "name": "isCircular",
+            "type": "?",
+            "description": "Dictates if the thumbnails should be masked by a circle."
+          }
+        ]
+      },
+      "gameThumbnailsFromIds": {
+        "description": "Gets thumbnail for multiple thumbnail ids that belong to a specified universe.",
+        "tags": {
+          "category": "Game Passes",
+          "endpoint": "GET /v1/games/{universeId}/thumbnails",
+          "example": "const { data: gameThumbnails } = await ClassicThumbnailsApi.gameThumbnailsFromIds({\n  universeId: 1685831367,\n  thumbnailIds: [5030792576],\n});",
+          "exampleData": "{\n  \"5030792576\": {\n    state: \"Completed\",\n    imageUrl: \"https://tr.rbxcdn.com/e997db8b4e41b08acb49b9d2bb021b23/768/432/Image/Png\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      targetId: \"5030792576\",\n      state: \"Completed\",\n      imageUrl: \"https://tr.rbxcdn.com/e997db8b4e41b08acb49b9d2bb021b23/768/432/Image/Png\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The id of the universe to get the thumbnails from."
+          },
+          {
+            "name": "thumbnailIds",
+            "type": "ArrayNonEmpty<ThumbnailId>",
+            "description": "The ids of the thumbnails."
+          },
+          {
+            "name": "size",
+            "type": "?",
+            "description": "The thumbnails size (formatted as {width}x{height})."
+          },
+          {
+            "name": "format",
+            "type": "?",
+            "description": "Specifies the format of the thumbnails."
+          },
+          {
+            "name": "isCircular",
+            "type": "?",
+            "description": "Dictates if the thumbnails should be masked by a circle."
+          }
+        ]
+      },
+      "gamesIcons": {
+        "description": "Gets thumbnail icon for multiple games.",
+        "tags": {
+          "category": "Games",
+          "endpoint": "GET /v1/games/icons",
+          "example": "const { data: gamesIcons } = await ClassicThumbnailsApi.gamesIcons({ universeIds: [1685831367] });",
+          "exampleData": "{\n  \"1685831367\": {\n    state: \"Completed\",\n    imageUrl: \"https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      targetId: 1685831367,\n      state: \"Completed\",\n      imageUrl: \"https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeIds",
+            "type": "ArrayNonEmpty<UniverseId>",
+            "description": "The ids of the universes to get the thumbnail icons from."
+          },
+          {
+            "name": "returnPolicy",
+            "type": "?",
+            "description": "The policy to use in selecting the thumbnail icons to return."
+          },
+          {
+            "name": "size",
+            "type": "?",
+            "description": "The thumbnail icons size (formatted as {width}x{height})."
+          },
+          {
+            "name": "format",
+            "type": "?",
+            "description": "Specifies the format of the thumbnail icons."
+          },
+          {
+            "name": "isCircular",
+            "type": "?",
+            "description": "Dictates if the thumbnail icons should be masked by a circle."
           }
         ]
       },
@@ -2715,9 +2880,264 @@
           }
         ]
       },
-      "gamesIcons": {
-        "tags": {},
+      "groupsEmblems": {
+        "description": "Gets group emblem thumbnail for multiple groups.",
+        "tags": {
+          "category": "Group Emblem",
+          "endpoint": "GET /v1/groups/icons",
+          "example": "const { data: groupsEmblems } = await ClassicThumbnailsApi.groupsEmblems({ groupIds: [5850082] });",
+          "exampleData": "{\n  \"5850082\": {\n    state: \"Completed\",\n    imageUrl: \"https://tr.rbxcdn.com/caadbbddbed97108cfcff64fd1258b8f/420/420/Image/Png\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      targetId: 5850082,\n      state: \"Completed\",\n      imageUrl: \"https://tr.rbxcdn.com/caadbbddbed97108cfcff64fd1258b8f/420/420/Image/Png\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupIds",
+            "type": "ArrayNonEmpty<GroupId>",
+            "description": "The ids of the groups to get the thumbnail icons from."
+          },
+          {
+            "name": "size",
+            "type": "?",
+            "description": "The thumbnail icons size (formatted as {width}x{height})."
+          },
+          {
+            "name": "format",
+            "type": "?",
+            "description": "Specifies the format of the thumbnail icons."
+          },
+          {
+            "name": "isCircular",
+            "type": "?",
+            "description": "Dictates if the thumbnail icons should be masked by a circle."
+          }
+        ]
+      },
+      "metadata": {
+        "description": "Gets thumbnail metadata.",
+        "tags": {
+          "category": "Metadata",
+          "endpoint": "GET /v1/metadata",
+          "example": "const { data: metadata } = await ClassicThumbnailsApi.metadata();",
+          "exampleData": "{\n  isWebappUseCacheEnabled: false,\n  webappCacheExpirationTimspan: \"00:00:00\",\n}\n",
+          "exampleRawBody": "{\n  isWebappUseCacheEnabled: false,\n  webappCacheExpirationTimspan: \"00:00:00\",\n}\n"
+        },
         "params": []
+      },
+      "placesIcons": {
+        "description": "Gets thumbnail icon for multiple places.",
+        "tags": {
+          "category": "Places",
+          "endpoint": "GET /v1/places/gameicons",
+          "example": "const { data: placesIconsThumbnails } = await ClassicThumbnailsApi.placesIcons([4922741943]);",
+          "exampleData": "{\n  \"4922741943\": {\n    state: \"Completed\",\n    imageUrl: \"https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      targetId: 4922741943,\n      state: \"Completed\",\n      imageUrl: \"https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "placeIds",
+            "type": "ArrayNonEmpty<PlaceId>",
+            "description": "The ids of the places to get thumbnails for."
+          },
+          {
+            "name": "returnPolicy",
+            "type": "?",
+            "description": "The policy to use in selecting the thumbnail icons to return."
+          },
+          {
+            "name": "size",
+            "type": "?",
+            "description": "The thumbnails size (formatted as {width}x{height})."
+          },
+          {
+            "name": "format",
+            "type": "?",
+            "description": "Specifies the format of the thumbnails."
+          },
+          {
+            "name": "isCircular",
+            "type": "?",
+            "description": "Dictates if the thumbnails should be masked by a circle."
+          }
+        ]
+      },
+      "avatarsFullThumbnails": {
+        "description": "Gets full avatar thumbnail for multiple users.",
+        "tags": {
+          "category": "Avatar",
+          "endpoint": "GET /v1/users/avatar",
+          "example": "const { data: avatarsFullThumbnails } = await ClassicThumbnailsApi.avatarsFullThumbnails({\n  userIds: [45348281],\n  size: \"150x150\",\n});",
+          "exampleData": "{\n  \"45348281\": {\n    state: \"Completed\",\n    imageUrl: \"https://tr.rbxcdn.com/b91cd7a2d531a50be786e08c7739c56a/150/150/Avatar/Png\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      targetId: 45348281,\n      state: \"Completed\",\n      imageUrl: \"https://tr.rbxcdn.com/b91cd7a2d531a50be786e08c7739c56a/150/150/Avatar/Png\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userIds",
+            "type": "ArrayNonEmpty<UserId>",
+            "description": "The ids of the users to get thumbnails for."
+          },
+          {
+            "name": "size",
+            "type": "?",
+            "description": "The avatar thumbnails size (formatted as {width}x{height})."
+          },
+          {
+            "name": "format",
+            "type": "?",
+            "description": "Specifies the format of the thumbnails."
+          },
+          {
+            "name": "isCircular",
+            "type": "?",
+            "description": "Dictates if the thumbnails should be masked by a circle."
+          }
+        ]
+      },
+      "avatarsBustsThumbnails": {
+        "description": "Gets avatar bust thumbnail for multiple users.",
+        "tags": {
+          "category": "Avatar",
+          "endpoint": "GET /v1/users/avatar-bust",
+          "example": "const { data: avatarsBustsThumbnails } = await ClassicThumbnailsApi.avatarsBustsThumbnails({\n  userIds: [45348281],\n  size: \"150x150\",\n});",
+          "exampleData": "{\n  \"45348281\": {\n    state: \"Completed\",\n    imageUrl: \"https://tr.rbxcdn.com/4b3c0e5b4efdda3bdfd94e77b2850ea5/150/150/AvatarBust/Png\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      targetId: 45348281,\n      state: \"Completed\",\n      imageUrl: \"https://tr.rbxcdn.com/4b3c0e5b4efdda3bdfd94e77b2850ea5/150/150/AvatarBust/Png\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userIds",
+            "type": "ArrayNonEmpty<UserId>",
+            "description": "The ids of the users to get thumbnails for."
+          },
+          {
+            "name": "size",
+            "type": "?",
+            "description": "The avatar thumbnails size (formatted as {width}x{height})."
+          },
+          {
+            "name": "format",
+            "type": "?",
+            "description": "Specifies the format of the thumbnails."
+          },
+          {
+            "name": "isCircular",
+            "type": "?",
+            "description": "Dictates if the thumbnails should be masked by a circle."
+          }
+        ]
+      },
+      "avatarsHeadshotsThumbnails": {
+        "description": "Gets avatar headshot thumbnail for multiple users.",
+        "tags": {
+          "category": "Avatar",
+          "endpoint": "GET /v1/users/avatar-headshot",
+          "example": "const { data: avatarsHeadshotsThumbnails } = await ClassicThumbnailsApi.avatarsHeadshotsThumbnails({\n  userIds: [45348281],\n  size: \"720x720\",\n});",
+          "exampleData": "{\n  \"45348281\": {\n    state: \"Completed\",\n    imageUrl: \"https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      targetId: 45348281,\n      state: \"Completed\",\n      imageUrl: \"https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userIds",
+            "type": "ArrayNonEmpty<UserId>",
+            "description": "The ids of the users to get thumbnails for."
+          },
+          {
+            "name": "size",
+            "type": "?",
+            "description": "The avatar thumbnails size (formatted as {width}x{height})."
+          },
+          {
+            "name": "format",
+            "type": "?",
+            "description": "Specifies the format of the thumbnails."
+          },
+          {
+            "name": "isCircular",
+            "type": "?",
+            "description": "Dictates if the thumbnails should be masked by a circle."
+          }
+        ]
+      },
+      "avatar3dThumbnail": {
+        "description": "Gets 3d avatar thumbnail for multiple users.",
+        "tags": {
+          "category": "Avatar",
+          "endpoint": "GET /v1/users/avatar-3d",
+          "example": "const { data: avatar3dData } = await ClassicThumbnailsApi.avatar3dThumbnail({ userId: 45348281 });",
+          "exampleData": "{\n  targetId: 45348281,\n  state: \"Completed\",\n  imageUrl: \"https://t6.rbxcdn.com/7927ecfe11399126171f4cd2939dc511\",\n}\n",
+          "exampleRawBody": "{\n  targetId: 45348281,\n  state: \"Completed\",\n  imageUrl: \"https://t6.rbxcdn.com/7927ecfe11399126171f4cd2939dc511\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The id of the user to get a 3d avatar thumbnail for."
+          }
+        ]
+      },
+      "outfit3dThumbnail": {
+        "description": "Gets 3d outfit thumbnail for an outfit.",
+        "tags": {
+          "category": "Outfits",
+          "endpoint": "GET /v1/users/outfit-3d",
+          "example": "const { data: outfit3dData } = await ClassicThumbnailsApi.outfit3dThumbnail({ outfitId: 110540093 });",
+          "exampleData": "{\n  targetId: 110540093,\n  state: \"Completed\",\n  imageUrl: \"https://t7.rbxcdn.com/24eea0d840fe712230943a3bead4659a\",\n}\n",
+          "exampleRawBody": "{\n  targetId: 110540093,\n  state: \"Completed\",\n  imageUrl: \"https://t7.rbxcdn.com/24eea0d840fe712230943a3bead4659a\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "outfitId",
+            "type": "OutfitId",
+            "description": "The id of the outfit to get a 3d thumbnail for."
+          }
+        ]
+      },
+      "outfitsThumbnails": {
+        "description": "Gets outfit thumbnail for multiple outfits.",
+        "tags": {
+          "category": "Outfits",
+          "endpoint": "GET /v1/users/outfits",
+          "example": "const { data: outfitsThumbnails } = await ClassicThumbnailsApi.outfitsThumbnails({ outfitIds: [110540093] });",
+          "exampleData": "{\n  \"110540093\": {\n    state: \"Completed\",\n    imageUrl: \"https://tr.rbxcdn.com/41b9a3552f17cc2d7bca01b37be25d40/420/420/Avatar/Png\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      targetId: 110540093,\n      state: \"Completed\",\n      imageUrl: \"https://tr.rbxcdn.com/41b9a3552f17cc2d7bca01b37be25d40/420/420/Avatar/Png\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "outfitIds",
+            "type": "ArrayNonEmpty<OutfitId>",
+            "description": "The ids of the outfits to get thumbnails for."
+          },
+          {
+            "name": "size",
+            "type": "?",
+            "description": "The thumbnails size (formatted as {width}x{height})."
+          },
+          {
+            "name": "format",
+            "type": "?",
+            "description": "Specifies the format of the thumbnails."
+          },
+          {
+            "name": "isCircular",
+            "type": "?",
+            "description": "Dictates if the thumbnails should be masked by a circle."
+          }
+        ]
+      },
+      "batchThumbnails": {
+        "description": "Gets thumbnail for multiple things.",
+        "tags": {
+          "category": "Batch",
+          "endpoint": "POST /v1/batch",
+          "example": "const { data: thumbnails } = await ClassicThumbnailsApi.batchThumbnails({\n  requests: [\n    {\n      type: \"AvatarHeadShot\",\n      targetId: 45348281,\n      size: \"720x720\",\n      format: \"Png\",\n      isCircular: false,\n    },\n  ],\n});",
+          "exampleData": "{\n  AvatarHeadShot: {\n    \"45348281\": {\n      requestId: null,\n      errorCode: 0,\n      errorMessage: \"\",\n      state: \"Completed\",\n      imageUrl: \"https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f\",\n    },\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      requestId: null,\n      errorCode: 0,\n      errorMessage: \"\",\n      targetId: 45348281,\n      state: \"Completed\",\n      imageUrl: \"https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "requests",
+            "type": "BReq[]",
+            "description": "An array of BatchRequest objects."
+          }
+        ]
       }
     },
     "universes": {
