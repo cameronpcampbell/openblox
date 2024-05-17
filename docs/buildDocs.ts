@@ -220,13 +220,13 @@ import './styles.css'
  
 export default function MyApp({ Component, pageProps }) {
   try {
-    if (window.location.pathname === "/cloud") window.location.replace("/cloud/${
-      formatApiName("cloud", Object.keys(allJsDocData["cloud"])[0] as string)
+    if (window.location.pathname.match(/^\\/cloud(\\/?)$/)) window.location.replace("/cloud/${
+      Object.keys(allJsDocData["cloud"])[0]
     }/${
       Object.keys(allJsDocData["cloud"][Object.keys(allJsDocData["cloud"])[0] as any] as any)[0]
     }")
-    else if (window.location.pathname === "/classic") window.location.replace("/classic/${
-      formatApiName("classic", Object.keys(allJsDocData["classic"])[0] as string)
+    else if (window.location.pathname.match(/^\\/classic(\\/?)$/)) window.location.replace("/classic/${
+      Object.keys(allJsDocData["classic"])[0]
     }/${
       Object.keys(allJsDocData["classic"][Object.keys(allJsDocData["classic"])[0] as any] as any)[0]
     }")
