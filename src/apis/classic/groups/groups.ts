@@ -9,7 +9,7 @@ import { readFile } from "~/file"
 import type { ArrayNonEmpty, Identifier, UnionToArray } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
-import type { AddGroupSocialLinkData, AuthenticatedUserGroupMembershipInfoData, FormattedAllGroupRolesForUserData_V1, GroupAuditLogActionType, GroupPayoutRestrictionsInfoData, GroupRelationshipType, GroupRolePermissions, GroupRolePermissionsData, GroupsConfigMetadataData, GroupSettingsData, GroupsMetadataData, NewSocialLinkRequest, PrettifiedAllRolesForGroupData, PrettifiedAuthenticatedUserPendingGroupsData, PrettifiedGroupAuditLogData, PrettifiedGroupInfoData, PrettifiedGroupJoinRequestForUser, PrettifiedGroupJoinRequests, PrettifiedGroupLookupSearch, PrettifiedGroupMembersData, PrettifiedGroupMembersWithRoleData, PrettifiedGroupNameHistoryData, PrettifiedGroupPayoutsInfoData, PrettifiedGroupPermissionsForAllRoles, PrettifiedGroupPolicyInfoData, PrettifiedGroupRelationshipsData, PrettifiedGroupSearchData, PrettifiedGroupSearchMetadata, PrettifiedGroupShoutData, PrettifiedGroupSocialLinksData, PrettifiedGroupsThatUsersFriendsAreInData, PrettifiedGroupWallPostsData_V1, RawAllGroupRolesForUserData_V1, RawAllRolesForGroupData, RawAuthenticatedUserPendingGroupsData, RawGroupAuditLogData, RawGroupInfoData, RawGroupJoinRequestForUser, RawGroupJoinRequests, RawGroupLookupSearch, RawGroupMembersData, RawGroupMembersWithRoleData, RawGroupNameHistoryData, RawGroupPayoutsInfoData, RawGroupPermissionsForAllRoles, RawGroupPolicyInfoData, RawGroupRelationshipsData, RawGroupSearchData, RawGroupSearchMetadata, RawGroupShoutData, RawGroupSocialLinksData, RawGroupsThatUsersFriendsAreInData, RawGroupWallPostsData_V1 } from "./groups.types"
+import type { AddGroupSocialLinkData, AuthenticatedUserGroupMembershipInfoData, FormattedAllGroupRolesForUserData_V1, GroupAuditLogActionType, GroupPayoutRestrictionsInfoData, GroupRelationshipType, GroupRolePermissions, GroupRolePermissionsData, GroupsConfigMetadataData, GroupSettingsData, GroupsMetadataData, NewSocialLinkRequest, PrettifiedAllGroupRolesForUserData_V2, PrettifiedAllRolesForGroupData, PrettifiedAuthenticatedUserPendingGroupsData, PrettifiedGroupAuditLogData, PrettifiedGroupIdsToGroupsInfoData, PrettifiedGroupInfoData, PrettifiedGroupJoinRequestForUser, PrettifiedGroupJoinRequests, PrettifiedGroupLookupSearch, PrettifiedGroupMembersData, PrettifiedGroupMembersWithRoleData, PrettifiedGroupNameHistoryData, PrettifiedGroupPayoutsInfoData, PrettifiedGroupPermissionsForAllRoles, PrettifiedGroupPolicyInfoData, PrettifiedGroupRelationshipsData, PrettifiedGroupRolesFromIdsData, PrettifiedGroupSearchData, PrettifiedGroupSearchMetadata, PrettifiedGroupShoutData, PrettifiedGroupSocialLinksData, PrettifiedGroupsThatUsersFriendsAreInData, PrettifiedGroupWallPostsData_V1, PrettifiedGroupWallPostsData_V2, PrettifiedPrimaryGroupForUserData, RawAllGroupRolesForUserData_V1, RawAllGroupRolesForUserData_V2, RawAllRolesForGroupData, RawAuthenticatedUserPendingGroupsData, RawGroupAuditLogData, RawGroupIdsToGroupsInfoData, RawGroupInfoData, RawGroupJoinRequestForUser, RawGroupJoinRequests, RawGroupLookupSearch, RawGroupMembersData, RawGroupMembersWithRoleData, RawGroupNameHistoryData, RawGroupPayoutsInfoData, RawGroupPermissionsForAllRoles, RawGroupPolicyInfoData, RawGroupRelationshipsData, RawGroupRolesFromIdsData, RawGroupSearchData, RawGroupSearchMetadata, RawGroupShoutData, RawGroupSocialLinksData, RawGroupsThatUsersFriendsAreInData, RawGroupWallPostsData_V1, RawGroupWallPostsData_V2, RawPrimaryGroupForUserData, UpdateRoleSetData, UpdateRoleSetRequest } from "./groups.types"
 import type { SortOrder } from "~/utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -1299,16 +1299,16 @@ export const removeGroupWallPost = addApiMethod(async (
  * @param groupId The id of the group.
  * @param userId The id of the user.
  * 
- * @example const { data:success } = await ClassicGroupsApi.removeAllGroupWallPostMadeByUser({ groupId: 5850082, userId: 45348281 })
+ * @example const { data:success } = await ClassicGroupsApi.removeAllGroupWallPostsMadeByUser({ groupId: 5850082, userId: 45348281 })
  * @exampleData true
  * @exampleRawBody {}
  */
-export const removeAllGroupWallPostMadeByUser = addApiMethod(async (
+export const removeAllGroupWallPostsMadeByUser = addApiMethod(async (
   { groupId, userId }: { groupId: Identifier, userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "DELETE",
   path: `/v1/groups/${groupId}/wall/users/${userId}/posts`,
-  name: "removeAllGroupWallPostMadeByUser",
+  name: "removeAllGroupWallPostsMadeByUser",
 
   prettifyFn: (rawData) => dataIsSuccess(rawData)
 }))
@@ -1401,11 +1401,194 @@ export const groupSearchMetadata = addApiMethod(async (
  * @exampleData { '38353811': { groupId: 5850082, name: 'NamelessGuy2005 - Scriptor', rank: 255 } }
  * @exampleRawBody { data: [ { groupId: 5850082, id: 38353811, name: 'NamelessGuy2005 - Scriptor', rank: 255 } ] }
  */
-export const groupRolesFromIds = addApiMethod(async (
-): ApiMethod<RawGroupSearchMetadata, PrettifiedGroupSearchMetadata> => ({
+export const groupRolesFromIds = addApiMethod(async <RoleId extends Identifier>(
+  { roleIds }: { roleIds: ArrayNonEmpty<RoleId> }
+): ApiMethod<RawGroupRolesFromIdsData<RoleId>, PrettifiedGroupRolesFromIdsData<RoleId>> => ({
   method: "GET",
-  path: `/v1/groups/search/metadata`,
+  path: `/v1/roles`,
+  searchParams: { ids: roleIds },
   name: "groupRolesFromIds",
 
-  prettifyFn: (rawData) => toCamel<RawGroupSearchMetadata, PrettifiedGroupSearchMetadata>(rawData)
+  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", ({ id, ...rest }) => rest)
 }))
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// [ PRIMARY GROUP ] /////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Gets a user's primary group.
+ * @category Primary Group
+ * @endpoint GET /v1/users/{userId}/groups/primary/role
+ * 
+ * @param userId The id of the user to get the primary group for.
+ * 
+ * @example const { data:primaryGroup } = await ClassicGroupsApi.primaryGroupForUser({ userId: 45348281 })
+ * @exampleData { group: { id: 5850082, name: "MightyPart Games", description: "Welcome to my amazing group", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, shout: null, isBuildersClubOnly: false, publicEntryAllowed: true, hasVerifiedBadge: false }, role: { id: 38353811, name: "NamelessGuy2005 - Scriptor", rank: 255 } }
+ * @exampleRawBody { group: { id: 5850082, name: "MightyPart Games", description: "Welcome to my amazing group", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, shout: null, isBuildersClubOnly: false, publicEntryAllowed: true, hasVerifiedBadge: false }, role: { id: 38353811, name: "NamelessGuy2005 - Scriptor", rank: 255 } }
+ */
+export const primaryGroupForUser = addApiMethod(async (
+  { userId }: { userId: Identifier }
+): ApiMethod<RawPrimaryGroupForUserData, PrettifiedPrimaryGroupForUserData> => ({
+  method: "GET",
+  path: `/v1/users/${userId}/groups/primary/role`,
+  name: "primaryGroupForUser",
+
+  prettifyFn: (rawData) =>  cloneAndMutateObject(rawData, obj => {
+    if (!obj.group.shout) return
+    obj.group.shout.created = new Date(obj.group.shout.created)
+    obj.group.shout.updated = new Date(obj.group.shout.updated)
+  })
+}))
+
+
+/**
+ * Removes the authenticated user's primary group.
+ * @category Primary Group
+ * @endpoint DELETE /v1/user/groups/primary
+ * 
+ * @example const { data:success } = await ClassicGroupsApi.authenticatedUserRemovePrimaryGroup()
+ * @exampleData true
+ * @exampleRawBody {}
+ */
+export const authenticatedUserRemovePrimaryGroup = addApiMethod(async (
+): ApiMethod<{}, boolean> => ({
+  method: "DELETE",
+  path: `/v1/user/groups/primary`,
+  name: "authenticatedUserRemovePrimaryGroup",
+
+  prettifyFn: (rawData) => dataIsSuccess(rawData)
+}))
+
+
+/**
+ * Sets the authenticated user's primary group.
+ * @category Primary Group
+ * @endpoint POST /v1/user/groups/primary
+ * 
+ * @param groupId The id of the group to set as the primary group.
+ * 
+ * @example const { data:success } = await ClassicGroupsApi.authenticatedUserSetPrimaryGroup({ groupId: 5850082 })
+ * @exampleData true
+ * @exampleRawBody {}
+ */
+export const authenticatedUserSetPrimaryGroup = addApiMethod(async (
+  { groupId }: { groupId: Identifier }
+): ApiMethod<{}, boolean> => ({
+  method: "POST",
+  path: `/v1/user/groups/primary`,
+  body: { groupId },
+  name: "authenticatedUserSetPrimaryGroup",
+
+  prettifyFn: (rawData) => dataIsSuccess(rawData)
+}))
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// [ ROLE SETS ] /////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Updates an existing role set.
+ * @category Role Sets
+ * @endpoint PATCH /v1/groups/{groupId}/rolesets/{roleSetId}
+ * 
+ * @param groupId The id of the group.
+ * @param roleSetId The id of the role to update.
+ * @param request The updated information.
+ *  
+ * @example
+ * const { data:updatedRole } = await ClassicGroupsApi.updateGroupRoleSet({ groupId: 5850082, roleSetId: 38353813, newData: {
+     name: "Mighty Member",
+     description: "A regular group member.",
+     rank: 2
+   }})
+ * @exampleData { id: 38353813, name: "Mighty Member", description:  "A regular group member.", rank: 2, memberCount: 94 }
+ * @exampleRawBody { id: 38353813, name: "Mighty Member", description:  "A regular group member.", rank: 2, memberCount: 94 }
+ */
+export const updateGroupRoleSet = addApiMethod(async <const NewRoleData extends UpdateRoleSetRequest>(
+  { groupId, roleSetId, newData }: { groupId: Identifier, roleSetId: Identifier, newData: NewRoleData }
+): ApiMethod<UpdateRoleSetData<NewRoleData>> => ({
+  method: "PATCH",
+  path: `/v1/groups/${groupId}/rolesets/${roleSetId}`,
+  body: newData,
+  name: "updateGroupRoleSet"
+}))
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// [ GROUPS V2 ] /////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Gets information about multiple groups.
+ * @category Groups
+ * @endpoint GET /v2/groups
+ * 
+ * @param groupIds The id of the groups to get information for.
+ *  
+ * @example const { data:groupsInfo } = await ClassicGroupsApi.groupIdsToGroupsInfo({ groupIds: [5850082] })
+ * @exampleData { "5850082": { name: "MightyPart Games", description: "Welcome to my amazing group", owner: { id: 45348281, type: "User" }, created: 2020-03-29T18:15:20.100Z, hasVerifiedBadge: false } }
+ * @exampleRawBody { data: [ { id: 5850082, name: "MightyPart Games", description: "Welcome to my amazing group", owner: { id: 45348281, type: "User" }, created: "2020-03-29T18:15:20.1Z", hasVerifiedBadge: false } ] }
+ */
+export const groupIdsToGroupsInfo = addApiMethod(async <GroupId extends Identifier>(
+  { groupIds }: { groupIds: GroupId[] }
+): ApiMethod<RawGroupIdsToGroupsInfoData<GroupId>, PrettifiedGroupIdsToGroupsInfoData<GroupId>> => ({
+  method: "GET",
+  path: `/v2/groups`,
+  searchParams: { groupIds },
+  name: "groupIdsToGroupsInfo",
+
+  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", ({ id, created, ...rest }) => ({ created: new Date(created), ...rest }))
+}))
+
+
+/**
+ * Gets a list of all roles for every group that the specified user is in.
+ * @category Groups V2
+ * @endpoint GET /v2/users/{userId}/groups/roles
+ * @tags [ "Cookie" ]
+ * 
+ * @param userId The id of the user to get roles for.
+ * 
+ * @example const { data:groups } = await ClassicGroupsApi.allGroupRolesForUser_v2({ userId: 45348281 })
+ * @exampleData [ { group: { id: 5850082, name: "MightyPart Games", memberCount: 108, hasVerifiedBadge: false }, role: { id: 5850082, name: "Mighty Member", rank: 100 } } ]
+ * @exampleRawBody { data: [ { group: { id: 5850082, name: "MightyPart Games", memberCount: 108, hasVerifiedBadge: false }, role: { id: 5850082, name: "Mighty Member", rank: 100 } } ] }
+ */
+export const allGroupRolesForUser_v2 = addApiMethod(async (
+  { userId }: { userId: Identifier }
+): ApiMethod<RawAllGroupRolesForUserData_V2, PrettifiedAllGroupRolesForUserData_V2> => ({
+  method: "GET",
+  path: `/v2/users/${userId}/groups/roles`,
+  name: "allGroupRolesForUser_v2",
+
+  prettifyFn: ({ data }) => data
+}))
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// [ WALL V2 ] ///////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Gets a list of group wall posts.
+ * @category Wall
+ * @endpoint GET /v2/groups/{groupId}/wall/posts
+ * @tags [ "?Cookie" ]
+ * 
+ * @param groupId The id of the group to get wall posts for.
+ * @param limit The number of results to be returned.
+ * @param sortOrder The order that the results are sorted in.
+ * @param cursor The paging cursor for the previous or next page.
+ * 
+ * @example const { data:wallPosts } = await ClassicGroupsApi.groupWallPosts_V2({ groupId: 5850082 })
+ * @exampleData [ { id: 2724986278, poster: { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, role: { id: 38353813, name: "Mighty Member", rank: 1 } }, body: "Lorem ipsum dolor sit amet.", created: 2022-11-19T16:30:38.197Z, updated: 2022-11-19T16:30:38.197Z } ]
+ * @exampleRawBody { previousPageCursor: null, nextPageCursor: "2549745135_1_00ad0f026ca1d251093fc548c366b7ea", data: [ { id: 2724986278, poster: { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, role: { id: 38353813, name: "Mighty Member", rank: 1 } }, body: "Lorem ipsum dolor sit amet.", created: 2022-11-19T16:30:38.197Z, updated: 2022-11-19T16:30:38.197Z } ] }
+ */
+export const groupWallPosts_V2 = addApiMethod(async (
+  { groupId, limit, sortOrder, cursor }: { groupId: Identifier, limit?: 10 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
+): ApiMethod<RawGroupWallPostsData_V2, PrettifiedGroupWallPostsData_V2> => ({
+  method: "GET",
+  path: `/v2/groups/${groupId}/wall/posts`,
+  searchParams: { limit, sortOrder, cursor },
+  name: "groupWallPosts_V2",
+
+  prettifyFn: ({ data }) => cloneAndMutateObject(data, obj => obj.forEach(wallPost => {
+    wallPost.created = new Date(wallPost.created)
+    wallPost.updated = new Date(wallPost.updated)
+  }))
+}))
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

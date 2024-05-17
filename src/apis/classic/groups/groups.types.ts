@@ -1,5 +1,5 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { Identifier, ISODateTime, ObjectPrettify, UnionPrettify, Url } from "typeforge"
+import type { Identifier, ISODateTime, ObjectPrettify, UnionPrettify, UnionToArray, Url } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 type LowercaseFirstLetter<S extends string> =
@@ -941,4 +941,174 @@ export type RawGroupSearchMetadata = ObjectPrettify<{
 
 export type PrettifiedGroupSearchMetadata = ObjectPrettify<KeysToCamelCase<RawGroupSearchMetadata>>
 // -------------------------------------------------------------------------------------------------------------------
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// [ ROLES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
+// GET /v1/roles -----------------------------------------------------------------------------------------------------
+export type RawGroupRolesFromIdsData<RoleId extends Identifier> = ObjectPrettify<{
+  data: {
+    groupId: number,
+    id: RoleId,
+    name: string,
+    rank: number
+  }[]
+}>
+
+export type PrettifiedGroupRolesFromIdsData<RoleId extends Identifier> = ObjectPrettify<{
+  [Key in RoleId]: ObjectPrettify<{
+    groupId: number,
+    name: string,
+    rank: number
+  }>
+}>
+// -------------------------------------------------------------------------------------------------------------------
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// [ PRIMARY GROUP ] /////////////////////////////////////////////////////////////////////////////////////////////////
+// GET /v1/users/{userId}/groups/primary/role ------------------------------------------------------------------------
+type PrimaryGroupForUserData<TemporalType> = ObjectPrettify<{
+  group: {
+    id: number,
+    name: string,
+    description: string,
+    owner: {
+      hasVerifiedBadge: boolean,
+      userId: number,
+      username: string,
+      displayName: string
+    },
+    shout: {
+      body: string,
+      poster: {
+        buildersClubMembershipType: number,
+        hasVerifiedBadge: boolean,
+        userId: number,
+        username: string,
+        displayName: string
+      },
+      created: TemporalType,
+      updated: TemporalType
+    } | null,
+    isBuildersClubOnly: boolean,
+    publicEntryAllowed: boolean,
+    hasVerifiedBadge: boolean
+  },
+  role: {
+    id: number,
+    name: string,
+    rank: number
+  }
+}>
+
+export type RawPrimaryGroupForUserData = PrimaryGroupForUserData<string>
+
+export type PrettifiedPrimaryGroupForUserData = PrimaryGroupForUserData<Date>
+// -------------------------------------------------------------------------------------------------------------------
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// [ ROLE SETS ] /////////////////////////////////////////////////////////////////////////////////////////////////////
+// PATCH /v1/groups/{groupId}/rolesets/{roleSetId} -------------------------------------------------------------------
+export type UpdateRoleSetRequest = {
+  name: `${any}`,
+  description: `${any}`,
+  rank: number
+}
+
+export type UpdateRoleSetData<NewRoleData extends UpdateRoleSetRequest> = ObjectPrettify<{
+  id: number,
+  name: NewRoleData["name"],
+  description: NewRoleData["description"],
+  rank: NewRoleData["rank"],
+}>
+// -------------------------------------------------------------------------------------------------------------------
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// [ GROUPS V2 ] /////////////////////////////////////////////////////////////////////////////////////////////////////
+// GET /v2/groups ----------------------------------------------------------------------------------------------------
+export type RawGroupIdsToGroupsInfoData<GroupId extends Identifier>= ObjectPrettify<{
+  data: {
+    id: GroupId,
+    name: string,
+    description: string,
+    owner: {
+      id: number,
+      type: string
+    },
+    created: string,
+    hasVerifiedBadge: boolean
+  }[]
+}>
+
+
+
+export type PrettifiedGroupIdsToGroupsInfoData<GroupId extends Identifier> = ObjectPrettify<{
+  [Key in GroupId]: {
+    name: string,
+    description: string,
+    owner: {
+      id: number,
+      type: string
+    },
+    created: Date,
+    hasVerifiedBadge: boolean
+  }
+}>
+// -------------------------------------------------------------------------------------------------------------------
+
+
+// GET /v2/users/{userId}/groups/roles -------------------------------------------------------------------------------
+export type PrettifiedAllGroupRolesForUserData_V2 = ObjectPrettify<{
+  group: {
+    id: number,
+    name: string,
+    memberCount: number,
+    hasVerifiedBadge: boolean
+  },
+  role: {
+    id: number,
+    name: string,
+    rank: number
+  }
+}[]>
+
+export type RawAllGroupRolesForUserData_V2 = ObjectPrettify<{
+  data: PrettifiedAllGroupRolesForUserData_V2
+}>
+// -------------------------------------------------------------------------------------------------------------------
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// [ WALL V2 ] //////////////////////////////////////////////////////////////////////////////////////////////////
+type GroupWallPostsData_V2<TemporalType> = ObjectPrettify<{
+  id: number,
+  poster: {
+    user: {
+      hasVerifiedBadge: boolean,
+      userId: number,
+      username: string,
+      displayName: string
+    },
+    role: {
+      id: number,
+      name: string,
+      rank: number
+    }
+  },
+  body: string,
+  created: TemporalType,
+  updated: TemporalType
+}[]>
+
+export type RawGroupWallPostsData_V2 = ObjectPrettify<{
+  previousPageCursor?: string,
+  nextPageCursor?: string,
+  data: GroupWallPostsData_V2<ISODateTime>
+}>
+
+export type PrettifiedGroupWallPostsData_V2 = GroupWallPostsData_V2<Date>
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
