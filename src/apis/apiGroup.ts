@@ -30,16 +30,28 @@ export type ApiMethod<
   (PrettifiedData extends undefined ? {} : { prettifyFn: (rawData: RawData, response: HttpResponse<RawData>) => PrettifiedDataOrRawData })
 >
 
+type ApiMethodResult_Pagination<
+  Args extends Record<any, any> | undefined,
+  RawData, PrettifiedData = RawData,
+  Nested extends boolean = false
+> = (
+  { cursors: PrettifiedCursors } &
+  (Nested extends false ? { [Symbol.iterator]: () => {
+    next: () => { value: ApiMethodResult<Args, RawData, PrettifiedData, true> }
+  } } : {})
+)
+
 type ApiMethodResult<
   Args extends Record<any, any> | undefined,
   RawData, PrettifiedData = RawData,
+  Nested extends boolean = false
 > = ObjectPrettify<(
   {
     data: PrettifiedData,
     response: HttpResponse<RawData>
   } & (
-    "cursor" extends keyof Args ? { cursors: PrettifiedCursors }
-    : "startRowIndex" extends keyof Args ? { cursors: PrettifiedCursors }
+    "cursor" extends keyof Args ? ApiMethodResult_Pagination<Args, RawData, PrettifiedData, Nested>
+    : "startRowIndex" extends keyof Args ? ApiMethodResult_Pagination<Args, RawData, PrettifiedData, Nested>
     : {}
   )
 )>
@@ -96,22 +108,28 @@ function getParams(func:(...args: any[]) => any) {
 
   return argsStr.replaceAll(/{(.*)}/g, "").replaceAll(/ = ([^,]+)/g, "").replaceAll(/:( *)/g, "").split(", ")
 }
+
+async function* Paginate() {
+  yield 55
+}
 //////////////////////////////////////////////////////////////////////////////////
 
+
+type CallApiMethod< Args extends Record<string, any> | undefined, Returns extends ApiMethod<any, any>> = (
+  (this: any, args: keyof Args extends undefined ? void : Args) => (
+    Promise<ApiMethodResult<
+      Args,
+      PrettifyData<NonNullable<Awaited<Returns>["rawData"]>>,
+      PrettifyData<NonNullable<Awaited<Returns>["prettifiedData"]>>
+    >>
+  )
+)
 
 type CreateApiGroup = (args: { groupName: string, baseUrl: SecureUrl }) => (
   <
     Args extends Record<string, any> | undefined,
     Returns extends ApiMethod<any, any>,
-  >(getDataFn: (args: Args) => Returns) => (
-    (this: any, args: keyof Args extends undefined ? void : Args) => (
-      Promise<ApiMethodResult<
-        Args,
-        PrettifyData<NonNullable<Awaited<Returns>["rawData"]>>,
-        PrettifyData<NonNullable<Awaited<Returns>["prettifiedData"]>>
-      >>
-    )
-  )
+  >(getDataFn: (args: Args) => Returns) => CallApiMethod<Args, Returns>
 )
 
 export const createApiGroup: CreateApiGroup = ({ groupName, baseUrl }) => {
@@ -119,16 +137,17 @@ export const createApiGroup: CreateApiGroup = ({ groupName, baseUrl }) => {
     const rawArgs = getParams(getDataFn)
     const rawArgsContainsCursor = (rawArgs.includes("cursor") || rawArgs.includes("startRowIndex")) ? true : false
 
-    return async function (this, args) {
+    const callApiMethod: CallApiMethod<Record<string, any>, ApiMethod<any, any>> = async function (this, args) {
+      const overrides = this
       const apiMethodData = await getDataFn(args as any)
       const { path, method, searchParams, headers, body, formData } = apiMethodData
 
       const url: SecureUrl = `${baseUrl}${path}${formatSearchParams(searchParams)}`
 
       const response = await HttpHandler({ url, method, headers, body, formData }, {
-        cookie: this.cookie || config.cookie,
-        cloudKey: this.cloudKey || config.cloudKey,
-        oauthToken: this.oauthToken,
+        cookie: overrides.cookie || config.cookie,
+        cloudKey: overrides.cloudKey || config.cloudKey,
+        oauthToken: overrides.oauthToken,
       })
       if (!(response instanceof HttpResponse)) throw response // TODO: better error handling
       const responseBody = response.body
@@ -139,15 +158,40 @@ export const createApiGroup: CreateApiGroup = ({ groupName, baseUrl }) => {
         response, data: (prettifyFn ? prettifyFn(response.body, response) : response.body)
       }
 
-      // Adds cursors to the response if they exist.
-      if (rawArgsContainsCursor && (responseBody as unknown) instanceof Object) {
-        const [ previous, next] = (apiMethodData.getCursorsFn ?? defaultGetCursors)(responseBody as Record<any, any>);
+      if (rawArgsContainsCursor) {
+        // Adds cursors to the response if they exist.
+        let [ previousCursor, nextCursor ] = (apiMethodData.getCursorsFn ?? defaultGetCursors)(responseBody as Record<any, any>);
+        (apiMethodResult as Record<any, any>).cursors = { previous: previousCursor, next: nextCursor } as PrettifiedCursors
 
-        (apiMethodResult as Record<any, any>).cursors = { previous, next } as PrettifiedCursors
-      }
+        const initialPaginationResult = { ...apiMethodResult };
+
+        // @ts-ignore | hush hush shawty
+        (apiMethodResult as Record<any, any>)[Symbol.asyncIterator] = function() {
+          let atInitial = true
+
+          return {
+            async next() {
+              // The initial (already obtained) result.
+              if (atInitial) {
+                atInitial = false
+                return { done: false, value: initialPaginationResult }
+              }
+
+              // If there are no more paginated entries.
+              if (!nextCursor || nextCursor.length === 0) return { done: true }
+
+              const newValue = await callApiMethod.call(overrides, { ...args, cursor: nextCursor })
+              nextCursor = newValue.cursors.next
+              return { done: false, value: newValue }
+            }
+          }
+        }
+      } 
 
       return apiMethodResult as any
     }
+
+    return callApiMethod as any
   }
 }
 

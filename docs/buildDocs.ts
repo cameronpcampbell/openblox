@@ -2,7 +2,8 @@ import * as prettier from "prettier";
 import { Project, ts } from "ts-morph";
 import tablemark from "tablemark"
 import { mkdir, rmdir } from "node:fs/promises";
-
+import { readdir } from 'node:fs/promises';
+import { join } from 'node:path';
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ArrowFunction, CallExpression, Directory, Identifier, Node, ParameterDeclaration, SourceFile, TypeAliasDeclaration, TypeLiteralNode } from "ts-morph"
@@ -10,6 +11,18 @@ import type { ArrowFunction, CallExpression, Directory, Identifier, Node, Parame
 
 
 // [ Private Functions ] /////////////////////////////////////////////////////////
+async function getFiles( directoryPath: string ) {
+
+  try {
+      const fileNames = await readdir( directoryPath ); // returns a JS array of just short/local file-names, not paths.
+      const filePaths = fileNames.map( fn => join( directoryPath, fn ) );
+      return filePaths;
+  }
+  catch (err) {
+      console.error( err ); // depending on your application, this `catch` block (as-is) may be inappropriate; consider instead, either not-catching and/or re-throwing a new Error with the previous err attached.
+  }
+}
+
 const splitAtLastOccurrence = (str: string, separator: string) => {
   const lastIndex = str.lastIndexOf(separator);
   if (lastIndex === -1) {
