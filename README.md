@@ -1,17 +1,17 @@
 <div align="center">
 
-  <img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/logo.svg" height="70px" width="auto" height="auto" />
+  <img src="https://github.com/MightyPart/openblox/blob/main/assets/logo.svg" height="70px" width="auto" height="auto" />
 
-  <img height="10px" width="100%" src="https://github.com/MightyPart/openblox/blob/rewrite/assets/invis.png" />
+  <img height="10px" width="100%" src="https://github.com/MightyPart/openblox/blob/main/assets/invis.png" />
 
 
   <div>
 
-  <a href="https://open.blox.wiki" rel="noopener noreferrer" target="_blank"><img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/docs.svg" width="auto" height="18px" /></a>
-  <img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/dot.svg" width="auto" height="18px" />
-  <a href="https://www.npmjs.com/package/openblox" rel="noopener noreferrer" target="_blank"><img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/package.svg" width="auto" height="18px" /></a>
-  <img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/dot.svg" width="auto" height="18px" />
-  <a href="https://github.com/MightyPart/openblox" rel="noopener noreferrer" target="_blank"><img src="https://github.com/MightyPart/openblox/blob/rewrite/assets/repo.svg" width="auto" height="18px" /></a>
+  <a href="https://open.blox.wiki" rel="noopener noreferrer" target="_blank"><img src="https://github.com/MightyPart/openblox/blob/main/assets/docs.svg" width="auto" height="18px" /></a>
+  <img src="https://github.com/MightyPart/openblox/blob/main/assets/dot.svg" width="auto" height="18px" />
+  <a href="https://www.npmjs.com/package/openblox" rel="noopener noreferrer" target="_blank"><img src="https://github.com/MightyPart/openblox/blob/main/assets/package.svg" width="auto" height="18px" /></a>
+  <img src="https://github.com/MightyPart/openblox/blob/main/assets/dot.svg" width="auto" height="18px" />
+  <a href="https://github.com/MightyPart/openblox" rel="noopener noreferrer" target="_blank"><img src="https://github.com/MightyPart/openblox/blob/main/assets/repo.svg" width="auto" height="18px" /></a>
 
   </div>
 
@@ -21,7 +21,7 @@
   
 </div>
 
-<img height="0px" width="100%" src="https://github.com/MightyPart/openblox/blob/rewrite/assets/invis.png" />
+<img height="0px" width="100%" src="https://github.com/MightyPart/openblox/blob/main/assets/invis.png" />
 
 Openblox allows your typescript (and javascript) codebase to communicate with the Roblox API extemely easily.
 
