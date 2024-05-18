@@ -13,30 +13,37 @@
         "params": [
           {
             "name": "modelAssetId",
+            "type": "🤷",
             "description": "Use this if the creator product you are getting is a model."
           },
           {
             "name": "pluginAssetId",
+            "type": "🤷",
             "description": "Use this if the creator product you are getting is a plugin."
           },
           {
             "name": "audioAssetId",
+            "type": "🤷",
             "description": "Use this if the creator product you are getting is an audio."
           },
           {
             "name": "decalAssetId",
+            "type": "🤷",
             "description": "Use this if the creator product you are getting is a decal."
           },
           {
             "name": "meshPartAssetId",
+            "type": "🤷",
             "description": "Use this if the creator product you are getting is a mesh part."
           },
           {
             "name": "videoAssetId",
+            "type": "🤷",
             "description": "Use this if the creator product you are getting is a video."
           },
           {
             "name": "fontFamilyAssetId",
+            "type": "🤷",
             "description": "Use this if the creator product you are getting is a font family."
           }
         ]
@@ -53,14 +60,17 @@
         "params": [
           {
             "name": "displayName",
+            "type": "🤷",
             "description": "The display name for the product."
           },
           {
             "name": "description",
+            "type": "🤷",
             "description": "The description for the product."
           },
           {
             "name": "basePrice",
+            "type": "🤷",
             "description": "basePrice"
           }
         ]
@@ -205,18 +215,18 @@
             "description": "The id of the group to get join requests for."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "UserId",
             "description": "The maximum number of group memberships to return. The service might return fewer than this value. If unspecified, at most 10 group memberships are returned. The maximum value is 100 and higher values are set to 100."
           },
           {
-            "name": "filter",
-            "type": "?",
+            "name": "filter?",
+            "type": "Filter",
             "description": "This field may be set in order to filter the resources returned."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "A page token, received from a previous call, to retrieve a subsequent page."
           }
         ]
@@ -236,13 +246,13 @@
             "description": "The id of the group to get roles for."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "number",
             "description": "The maximum number of group roles to return. The service might return fewer than this value. If unspecified, at most 10 group roles are returned. The maximum value is 20 and higher values are set to 20."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "A page token, received from a previous call, to retrieve a subsequent page."
           }
         ]
@@ -263,10 +273,12 @@
           },
           {
             "name": "limit",
+            "type": "🤷",
             "description": "The maximum number of group roles to return. The service might return fewer than this value. If unspecified, at most 10 group roles are returned. The maximum value is 20 and higher values are set to 20."
           },
           {
             "name": "cursor",
+            "type": "🤷",
             "description": "A page token, received from a previous call, to retrieve a subsequent page."
           }
         ]
@@ -286,18 +298,18 @@
             "description": "The id of the group to get join requests for."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "number",
             "description": "The maximum number of group join requests to return. The service might return fewer than this value. If unspecified, at most 10 group join requests are returned. The maximum value is 20 and higher values are set to 20."
           },
           {
-            "name": "filter",
-            "type": "?",
+            "name": "filter?",
+            "type": "{ userId: Identifier }",
             "description": "This field may be set in order to filter the resources returned."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "A page token, received from a previous call, to retrieve a subsequent page."
           }
         ]
@@ -362,18 +374,18 @@
             "description": "The id of the user to get the inventory items for."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "number",
             "description": "The maximum amount of items to return."
           },
           {
-            "name": "filter",
-            "type": "?",
+            "name": "filter?",
+            "type": "UnionPrettify<InventoryItemsForUser_Filter>",
             "description": "Filters the returned inventory items by specified criterias."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "A paging cursor for a specified page."
           }
         ]
@@ -426,18 +438,18 @@
             "description": "The sorted map to get the item from."
           },
           {
-            "name": "maxPageSize",
-            "type": "?",
+            "name": "maxPageSize?",
+            "type": "number",
             "description": "The id of the item to get."
           },
           {
-            "name": "orderBy",
-            "type": "?",
+            "name": "orderBy?",
+            "type": "\"asc\" | \"desc\"",
             "description": "The order of the returned sorted map items."
           },
           {
-            "name": "filter",
-            "type": "?",
+            "name": "filter?",
+            "type": "string",
             "description": "filter returned sorted map items."
           }
         ]
@@ -498,8 +510,8 @@
             "description": "The data to update the sorted map item with."
           },
           {
-            "name": "allowMissing",
-            "type": "?",
+            "name": "allowMissing?",
+            "type": "boolean",
             "description": "If set to true, and the item is not found, a new item will be created. Default false."
           }
         ]
@@ -529,8 +541,8 @@
             "description": "The id of the item to update."
           },
           {
-            "name": "etag",
-            "type": "?",
+            "name": "etag?",
+            "type": "string",
             "description": "Server generated id for conditional delete."
           }
         ]
@@ -551,14 +563,17 @@
           },
           {
             "name": "sortedMap",
+            "type": "🤷",
             "description": "The sorted map to get the item from."
           },
           {
             "name": "itemId",
+            "type": "🤷",
             "description": "The id of the item to update."
           },
           {
             "name": "etag",
+            "type": "🤷",
             "description": "Server generated id for conditional delete."
           }
         ]
@@ -583,18 +598,18 @@
             "description": "Name of the Queue."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "number",
             "description": "Maximum entries to read, Max 200, Default 1."
           },
           {
-            "name": "allOrNothing",
-            "type": "?",
+            "name": "allOrNothing?",
+            "type": "boolean",
             "description": "Whether to read any items if >= count can’t be read. Default false."
           },
           {
-            "name": "invisibilityTimeoutSeconds",
-            "type": "?",
+            "name": "invisibilityTimeoutSeconds?",
+            "type": "number",
             "description": "Invisibility timeout for items read, default 30s. This will make previously read items invisible for the provided duration in the next Read request."
           }
         ]
@@ -698,23 +713,23 @@
             "description": "The name of the data store scope."
           },
           {
-            "name": "maxPageSize",
-            "type": "?",
+            "name": "maxPageSize?",
+            "type": "number",
             "description": "The maximum number of entries to return. The service may return fewer than this value. The default value is 10. The maximum value is 100, and any input above 100 is coerced to 100."
           },
           {
-            "name": "orderBy",
-            "type": "?",
+            "name": "orderBy?",
+            "type": "\"desc\" | \"asc\"",
             "description": "The enumeration direction. The order by default is ascending. Input a desc suffix for descending."
           },
           {
-            "name": "filter",
-            "type": "?",
+            "name": "filter?",
+            "type": "string",
             "description": "The range of qualifying values of entries to return."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "A page token received from a previous List call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to List must match the call providing the page token."
           }
         ]
@@ -856,8 +871,8 @@
             "description": "The value to set the entry to."
           },
           {
-            "name": "createIfNoEntryExists",
-            "type": "?",
+            "name": "createIfNoEntryExists?",
+            "type": "boolean",
             "description": "The flag to allow the creation of an entry if the entry doesn't exist. (allow_missing)"
           }
         ]
@@ -898,14 +913,351 @@
             "description": "The number to increment the entry's value by."
           },
           {
-            "name": "createIfNoEntryExists",
-            "type": "?",
+            "name": "createIfNoEntryExists?",
+            "type": "boolean",
             "description": "The flag to allow the creation of an entry if the entry doesn't exist. (allow_missing)"
           }
         ]
       }
     },
-    "standardDataStores_V1": {},
+    "standardDataStores_V1": {
+      "listStandardDatastores": {
+        "description": "Returns a list of data stores belonging to an experience.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/standard-datastores",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "const { data: datastores } = await StandardDatastoresApi_V1.listStandardDatastores({ universeId: 5097539509 });",
+          "exampleData": "[{ name: \"InventoryStore\", createdTime: \"2023-09-16T11:03:03.868Z\" }]\n",
+          "exampleRawBody": "{\n  datastores: [\n    { name: \"InventoryStore\", createdTime: \"2023-09-16T11:03:03.868331Z\" },\n  ],\n  nextPageCursor: \"\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The identifier of the experience with data stores that you want to access."
+          },
+          {
+            "name": "prefix?",
+            "type": "Prefix",
+            "description": "Provide to return only data stores with this prefix."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The maximum number of items to return. Each call only reads one partition so it can return fewer than the given value when running out of objectives on one partition."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "Provide to request the next set of data."
+          }
+        ]
+      },
+      "standardDatastoreKeys": {
+        "description": "Returns a list of entry keys within a data store.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/standard-datastores/datastore/entries",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "const { data: keys } = await StandardDatastoresApi_V1.standardDatastoreKeys({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n});",
+          "exampleData": "[\"user/45348281\"]\n",
+          "exampleRawBody": "{\n  keys: [{ key: \"user/45348281\" }],\n  nextPageCursor: \"eyJ2ZXJzaW9uIjoxLCJjdXJzb3IiOiIxMyMifQ==\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The identifier of the experience with data stores that you want to access."
+          },
+          {
+            "name": "datastoreName",
+            "type": "string",
+            "description": "The name of the data store."
+          },
+          {
+            "name": "scope?",
+            "type": "string",
+            "description": "The value is global by default."
+          },
+          {
+            "name": "allScopes?",
+            "type": "boolean",
+            "description": "Set to true to return keys from all scopes."
+          },
+          {
+            "name": "prefix?",
+            "type": "Prefix",
+            "description": "Provide to return only keys with this prefix."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The maximum number of items to return. Each call only reads one partition so it can return fewer than the given value when running out of objectives on one partition."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "Provide to request the next set of data."
+          }
+        ]
+      },
+      "standardDatastoreEntry": {
+        "description": "Returns the value and metadata associated with an entry. Depending on the runtime, `Bun.CryptoHasher` or `node:crypto` is used to calculate the md5 checksum.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/standard-datastores/datastore/entries/entry",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "type InventorySchema = { Iron?: number; Gold?: number; Copper?: number; Stone?: number; Wood?: number };\nconst { data: entryInfo } = await StandardDatastoresApi_V1.standardDatastoreEntry<InventorySchema>({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n  entryKey: \"user/45348281\",\n});\nif (!entryInfo.checksumsMatch) console.log(\"checksums do not match, data may be invalid!\");\nelse console.log(\"checksums match! ->\", entryInfo.entry);",
+          "exampleData": "{\n  entry: { Gold: 6, Iron: 57 },\n  checksumsMatch: true,\n  metadata: {\n    contentMD5: \"hGwoaGwduF4bOhexREYGkA==\",\n    entryVersion: \"08DBB6A47FDE6132.0000000016.08DBB782CEE11766.01\",\n    entryCreatedTime: \"2023-09-16T11:03:03.922Z\",\n    entryVersionCreatedTime: \"2023-09-17T13:34:24.754Z\",\n    entryAttributes: null,\n    entryUserIds: [45348281],\n  },\n}\n",
+          "exampleRawBody": "{\n  entry: { Gold: 6, Iron: 57 },\n  checksumsMatch: true,\n  metadata: {\n    contentMD5: \"hGwoaGwduF4bOhexREYGkA==\",\n    entryVersion: \"08DBB6A47FDE6132.0000000016.08DBB782CEE11766.01\",\n    entryCreatedTime: \"2023-09-16T11:03:03.922Z\",\n    entryVersionCreatedTime: \"2023-09-17T13:34:24.754Z\",\n    entryAttributes: null,\n    entryUserIds: [45348281],\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The identifier of the experience with data stores that you want to access."
+          },
+          {
+            "name": "datastoreName",
+            "type": "string",
+            "description": "The name of the data store."
+          },
+          {
+            "name": "entryKey",
+            "type": "string",
+            "description": "The key identifying the entry."
+          },
+          {
+            "name": "scope?",
+            "type": "string",
+            "description": "The value is global by default."
+          }
+        ]
+      },
+      "setStandardDatastoreEntry": {
+        "description": "Sets the value, metadata and user IDs associated with an entry.",
+        "tags": {
+          "endpoint": "POST /v1/universes/{universeId}/standard-datastores/datastore/entries/entry",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "type InventorySchema = { Iron?: number; Gold?: number; Copper?: number; Stone?: number; Wood?: number };\nconst { data: response } = await StandardDatastoresApi_V1.setStandardDatastoreEntry<InventorySchema>({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n  entryKey: \"user/45348281\",\n  entryValue: { Gold: 6 },\n  entryUserIds: [45348281],\n});",
+          "exampleData": "{\n  version: \"08DBB6A47FDE6132.000000000E.08DBB780C616DF0C.01\",\n  deleted: false,\n  contentLength: 20,\n  createdTime: \"2023-09-17T13:19:51.014Z\",\n  objectCreatedTime: \"2023-09-16T11:03:03.922Z\",\n}\n",
+          "exampleRawBody": "{\n  version: \"08DBB6A47FDE6132.000000000E.08DBB780C616DF0C.01\",\n  deleted: false,\n  contentLength: 20,\n  createdTime: \"2023-09-17T13:19:51.014Z\",\n  objectCreatedTime: \"2023-09-16T11:03:03.922Z\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The identifier of the experience with data stores that you want to access."
+          },
+          {
+            "name": "datastoreName",
+            "type": "string",
+            "description": "The name of the data store."
+          },
+          {
+            "name": "entryKey",
+            "type": "string",
+            "description": "The key identifying the entry."
+          },
+          {
+            "name": "scope?",
+            "type": "string",
+            "description": "The value is global by default."
+          },
+          {
+            "name": "matchVersion?",
+            "type": "string",
+            "description": "Provide to update only if the current version matches this."
+          },
+          {
+            "name": "exclusiveCreate?",
+            "type": "boolean",
+            "description": "Create the entry only if it does not exist."
+          },
+          {
+            "name": "entryAttributes?",
+            "type": "Record<string, Identifier>",
+            "description": "Attributes to be associated with new version of the entry. If not provided, existing attributes are cleared."
+          },
+          {
+            "name": "entryUserIds?",
+            "type": "Identifier[]",
+            "description": "An array of Roblox user IDs tagged with the entry. If not provided, existing user IDs are cleared."
+          }
+        ]
+      },
+      "deleteStandardDatastoreEntry": {
+        "description": "Returns the value and metadata associated with an entry.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/standard-datastores/datastore/entries/entry",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "const { data: success } = await StandardDatastoresApi_V1.deleteStandardDatastoreEntry({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n  entryKey: \"user/45348281\",\n});",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The identifier of the experience with data stores that you want to access."
+          },
+          {
+            "name": "datastoreName",
+            "type": "string",
+            "description": "The name of the data store."
+          },
+          {
+            "name": "entryKey",
+            "type": "string",
+            "description": "The key identifying the entry."
+          },
+          {
+            "name": "scope?",
+            "type": "string",
+            "description": "The value is global by default."
+          }
+        ]
+      },
+      "incrementStandardDatastoreEntry": {
+        "description": "Increments the value for an entry by a given amount, or create a new entry with that amount.",
+        "tags": {
+          "endpoint": "POST /v1/universes/{universeId}/standard-datastores/datastore/entries/entry/increment",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "const { data: incrementedEntry } = await StandardDatastoresApi_V1.incrementStandardDatastoreEntry({\n  universeId: 5097539509,\n  datastoreName: \"LoremIpsum\",\n  entryKey: \"user/45348281\",\n  incrementBy: 1,\n  entryUserIds: [45348281],\n});",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The identifier of the experience with data stores that you want to access."
+          },
+          {
+            "name": "datastoreName",
+            "type": "string",
+            "description": "The name of the data store."
+          },
+          {
+            "name": "entryKey",
+            "type": "string",
+            "description": "The key identifying the entry."
+          },
+          {
+            "name": "incrementBy",
+            "type": "number",
+            "description": "The amount by which the entry should be incremented, or the starting value if it doesn't exist."
+          },
+          {
+            "name": "scope?",
+            "type": "string",
+            "description": "The value is global by default."
+          },
+          {
+            "name": "entryAttributes?",
+            "type": "Record<string, Identifier>",
+            "description": "Attributes to be associated with new version of the entry. If not provided, existing attributes are cleared."
+          },
+          {
+            "name": "entryUserIds?",
+            "type": "Identifier[]",
+            "description": "A comma-separated list of Roblox user IDs that the entry is tagged with. If not provided, existing user IDs are cleared."
+          }
+        ]
+      },
+      "standardDatastoreEntryOfVersion": {
+        "description": "Returns the value and metadata of a specific version of an entry.",
+        "tags": {
+          "endpoint": "POST /v1/universes/{universeId}/standard-datastores/datastore/entries/entry/versions/version",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "type InventorySchema = { Iron?: number; Gold?: number; Copper?: number; Stone?: number; Wood?: number };\nconst { data: entry } = await StandardDatastoresApi_V1.standardDatastoreEntryOfVersion({\n  universeId: 5097539509,\n  datastoreName: \"LoremIpsum\",\n  entryKey: \"user/45348281\",\n  versionId: \"08DC7742E4BD78AF.0000000001.08DC7742E4BD78AF.01\",\n});",
+          "exampleData": "{\n  entry: { Gold: 6, Iron: 57 },\n  checksumsMatch: true,\n  metadata: {\n    contentMD5: \"hGwoaGwduF4bOhexREYGkA==\",\n    entryVersion: \"08DBB6A47FDE6132.0000000016.08DBB782CEE11766.01\",\n    entryCreatedTime: \"2023-09-16T11:03:03.922Z\",\n    entryVersionCreatedTime: \"2023-09-17T13:34:24.754Z\",\n    entryAttributes: null,\n    entryUserIds: [45348281],\n  },\n}\n",
+          "exampleRawBody": "{\n  entry: { Gold: 6, Iron: 57 },\n  checksumsMatch: true,\n  metadata: {\n    contentMD5: \"hGwoaGwduF4bOhexREYGkA==\",\n    entryVersion: \"08DBB6A47FDE6132.0000000016.08DBB782CEE11766.01\",\n    entryCreatedTime: \"2023-09-16T11:03:03.922Z\",\n    entryVersionCreatedTime: \"2023-09-17T13:34:24.754Z\",\n    entryAttributes: null,\n    entryUserIds: [45348281],\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The identifier of the experience with data stores that you want to access."
+          },
+          {
+            "name": "datastoreName",
+            "type": "string",
+            "description": "The name of the data store."
+          },
+          {
+            "name": "entryKey",
+            "type": "string",
+            "description": "The key identifying the entry."
+          },
+          {
+            "name": "versionId",
+            "type": "string",
+            "description": "The version to inspect."
+          },
+          {
+            "name": "scope?",
+            "type": "string",
+            "description": "The value is global by default."
+          }
+        ]
+      },
+      "listStandardDatastoreEntryVersions": {
+        "description": "Returns a list of data stores belonging to an experience.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/standard-datastores/datastore/entries/entry/versions",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "const { data: versions } = await StandardDatastoresApi_V1.listStandardDatastoreEntryVersions({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n  entryKey: \"user/45348281\",\n  sortOrder: \"Ascending\",\n  limit: 1,\n});",
+          "exampleData": "[\n  {\n    version: \"08DBB6A47FDE6132.0000000010.08DBB781B9579F00.01\",\n    deleted: false,\n    contentLength: 20,\n    createdTime: \"2023-09-17T13:26:39.124Z\",\n    objectCreatedTime: \"2023-09-16T11:03:03.922Z\",\n  },\n]\n",
+          "exampleRawBody": "{\n  versions: [\n    {\n      version: \"08DBB6A47FDE6132.0000000010.08DBB781B9579F00.01\",\n      deleted: false,\n      contentLength: 20,\n      createdTime: \"2023-09-17T13:26:39.124Z\",\n      objectCreatedTime: \"2023-09-16T11:03:03.922Z\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The identifier of the experience with data stores that you want to access."
+          },
+          {
+            "name": "datastoreName",
+            "type": "string",
+            "description": "The name of the data store."
+          },
+          {
+            "name": "entryKey",
+            "type": "string",
+            "description": "The key identifying the entry."
+          },
+          {
+            "name": "scope?",
+            "type": "string",
+            "description": "The value is global by default."
+          },
+          {
+            "name": "startTime?",
+            "type": "Date | ISODateTime",
+            "description": "Provide to not include versions earlier than this timestamp."
+          },
+          {
+            "name": "endTime?",
+            "type": "Date | ISODateTime",
+            "description": "Provide to not include versions later than this timestamp."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "\"Ascending\" | \"Descending\"",
+            "description": "Either \"Ascending\" (earlier versions first) or \"Descending\" (later versions first)."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The maximum number of items to return. Each call only reads one partition so it can return fewer than the given value when running out of objectives on one partition."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "Provide to request the next set of data."
+          }
+        ]
+      }
+    },
     "subscriptions": {
       "subscriptionInfo": {
         "description": "",
@@ -966,18 +1318,18 @@
             "description": "The id of the user to get the thumbnail for."
           },
           {
-            "name": "size",
-            "type": "?",
+            "name": "size?",
+            "type": "48 | 50 | 60 | 75 | 100 | 110 | 150 | 180 | 352 | 420 | 720 | 420",
             "description": "The size of the thumbnail to be returned."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "\"PNG\" | \"JPEG\"",
             "description": "The format of the thumbnail to be returned."
           },
           {
-            "name": "shape",
-            "type": "?",
+            "name": "shape?",
+            "type": "\"ROUND\" | \"SQUARE\"",
             "description": "The shape of the thumbnail to be returned."
           }
         ]
@@ -1042,18 +1394,18 @@
         },
         "params": [
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "10 | 18 | 25 | 50 | 100",
             "description": "limit"
           },
           {
-            "name": "sortOrder",
-            "type": "?",
+            "name": "sortOrder?",
+            "type": "SortOrder",
             "description": "sortOrder"
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "cursor"
           }
         ]
@@ -1083,8 +1435,8 @@
             "description": "The id of the user to get friends for."
           },
           {
-            "name": "userSort",
-            "type": "?",
+            "name": "userSort?",
+            "type": "0 | 1 | 2",
             "description": "Specifies how to sort the returned friends."
           }
         ]
@@ -1120,18 +1472,18 @@
             "description": "The id of the user to get friends for."
           },
           {
-            "name": "userSort",
-            "type": "?",
+            "name": "userSort?",
+            "type": "0 | 1 | 2",
             "description": "Specifies how to sort the returned friends."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "number",
             "description": "The number of results to be returned"
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "The paging cursor for the previous or next page."
           }
         ]
@@ -1165,18 +1517,22 @@
         "params": [
           {
             "name": "userId",
+            "type": "🤷",
             "description": "The id of the user to get games for."
           },
           {
             "name": "limit",
+            "type": "🤷",
             "description": "The maximum amount of games to return."
           },
           {
             "name": "sortOrder",
+            "type": "🤷",
             "description": "The order the results are sorted it."
           },
           {
             "name": "cursor",
+            "type": "🤷",
             "description": "the paging cursor for the previous or next page."
           }
         ]
@@ -1196,18 +1552,18 @@
             "description": "The id of the user to get games for."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "10 | 25 | 50",
             "description": "The maximum amount of games to return."
           },
           {
-            "name": "sortOrder",
-            "type": "?",
+            "name": "sortOrder?",
+            "type": "SortOrder",
             "description": "The order the results are sorted it."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "the paging cursor for the previous or next page."
           }
         ]
@@ -1249,28 +1605,28 @@
             "description": "The id of the group."
           },
           {
-            "name": "actionType",
-            "type": "?",
+            "name": "actionType?",
+            "type": "GroupAuditLogActionType",
             "description": "The action to filter the audit logs by. (no filter will be applied if actionType is undefined)."
           },
           {
-            "name": "userId",
-            "type": "?",
+            "name": "userId?",
+            "type": "Identifier",
             "description": "Filter for specific user by their id."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
             "description": "The number of results to be returned."
           },
           {
-            "name": "sortOrder",
-            "type": "?",
+            "name": "sortOrder?",
+            "type": "SortOrder",
             "description": "The order that the results are sorted in."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "The paging cursor for the previous or next page."
           }
         ]
@@ -1291,18 +1647,18 @@
             "description": "The id of the group."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
             "description": "The number of results to be returned."
           },
           {
-            "name": "sortOrder",
-            "type": "?",
+            "name": "sortOrder?",
+            "type": "SortOrder",
             "description": "The order that the results are sorted in."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "The paging cursor for the previous or next page."
           }
         ]
@@ -1429,6 +1785,7 @@
           },
           {
             "name": "message",
+            "type": "🤷",
             "description": "The content of the new shout."
           }
         ]
@@ -1496,18 +1853,18 @@
             "description": "The id of the group to get join requests for."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "10|25|50|100",
             "description": "The number of results to be returned."
           },
           {
-            "name": "sortOrder",
-            "type": "?",
+            "name": "sortOrder?",
+            "type": "SortOrder",
             "description": "The order that the results are sorted in."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "The paging cursor for the previous or next page."
           }
         ]
@@ -1660,18 +2017,18 @@
             "description": "The id of the role."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
             "description": "The number of results to be returned."
           },
           {
-            "name": "sortOrder",
-            "type": "?",
+            "name": "sortOrder?",
+            "type": "SortOrder",
             "description": "The order that the results are sorted in."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "The paging cursor for the previous or next page."
           }
         ]
@@ -1692,18 +2049,18 @@
             "description": "The id of the group."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
             "description": "The number of results to be returned."
           },
           {
-            "name": "sortOrder",
-            "type": "?",
+            "name": "sortOrder?",
+            "type": "SortOrder",
             "description": "The order that the results are sorted in."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "The paging cursor for the previous or next page."
           }
         ]
@@ -1865,13 +2222,13 @@
             "description": "The group relationship type, \"Enemies\" or \"Allies\"."
           },
           {
-            "name": "maxRows",
-            "type": "?",
+            "name": "maxRows?",
+            "type": "number",
             "description": "The maximum number of rows for the page request, should be at least 1."
           },
           {
-            "name": "startRowIndex",
-            "type": "?",
+            "name": "startRowIndex?",
+            "type": "number",
             "description": "The start index of the page request."
           }
         ]
@@ -1926,13 +2283,13 @@
             "description": "The group relationship type, \"Enemies\" or \"Allies\"."
           },
           {
-            "name": "maxRows",
-            "type": "?",
+            "name": "maxRows?",
+            "type": "number",
             "description": "The maximum number of rows for the page request, should be at least 1."
           },
           {
-            "name": "startRowIndex",
-            "type": "?",
+            "name": "startRowIndex?",
+            "type": "number",
             "description": "The start index of the page request."
           }
         ]
@@ -2200,6 +2557,7 @@
           },
           {
             "name": "request",
+            "type": "🤷",
             "description": "The social link request data."
           }
         ]
@@ -2267,18 +2625,18 @@
             "description": "The id of the group to get wall posts for."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
             "description": "The number of results to be returned."
           },
           {
-            "name": "sortOrder",
-            "type": "?",
+            "name": "sortOrder?",
+            "type": "SortOrder",
             "description": "The order that the results are sorted in."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "The paging cursor for the previous or next page."
           }
         ]
@@ -2361,18 +2719,18 @@
             "description": "The keyword or phrase to use as the search parameter."
           },
           {
-            "name": "prioritizeExactMatch",
-            "type": "?",
+            "name": "prioritizeExactMatch?",
+            "type": "boolean",
             "description": "Whether or not to prioritize the exact match for the keyword."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
             "description": "The number of results to be returned."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "The paging cursor for the previous or next page."
           }
         ]
@@ -2489,6 +2847,7 @@
           },
           {
             "name": "request",
+            "type": "🤷",
             "description": "The updated information."
           }
         ]
@@ -2545,18 +2904,18 @@
             "description": "The id of the group to get wall posts for."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
             "description": "The number of results to be returned."
           },
           {
-            "name": "sortOrder",
-            "type": "?",
+            "name": "sortOrder?",
+            "type": "SortOrder",
             "description": "The order that the results are sorted in."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "The paging cursor for the previous or next page."
           }
         ]
@@ -2648,13 +3007,13 @@
             "description": "The id of the universe to create a subscription for."
           },
           {
-            "name": "resultsPerPage",
-            "type": "?",
+            "name": "resultsPerPage?",
+            "type": "number",
             "description": "The number of results to show per page."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "A pagination cursor for the next or previous page."
           }
         ]
@@ -2745,18 +3104,18 @@
             "description": "The id of the user to get verification info about."
           },
           {
-            "name": "sortOrder",
-            "type": "?",
+            "name": "sortOrder?",
+            "type": "SortOrder",
             "description": "The order the results are sorted it."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "number",
             "description": "The number of results to be returned"
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "The paging cursor for the previous or next page."
           }
         ]
@@ -2787,23 +3146,23 @@
         },
         "params": [
           {
-            "name": "query",
-            "type": "?",
+            "name": "query?",
+            "type": "string",
             "description": "The query to search for."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "number",
             "description": "The maxium amount of items to return."
           },
           {
-            "name": "filter",
-            "type": "?",
+            "name": "filter?",
+            "type": "JobSearchFilter",
             "description": "Filter the returned job posts to match specific requirements."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "number",
             "description": "The paging cursor for the previous or next page."
           }
         ]
@@ -2826,8 +3185,8 @@
             "description": "The ids of the assets to get thumbnails for."
           },
           {
-            "name": "returnPolicy",
-            "type": "?",
+            "name": "returnPolicy?",
+            "type": "ThumbnailReturnPolicy",
             "description": "The policy to use in selecting the thumbnails to return."
           },
           {
@@ -2836,13 +3195,13 @@
             "description": "The thumbnails size (formatted as {width}x{height})."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "ThumbnailFormat",
             "description": "Specifies the format of the thumbnails."
           },
           {
-            "name": "isCircular",
-            "type": "?",
+            "name": "isCircular?",
+            "type": "boolean",
             "description": "Dictates if the thumbnails should be masked by a circle."
           }
         ]
@@ -2897,13 +3256,13 @@
             "description": "The ids of the badges to get thumbnails for."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "ThumbnailFormat",
             "description": "Specifies the format of the thumbnailS."
           },
           {
-            "name": "isCircular",
-            "type": "?",
+            "name": "isCircular?",
+            "type": "boolean",
             "description": "Dictates if the thumbnails should be masked by a circle."
           }
         ]
@@ -2924,18 +3283,18 @@
             "description": "The ids of the bundles to get thumbnails for."
           },
           {
-            "name": "size",
-            "type": "?",
+            "name": "size?",
+            "type": "BundleSize",
             "description": "The thumbnails size (formatted as {width}x{height})."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "ThumbnailFormat",
             "description": "Specifies the format of the thumbnails."
           },
           {
-            "name": "isCircular",
-            "type": "?",
+            "name": "isCircular?",
+            "type": "boolean",
             "description": "Dictates if the thumbnails should be masked by a circle."
           }
         ]
@@ -2956,18 +3315,18 @@
             "description": "The ids of the developer products to get thumbnails for."
           },
           {
-            "name": "size",
-            "type": "?",
+            "name": "size?",
+            "type": "DeveloperProductSize",
             "description": "The thumbnails size (formatted as {width}x{height})."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "ThumbnailFormat",
             "description": "Specifies the format of the thumbnails."
           },
           {
-            "name": "isCircular",
-            "type": "?",
+            "name": "isCircular?",
+            "type": "boolean",
             "description": "Dictates if the thumbnails should be masked by a circle."
           }
         ]
@@ -2988,13 +3347,13 @@
             "description": "The ids of the game passes to get thumbnails for."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "ThumbnailFormat",
             "description": "Specifies the format of the thumbnails."
           },
           {
-            "name": "isCircular",
-            "type": "?",
+            "name": "isCircular?",
+            "type": "boolean",
             "description": "Dictates if the thumbnails should be masked by a circle."
           }
         ]
@@ -3020,18 +3379,18 @@
             "description": "The ids of the thumbnails."
           },
           {
-            "name": "size",
-            "type": "?",
+            "name": "size?",
+            "type": "GameThumbnailSize",
             "description": "The thumbnails size (formatted as {width}x{height})."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "ThumbnailFormat",
             "description": "Specifies the format of the thumbnails."
           },
           {
-            "name": "isCircular",
-            "type": "?",
+            "name": "isCircular?",
+            "type": "boolean",
             "description": "Dictates if the thumbnails should be masked by a circle."
           }
         ]
@@ -3052,23 +3411,23 @@
             "description": "The ids of the universes to get the thumbnail icons from."
           },
           {
-            "name": "returnPolicy",
-            "type": "?",
+            "name": "returnPolicy?",
+            "type": "ThumbnailReturnPolicy",
             "description": "The policy to use in selecting the thumbnail icons to return."
           },
           {
-            "name": "size",
-            "type": "?",
+            "name": "size?",
+            "type": "GamesIconSize",
             "description": "The thumbnail icons size (formatted as {width}x{height})."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "ThumbnailFormat",
             "description": "Specifies the format of the thumbnail icons."
           },
           {
-            "name": "isCircular",
-            "type": "?",
+            "name": "isCircular?",
+            "type": "boolean",
             "description": "Dictates if the thumbnail icons should be masked by a circle."
           }
         ]
@@ -3089,28 +3448,28 @@
             "description": "The ids of the universe to get thumbnails for."
           },
           {
-            "name": "countPerUniverse",
-            "type": "?",
+            "name": "countPerUniverse?",
+            "type": "number",
             "description": "The amount of thumbnails to return for each universe"
           },
           {
-            "name": "defaults",
-            "type": "?",
+            "name": "defaults?",
+            "type": "boolean",
             "description": "True if defaults (if any) should be returned if no media exists."
           },
           {
-            "name": "size",
-            "type": "?",
+            "name": "size?",
+            "type": "GameThumbnailSize",
             "description": "The thumbnails size (formatted as {width}x{height})."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "ThumbnailFormat",
             "description": "Specifies the format of the thumbnails."
           },
           {
-            "name": "isCircular",
-            "type": "?",
+            "name": "isCircular?",
+            "type": "boolean",
             "description": "Dictates if the thumbnails should be masked by a circle."
           }
         ]
@@ -3131,18 +3490,18 @@
             "description": "The ids of the groups to get the thumbnail icons from."
           },
           {
-            "name": "size",
-            "type": "?",
+            "name": "size?",
+            "type": "GroupEmblemSize",
             "description": "The thumbnail icons size (formatted as {width}x{height})."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "ThumbnailFormat",
             "description": "Specifies the format of the thumbnail icons."
           },
           {
-            "name": "isCircular",
-            "type": "?",
+            "name": "isCircular?",
+            "type": "boolean",
             "description": "Dictates if the thumbnail icons should be masked by a circle."
           }
         ]
@@ -3174,23 +3533,23 @@
             "description": "The ids of the places to get thumbnails for."
           },
           {
-            "name": "returnPolicy",
-            "type": "?",
+            "name": "returnPolicy?",
+            "type": "ThumbnailReturnPolicy",
             "description": "The policy to use in selecting the thumbnail icons to return."
           },
           {
-            "name": "size",
-            "type": "?",
+            "name": "size?",
+            "type": "PlaceThumbnailSize",
             "description": "The thumbnails size (formatted as {width}x{height})."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "ThumbnailFormat",
             "description": "Specifies the format of the thumbnails."
           },
           {
-            "name": "isCircular",
-            "type": "?",
+            "name": "isCircular?",
+            "type": "boolean",
             "description": "Dictates if the thumbnails should be masked by a circle."
           }
         ]
@@ -3211,18 +3570,18 @@
             "description": "The ids of the users to get thumbnails for."
           },
           {
-            "name": "size",
-            "type": "?",
+            "name": "size?",
+            "type": "AvatarsFullThumbnailsSize",
             "description": "The avatar thumbnails size (formatted as {width}x{height})."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "ThumbnailFormat",
             "description": "Specifies the format of the thumbnails."
           },
           {
-            "name": "isCircular",
-            "type": "?",
+            "name": "isCircular?",
+            "type": "boolean",
             "description": "Dictates if the thumbnails should be masked by a circle."
           }
         ]
@@ -3243,18 +3602,18 @@
             "description": "The ids of the users to get thumbnails for."
           },
           {
-            "name": "size",
-            "type": "?",
+            "name": "size?",
+            "type": "AvatarsFullThumbnailsSize",
             "description": "The avatar thumbnails size (formatted as {width}x{height})."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "ThumbnailFormat",
             "description": "Specifies the format of the thumbnails."
           },
           {
-            "name": "isCircular",
-            "type": "?",
+            "name": "isCircular?",
+            "type": "boolean",
             "description": "Dictates if the thumbnails should be masked by a circle."
           }
         ]
@@ -3275,18 +3634,18 @@
             "description": "The ids of the users to get thumbnails for."
           },
           {
-            "name": "size",
-            "type": "?",
+            "name": "size?",
+            "type": "AvatarsFullThumbnailsSize",
             "description": "The avatar thumbnails size (formatted as {width}x{height})."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "ThumbnailFormat",
             "description": "Specifies the format of the thumbnails."
           },
           {
-            "name": "isCircular",
-            "type": "?",
+            "name": "isCircular?",
+            "type": "boolean",
             "description": "Dictates if the thumbnails should be masked by a circle."
           }
         ]
@@ -3341,18 +3700,18 @@
             "description": "The ids of the outfits to get thumbnails for."
           },
           {
-            "name": "size",
-            "type": "?",
+            "name": "size?",
+            "type": "OutfitSize",
             "description": "The thumbnails size (formatted as {width}x{height})."
           },
           {
-            "name": "format",
-            "type": "?",
+            "name": "format?",
+            "type": "ThumbnailFormat",
             "description": "Specifies the format of the thumbnails."
           },
           {
-            "name": "isCircular",
-            "type": "?",
+            "name": "isCircular?",
+            "type": "boolean",
             "description": "Dictates if the thumbnails should be masked by a circle."
           }
         ]
@@ -3580,8 +3939,8 @@
             "description": "The usernames of the users to get info about."
           },
           {
-            "name": "excludeBannedUsers",
-            "type": "?",
+            "name": "excludeBannedUsers?",
+            "type": "boolean",
             "description": "Dictates if info about banned users should be excluded from the returned data. (defaults to false)."
           }
         ]
@@ -3602,8 +3961,8 @@
             "description": "The ids of the users to get info about."
           },
           {
-            "name": "excludeBannedUsers",
-            "type": "?",
+            "name": "excludeBannedUsers?",
+            "type": "boolean",
             "description": "Dictates if info about banned users should be excluded from the returned data. (defaults to false)."
           }
         ]
@@ -3625,18 +3984,18 @@
             "description": "The id of the user to get the username history for."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "10|25|50|100",
             "description": "The number of results to be returned."
           },
           {
-            "name": "sortOrder",
-            "type": "?",
+            "name": "sortOrder?",
+            "type": "SortOrder",
             "description": "The order that the results are sorted in."
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "The paging cursor for the previous or next page."
           }
         ]
@@ -3658,13 +4017,13 @@
             "description": "The keyword to search users by."
           },
           {
-            "name": "limit",
-            "type": "?",
+            "name": "limit?",
+            "type": "10|25|50|100",
             "description": "The number of results to be returned"
           },
           {
-            "name": "cursor",
-            "type": "?",
+            "name": "cursor?",
+            "type": "string",
             "description": "The paging cursor for the previous or next page."
           }
         ]

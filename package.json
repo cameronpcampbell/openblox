@@ -1,7 +1,7 @@
 {
   "name": "openblox",
   "type": "commonjs",
-  "version": "1.0.0-canary.15",
+  "version": "1.0.0-canary.16",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MightyPart/openblox/issues"
@@ -18,7 +18,7 @@
     "Bedev",
     "Bedev2"
   ],
-  "exports": {
+  "exports_DEV": {
     ".": "./src/index.ts",
     "./config": "./src/config/index.ts",
     "./classic": "./src/apis/classic/index.ts",
@@ -27,7 +27,7 @@
     "./cloud/*": "./src/apis/cloud/*/index.ts",
     "./cache/adapters": "./src/cache/cacheAdapters/index.ts"
   },
-  "exports_PROD": {
+  "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"

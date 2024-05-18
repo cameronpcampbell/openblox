@@ -83,13 +83,23 @@ const getJsDocData = async (method?: ReturnType<SourceFile["getExportSymbols"]>[
   )
   const arrowFn = addApiMethodCall.getArguments().find(x => x.getKind() === ts.SyntaxKind.ArrowFunction) as any as ArrowFunction
   const arrowFnArgObjParams = arrowFn.getParameters()
-  const arrowFnArgObj = arrowFnArgObjParams.length && arrowFnArgObjParams.filter(x => x?.getTypeNode()?.getType().isObject())?.[0] as ParameterDeclaration
 
-  const paramValues = (arrowFnArgObj ? Object.fromEntries(arrowFnArgObj.getTypeNode()?.getChildrenOfKind(ts.SyntaxKind.SyntaxList).map(
-    x => x.getChildren()
-    .map(x => x.getChildren().filter(x => x.getKind() !== ts.SyntaxKind.ColonToken ))
-    .map(x => [ (x[0] as any as ts.Node).getText(), getFullType(x[1] as TypeLiteralNode) ])
-  )[0] as any as [ Identifier, TypeLiteralNode ][]) : {}) as Record<string, string>
+  const arrowFnArgObjDec = ((arrowFnArgObjParams.length && arrowFnArgObjParams.filter(x => x?.getTypeNode()?.getType().isObject())?.[0]) as ParameterDeclaration)
+  const arrowFnArgObj = arrowFnArgObjDec ? arrowFnArgObjDec?.getTypeNode()?.getChildrenOfKind(ts.SyntaxKind.SyntaxList)?.[0]?.getChildren() : undefined
+
+  const paramValues: { [Key: string]: { type: string, isOptional: boolean } } = Object.fromEntries(
+    arrowFnArgObj ? arrowFnArgObj.map(arg => {
+      const children = arg.getChildren()
+      const isOptional = children.find(x => x.getKind() === ts.SyntaxKind.QuestionToken) ? true : false
+
+      const [ name, type ] = children.filter(x => {
+        const kind = x.getKind()
+        return kind !== ts.SyntaxKind.CommaToken && kind !== ts.SyntaxKind.ColonToken && kind !== ts.SyntaxKind.QuestionToken
+      }).map(x => x.getText()) as [ string, string ]
+
+      return [ name, { type, isOptional } ]
+    })
+  : [])
 
   const jsDocTags = method.getJsDocTags()
   const params: { name: string, type: string, description?: string }[] = []
@@ -105,7 +115,10 @@ const getJsDocData = async (method?: ReturnType<SourceFile["getExportSymbols"]>[
     
     if (tagName === "param") {
       const paramName = tagData[0]?.text
-      if (paramName && tagContent) params.push({ name: paramName, type: paramValues[paramName] as string, description: tagContent })
+      const paramTypings = paramValues[paramName as any as keyof typeof paramValues]
+      if (paramName && tagContent) params.push({
+        name: `${paramName}${paramTypings?.isOptional ? "?" : ""}`, type: paramTypings?.type || "🤷", description: tagContent
+      })
 
     } else {
       if (tagName === "exampleData" || tagName === "exampleRawBody") {
@@ -131,14 +144,16 @@ const getJsDocData = async (method?: ReturnType<SourceFile["getExportSymbols"]>[
 
 const buildDocsForApis = async (apis: Directory[], apisName: "classic" | "cloud") => {
   for (const api of apis) {
-    console.log(api.getPath())
     const apiName = api.getBaseName()
     const apiFile = api.getSourceFile(`${api.getPath()}/${apiName}.ts`)
     allJsDocData[apisName][apiName] = {}
+
+    //if (apiName !== "standardDataStores_V1") continue
   
     const methods = apiFile!.getExportSymbols()
     for (const method of methods) {
       const methodName = method.getName()
+      //if (methodName !== "listStandardDatastoreEntryVersions") continue
       allJsDocData[apisName][apiName][methodName] = await getJsDocData(method)
     }
   }
