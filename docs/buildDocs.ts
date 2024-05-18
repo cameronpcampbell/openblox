@@ -238,7 +238,7 @@ Bun.write(`${root}/docs/docs.json`, JSON.stringify(allJsDocData, null, 2))
 await rmdir(docsSitePages, { recursive: true })
 await mkdir(docsSitePages, { recursive: true })
 await Bun.write(`${docsSitePages}/_meta.json`, JSON.stringify({
-  "guides": { typr: "page", title: "Guides" },
+  "guides": { type: "page", title: "Guides" },
   "cloud": { type: "page", title: "Cloud APIs" },
   "classic": { type: "page", title: "Classic APIs" },
 }, null, 4))
