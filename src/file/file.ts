@@ -4,6 +4,6 @@ type Lib = {
   readFile: (path: string) => Promise<Buffer>
 }
 
-const lib: Lib = runtime == "bun" ? require("./bunFile") : require("./nodeFile")
+const lib: Lib = runtime == "bun" ? require("./file.bun") : require("./file.node")
 
 export const readFile = lib.readFile

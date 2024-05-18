@@ -671,6 +671,241 @@
         "params": []
       }
     },
+    "orderedDataStores_V1": {
+      "listOrderedDatastoreEntries": {
+        "description": "Returns a list of entries from an ordered data store.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "const { data: entries } = await OrderedDatastoresApi_V1.listOrderedDatastoreEntries({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n});",
+          "exampleData": "[\n  {\n    path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n    value: 54,\n    id: \"45348281\",\n  },\n]\n",
+          "exampleRawBody": "{\n  entries: [\n    {\n      path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n      value: 54,\n      id: \"45348281\",\n    },\n  ],\n  nextPageToken: \"\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The identifier of the experience with ordered data stores that you want to access."
+          },
+          {
+            "name": "orderedDataStore",
+            "type": "OrderedDataStore",
+            "description": "The name of the target ordered data store."
+          },
+          {
+            "name": "scope",
+            "type": "Scope",
+            "description": "The name of the data store scope."
+          },
+          {
+            "name": "maxPageSize",
+            "type": "?",
+            "description": "The maximum number of entries to return. The service may return fewer than this value. The default value is 10. The maximum value is 100, and any input above 100 is coerced to 100."
+          },
+          {
+            "name": "orderBy",
+            "type": "?",
+            "description": "The enumeration direction. The order by default is ascending. Input a desc suffix for descending."
+          },
+          {
+            "name": "filter",
+            "type": "?",
+            "description": "The range of qualifying values of entries to return."
+          },
+          {
+            "name": "cursor",
+            "type": "?",
+            "description": "A page token received from a previous List call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to List must match the call providing the page token."
+          }
+        ]
+      },
+      "createOrderedDatastoreEntry": {
+        "description": "Creates a new entry with the content value provided.",
+        "tags": {
+          "endpoint": "POST /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "const { data: createdEntry } = await OrderedDatastoresApi_V1.createOrderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348282\",\n  value: 54,\n});",
+          "exampleData": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 54,\n  id: \"45348281\",\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 54,\n  id: \"45348281\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The identifier of the experience with ordered data stores that you want to access."
+          },
+          {
+            "name": "orderedDataStore",
+            "type": "OrderedDataStore",
+            "description": "The name of the target ordered data store."
+          },
+          {
+            "name": "scope",
+            "type": "Scope",
+            "description": "The name of the data store scope."
+          },
+          {
+            "name": "id",
+            "type": "Id",
+            "description": "The name of the entry."
+          },
+          {
+            "name": "value",
+            "type": "Value",
+            "description": "The value of the entry."
+          }
+        ]
+      },
+      "orderedDatastoreEntry": {
+        "description": "Returns a list of entries from an ordered data store.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "const { data: entry } = await OrderedDatastoresApi_V1.orderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348281\",\n});",
+          "exampleData": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 54,\n  id: \"45348281\",\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 54,\n  id: \"45348281\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The identifier of the experience with ordered data stores that you want to access."
+          },
+          {
+            "name": "orderedDataStore",
+            "type": "OrderedDataStore",
+            "description": "The name of the target ordered data store."
+          },
+          {
+            "name": "scope",
+            "type": "Scope",
+            "description": "The name of the data store scope."
+          },
+          {
+            "name": "id",
+            "type": "Id",
+            "description": "The id of the entry."
+          }
+        ]
+      },
+      "deleteOrderedDatastoreEntry": {
+        "description": "Deletes the specified entry in an ordered datastore.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "const { data: success } = await OrderedDatastoresApi_V1.deleteOrderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348281\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The identifier of the experience with ordered data stores that you want to access."
+          },
+          {
+            "name": "orderedDataStore",
+            "type": "string",
+            "description": "The name of the target ordered data store."
+          },
+          {
+            "name": "scope",
+            "type": "string",
+            "description": "The name of the data store scope."
+          },
+          {
+            "name": "id",
+            "type": "string",
+            "description": "The id of the entry."
+          }
+        ]
+      },
+      "updateOrderedDatastoreEntry": {
+        "description": "Updates the specified entry.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "const { data: updatedEntry } = await OrderedDatastoresApi_V1.updateOrderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348281\",\n  newValue: 58,\n});",
+          "exampleData": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 58,\n  id: \"45348281\",\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 58,\n  id: \"45348281\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The identifier of the experience with ordered data stores that you want to access."
+          },
+          {
+            "name": "orderedDataStore",
+            "type": "OrderedDataStore",
+            "description": "The name of the target ordered data store."
+          },
+          {
+            "name": "scope",
+            "type": "Scope",
+            "description": "The name of the data store scope."
+          },
+          {
+            "name": "id",
+            "type": "Id",
+            "description": "The id of the entry."
+          },
+          {
+            "name": "newValue",
+            "type": "Value",
+            "description": "The value to set the entry to."
+          },
+          {
+            "name": "createIfNoEntryExists",
+            "type": "?",
+            "description": "The flag to allow the creation of an entry if the entry doesn't exist. (allow_missing)"
+          }
+        ]
+      },
+      "incrementOrderedDatastoreEntry": {
+        "description": "Increments the specified entry.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries",
+          "tags": "[ \"Cloud Key\" ]",
+          "example": "const { data: incrementedEntry } = await OrderedDatastoresApi_V1.incrementOrderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348281\",\n  incrementBy: 26,\n  createIfNoEntryExists: true,\n});",
+          "exampleData": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 66,\n  id: \"45348281\",\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 66,\n  id: \"45348281\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The identifier of the experience with ordered data stores that you want to access."
+          },
+          {
+            "name": "orderedDataStore",
+            "type": "OrderedDataStore",
+            "description": "The name of the target ordered data store."
+          },
+          {
+            "name": "scope",
+            "type": "Scope",
+            "description": "The name of the data store scope."
+          },
+          {
+            "name": "id",
+            "type": "Id",
+            "description": "The id of the entry."
+          },
+          {
+            "name": "incrementBy",
+            "type": "Identifier",
+            "description": "The number to increment the entry's value by."
+          },
+          {
+            "name": "createIfNoEntryExists",
+            "type": "?",
+            "description": "The flag to allow the creation of an entry if the entry doesn't exist. (allow_missing)"
+          }
+        ]
+      }
+    },
+    "standardDataStores_V1": {},
     "subscriptions": {
       "subscriptionInfo": {
         "description": "",
@@ -2912,7 +3147,7 @@
           }
         ]
       },
-      "metadata": {
+      "thumbnailsMetadata": {
         "description": "Gets thumbnail metadata.",
         "tags": {
           "category": "Metadata",

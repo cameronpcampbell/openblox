@@ -5,29 +5,30 @@ import { HttpHandler, HttpResponse } from "../http/httpHandler"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { IsUnion, UnionPrettify, ObjectPrettify } from "typeforge"
+import type { IsUnion, UnionPrettify, ObjectPrettify, Falsey } from "typeforge"
 import type { RestMethod, SecureUrl } from "../utils/utils.types"
 
 export type ApiMethod<
   RawData, PrettifiedData = undefined,
   PrettifiedDataOrRawData = PrettifiedData extends undefined ? RawData : PrettifiedData,
-> = Promise<{
-  path: `/${string}`,
-  method: RestMethod,
-  searchParams?: Record<string, any>,
-  headers?: Record<string, string>,
-  formData?: Record<string, any>,
-  body?: any,
-  name: string,
+> = Promise<
+  {
+    path: `/${string}`,
+    method: RestMethod,
+    searchParams?: Record<string, any>,
+    headers?: Record<string, string | null | undefined>,
+    formData?: Record<string, any>,
+    body?: any,
+    name: string,
 
-  // Hacky workaround to set types for rawData and prettifiedData
-  rawData?: RawData,
-  prettifiedData?: PrettifiedDataOrRawData,
+    // Hacky workaround to set types for rawData and prettifiedData
+    rawData?: RawData,
+    prettifiedData?: PrettifiedDataOrRawData,
 
-  getCursorsFn?: (rawData: RawData) => ([ previous: string | number | undefined | null, next: string | number | undefined | null ])
-} & (
-  PrettifiedData extends undefined ? {} : { prettifyFn: (rawData: RawData) => PrettifiedDataOrRawData }
-)>
+    getCursorsFn?: (rawData: RawData) => ([ previous: string | number | undefined | null, next: string | number | undefined | null ])
+  } &
+  (PrettifiedData extends undefined ? {} : { prettifyFn: (rawData: RawData, response: HttpResponse<RawData>) => PrettifiedDataOrRawData })
+>
 
 type ApiMethodResult<
   Args extends Record<any, any> | undefined,
@@ -135,7 +136,7 @@ export const createApiGroup: CreateApiGroup = ({ groupName, baseUrl }) => {
       const prettifyFn = (apiMethodData as any)?.prettifyFn
 
       const apiMethodResult = {
-        response, data: (prettifyFn ? prettifyFn(response.body) : response.body)
+        response, data: (prettifyFn ? prettifyFn(response.body, response) : response.body)
       }
 
       // Adds cursors to the response if they exist.

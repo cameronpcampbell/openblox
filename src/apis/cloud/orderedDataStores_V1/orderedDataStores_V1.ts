@@ -51,7 +51,9 @@ export const listOrderedDatastoreEntries = addApiMethod(async <UniverseId extend
   searchParams: { max_page_size: maxPageSize, page_token: cursor, order_by: orderBy, filter },
   name: `listOrderedDatastoreEntries`,
 
-  prettifyFn: ({ entries }) => entries
+  prettifyFn: ({ entries }) => entries,
+
+  getCursorsFn: (rawData) => [ null, rawData.nextPageToken ]
 }))
 
 
