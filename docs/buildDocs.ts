@@ -12,15 +12,9 @@ import type { ArrowFunction, CallExpression, Directory, Identifier, Node, Parame
 
 // [ Private Functions ] /////////////////////////////////////////////////////////
 async function getFiles( directoryPath: string ) {
-
-  try {
-      const fileNames = await readdir( directoryPath ); // returns a JS array of just short/local file-names, not paths.
-      const filePaths = fileNames.map( fn => join( directoryPath, fn ) );
-      return filePaths;
-  }
-  catch (err) {
-      console.error( err ); // depending on your application, this `catch` block (as-is) may be inappropriate; consider instead, either not-catching and/or re-throwing a new Error with the previous err attached.
-  }
+    const fileNames = await readdir( directoryPath );
+    const filePaths = fileNames.map( fn => join( directoryPath, fn ) );
+    return filePaths;
 }
 
 const splitAtLastOccurrence = (str: string, separator: string) => {
@@ -233,6 +227,7 @@ const buildMdForApis = async (apisJson: { [apiName: string]: { [apiMethod: strin
 }
 //////////////////////////////////////////////////////////////////////////////////
 
+
 // builds docs.
 await buildDocsForApis(classicApis, "classic")
 await buildDocsForApis(cloudApis, "cloud")
@@ -243,6 +238,7 @@ Bun.write(`${root}/docs/docs.json`, JSON.stringify(allJsDocData, null, 2))
 await rmdir(docsSitePages, { recursive: true })
 await mkdir(docsSitePages, { recursive: true })
 await Bun.write(`${docsSitePages}/_meta.json`, JSON.stringify({
+  "guides": { typr: "page", title: "Guides" },
   "cloud": { type: "page", title: "Cloud APIs" },
   "classic": { type: "page", title: "Classic APIs" },
 }, null, 4))
@@ -307,7 +303,15 @@ await buildMdForApis(allJsDocData["cloud"] as any, "cloud", `${root}/docs_site/p
 await buildMdForApis(allJsDocData["classic"] as any, "classic", `${root}/docs_site/pages`)
 
 
+try {
+  for (const file of await getFiles(`${root}/docs/pages/guides`)) {
+    const fileText = await Bun.file(file).text()
+    const fileRelPath = file.replace(new RegExp(`^${root}/docs/pages/`), "")
+  
+    await Bun.write(`${docsSitePages}/${fileRelPath}`, fileText)
+  }
+  
+  Bun.write(`${docsSitePages}/index.md`, await Bun.file(`${root}/docs/pages/index.md`)?.text() ?? "")
+} catch { console.log("error") }
+
 console.log("done!")
-
-
-console.log(count)
