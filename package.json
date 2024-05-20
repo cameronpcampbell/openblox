@@ -25,7 +25,8 @@
     "./classic/*": "./src/apis/classic/*/index.ts",
     "./cloud": "./src/apis/cloud/index.ts",
     "./cloud/*": "./src/apis/cloud/*/index.ts",
-    "./cache/adapters": "./src/cache/cacheAdapters/index.ts"
+    "./cache/adapters": "./src/cache/cacheAdapters/index.ts",
+    "./http/adapters": "./src/http/httpAdapters/index.ts"
   },
   "exports": {
     ".": {
@@ -55,6 +56,10 @@
     "./cache/adapters": {
       "types": "./dist/cache/cacheAdapters/index.d.ts",
       "default": "./dist/cache/cacheAdapters/index.js"
+    },
+    "./http/adapters": {
+      "types": "./dist/http/httpAdapters/index.d.ts",
+      "default": "./dist/http/httpAdapters/index.js"
     }
   },
   "dependencies": {
