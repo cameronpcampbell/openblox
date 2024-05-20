@@ -27,8 +27,6 @@ export type Credentials = {
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const config = getConfig()
-
 let savedCsrfToken = ""
 
 export type HttpResponseProps<
@@ -86,7 +84,7 @@ const objectToFormData = (formDataObject?: Record<string, any>) => {
 export const HttpHandler = async <RawData extends any = any>(
   { url, method, headers, body, formData }: HttpHandlerProps, { cookie, cloudKey, oauthToken }: Credentials
 ) => {
-  const configHttp = config?.http
+  const configHttp = getConfig()?.http
   const adapter = configHttp?.adapter || FetchAdapter
   const maxCsrfAttempts = configHttp?.csrfMaxAttempts || 2
 
@@ -123,7 +121,7 @@ export const HttpHandler = async <RawData extends any = any>(
       if (error.statusCode != 403 || (!responseCsrfToken)) return new HttpError(error)
 
       // Only Changes the saved csrf token to be that of the response csrf token if the cookie used was not an override.
-      if (cookie == config?.cookie) savedCsrfToken = responseCsrfToken
+      if (cookie == getConfig()?.cookie) savedCsrfToken = responseCsrfToken
 
       return handlerMain()
     }

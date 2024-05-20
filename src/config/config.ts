@@ -29,7 +29,7 @@ export type OpenbloxConfig = {
 // [ Variables ] /////////////////////////////////////////////////////////////////
 const initialCookie = process.env.ROBLOX_COOKIE
 
-const config: OpenbloxConfig = {
+export const config: OpenbloxConfig = {
   cookie: (initialCookie && `.ROBLOSECURITY=${initialCookie}`) as any as RobloxCookie | undefined,
   cloudKey: process.env.ROBLOX_CLOUD_KEY,
 

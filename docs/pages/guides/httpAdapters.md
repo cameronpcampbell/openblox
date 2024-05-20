@@ -1,9 +1,9 @@
 # HTTP Adapters
 By default Openblox uses `fetch` to make HTTP requests. Some users may prefer to use something different or are using a runtime which doesn't support fetch. For this reason Openblox facilitates the use of any of any HTTP library / framework via `HTTP Adapters`.
 
-## How To Make A HTTP Adapter?
+## Example HTTP Adapter.
 ```ts
-// myHttpAdapter.ts
+// ./myHttpAdapter.ts
 
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { HttpAdapter, HttpResponse } from "openblox/http/adapters"
@@ -31,4 +31,21 @@ export const FetchAdapter: HttpAdapter = async ({ url, method, headers, body, fo
       fullResponse: response
   } as any)
 }
+```
+
+## Configuring Openblox To Use The Above HTTP Adapter.
+
+```ts
+// ./index.ts
+import "dotenv/config"
+import { updateConfig } from "openblox/config"
+import { MyHttpAdapter } from "./myHttpAdapter"
+
+updateConfig({
+  http: {
+    adapter: MyHttpAdapter
+  }
+})
+
+// make api requests via openblox here!
 ```

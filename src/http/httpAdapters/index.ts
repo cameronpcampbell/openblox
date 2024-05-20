@@ -1,2 +1,2 @@
-export * from "./httpAdapters"
+export type { HttpAdapter } from "./httpAdapters"
 export { HttpResponse } from "../httpHandler"

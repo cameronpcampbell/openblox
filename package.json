@@ -1,7 +1,7 @@
 {
   "name": "openblox",
   "type": "commonjs",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MightyPart/openblox/issues"
@@ -72,7 +72,6 @@
     "ts-arithmetic": "^0.1.1",
     "typeforge": "0.0.19",
     "prettier": "^3.2.5",
-    "tsup": "^8.0.2",
     "ts-morph": "^22.0.0",
     "tablemark": "^3.1.0"
   },
@@ -80,7 +79,7 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "build:code": "delete dist && tsup ./src --dts --config ./tsconfig.json",
+    "build:code": "delete dist && tsc",
     "build:docs": "bun run ./docs/buildDocs.ts",
     "build": "bun run build:docs && bun run build:code"
   }

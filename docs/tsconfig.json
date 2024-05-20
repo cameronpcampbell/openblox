@@ -11,7 +11,7 @@
 
     "declaration": true,
     "outDir": "dist", // Output directory
-    "rootDirs": ["src"], // Source directory
+    "rootDirs": ["."], // Source directory
 
     /* Strictness */
     "strict": true,
@@ -31,10 +31,10 @@
     },
 
     "types": [ "node", "bun" ],
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["../node_modules/@types"]
   },
   "include": [
-   "./src"
+   "."
   ],
   "exclude": ["node_modules"],
 }
