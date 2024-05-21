@@ -197,7 +197,7 @@ ${example}
 ${exampleData ? `
 ## Example Data
 \`\`\`ts copy showLineNumbers
-${exampleData.trim()} 
+${exampleData.trim().replaceAll(isoDateStrRegex, "$1")} 
 \`\`\`
 ` : ""}
 
