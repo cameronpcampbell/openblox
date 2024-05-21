@@ -1436,7 +1436,7 @@
           },
           {
             "name": "userSort?",
-            "type": "0 | 1 | 2",
+            "type": "FriendsUserSort",
             "description": "Specifies how to sort the returned friends."
           }
         ]
@@ -1473,7 +1473,7 @@
           },
           {
             "name": "userSort?",
-            "type": "0 | 1 | 2",
+            "type": "FriendsUserSort",
             "description": "Specifies how to sort the returned friends."
           },
           {
@@ -1488,7 +1488,175 @@
           }
         ]
       },
-      "userfollowersCount": {
+      "inactiveFriends": {
+        "description": "Gets a list of all inactive friends for a specified user.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/friends/inactive",
+          "example": "const { data: inactive } = await ClassicFriendsApi.inactiveFriends({ userId: 45348281 });",
+          "exampleData": "[\n  {\n    isDeleted: false,\n    friendFrequentScore: 0,\n    friendFrequentRank: 201,\n    hasVerifiedBadge: false,\n    description: null,\n    created: \"0001-01-01T05:51:00.000Z\",\n    isBanned: false,\n    externalAppDisplayName: null,\n    id: 5275218436,\n    name: \"loremIpsum\",\n    displayName: \"LoremIpsum\",\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      isDeleted: false,\n      friendFrequentScore: 0,\n      friendFrequentRank: 201,\n      hasVerifiedBadge: false,\n      description: null,\n      created: \"0001-01-01T05:51:00.000Z\",\n      isBanned: false,\n      externalAppDisplayName: null,\n      id: 5275218436,\n      name: \"loremIpsum\",\n      displayName: \"LoremIpsum\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get inactive friends for."
+          }
+        ]
+      },
+      "onlineFriends": {
+        "description": "Gets a list of all online friends for a specified user.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/friends/online",
+          "example": "const { data: online } = await ClassicFriendsApi.onlineFriends({ userId: 45348281 });",
+          "exampleData": "[\n  {\n    userPresence: {\n      lastLocation: \"Simulator Simulator X 99 360\",\n      placeId: 223715525,\n      rootPlaceId: 221718525,\n      gameInstanceId: \"acd149a6-d1ed-49d7-aa08-643d62cb3068\",\n      universeId: 93141687,\n      lastOnline: \"2024-05-20T14:34:40.820Z\",\n      userPresenceType: \"InGame\",\n      userLocationType: \"Game\",\n    },\n    id: 2966800574,\n    name: \"loremIpsum\",\n    displayName: \"LoremIpsum\",\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      userPresence: {\n        lastLocation: \"Simulator Simulator X 99 360\",\n        placeId: 223715525,\n        rootPlaceId: 221718525,\n        gameInstanceId: \"acd149a6-d1ed-49d7-aa08-643d62cb3068\",\n        universeId: 93141687,\n        lastOnline: \"2024-05-20T14:34:40.820Z\",\n        userPresenceType: \"InGame\",\n        userLocationType: \"Game\",\n      },\n      id: 2966800574,\n      name: \"loremIpsum\",\n      displayName: \"LoremIpsum\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get online friends for."
+          },
+          {
+            "name": "userSort?",
+            "type": "Exclude<FriendsUserSort, \"Alphabetical\">",
+            "description": "Specifies how to sort the returned friends."
+          }
+        ]
+      },
+      "friendsSearch": {
+        "description": "Search through a users friends list.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/friends/search",
+          "example": "const { data: searchedFriend } = await ClassicFriendsApi.friendsSearch({ userId: 45348281, query: \"b\" });",
+          "exampleData": "[\n  { id: 2027974391, hasVerifiedBadge: false },\n  { id: 176144016, hasVerifiedBadge: false },\n  { id: 3116019601, hasVerifiedBadge: false },\n]\n",
+          "exampleRawBody": "{\n  PreviousCursor: null,\n  PageItems: [\n    { id: 2027974391, hasVerifiedBadge: false },\n    { id: 176144016, hasVerifiedBadge: false },\n    { id: 3116019601, hasVerifiedBadge: false },\n  ],\n  NextCursor: null,\n  HasMore: null,\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get online friends for."
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The query to search for."
+          },
+          {
+            "name": "userSort?",
+            "type": "Exclude<FriendsUserSort, \"Alphabetical\">",
+            "description": "Specifies how to sort the returned friends."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The number of results to be returned per request."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "friendsStatuses": {
+        "description": "Gets the friend statuses between a user and multiple related user ids.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/friends/search",
+          "example": "const { data: statuses } = await ClassicFriendsApi.friendsStatuses({ userId: 45348281, relatedUserIds: [2655994471] });",
+          "exampleData": "{ \"2655994471\": \"Friends\" }\n",
+          "exampleRawBody": "{ data: [{ id: 2655994471, status: \"Friends\" }] }\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get friends statuses for."
+          },
+          {
+            "name": "relatedUserIds",
+            "type": "ArrayNonEmpty<RelatedUserId>",
+            "description": "An array of the related userIds to get friends statuses for."
+          }
+        ]
+      },
+      "authenticatedUserDeclineAllFriendRequests": {
+        "description": "Declines all friend requests for the authenticated user.",
+        "tags": {
+          "endpoint": "POST /v1/user/friend-requests/decline-all",
+          "example": "const { data: success } = await ClassicFriendsApi.authenticatedUserDeclineAllFriendRequests();",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": []
+      },
+      "authenticatedUserAcceptFriendRequest": {
+        "description": "Accepts a friend request from a specific user for the authenticated user.",
+        "tags": {
+          "endpoint": "POST /v1/users/{requesterUserId}/accept-friend-request",
+          "example": "const { data: success } = await ClassicFriendsApi.authenticatedUserAcceptFriendRequest({ requesterUserId: 2655994471 });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "requesterUserId",
+            "type": "Identifier",
+            "description": "The id of the user to accept friend request from."
+          }
+        ]
+      },
+      "authenticatedUserDeclineFriendRequest": {
+        "description": "Accepts a friend request from a specific user for the authenticated user.",
+        "tags": {
+          "endpoint": "POST /v1/users/{requesterUserId}/decline-friend-request",
+          "example": "const { data: success } = await ClassicFriendsApi.authenticatedUserDeclineFriendRequest({\n  requesterUserId: 2655994471,\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "requesterUserId",
+            "type": "Identifier",
+            "description": "The id of the user to decline friend request from."
+          }
+        ]
+      },
+      "authenticatedUserUnfriend": {
+        "description": "Removes a friend for the authenticated user.",
+        "tags": {
+          "endpoint": "POST /v1/users/{targetUserId}/unfriend",
+          "example": "const { data: success } = await ClassicFriendsApi.authenticatedUserUnfriend({ userId: 2655994471 });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "targetUserId",
+            "type": "🤷",
+            "description": "The id of the user to remove as friend."
+          }
+        ]
+      },
+      "userFollowers": {
+        "description": "Gets the followers for a specific user.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/followers",
+          "example": "const { data: followersCount } = await ClassicFriendsApi.userfollowersCount({ userId: 45348281 });",
+          "exampleData": "[\n  {\n    isDeleted: false,\n    friendFrequentScore: 0,\n    friendFrequentRank: 201,\n    hasVerifiedBadge: true,\n    description: null,\n    created: \"0001-01-01T05:51:00.000Z\",\n    isBanned: false,\n    externalAppDisplayName: null,\n    id: 156,\n    name: \"builderman\",\n    displayName: \"builderman\",\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: \"745831147_1_1e210d709f013f76846a9e2517aa7263\",\n  data: [\n    {\n      isDeleted: false,\n      friendFrequentScore: 0,\n      friendFrequentRank: 201,\n      hasVerifiedBadge: true,\n      description: null,\n      created: \"0001-01-01T05:51:00.000Z\",\n      isBanned: false,\n      externalAppDisplayName: null,\n      id: 156,\n      name: \"builderman\",\n      displayName: \"builderman\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The id of the user to get the followers for."
+          }
+        ]
+      },
+      "userFollowersCount": {
         "description": "Gets the followers count for a specific user.",
         "tags": {
           "endpoint": "GET /v1/users/{userId}/followers/count",

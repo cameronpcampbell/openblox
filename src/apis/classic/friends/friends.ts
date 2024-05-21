@@ -1,18 +1,25 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
-import { cloneAndMutateObject } from "../../../utils/utils"
+import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware, dataIsSuccess } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
 import type { Identifier, SortOrder } from "../../../utils/utils.types"
-import { FriendsMetadataData, PrettifiedAuthenticatedUserFriendRequestsData, PrettifiedFindFriendsData, PrettifiedFriendsListData, RawAuthenticatedUserFriendRequestsData, RawFindFriendsData, RawFriendsListData } from "./friends.types"
+import { FriendsMetadataData, FriendsUserSort, PrettifiedAuthenticatedUserFriendRequestsData, PrettifiedFindFriendsData, PrettifiedFriendsListData, PrettifiedFriendsSearchData, PrettifiedFriendsStatusesData, PrettifiedInactiveFriendsData, PrettifiedOnlineFriendsUserPresenceData, PrettifiedUserFollowersData, RawAuthenticatedUserFriendRequestsData, RawFindFriendsData, RawFriendsListData, RawFriendsSearchData, RawFriendsStatusesData, RawInactiveFriendsData, RawOnlineFriendsUserPresenceData, RawUserFollowersData } from "./friends.types"
+import { ArrayNonEmpty } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
 const addApiMethod = createApiGroup({ groupName: "ClassicFriends", baseUrl: "https://friends.roblox.com" })
+
+const userSortNameToId = {
+  Alphabetical: 0,
+  StatusAlphabetical: 1,
+  StatusFrequents: 2
+} satisfies Record<FriendsUserSort, number>
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -105,11 +112,11 @@ export const authenticatedUserFriendRequestsCount = addApiMethod(async (
  * @exampleRawBody {"data":[{"isOnline":true,"presenceType":1,"isDeleted":false,"friendFrequentScore":0,"friendFrequentRank":1,"hasVerifiedBadge":false,"description":null,"created":"0001-01-01T05:52:00Z","isBanned":false,"externalAppDisplayName":null,"id":1999518862,"name":"Ipsum","displayName":"Lorem"}]}
  */
 export const friendsList = addApiMethod(async (
-  { userId, userSort }: { userId: Identifier, userSort?: 0 | 1 | 2 }
+  { userId, userSort }: { userId: Identifier, userSort?: FriendsUserSort }
 ): ApiMethod<RawFriendsListData, PrettifiedFriendsListData> => ({
   path: `/v1/users/${userId}/friends`,
   method: "GET",
-  searchParams: { userSort },
+  searchParams: { userSort: userSort ? userSortNameToId[userSort] : undefined },
   name: "friendsList",
 
   prettifyFn: ({ data }) => data.map(friendData => cloneAndMutateObject(friendData, obj => {
@@ -151,17 +158,229 @@ export const friendsCount = addApiMethod(async (
  * @exampleRawBody {"PreviousCursor":null,"PageItems":[{"id":2820974191,"hasVerifiedBadge":false},{"id":29992184,"hasVerifiedBadge":true}],"NextCursor":"MTk5OTIxODE2MiYxNzYxMjQwMTYmMg==","HasMore":null}
  */
 export const findFriends = addApiMethod(async (
-  { userId, userSort, limit, cursor }: { userId: Identifier, userSort?: 0 | 1 | 2, limit?: number, cursor?: string }
+  { userId, userSort, limit, cursor }: { userId: Identifier, userSort?: FriendsUserSort, limit?: number, cursor?: string }
 ): ApiMethod<RawFindFriendsData, PrettifiedFindFriendsData> => ({
   path: `/v1/users/${userId}/friends/find`,
   method: "GET",
-  searchParams: { userSort, limit, cursor },
+  searchParams: { userSort: userSort ? userSortNameToId[userSort] : undefined, limit, cursor },
   name: "findFriends",
 
   prettifyFn: ({ PageItems:pageItems }) => pageItems,
 
   getCursorsFn: ({ PreviousCursor:previousCursor, NextCursor:nextCursor }) => [ previousCursor, nextCursor ]
 }))
+
+
+/**
+ * Gets a list of all inactive friends for a specified user.
+ * @endpoint GET /v1/users/{userId}/friends/inactive
+ * 
+ * @param userId The id of the user to get inactive friends for.
+ * 
+ * @example const { data:inactive } = await ClassicFriendsApi.inactiveFriends({ userId: 45348281 })
+ * @exampleData [{"isDeleted":false,"friendFrequentScore":0,"friendFrequentRank":201,"hasVerifiedBadge":false,"description":null,"created":"0001-01-01T05:51:00.000Z","isBanned":false,"externalAppDisplayName":null,"id":5275218436,"name":"loremIpsum","displayName":"LoremIpsum"}]
+ * @exampleRawBody {"data":[{"isDeleted":false,"friendFrequentScore":0,"friendFrequentRank":201,"hasVerifiedBadge":false,"description":null,"created":"0001-01-01T05:51:00.000Z","isBanned":false,"externalAppDisplayName":null,"id":5275218436,"name":"loremIpsum","displayName":"LoremIpsum"}]}
+ */
+export const inactiveFriends = addApiMethod(async (
+  { userId }: { userId: Identifier }
+): ApiMethod<RawInactiveFriendsData, PrettifiedInactiveFriendsData> => ({
+  method: "GET",
+  path: `/v1/users/${userId}/friends/inactive`,
+  name: `inactiveFriends`,
+
+  prettifyFn: ({ data }) => data.map(inactiveFriend => cloneAndMutateObject(inactiveFriend, obj => obj.created = new Date(obj.created))) 
+}))
+
+
+/**
+ * Gets a list of all online friends for a specified user.
+ * @endpoint GET /v1/users/{userId}/friends/online
+ * 
+ * @param userId The id of the user to get online friends for.
+ * @param userSort Specifies how to sort the returned friends.
+ * 
+ * @example const { data:online } = await ClassicFriendsApi.onlineFriends({ userId: 45348281 })
+ * @exampleData [{"userPresence":{"lastLocation":"Simulator Simulator X 99 360","placeId":223715525,"rootPlaceId":221718525,"gameInstanceId":"acd149a6-d1ed-49d7-aa08-643d62cb3068","universeId":93141687,"lastOnline":"2024-05-20T14:34:40.820Z","userPresenceType":"InGame","userLocationType":"Game"},"id":2966800574,"name":"loremIpsum","displayName":"LoremIpsum"}]
+ * @exampleRawBody {"data":[{"userPresence":{"lastLocation":"Simulator Simulator X 99 360","placeId":223715525,"rootPlaceId":221718525,"gameInstanceId":"acd149a6-d1ed-49d7-aa08-643d62cb3068","universeId":93141687,"lastOnline":"2024-05-20T14:34:40.820Z","userPresenceType":"InGame","userLocationType":"Game"},"id":2966800574,"name":"loremIpsum","displayName":"LoremIpsum"}]}
+ */
+export const onlineFriends = addApiMethod(async (
+  { userId, userSort }: { userId: Identifier, userSort?: Exclude<FriendsUserSort, "Alphabetical"> }
+): ApiMethod<RawOnlineFriendsUserPresenceData, PrettifiedOnlineFriendsUserPresenceData> => ({
+  method: "GET",
+  path: `/v1/users/${userId}/friends/online`,
+  searchParams: { userSort: userSort ? userSortNameToId[userSort] : undefined },
+  name: `onlineFriends`,
+
+  prettifyFn: ({ data }) => data.map(onlineFriend => cloneAndMutateObject(onlineFriend, ({ userPresence }) => {
+    (userPresence as any).userPresenceType = (userPresence as any).UserPresenceType;
+    delete (userPresence as any).UserPresenceType;
+
+    (userPresence as any).userLocationType = (userPresence as any).UserLocationType;
+    delete (userPresence as any).UserLocationType;
+
+    userPresence.lastOnline = new Date(userPresence.lastOnline)
+  }))
+}))
+
+
+/**
+ * Search through a users friends list.
+ * @endpoint GET /v1/users/{userId}/friends/search
+ * 
+ * @param userId The id of the user to get online friends for.
+ * @param query The query to search for.
+ * @param userSort Specifies how to sort the returned friends.
+ * @param limit The number of results to be returned per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * 
+ * @example const { data:searchedFriend } = await ClassicFriendsApi.friendsSearch({ userId: 45348281, query: "b" })
+ * @exampleData [{"id":2027974391,"hasVerifiedBadge":false},{"id":176144016,"hasVerifiedBadge":false},{"id":3116019601,"hasVerifiedBadge":false}]
+ * @exampleRawBody {"PreviousCursor":null,"PageItems":[{"id":2027974391,"hasVerifiedBadge":false},{"id":176144016,"hasVerifiedBadge":false},{"id":3116019601,"hasVerifiedBadge":false}],"NextCursor":null,"HasMore":null}
+ */
+export const friendsSearch = addApiMethod(async (
+  { userId, query, userSort, limit, cursor }:
+  { userId: Identifier, query: string, userSort?: Exclude<FriendsUserSort, "Alphabetical">, limit?: number, cursor?: string }
+): ApiMethod<RawFriendsSearchData, PrettifiedFriendsSearchData> => ({
+  method: "GET",
+  path: `/v1/users/${userId}/friends/search`,
+  searchParams: { query, userSort: userSort ? userSortNameToId[userSort] : undefined, limit, cursor },
+  name: `friendsSearch`,
+
+  prettifyFn: ({ PageItems }) => PageItems,
+
+  getCursorsFn: ({ PreviousCursor, NextCursor }) => [ PreviousCursor, NextCursor ]
+}))
+
+
+/**
+ * Gets the friend statuses between a user and multiple related user ids.
+ * @endpoint GET /v1/users/{userId}/friends/search
+ * 
+ * @param userId The id of the user to get friends statuses for.
+ * @param relatedUserIds An array of the related userIds to get friends statuses for.
+ * 
+ * @example const { data:statuses } = await ClassicFriendsApi.friendsStatuses({ userId: 45348281, relatedUserIds: [ 2655994471 ] })
+ * @exampleData {"2655994471":"Friends"}
+ * @exampleRawBody {"data":[{"id":2655994471,"status":"Friends"}]}
+ */
+export const friendsStatuses = addApiMethod(async <RelatedUserId extends Identifier>(
+  { userId, relatedUserIds }:
+  { userId: Identifier, relatedUserIds: ArrayNonEmpty<RelatedUserId> }
+): ApiMethod<RawFriendsStatusesData<RelatedUserId>, PrettifiedFriendsStatusesData<RelatedUserId>> => ({
+  method: "GET",
+  path: `/v1/users/${userId}/friends/statuses`,
+  searchParams: { userIds: relatedUserIds },
+  name: `friendsStatuses`,
+
+  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", ({ status }) => status)
+}))
+
+
+/**
+ * Declines all friend requests for the authenticated user.
+ * @endpoint POST /v1/user/friend-requests/decline-all
+ * 
+ * @example const { data:success } = await ClassicFriendsApi.authenticatedUserDeclineAllFriendRequests()
+ * @exampleData true
+ * @exampleRawBody {}
+ */
+export const authenticatedUserDeclineAllFriendRequests = addApiMethod(async (
+): ApiMethod<{}, boolean> => ({
+  method: "POST",
+  path: `/v1/user/friend-requests/decline-all`,
+  name: `authenticatedUserDeclineAllFriendRequests`,
+
+  prettifyFn: (rawData) => dataIsSuccess(rawData)
+}))
+
+
+/**
+ * Accepts a friend request from a specific user for the authenticated user.
+ * @endpoint POST /v1/users/{requesterUserId}/accept-friend-request
+ * 
+ * @param requesterUserId The id of the user to accept friend request from.
+ * 
+ * @example const { data:success } = await ClassicFriendsApi.authenticatedUserAcceptFriendRequest({ requesterUserId: 2655994471 })
+ * @exampleData true
+ * @exampleRawBody {}
+ */
+export const authenticatedUserAcceptFriendRequest = addApiMethod(async (
+  { requesterUserId }: { requesterUserId: Identifier }
+): ApiMethod<{}, boolean> => ({
+  method: "POST",
+  path: `/v1/users/${requesterUserId}/accept-friend-request`,
+  name: `authenticatedUserAcceptFriendRequest`,
+
+  prettifyFn: (rawData) => dataIsSuccess(rawData)
+}))
+
+
+/**
+ * Accepts a friend request from a specific user for the authenticated user.
+ * @endpoint POST /v1/users/{requesterUserId}/decline-friend-request
+ * 
+ * @param requesterUserId The id of the user to decline friend request from.
+ * 
+ * @example const { data:success } = await ClassicFriendsApi.authenticatedUserDeclineFriendRequest({ requesterUserId: 2655994471 })
+ * @exampleData true
+ * @exampleRawBody {}
+ */
+export const authenticatedUserDeclineFriendRequest = addApiMethod(async (
+  { requesterUserId }: { requesterUserId: Identifier }
+): ApiMethod<{}, boolean> => ({
+  method: "POST",
+  path: `/v1/users/${requesterUserId}/decline-friend-request`,
+  name: `authenticatedUserAcceptFriendRequest`,
+
+  prettifyFn: (rawData) => dataIsSuccess(rawData)
+}))
+
+
+/**
+ * Removes a friend for the authenticated user.
+ * @endpoint POST /v1/users/{targetUserId}/unfriend
+ * 
+ * @param targetUserId The id of the user to remove as friend.
+ * 
+ * @example const { data:success } = await ClassicFriendsApi.authenticatedUserUnfriend({ userId: 2655994471 })
+ * @exampleData true
+ * @exampleRawBody {}
+ */
+export const authenticatedUserUnfriend = addApiMethod(async (
+  { userId }: { userId: Identifier }
+): ApiMethod<{}, boolean> => ({
+  method: "POST",
+  path: `/v1/users/${userId}/unfriend`,
+  name: `authenticatedUserUnfriend`,
+
+  prettifyFn: (rawData) => dataIsSuccess(rawData)
+}))
+//////////////////////////////////////////////////////////////////////////////////
+
+
+// [ Followings ] ////////////////////////////////////////////////////////////////
+/**
+ * Gets the followers for a specific user.
+ * @endpoint GET /v1/users/{userId}/followers
+ * 
+ * @param userId The id of the user to get the followers for.
+ * 
+ * @example const { data:followersCount } = await ClassicFriendsApi.userfollowersCount({ userId: 45348281 })
+ * @exampleData [{"isDeleted":false,"friendFrequentScore":0,"friendFrequentRank":201,"hasVerifiedBadge":true,"description":null,"created":"0001-01-01T05:51:00.000Z","isBanned":false,"externalAppDisplayName":null,"id":156,"name":"builderman","displayName":"builderman"}]
+ * @exampleRawBody {"previousPageCursor":null,"nextPageCursor":"745831147_1_1e210d709f013f76846a9e2517aa7263","data":[{"isDeleted":false,"friendFrequentScore":0,"friendFrequentRank":201,"hasVerifiedBadge":true,"description":null,"created":"0001-01-01T05:51:00.000Z","isBanned":false,"externalAppDisplayName":null,"id":156,"name":"builderman","displayName":"builderman"}]}
+ */
+export const userFollowers = addApiMethod(async (
+  { userId, limit, sortOrder, cursor }:
+  { userId: Identifier, limit?: 10 | 18 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
+): ApiMethod<RawUserFollowersData, PrettifiedUserFollowersData> => ({
+  method: "GET",
+  path: `/v1/users/${userId}/followers`,
+  searchParams: { limit, sortOrder, cursor },
+  name: "userFollowers",
+
+  prettifyFn: ({ data }) => data.map(follower => cloneAndMutateObject(follower, obj => obj.created = new Date(obj.created)))
+}))
+
 
 /**
  * Gets the followers count for a specific user.
@@ -173,12 +392,12 @@ export const findFriends = addApiMethod(async (
  * @exampleData 510
  * @exampleRawBody { count: 510 }
  */
-export const userfollowersCount = addApiMethod(async (
+export const userFollowersCount = addApiMethod(async (
   { userId }: { userId: Identifier }
 ): ApiMethod<{ count: number }, number> => ({
   path: `/v1/users/${userId}/followers/count`,
   method: "GET",
-  name: "userfollowersCount",
+  name: "userFollowersCount",
 
   prettifyFn: ({ count }) => count
 }))

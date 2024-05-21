@@ -180,7 +180,7 @@ type MdData = {
   params: { name: string, type: string, description?: string }[]
 }
 
-const createMdFile = (methodName: string, { params, tags, description }: MdData) => (
+const createMdFile = (methodName: string, { params, tags:{ example, endpoint, exampleData }, description }: MdData) => (
   `
 # ${methodName}${(description && description.length) ? `\n${description}` : ""}
 
@@ -190,13 +190,20 @@ ${tablemark(params)}
 ` : ""}
 
 ## Example
-\`\`\`js copy showLineNumbers
-${tags.example} 
+\`\`\`ts copy showLineNumbers
+${example} 
 \`\`\`
+
+${exampleData ? `
+## Example Data
+\`\`\`ts copy showLineNumbers
+${exampleData.trim()} 
+\`\`\`
+` : ""}
 
 ## Endpoint
 \`\`\`ansi
-${highlightEndpointMethod(tags.endpoint)}
+${highlightEndpointMethod(endpoint)}
 \`\`\`
   `
 )
