@@ -7,7 +7,7 @@ import { createApiGroup } from "../../apiGroup"
 import type { Identifier } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
-import type { OrgInfoForGroupData, OrgMemberPermissionsData, OrgRoleColor, OrgRolePermission, OverwriteOrgRolePermissions_NewPermissions, PrettifiedCreateOrgRoleData, PrettifiedOrgMembersData, PrettifiedOrgRolePermissionsData, PrettifiedOrgRolesData, RawCreateOrgRoleData, RawOrgMembersData, RawOrgRolePermissionsData, RawOrgRolesData } from "./organizations.types"
+import type { OrgInfoForGroupData, OrgMemberPermissionsData, OrgRoleColor, OverwriteOrgRolePermissions_NewPermissions, PrettifiedCreateOrgInvitationData, PrettifiedCreateOrgRoleData, PrettifiedOrgInvitations, PrettifiedOrgMembersData, PrettifiedOrgRolePermissionsData, PrettifiedOrgRolesData, RawCreateOrgInvitationData, RawCreateOrgRoleData, RawOrgInvitations, RawOrgMembersData, RawOrgRolePermissionsData, RawOrgRolesData } from "./organizations.types"
 import { cloneAndMutateObject } from "~/utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -118,8 +118,8 @@ export const orgRolePermissions = addApiMethod(async (
        viewAnalytics: true
      }
    })
- * @exampleData { success: true }
- * @exampleRawBody true
+ * @exampleData true
+ * @exampleRawBody { success: true }
  */
 export const overwriteOrgRolePermissions = addApiMethod(async (
   { orgId, roleId, newPermissions }: { orgId: Identifier, roleId: Identifier, newPermissions: OverwriteOrgRolePermissions_NewPermissions }
@@ -209,6 +209,84 @@ export const orgMembers = addApiMethod(async <OrgId extends Identifier>(
 
 
 /**
+ * Gets a page of members for an organization.
+ * @endpoint GET /v1/organizations/{orgId}/users
+ * 
+ * @param orgId The ID of the organization to get invitations for.
+ * @param limit The maximum amount of roles to return.
+ * @param cursor The paging cursor for the previous or next page.
+ * 
+ * @example const { data:invitations } = await ClassicOrganizationsApi.orgInvitations({ orgId: "4244556007738484576" })
+ * @exampleData [{"id":"7659171709868310756","organizationId":"4244556007738484576","recipientUserId":"2655994471","senderUserId":"45348281","invitationStatusType":"Open","updatedTime":"2024-05-31T04:30:08.713Z"}]
+ * @exampleRawBody {"invitations":[{"id":"7659171709868310756","organizationId":"4244556007738484576","recipientUserId":"2655994471","senderUserId":"45348281","invitationStatusType":"Open","updatedTime":"2024-05-31T04:30:08.713Z"}],"pageToken":""}
+ */
+export const orgInvitations = addApiMethod(async <OrgId extends Identifier>(
+  { orgId, limit = 500, cursor }: { orgId: OrgId, limit?: number, cursor?: string }
+): ApiMethod<RawOrgInvitations<OrgId>, PrettifiedOrgInvitations<OrgId>> => ({
+  method: "GET",
+  path: `/v1/organizations/${orgId}/invitations`,
+  searchParams: { MaxPageSize: limit, PageToken: cursor },
+  name: `orgInvitations`,
+
+  prettifyFn: ({ invitations }) => invitations.map(invitation => cloneAndMutateObject(invitation, obj => (
+    obj.updatedTime = new Date(obj.updatedTime)
+  ))),
+
+  getCursorsFn: ({ pageToken }) => [ null, pageToken ]
+}))
+
+
+/**
+ * Invites a user to an organization.
+ * @endpoint POST /v1/organizations/{userId}/invitations
+ * 
+ * @param orgId The ID of the organization to invite a user to.
+ * @param userId The ID of the user to invite to the organization.
+ * 
+ * @example
+ * const { data:inviteInfo } = await ClassicOrganizationsApi.createOrgInvitation({
+     orgId: "4244556007738484576", userId: 2655994471
+   })
+ * @exampleData [{"userId":"45348281","roles":[{"id":"914257001913009232","organizationId":"4244556007738484576","name":"Developer","color":"LightOrange","updatedTime":"2024-05-31T01:24:02.823Z"}]}]
+ * @exampleRawBody {"users":[{"userId":"45348281","roles":[{"id":"914257001913009232","organizationId":"4244556007738484576","name":"Developer","color":"LightOrange","updatedTime":"2024-05-31T01:24:02.8238408Z"}]}],"pageToken":""}
+ */
+export const createOrgInvitation = addApiMethod(async <OrgId extends Identifier, UserId extends Identifier>(
+  { orgId, userId }: { orgId: OrgId, userId: UserId }
+): ApiMethod<RawCreateOrgInvitationData<OrgId, UserId>, PrettifiedCreateOrgInvitationData<OrgId, UserId>> => ({
+  method: "POST",
+  path: `/v1/organizations/${orgId}/invitations`,
+  body: { recipientUserId: userId },
+  name: `createOrgInvitation`,
+
+  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.updatedTime = new Date(obj.updatedTime))
+}))
+
+/**
+ * Invites a user to an organization.
+ * @endpoint POST /v1/organizations/{userId}/invitations
+ * 
+ * @param orgId The ID of the organization to invite a user to.
+ * @param invitationId The ID of the invitation to remove.
+ * 
+ * @example
+ * const { data:success } = await ClassicOrganizationsApi.removeOrgInvitation({
+     orgId: "4244556007738484576", invitationId: "2985153037232505065"
+   })
+ * @exampleData true
+ * @exampleRawBody { success: true }
+ */
+export const removeOrgInvitation = addApiMethod(async (
+  { orgId, invitationId }: { orgId: Identifier, invitationId: Identifier }
+): ApiMethod<{ success: boolean }, boolean> => ({
+  method: "DELETE",
+  path: `/v1/organizations/${orgId}/invitations/${invitationId}`,
+  name: `removeOrgInvitation`,
+
+  prettifyFn: ({ success }) => success
+}))
+
+
+/**
  * Gets permissions for a specific member of an organization.
  * @endpoint GET /v1/organizations/{orgId}/users/{userId}/permissions
  * 
@@ -265,8 +343,8 @@ export const giveOrgMemberRole = addApiMethod(async (
  * const { data:success } = await ClassicOrganizationsApi.deleteOrgRole({
      orgId: "4244556007738484576", roleId: "3960412067952396265"
    })
- * @exampleData { success: true }
- * @exampleRawBody true
+ * @exampleData true
+ * @exampleRawBody { success: true }
  */
 export const deleteOrgRole = addApiMethod(async (
   { orgId, roleId }: { orgId: Identifier, roleId: Identifier }

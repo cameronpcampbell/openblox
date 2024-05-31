@@ -1,5 +1,5 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { Identifier, ISODateTime, ObjectPrettify, UnionPrettify } from "typeforge"
+import type { ArrayPrettify, Identifier, ISODateTime, ObjectPrettify, UnionPrettify } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 export type OrgRoleColor = UnionPrettify<"Blue" | "Green" | "Purple" | "Yellow" | "Orange"  | "Red"  | "LightOrange" | "Pink" | "Teal">
@@ -12,6 +12,15 @@ type OrgRole<
   organizationId: OrgId,
   name: RoleName,
   color: RoleColor,
+  updatedTime: TemporalType
+}>
+
+type OrgInvitation<OrgId extends Identifier, UserId extends Identifier, TemporalType> =  ObjectPrettify<{
+  id: Identifier,
+  organizationId: OrgId,
+  recipientUserId: UserId,
+  senderUserId: Identifier,
+  invitationStatusType: "Open",
   updatedTime: TemporalType
 }>
 
@@ -92,6 +101,23 @@ export type RawOrgMembersData<OrgId extends Identifier> = {
 }
 
 export type PrettifiedOrgMembersData<OrgId extends Identifier> = OrgMembersData<OrgId, Date>
+// -------------------------------------------------------------------------------------------------------------------
+
+
+// GET /v1/organizations/{orgId}/invitations -------------------------------------------------------------------------
+export type RawOrgInvitations<OrgId extends Identifier> = {
+  invitations: OrgInvitation<OrgId, Identifier, ISODateTime>[],
+  pageToken: string
+}
+
+export type PrettifiedOrgInvitations<OrgId extends Identifier> = ArrayPrettify<OrgInvitation<OrgId, Identifier, Date>[]>
+// -------------------------------------------------------------------------------------------------------------------
+
+
+// POST /v1/organizations/{userId}/invitations -----------------------------------------------------------------------
+export type RawCreateOrgInvitationData<OrgId extends Identifier, UserId extends Identifier> = OrgInvitation<OrgId, UserId, ISODateTime>
+
+export type PrettifiedCreateOrgInvitationData<OrgId extends Identifier, UserId extends Identifier> = OrgInvitation<OrgId, UserId, Date>
 // -------------------------------------------------------------------------------------------------------------------
 
 
