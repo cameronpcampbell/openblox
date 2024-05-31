@@ -3089,6 +3089,243 @@
         ]
       }
     },
+    "organizations": {
+      "orgInfoForGroup": {
+        "description": "Gets organization info for a group.",
+        "tags": {
+          "endpoint": "GET /v1/organizations",
+          "example": "const { data: orgInfo } = await ClassicOrganizationsApi.orgInfoForGroup({ groupId: 15842838 });",
+          "exampleData": "{ id: \"4244556007738484576\", groupId: \"15842838\" }\n",
+          "exampleRawBody": "{ id: \"4244556007738484576\", groupId: \"15842838\" }\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The ID of the group to get organization info about."
+          }
+        ]
+      },
+      "orgRoles": {
+        "description": "Gets a page of roles for an organization.",
+        "tags": {
+          "endpoint": "GET /v1/organizations/{orgId}/roles",
+          "example": "const { data: roles } = await ClassicOrganizationsApi.orgRoles({ orgId: \"4244556007738484576\" });",
+          "exampleData": "[\n  {\n    id: \"2011766837304130930\",\n    organizationId: \"4244556007738484576\",\n    name: \"New Role 7275\",\n    color: \"Green\",\n    updatedTime: \"2024-05-31T02:34:51.832Z\",\n  },\n  {\n    id: \"914257001913009232\",\n    organizationId: \"4244556007738484576\",\n    name: \"Developer\",\n    color: \"LightOrange\",\n    updatedTime: \"2024-05-31T01:24:02.823Z\",\n  },\n  {\n    id: \"3456593169348895666\",\n    organizationId: \"4244556007738484576\",\n    name: \"Tester\",\n    color: \"Teal\",\n    updatedTime: \"2024-05-31T01:24:02.827Z\",\n  },\n]\n",
+          "exampleRawBody": "{\n  roles: [\n    {\n      id: \"2011766837304130930\",\n      organizationId: \"4244556007738484576\",\n      name: \"New Role 7275\",\n      color: \"Green\",\n      updatedTime: \"2024-05-31T02:34:51.8329242Z\",\n    },\n    {\n      id: \"914257001913009232\",\n      organizationId: \"4244556007738484576\",\n      name: \"Developer\",\n      color: \"LightOrange\",\n      updatedTime: \"2024-05-31T01:24:02.8238408Z\",\n    },\n    {\n      id: \"3456593169348895666\",\n      organizationId: \"4244556007738484576\",\n      name: \"Tester\",\n      color: \"Teal\",\n      updatedTime: \"2024-05-31T01:24:02.8271342Z\",\n    },\n  ],\n  pageToken: \"\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "OrgId",
+            "description": "The ID of the organization to get roles for."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The maximum amount of roles to return."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "orgRolePermissions": {
+        "description": "Gets permissions for a specific role of an organization.",
+        "tags": {
+          "endpoint": "GET /v1/organizations/{orgId}/roles/{roleId}/permissions",
+          "example": "const { data: perms } = await ClassicOrganizationsApi.orgRolePermissions({\n  orgId: \"4244556007738484576\",\n  roleId: \"2011766837304130930\",\n});",
+          "exampleData": "[\n  { category: \"Organization\", operation: \"ManageMembers\", enabled: false },\n  { category: \"Organization\", operation: \"ManageRoles\", enabled: false },\n  { category: \"Organization\", operation: \"Configure\", enabled: false },\n  { category: \"Experience\", operation: \"Play\", enabled: false },\n  { category: \"Experience\", operation: \"Edit\", enabled: false },\n  { category: \"Experience\", operation: \"ViewAnalytics\", enabled: false },\n]\n",
+          "exampleRawBody": "{\n  permissions: [\n    {\n      category: \"Organization\",\n      operation: \"ManageMembers\",\n      enabled: false,\n    },\n    { category: \"Organization\", operation: \"ManageRoles\", enabled: false },\n    { category: \"Organization\", operation: \"Configure\", enabled: false },\n    { category: \"Experience\", operation: \"Play\", enabled: false },\n    { category: \"Experience\", operation: \"Edit\", enabled: false },\n    { category: \"Experience\", operation: \"ViewAnalytics\", enabled: false },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "Identifier",
+            "description": "The ID of the organization to get a roles permissions for."
+          },
+          {
+            "name": "roleId",
+            "type": "Identifier",
+            "description": "The ID of the role to get permissions for."
+          }
+        ]
+      },
+      "overwriteOrgRolePermissions": {
+        "description": "Overwrites permissions for a role of an organizations.",
+        "tags": {
+          "endpoint": "POST /v1/organizations/{orgId}/roles/{roleId}/permissions",
+          "example": "const { data: success } = await ClassicOrganizationsApi.overwriteOrgRolePermissions({\n  orgId: \"4244556007738484576\",\n  roleId: \"4500991930780611394\",\n  newPermissions: {\n    manageMembers: true,\n    manageRoles: true,\n    configure: true,\n    play: true,\n    edit: true,\n    viewAnalytics: true,\n  },\n});",
+          "exampleData": "{ success: true }\n",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "Identifier",
+            "description": "The ID of the organization to overwrite a roles permissions in."
+          },
+          {
+            "name": "roleid",
+            "type": "🤷",
+            "description": "The ID of the group to overwrite permissions for."
+          },
+          {
+            "name": "newPermissions",
+            "type": "OverwriteOrgRolePermissions_NewPermissions",
+            "description": "The new permissions to assign to the role."
+          }
+        ]
+      },
+      "orgRoleMembers": {
+        "description": "Gets a page of members for a specific role in an organization.",
+        "tags": {
+          "endpoint": "GET /v1/organizations/{orgId}/roles/{roleId}/users",
+          "example": "const { data: members } = await ClassicOrganizationsApi.orgRoleMembers({\n  orgId: \"4244556007738484576\",\n  roleId: \"4500991930780611394\",\n});",
+          "exampleData": "[\n  {\n    userId: \"45348281\",\n    roles: [\n      {\n        id: \"4500991930780611394\",\n        organizationId: \"4244556007738484576\",\n        name: \"Orange\",\n        color: \"Orange\",\n        updatedTime: \"2024-05-31T03:13:24.753Z\",\n      },\n    ],\n  },\n]\n",
+          "exampleRawBody": "{\n  users: [\n    {\n      userId: \"45348281\",\n      roles: [\n        {\n          id: \"4500991930780611394\",\n          organizationId: \"4244556007738484576\",\n          name: \"Orange\",\n          color: \"Orange\",\n          updatedTime: \"2024-05-31T03:13:24.7539993Z\",\n        },\n      ],\n    },\n  ],\n  pageToken: \"\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "Identifier",
+            "description": "The ID of the organization to get members for."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The maximum amount of members to return."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "orgMembers": {
+        "description": "Gets a page of members for an organization.",
+        "tags": {
+          "endpoint": "GET /v1/organizations/{orgId}/users",
+          "example": "const { data: members } = await ClassicOrganizationsApi.orgMembers({ orgId: \"4244556007738484576\" });",
+          "exampleData": "[\n  {\n    userId: \"45348281\",\n    roles: [\n      {\n        id: \"914257001913009232\",\n        organizationId: \"4244556007738484576\",\n        name: \"Developer\",\n        color: \"LightOrange\",\n        updatedTime: \"2024-05-31T01:24:02.823Z\",\n      },\n    ],\n  },\n]\n",
+          "exampleRawBody": "{\n  users: [\n    {\n      userId: \"45348281\",\n      roles: [\n        {\n          id: \"914257001913009232\",\n          organizationId: \"4244556007738484576\",\n          name: \"Developer\",\n          color: \"LightOrange\",\n          updatedTime: \"2024-05-31T01:24:02.8238408Z\",\n        },\n      ],\n    },\n  ],\n  pageToken: \"\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "OrgId",
+            "description": "The ID of the organization to get members for."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The maximum amount of members to return."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "orgMemberPermissions": {
+        "description": "Gets permissions for a specific member of an organization.",
+        "tags": {
+          "endpoint": "GET /v1/organizations/{orgId}/users/{userId}/permissions",
+          "example": "const { data: perms } = await ClassicOrganizationsApi.orgMemberPermissions({\n  orgId: \"4244556007738484576\",\n  userId: 45348281,\n});",
+          "exampleData": "{\n  isOwner: true,\n  canConfigureOrganization: true,\n  canManageRoles: true,\n  canManageMembers: true,\n  canViewAnalytics: true,\n  canPlayExperiences: true,\n  canEditExperiences: true,\n}\n",
+          "exampleRawBody": "{\n  isOwner: true,\n  canConfigureOrganization: true,\n  canManageRoles: true,\n  canManageMembers: true,\n  canViewAnalytics: true,\n  canPlayExperiences: true,\n  canEditExperiences: true,\n}\n"
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "Identifier",
+            "description": "The ID of the organization to get a users permissions for."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the user to get permissions for."
+          }
+        ]
+      },
+      "giveOrgMemberRole": {
+        "description": "Gives an organization member a specific role.",
+        "tags": {
+          "endpoint": "POST /v1/organizations/{orgId}/users/{userId}/roles/{roleId}",
+          "example": "const { data: success } = await ClassicOrganizationsApi.giveOrgMemberRole({\n  orgId: \"4244556007738484576\",\n  userId: 45348281,\n  roleId: \"914257001913009232\",\n});",
+          "exampleData": "{ success: true }\n",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "Identifier",
+            "description": "The ID of the organization to give a user a role in."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the user to give a role to."
+          },
+          {
+            "name": "roleId",
+            "type": "Identifier",
+            "description": "The ID of the role to be given."
+          }
+        ]
+      },
+      "deleteOrgRole": {
+        "description": "Deletes a role from a specific organization.",
+        "tags": {
+          "endpoint": "POST /v1/organizations/{orgId}/users/{userId}/roles/{roleId}",
+          "example": "const { data: success } = await ClassicOrganizationsApi.deleteOrgRole({\n  orgId: \"4244556007738484576\",\n  roleId: \"3960412067952396265\",\n});",
+          "exampleData": "{ success: true }\n",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "Identifier",
+            "description": "The ID of the organization to delete a role from."
+          },
+          {
+            "name": "roleId",
+            "type": "Identifier",
+            "description": "The ID of the role to be deleted."
+          }
+        ]
+      },
+      "createOrgRole": {
+        "description": "Creates a role in a specific organization.",
+        "tags": {
+          "endpoint": "POST /v1/organizations/{orgId}/roles",
+          "example": "const {\n  data,\n  response: { body },\n} = await ClassicOrganizationsApi.createOrgRole({\n  orgId: \"4244556007738484576\",\n  roleName: \"Admin\",\n  roleColor: \"LightOrange\",\n});",
+          "exampleData": "{\n  id: \"4508567586590971666\",\n  organizationId: \"4244556007738484576\",\n  name: \"Admin\",\n  color: \"LightOrange\",\n  updatedTime: \"2024-05-31T03:25:37.841Z\",\n}\n",
+          "exampleRawBody": "{\n  id: \"4508567586590971666\",\n  organizationId: \"4244556007738484576\",\n  name: \"Admin\",\n  color: \"LightOrange\",\n  updatedTime: \"2024-05-31T03:25:37.8410158Z\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "OrgId",
+            "description": "The ID of the organization to create a role in."
+          },
+          {
+            "name": "roleName",
+            "type": "RoleName",
+            "description": "The name for the new role."
+          },
+          {
+            "name": "roleColor",
+            "type": "RoleColor",
+            "description": "The color for the new role."
+          }
+        ]
+      }
+    },
     "premiumFeatures": {
       "userHasPremium": {
         "description": "Gets the followers count for a specific user.",
