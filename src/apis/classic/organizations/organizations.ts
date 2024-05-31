@@ -104,7 +104,7 @@ export const orgRolePermissions = addApiMethod(async (
  * @endpoint POST /v1/organizations/{orgId}/roles/{roleId}/permissions
  * 
  * @param orgId The ID of the organization to overwrite a roles permissions in.
- * @param roleid The ID of the group to overwrite permissions for.
+ * @param roleId The ID of the group to overwrite permissions for.
  * @param newPermissions The new permissions to assign to the role.
  * 
  * @example
