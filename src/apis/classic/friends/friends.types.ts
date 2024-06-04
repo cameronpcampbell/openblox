@@ -2,7 +2,7 @@
 import { Identifier, ISODateTime, ObjectPrettify } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
-export type FriendsUserSort = 'Alphabetical' | 'StatusAlphabetical' | 'StatusFrequents'
+export type FriendsUserSort = "Alphabetical" | "StatusAlphabetical" | "StatusFrequents"
 
 type LowercaseFirstLetter<S extends string> =
 S extends `${infer First}${infer Rest}`
@@ -17,6 +17,7 @@ type KeysToCamelCase<Obj> = ObjectPrettify<{
 }>
 type ArrWithObjectsToCamelCase<Arr extends unknown[]> =  { [Key in keyof Arr]: ObjectPrettify<KeysToCamelCase<Arr[Key]>> }
 
+export type FriendshipOriginSourceType = "Unknown" | "PlayerSearch" | "QrCode" | "InGame" | "UserProfile" | "QqContactImporter" | "WeChatContactImporter" | "ProfileShare" | "PhoneContactImporter" | "FriendRecommendations"
 
 type FriendData<TemporalType> = ObjectPrettify<{
   isDeleted: boolean,

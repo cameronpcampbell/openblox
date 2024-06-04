@@ -88,3 +88,7 @@ const {
   cursors: { next: string, previous: string }, // Only exists on paginated endpoints. Contains the previous and next cursor.
 } = OpenbloxApi.method(...)
 ```
+
+- - -
+
+<img src="https://github.com/MightyPart/openblox/blob/main/assets/metrik.svg" width="auto" height="35px" />

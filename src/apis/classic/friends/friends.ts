@@ -7,7 +7,7 @@ import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware, dataIsSuccess
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
 import type { Identifier, SortOrder } from "../../../utils/utils.types"
-import { FriendsMetadataData, FriendsUserSort, PrettifiedAuthenticatedUserFriendRequestsData, PrettifiedFindFriendsData, PrettifiedFriendsListData, PrettifiedFriendsSearchData, PrettifiedFriendsStatusesData, PrettifiedInactiveFriendsData, PrettifiedOnlineFriendsUserPresenceData, PrettifiedUserFollowersData, RawAuthenticatedUserFriendRequestsData, RawFindFriendsData, RawFriendsListData, RawFriendsSearchData, RawFriendsStatusesData, RawInactiveFriendsData, RawOnlineFriendsUserPresenceData, RawUserFollowersData } from "./friends.types"
+import { FriendshipOriginSourceType, FriendsMetadataData, FriendsUserSort, PrettifiedAuthenticatedUserFriendRequestsData, PrettifiedFindFriendsData, PrettifiedFriendsListData, PrettifiedFriendsSearchData, PrettifiedFriendsStatusesData, PrettifiedInactiveFriendsData, PrettifiedOnlineFriendsUserPresenceData, PrettifiedUserFollowersData, RawAuthenticatedUserFriendRequestsData, RawFindFriendsData, RawFriendsListData, RawFriendsSearchData, RawFriendsStatusesData, RawInactiveFriendsData, RawOnlineFriendsUserPresenceData, RawUserFollowersData } from "./friends.types"
 import { ArrayNonEmpty } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -19,7 +19,20 @@ const userSortNameToId = {
   Alphabetical: 0,
   StatusAlphabetical: 1,
   StatusFrequents: 2
-} satisfies Record<FriendsUserSort, number>
+} satisfies Record<FriendsUserSort, 0 | 1 | 2>
+
+const friendshipOriginSourceTypeNameToId = {
+  Unknown: 0,
+  PlayerSearch: 1,
+  QrCode: 2,
+  InGame: 3,
+  UserProfile: 4,
+  QqContactImporter: 5,
+  WeChatContactImporter: 6,
+  ProfileShare: 7,
+  PhoneContactImporter: 8,
+  FriendRecommendations: 9
+} satisfies Record<FriendshipOriginSourceType, 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9>
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -60,9 +73,9 @@ export const authenticatedUserFriendsCount = addApiMethod(async (
  * Gets friends requests sent to the authenticated user.
  * @endpoint GET /v1/my/friends/requests
  * 
- * @param limit
- * @param sortOrder
- * @param cursor
+ * @param limit The number of results to be returned per request.
+ * @param sortOrder The order that the results are sorted in.
+ * @param cursor The paging cursor for the previous or next page.
  * 
  * @example const { data:requests } = await ClassicFriendsApi.authenticatedUserFriendRequests({ limit: 10 })
  * @exampleData [ { "friendRequest": { "sentAt": "2024-03-24T02:25:33.095Z", "senderId": 5635371081, "sourceUniverseId": 2549415383, "originSourceType": "InGame", "contactName": null }, "mutualFriendsList": [], "hasVerifiedBadge": false, "description": "", "created": "2024-03-04T15:20:32.033Z", "isBanned": false, "externalAppDisplayName": null, "id": 5635371081, "name": "loremIpsum", "displayName": "loremIpsum"} ]
@@ -337,6 +350,29 @@ export const authenticatedUserDeclineFriendRequest = addApiMethod(async (
 
 
 /**
+ * Sends a friend request to a specific user.
+ * @endpoint REST /...
+ * 
+ * @param userId The ID of the user to send a friend request to.
+ * @param originSourceType Where the friend request originated from.
+ * 
+ * @example
+ * const { data:requestStatus } = await ClassicFriendsApi.authenticatedUserRequestFriendship({
+     userId: 2655994471, originSourceType: "UserProfile"
+   })
+ * @exampleData {"success":true,"isCaptchaRequired":false}
+ * @exampleRawBody {"success":true,"isCaptchaRequired":false}
+ */
+export const authenticatedUserRequestFriendship = addApiMethod(async (
+  { userId, originSourceType }: { userId: Identifier, originSourceType?: FriendshipOriginSourceType }
+): ApiMethod<{ success: boolean, isCaptchaRequired: boolean }> => ({
+  method: "POST",
+  path: `/v1/users/${userId}/request-friendship`,
+  body: { friendshipOriginSourceType: originSourceType ? friendshipOriginSourceTypeNameToId[originSourceType] : 0 },
+  name: `authenticatedUserRequestFriendship`,
+}))
+
+/**
  * Removes a friend for the authenticated user.
  * @endpoint POST /v1/users/{targetUserId}/unfriend
  * 
@@ -364,6 +400,9 @@ export const authenticatedUserUnfriend = addApiMethod(async (
  * @endpoint GET /v1/users/{userId}/followers
  * 
  * @param userId The id of the user to get the followers for.
+ * @param limit The number of results to be returned.
+ * @param sortOrder The order that the results are sorted in.
+ * @param cursor The paging cursor for the previous or next page.
  * 
  * @example const { data:followersCount } = await ClassicFriendsApi.userfollowersCount({ userId: 45348281 })
  * @exampleData [{"isDeleted":false,"friendFrequentScore":0,"friendFrequentRank":201,"hasVerifiedBadge":true,"description":null,"created":"0001-01-01T05:51:00.000Z","isBanned":false,"externalAppDisplayName":null,"id":156,"name":"builderman","displayName":"builderman"}]
@@ -400,5 +439,29 @@ export const userFollowersCount = addApiMethod(async (
   name: "userFollowersCount",
 
   prettifyFn: ({ count }) => count
+}))
+
+
+/**
+ * Gets the followings for a specific user.
+ * @endpoint REST /...
+ * 
+ * @param userId The ID of the user to get followings for.
+ * @param limit The number of results to be returned.
+ * @param sortOrder The order that the results are sorted in.
+ * @param cursor The paging cursor for the previous or next page.
+ * 
+ * @example
+ * @exampleData
+ * @exampleRawBody
+ */
+export const userFollowings = addApiMethod(async (
+  { userId, limit, sortOrder, cursor }:
+  { userId: Identifier, limit: 10 | 18 | 25 | 50 | 100, sortOrder: SortOrder, cursor: string }
+): ApiMethod<any> => ({
+  method: "GET",
+  path: `/v1/users/${userId}/followings`,
+  searchParams: { limit, sortOrder, cursor },
+  name: `userFollowings`,
 }))
 //////////////////////////////////////////////////////////////////////////////////

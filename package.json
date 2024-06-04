@@ -18,7 +18,7 @@
     "Bedev",
     "Bedev2"
   ],
-  "exports_DEV": {
+  "exports": {
     ".": "./src/index.ts",
     "./config": "./src/config/index.ts",
     "./classic": "./src/apis/classic/index.ts",
@@ -28,7 +28,7 @@
     "./cache/adapters": "./src/cache/cacheAdapters/index.ts",
     "./http/adapters": "./src/http/httpAdapters/index.ts"
   },
-  "exports": {
+  "exports_PROD": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
