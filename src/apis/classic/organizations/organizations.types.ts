@@ -6,9 +6,10 @@ export type OrgRoleColor = UnionPrettify<"Blue" | "Green" | "Purple" | "Yellow" 
 
 type OrgRole<
   OrgId extends Identifier, TemporalType,
-  RoleName extends string = string, RoleColor extends OrgRoleColor = OrgRoleColor
+  RoleName extends string = string, RoleColor extends OrgRoleColor = OrgRoleColor,
+  RoleId extends Identifier = Identifier
 > = ObjectPrettify<{
-  id: Identifier,
+  id: RoleId,
   organizationId: OrgId,
   name: RoleName,
   color: RoleColor,
@@ -77,6 +78,17 @@ export type RawOrgRolePermissionsData = {
 // -------------------------------------------------------------------------------------------------------------------
 
 
+// GET /v1/organizations/{orgId}/roles/{roleId}/metadata -------------------------------------------------------------
+export type RawOrgRoleMetadataData<
+  OrgId extends Identifier, RoleId extends Identifier
+> = OrgRole<OrgId, ISODateTime, string, OrgRoleColor, RoleId>
+
+export type PrettifiedOrgRoleMetadataData<
+  OrgId extends Identifier, RoleId extends Identifier
+> = OrgRole<OrgId, Date, string, OrgRoleColor, RoleId>
+// -------------------------------------------------------------------------------------------------------------------
+
+
 // PATCH /v1/organizations/{orgId}/roles/{roleId}/permissions --------------------------------------------------------
 export type OverwriteOrgRolePermissions_NewPermissions = ObjectPrettify<{
   manageMembers: boolean,
@@ -142,4 +154,15 @@ export type RawCreateOrgRoleData<
 export type PrettifiedCreateOrgRoleData<
   OrgId extends Identifier, RoleName extends string, RoleColor extends OrgRoleColor
 > = OrgRole<OrgId, Date, RoleName, RoleColor>
+// -------------------------------------------------------------------------------------------------------------------
+
+
+// PATCH /v1/organizations/${orgId}/roles/${roleId}/metadata ---------------------------------------------------------
+export type RawUpdateOrgRoleData<
+  OrgId extends Identifier, RoleId extends Identifier, RoleName extends string, RoleColor extends OrgRoleColor
+> = OrgRole<OrgId, ISODateTime, RoleName, RoleColor, RoleId>
+
+export type PrettifiedUpdateOrgRoleData<
+  OrgId extends Identifier, RoleId extends Identifier, RoleName extends string, RoleColor extends OrgRoleColor
+> = OrgRole<OrgId, Date, RoleName, RoleColor, RoleId>
 // -------------------------------------------------------------------------------------------------------------------

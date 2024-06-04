@@ -7,7 +7,7 @@ import { cloneAndMutateObject } from "../../../utils/utils"
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
 import type { Identifier } from "../../../utils/utils.types"
-import { CreateSortedMapItem_ConstructItemConfig, EnqueueItem_ConstructItemConfig, EnqueueItemData, Operation, PrettifiedFlushAllQueuesData, PrettifiedListSortedMapItemsData, PrettifiedReadQueueItemsData, PrettifiedSortedMapItemData, PrettifiedUpdateSortedMapItem, RawFlushAllQueuesData, RawListSortedMapItemsData, RawReadQueueItemsData, RawSortedMapItemData, RawUpdateSortedMapItem, UpdateSortedMapItem_ConstructItemConfig } from "./memoryStore.types"
+import { CreateSortedMapItem_ConstructItemConfig, EnqueueItem_ConstructItemConfig, Operation, PrettifiedEnqueueItemData, PrettifiedFlushAllQueuesData, PrettifiedListSortedMapItemsData, PrettifiedReadQueueItemsData, PrettifiedSortedMapItemData, PrettifiedUpdateSortedMapItem, RawEnqueueItemData, RawFlushAllQueuesData, RawListSortedMapItemsData, RawReadQueueItemsData, RawSortedMapItemData, RawUpdateSortedMapItem, UpdateSortedMapItem_ConstructItemConfig } from "./memoryStore.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -159,30 +159,36 @@ export const deleteSortedMapItem = addApiMethod(async (
 }))
 
 /**
- * Deletes a sorted map item.
- * @endpoint DELETE /v2/universes/{universeId}/memory-store/sorted-maps/{sortedMap}/items/{itemId}
+ * Adds an item to a memory store queue.
+ * @endpoint POST /v2/universes/{universeId}/memory-store/queues/{queue}/items
  * 
  * @param universeId The id of the universe to get the sorted map item from.
  * @param sortedMap The sorted map to get the item from.
  * @param itemId The id of the item to update.
  * @param etag Server generated id for conditional delete.
  * 
- * @example await MemoryStoresApi.deleteSortedMapItem({ universeId: 5243626809, sortedMap: "MySortedMap", itemId: "Testing1234" });
- * @exampleData {"path":"cloud/v2/universes/5243626809/memory-store/queues/MyQueue/items:add","data":{"name":"Testing123","value":{"isReal":true}},"priority":0}
- * @exampleRawBody {"path":"cloud/v2/universes/5243626809/memory-store/queues/MyQueue/items:add","data":{"name":"Testing123","value":{"isReal":true}},"priority":0}
+ * @example
+ * const { data:enqueuedItem } = await MemoryStoresApi.enqueueItem({
+     universeId: 5243626809, queue: "MyQueue",
+     item: { name: "MyItem", value: "fooBar", ttl: "300s" }
+   });
+ * @exampleData {"path":"cloud/v2/universes/5243626809/memory-store/queues/MyQueue/items/7fffffffffffffff0000000000000003","data":{"name":"MyItem","value":"fooBar"},"priority":0,"expireTime":2024-06-04T08:10:33.000Z}
+ * @exampleRawBody {"path":"cloud/v2/universes/5243626809/memory-store/queues/MyQueue/items/7fffffffffffffff0000000000000003","data":{"name":"MyItem","value":"fooBar"},"priority":0,"expireTime":"2024-06-04T08:10:33Z"}
  */
 export const enqueueItem = addApiMethod(async <ItemValue>(
   { universeId, queue, item }:
   { universeId: Identifier, queue: string, item: EnqueueItem_ConstructItemConfig<ItemValue> }
-): ApiMethod<EnqueueItemData<ItemValue>> => ({
-  path: `/v2/universes/${universeId}/memory-store/queues/${queue}/items:add`,
+): ApiMethod<RawEnqueueItemData<ItemValue>, PrettifiedEnqueueItemData<ItemValue>> => ({
+  path: `/v2/universes/${universeId}/memory-store/queues/${queue}/items`,
   method: "POST",
   body: {
-    Data: { name: item.name, value: item.value },
-    Ttl: item.ttl,
-    Priority: item.priority
+    data: { name: item.name, value: item.value },
+    ttl: item.ttl,
+    priority: item.priority
   },
   name: "enqueueItem",
+
+  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.expireTime = new Date(obj.expireTime))
 }))
 
 

@@ -59,17 +59,25 @@ export type RawUpdateSortedMapItem<ItemValue> = Omit<RawSortedMapItemData<ItemVa
 export type PrettifiedUpdateSortedMapItem<ItemValue> = Omit<PrettifiedSortedMapItemData<ItemValue>, "id">
 // -------------------------------------------------------------------------------------------------------------------
 
-// POST /v2/universes/${universeId}/memory-store/queues/${queue}/items:add -------------------------------------------
-export type EnqueueItem_ConstructItemConfig<ItemValue> = { name: string, value: ItemValue, ttl: `${number}${string}`, priority?: number }
 
-export type EnqueueItemData<ItemValue> = {
-  path: `cloud/v2/universes/${Identifier}/memory-store/queues/${string}/items:add`,
+// POST /v2/universes/{universeId}/memory-store/queues/{queue}/items -------------------------------------------------
+export type EnqueueItem_ConstructItemConfig<ItemValue> = ObjectPrettify<{
+  name: string, value: ItemValue, ttl: `${number}${string}`, priority?: number
+}>
+
+type EnqueueItemData<ItemValue, TemporalType> = {
+  path: `cloud/v2/universes/${Identifier}/memory-store/queues/${string}/items/${string}`,
   data: {
     name: string,
     value: ItemValue
   },
-  priority: number
+  priority: number,
+  expireTime: TemporalType
 }
+
+export type RawEnqueueItemData<ItemValue> = EnqueueItemData<ItemValue, ISODateTime>
+
+export type PrettifiedEnqueueItemData<ItemValue> = EnqueueItemData<ItemValue, Date>
 // -------------------------------------------------------------------------------------------------------------------
 
 

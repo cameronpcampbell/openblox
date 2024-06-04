@@ -7,7 +7,7 @@ import { createApiGroup } from "../../apiGroup"
 import type { Identifier } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
-import type { OrgInfoForGroupData, OrgMemberPermissionsData, OrgRoleColor, OverwriteOrgRolePermissions_NewPermissions, PrettifiedCreateOrgInvitationData, PrettifiedCreateOrgRoleData, PrettifiedOrgInvitations, PrettifiedOrgMembersData, PrettifiedOrgRolePermissionsData, PrettifiedOrgRolesData, RawCreateOrgInvitationData, RawCreateOrgRoleData, RawOrgInvitations, RawOrgMembersData, RawOrgRolePermissionsData, RawOrgRolesData } from "./organizations.types"
+import type { OrgInfoForGroupData, OrgMemberPermissionsData, OrgRoleColor, OverwriteOrgRolePermissions_NewPermissions, PrettifiedCreateOrgInvitationData, PrettifiedCreateOrgRoleData, PrettifiedOrgInvitations, PrettifiedOrgMembersData, PrettifiedOrgRoleMetadataData, PrettifiedOrgRolePermissionsData, PrettifiedOrgRolesData, PrettifiedUpdateOrgRoleData, RawCreateOrgInvitationData, RawCreateOrgRoleData, RawOrgInvitations, RawOrgMembersData, RawOrgRoleMetadataData, RawOrgRolePermissionsData, RawOrgRolesData, RawUpdateOrgRoleData } from "./organizations.types"
 import { cloneAndMutateObject } from "~/utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -91,8 +91,8 @@ export const orgRoles = addApiMethod(async <OrgId extends Identifier>(
 export const orgRolePermissions = addApiMethod(async (
   { orgId, roleId }: { orgId: Identifier, roleId: Identifier }
 ): ApiMethod<RawOrgRolePermissionsData, PrettifiedOrgRolePermissionsData> => ({
-  path: `/v1/organizations/${orgId}/roles/${roleId}/permissions`,
   method: "GET",
+  path: `/v1/organizations/${orgId}/roles/${roleId}/permissions`,
   name: "orgRolePermissions",
 
   prettifyFn: ({ permissions }) => permissions
@@ -100,8 +100,32 @@ export const orgRolePermissions = addApiMethod(async (
 
 
 /**
+ * Gets metadata for a specific role of an organization.
+ * @endpoint GET /v1/organizations/{orgId}/roles/{roleId}/metadata
+ * 
+ * @param orgId The ID of the organization to get a roles metadata for.
+ * @param roleId The ID of the role to get metadata for.
+ * 
+ * @example const { data:metadata } = await ClassicOrganizationsApi.orgRoleMetadata({
+ *   orgId: "4244556007738484576", roleId: "914257001913009232"
+ * })
+ * @exampleData {"id":"914257001913009232","organizationId":"4244556007738484576","name":"Developer","color":"LightOrange","updatedTime": 2024-05-31T01:24:02.823Z}
+ * @exampleRawBody {"id":"914257001913009232","organizationId":"4244556007738484576","name":"Developer","color":"LightOrange","updatedTime":"2024-05-31T01:24:02.823Z"}
+ */
+export const orgRoleMetadata = addApiMethod(async <OrgId extends Identifier, RoleId extends Identifier>(
+  { orgId, roleId }: { orgId: OrgId, roleId: RoleId }
+): ApiMethod<RawOrgRoleMetadataData<OrgId, RoleId>, PrettifiedOrgRoleMetadataData<OrgId, RoleId>> => ({
+  method: "GET",
+  path: `/v1/organizations/${orgId}/roles/${roleId}/metadata`,
+  name: "orgRoleMetadata",
+
+  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.updatedTime = new Date(obj.updatedTime)),
+}))
+
+
+/**
  * Overwrites permissions for a role of an organizations.
- * @endpoint POST /v1/organizations/{orgId}/roles/{roleId}/permissions
+ * @endpoint PATCH /v1/organizations/{orgId}/roles/{roleId}/permissions
  * 
  * @param orgId The ID of the organization to overwrite a roles permissions in.
  * @param roleId The ID of the group to overwrite permissions for.
@@ -124,8 +148,8 @@ export const orgRolePermissions = addApiMethod(async (
 export const overwriteOrgRolePermissions = addApiMethod(async (
   { orgId, roleId, newPermissions }: { orgId: Identifier, roleId: Identifier, newPermissions: OverwriteOrgRolePermissions_NewPermissions }
 ): ApiMethod<{ success: boolean }, boolean> => ({
-  path: `/v1/organizations/${orgId}/roles/${roleId}/permissions`,
   method: "PATCH",
+  path: `/v1/organizations/${orgId}/roles/${roleId}/permissions`,
   body: {
     permissions: Object.entries(newPermissions).map(([ key, value ]) => ({
       category: permissionsCategory[key as keyof typeof permissionsCategory],
@@ -238,7 +262,7 @@ export const orgInvitations = addApiMethod(async <OrgId extends Identifier>(
 
 /**
  * Invites a user to an organization.
- * @endpoint POST /v1/organizations/{userId}/invitations
+ * @endpoint POST /v1/organizations/{orgId}/invitations
  * 
  * @param orgId The ID of the organization to invite a user to.
  * @param userId The ID of the user to invite to the organization.
@@ -263,7 +287,7 @@ export const createOrgInvitation = addApiMethod(async <OrgId extends Identifier,
 
 /**
  * Invites a user to an organization.
- * @endpoint POST /v1/organizations/{userId}/invitations
+ * @endpoint DELETE /v1/organizations/{orgId}/invitations/{invitationId}
  * 
  * @param orgId The ID of the organization to invite a user to.
  * @param invitationId The ID of the invitation to remove.
@@ -300,14 +324,14 @@ export const removeOrgInvitation = addApiMethod(async (
 export const orgMemberPermissions = addApiMethod(async (
   { orgId, userId }: { orgId: Identifier, userId: Identifier }
 ): ApiMethod<OrgMemberPermissionsData> => ({
-  path: `/v1/organizations/${orgId}/users/${userId}/permissions`,
   method: "GET",
+  path: `/v1/organizations/${orgId}/users/${userId}/permissions`,
   name: "orgMemberPermissions"
 }))
 
 
 /**
- * Gives an organization member a specific role.
+ * Gives a specifc role to an organization member.
  * @endpoint POST /v1/organizations/{orgId}/users/{userId}/roles/{roleId}
  * 
  * @param orgId The ID of the organization to give a user a role in.
@@ -315,43 +339,44 @@ export const orgMemberPermissions = addApiMethod(async (
  * @param roleId The ID of the role to be given.
  * 
  * @example
- * const { data:success } = await ClassicOrganizationsApi.giveOrgMemberRole({
+ * const { data:success } = await ClassicOrganizationsApi.giveRoleToOrgMember({
      orgId: "4244556007738484576", userId: 45348281, roleId: "914257001913009232"
    })
  * @exampleData { success: true }
  * @exampleRawBody true
  */
-export const giveOrgMemberRole = addApiMethod(async (
+export const giveRoleToOrgMember = addApiMethod(async (
   { orgId, userId, roleId }: { orgId: Identifier, userId: Identifier, roleId: Identifier }
 ): ApiMethod<{ success: boolean }, boolean> => ({
-  path: `/v1/organizations/${orgId}/users/${userId}/roles/${roleId}`,
   method: "POST",
-  name: "giveOrgMemberRole",
+  path: `/v1/organizations/${orgId}/users/${userId}/roles/${roleId}`,
+  name: "giveRoleToOrgMember",
 
   prettifyFn: ({ success }) => success
 }))
 
 
 /**
- * Deletes a role from a specific organization.
- * @endpoint POST /v1/organizations/{orgId}/users/{userId}/roles/{roleId}
+ * Removes a specifc role from an organization member.
+ * @endpoint DELETE /v1/organizations/{orgId}/users/{userId}/roles/{roleId}
  * 
- * @param orgId The ID of the organization to delete a role from.
- * @param roleId The ID of the role to be deleted.
+ * @param orgId The ID of the organization to give a user a role in.
+ * @param userId The ID of the user to give a role to.
+ * @param roleId The ID of the role to be given.
  * 
  * @example
- * const { data:success } = await ClassicOrganizationsApi.deleteOrgRole({
-     orgId: "4244556007738484576", roleId: "3960412067952396265"
+ * const { data:success } = await ClassicOrganizationsApi.removeRoleFromOrgMember({
+     orgId: "4244556007738484576", userId: 45348281, roleId: "914257001913009232"
    })
- * @exampleData true
- * @exampleRawBody { success: true }
+ * @exampleData { success: true }
+ * @exampleRawBody true
  */
-export const deleteOrgRole = addApiMethod(async (
-  { orgId, roleId }: { orgId: Identifier, roleId: Identifier }
+export const removeRoleFromOrgMember = addApiMethod(async (
+  { orgId, userId, roleId }: { orgId: Identifier, userId: Identifier, roleId: Identifier }
 ): ApiMethod<{ success: boolean }, boolean> => ({
   method: "DELETE",
-  path: `/v1/organizations/${orgId}/roles/${roleId}`,
-  name: "deleteOrgRole",
+  path: `/v1/organizations/${orgId}/users/${userId}/roles/${roleId}`,
+  name: "removeRoleFromOrgMember",
 
   prettifyFn: ({ success }) => success
 }))
@@ -366,7 +391,7 @@ export const deleteOrgRole = addApiMethod(async (
  * @param roleColor The color for the new role.
  * 
  * @example
- * const { data, response:{body} } = await ClassicOrganizationsApi.createOrgRole({
+ * const { data } = await ClassicOrganizationsApi.createOrgRole({
      orgId: "4244556007738484576", roleName: "Admin", roleColor: "LightOrange"
    })
  * @exampleData {"id":"4508567586590971666","organizationId":"4244556007738484576","name":"Admin","color":"LightOrange","updatedTime":2024-05-31T03:25:37.841Z}
@@ -382,3 +407,58 @@ export const createOrgRole = addApiMethod(async <OrgId extends Identifier, RoleN
 
   prettifyFn: (role) => cloneAndMutateObject(role, obj => obj.updatedTime = new Date(obj.updatedTime))
 }))
+
+
+/**
+ * Updates an existing role in a specific organization.
+ * @endpoint PATCH /v1/organizations/{orgId}/roles/{roleId}/metadata
+ * 
+ * @param orgId The ID of the organization to update a role in.
+ * @param roleId The ID of the role to update.
+ * @param roleName The new name for the role.
+ * @param roleColor The new color for the role.
+ * 
+ * @example
+ * const { data:updatedRoleInfo } = await ClassicOrganizationsApi.updateOrgRole({
+     orgId: "4244556007738484576", roleId: "517896615410563397", roleName: "Admin", roleColor: "LightOrange"
+   })
+ * @exampleData {"id":"4508567586590971666","organizationId":"4244556007738484576","name":"Admin","color":"LightOrange","updatedTime":2024-05-31T03:25:37.841Z}
+ * @exampleRawBody {"id":"4508567586590971666","organizationId":"4244556007738484576","name":"Admin","color":"LightOrange","updatedTime":"2024-05-31T03:25:37.8410158Z"}
+ */
+export const updateOrgRole = addApiMethod(async <
+  OrgId extends Identifier, RoleId extends Identifier, RoleName extends string, RoleColor extends OrgRoleColor
+>(
+  { orgId, roleId, roleName, roleColor }: { orgId: OrgId, roleId: RoleId, roleName: RoleName, roleColor: RoleColor }
+): ApiMethod<RawUpdateOrgRoleData<OrgId, RoleId, RoleName, RoleColor>, PrettifiedUpdateOrgRoleData<OrgId, RoleId, RoleName, RoleColor>> => ({
+  method: "PATCH",
+  path: `/v1/organizations/${orgId}/roles/${roleId}/metadata`,
+  body: { name: roleName, color: roleColor },
+  name: "createOrgRole",
+
+  prettifyFn: (role) => cloneAndMutateObject(role, obj => obj.updatedTime = new Date(obj.updatedTime))
+}))
+
+
+/**
+ * Deletes a role from a specific organization.
+ * @endpoint DELETE /v1/organizations/{orgId}/roles/{roleId}
+ * 
+ * @param orgId The ID of the organization to delete a role from.
+ * @param roleId The ID of the role to be deleted.
+ * 
+ * @example
+ * const { data:success } = await ClassicOrganizationsApi.deleteOrgRole({
+     orgId: "4244556007738484576", roleId: "3960412067952396265"
+   })
+ * @exampleData true
+ * @exampleRawBody { success: true }
+ */
+   export const deleteOrgRole = addApiMethod(async (
+    { orgId, roleId }: { orgId: Identifier, roleId: Identifier }
+  ): ApiMethod<{ success: boolean }, boolean> => ({
+    method: "DELETE",
+    path: `/v1/organizations/${orgId}/roles/${roleId}`,
+    name: "deleteOrgRole",
+  
+    prettifyFn: ({ success }) => success
+  }))
