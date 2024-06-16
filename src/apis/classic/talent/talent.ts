@@ -8,7 +8,7 @@ import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware } from "../../
 import type { ApiMethod } from "../../apiGroup"
 import type { ArrayNonEmpty, Identifier, ObjectPrettify, UnionPrettify } from "typeforge"
 import { JobSearchFilter, PrettifiedCreatorExperiencesData, PrettifiedCreatorProfileData, PrettifiedJobSearchData, RawCreatorExperiencesData, RawCreatorProfileData, RawJobSearchData, RawUsersAreIdVerifiedData } from "./talent.types"
-import { SortOrder } from "~/utils/utils.types"
+import { SortOrder } from "../../../utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 

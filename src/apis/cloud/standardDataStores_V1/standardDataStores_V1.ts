@@ -9,7 +9,7 @@ import type { ApiMethod } from "../../apiGroup"
 import type { Identifier } from "../../../utils/utils.types"
 import type { PrettifiedListStandardDatastoreData, PrettifiedListStandardDatastoreEntryVersionsData, PrettifiedSetStandardDatastoreEntryData, PrettifiedStandardDatastoreEntryData, PrettifiedStandardDatastoreKeysData, RawListStandardDatastoreData, RawListStandardDatastoreEntryVersionsData, RawSetStandardDatastoreEntryData, RawStandardDatastoreKeysData } from "./standardDataStores_V1.types"
 import { ISODateTime, ObjectPrettify, Prettify, UnionToArray } from "typeforge"
-import { md5Checksum } from "~/crypto"
+import { md5Checksum } from "../../../crypto"
 //////////////////////////////////////////////////////////////////////////////////
 
 

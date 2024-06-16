@@ -8,7 +8,7 @@ import type { ArrayToUnion, Identifier, ObjectPrettify } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
 import { GroupMembers_Filter, GroupMembers_WildcardFilter, PrettifiedGroupInfoData, PrettifiedGroupJoinRequestsData, PrettifiedGroupMembersData, PrettifiedGroupRolesData, PrettifiedGroupShoutData, RawGroupInfoData, RawGroupJoinRequestsData, RawGroupMembersData, RawGroupRolesData, RawGroupShoutData } from "./groups.types"
-import { cloneAndMutateObject, dataIsSuccess } from "~/utils/utils"
+import { cloneAndMutateObject, dataIsSuccess } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 

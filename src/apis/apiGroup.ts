@@ -109,8 +109,25 @@ function getParams(func:(...args: any[]) => any) {
   return argsStr.replaceAll(/{(.*)}/g, "").replaceAll(/ = ([^,]+)/g, "").replaceAll(/:( *)/g, "").split(", ")
 }
 
-async function* Paginate() {
-  yield 55
+const maybeParseInt = (x?: string) => x ? parseInt(x) : x
+
+const getRatelimitMetadata = (headers: Headers) => {
+  const limit = headers.get("x-ratelimit-limit")
+  const remaining = headers.get("x-ratelimit-remaining")
+  const reset = headers.get("x-ratelimit-reset")
+
+  const date = headers.get("date")
+  const prettifiedDate = date ? new Date(date) : undefined
+  if (prettifiedDate && reset) prettifiedDate.setSeconds(prettifiedDate.getSeconds() + parseInt(reset))
+
+  const limitData = /([0-9]+);w=([0-9]+)/.exec(limit ?? "")
+
+  console.log({
+    limit: maybeParseInt(limitData?.[1]),
+    window: maybeParseInt(limitData?.[2]),
+    remaining: remaining ? parseInt(remaining) : undefined,
+    reset: prettifiedDate
+  })
 }
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -151,6 +168,8 @@ export const createApiGroup: CreateApiGroup = ({ groupName, baseUrl }) => {
       })
       if (!(response instanceof HttpResponse)) throw response // TODO: better error handling
       const responseBody = response.body
+
+      //getRatelimitMetadata(response.headers)
 
       const prettifyFn = (apiMethodData as any)?.prettifyFn
 

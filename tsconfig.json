@@ -26,9 +26,6 @@
 
     /* Path Aliases */
     "baseUrl": ".",
-    "paths": {
-      "~/*": ["./src/*"]
-    },
 
     "types": [ "node", "bun" ],
     "typeRoots": ["./node_modules/@types"]
