@@ -42,7 +42,7 @@ export const listStandardDatastores = addApiMethod(async <Prefix extends string>
 
   prettifyFn: ({ datastores }) => cloneAndMutateObject(datastores, obj => obj.forEach(store => store.createdTime = new Date(store.createdTime))),
 
-  getCursorsFn: (rawData) => [ null, rawData.nextPageCursor ]
+  getCursorsFn: ({ nextPageCursor }) => [ null, nextPageCursor ]
 }))
 
 

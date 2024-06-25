@@ -391,7 +391,7 @@
         ]
       }
     },
-    "memoryStore": {
+    "memoryStores": {
       "sortedMapItem": {
         "description": "Gets a sorted map item.",
         "tags": {
@@ -548,12 +548,12 @@
         ]
       },
       "enqueueItem": {
-        "description": "Deletes a sorted map item.",
+        "description": "Adds an item to a memory store queue.",
         "tags": {
-          "endpoint": "DELETE /v2/universes/{universeId}/memory-store/sorted-maps/{sortedMap}/items/{itemId}",
-          "example": "await MemoryStoresApi.deleteSortedMapItem({ universeId: 5243626809, sortedMap: \"MySortedMap\", itemId: \"Testing1234\" });",
-          "exampleData": "{\n  path: \"cloud/v2/universes/5243626809/memory-store/queues/MyQueue/items:add\",\n  data: { name: \"Testing123\", value: { isReal: true } },\n  priority: 0,\n}\n",
-          "exampleRawBody": "{\n  path: \"cloud/v2/universes/5243626809/memory-store/queues/MyQueue/items:add\",\n  data: { name: \"Testing123\", value: { isReal: true } },\n  priority: 0,\n}\n"
+          "endpoint": "POST /v2/universes/{universeId}/memory-store/queues/{queue}/items",
+          "example": "const { data: enqueuedItem } = await MemoryStoresApi.enqueueItem({\n  universeId: 5243626809,\n  queue: \"MyQueue\",\n  item: { name: \"MyItem\", value: \"fooBar\", ttl: \"300s\" },\n});",
+          "exampleData": "{\n  path: \"cloud/v2/universes/5243626809/memory-store/queues/MyQueue/items/7fffffffffffffff0000000000000003\",\n  data: { name: \"MyItem\", value: \"fooBar\" },\n  priority: 0,\n  expireTime: \"2024-06-04T08:10:33.000Z\",\n}\n",
+          "exampleRawBody": "{\n  path: \"cloud/v2/universes/5243626809/memory-store/queues/MyQueue/items/7fffffffffffffff0000000000000003\",\n  data: { name: \"MyItem\", value: \"fooBar\" },\n  priority: 0,\n  expireTime: \"2024-06-04T08:10:33Z\",\n}\n"
         },
         "params": [
           {
@@ -1286,6 +1286,111 @@
         ]
       }
     },
+    "userRestrictions": {
+      "restrictions": {
+        "description": "Gets restrictions for a user.",
+        "tags": {
+          "endpoint": "PATCH /v2/universes/{universe}/user-restrictions/{user-restriction}\nPATCH /v2/universes/${universeId}/places/${placeId}/user-restrictions/${userId}",
+          "example": "const { data: restrictions } = await UserRestrictionsApi.restrictions({\n  universeId: 5795192361,\n  placeId: 18210254887,\n  userId: 6193495014,\n});",
+          "exampleData": "{\n  path: \"universes/5795192361/places/18210254887/user-restrictions/6193495014\",\n  user: \"users/6193495014\",\n  gameJoinRestriction: {\n    active: true,\n    startTime: \"2024-06-25T22:56:58.873Z\",\n    duration: \"31540000s\",\n    privateReason: \"Being a meanie :/\",\n    displayReason: \"Annoying other players.\",\n    excludeAltAccounts: false,\n    inherited: false,\n  },\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5795192361/places/18210254887/user-restrictions/6193495014\",\n  user: \"users/6193495014\",\n  gameJoinRestriction: {\n    active: true,\n    startTime: \"2024-06-25T22:56:58.873Z\",\n    duration: \"31540000s\",\n    privateReason: \"Being a meanie :/\",\n    displayReason: \"Annoying other players.\",\n    excludeAltAccounts: false,\n    inherited: false,\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to get restrictions for."
+          },
+          {
+            "name": "placeId?",
+            "type": "PlaceId",
+            "description": "The ID of the place to get restrictions for."
+          },
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The ID of the uset to get restrictions to get."
+          }
+        ]
+      },
+      "updateRestrictionsForUser": {
+        "description": "Updates restrctions for a user.",
+        "tags": {
+          "endpoint": "PATCH /v2/universes/{universe}/user-restrictions/{user-restriction}\nPATCH /v2/universes/${universeId}/places/${placeId}/user-restrictions/${userId}",
+          "example": "import { v4 as uuidv4 } from \"uuid\";\nconst idempotencyKey = uuidv4(),\n  firstSent = new Date();\n\nconst { data: updatedRestrictions } = await UserRestrictionsApi.updateRestrictionsForUser({\n  universeId: 5795192361,\n  placeId: 18210254887,\n  userId: 6193495014,\n  idempotencyKey,\n  firstSent,\n  updatedData: {\n    gameJoinRestriction: {\n      active: true,\n      duration: \"31540000s\", // 1 year.\n      privateReason: \"Being a meanie :/\",\n      displayReason: \"Annoying other players.\",\n      excludeAltAccounts: false,\n      inherited: true,\n    },\n  },\n});",
+          "exampleData": "{\n  path: \"universes/5795192361/places/18210254887/user-restrictions/6193495014\",\n  user: \"users/6193495014\",\n  gameJoinRestriction: {\n    active: true,\n    startTime: \"2024-06-25T22:54:39.245Z\",\n    duration: \"31540000s\",\n    privateReason: \"Being a meanie :/\",\n    displayReason: \"Annoying other players.\",\n    excludeAltAccounts: false,\n    inherited: false,\n  },\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5795192361/places/18210254887/user-restrictions/6193495014\",\n  user: \"users/6193495014\",\n  gameJoinRestriction: {\n    active: true,\n    startTime: \"2024-06-25T22:54:39.245Z\",\n    duration: \"31540000s\",\n    privateReason: \"Being a meanie :/\",\n    displayReason: \"Annoying other players.\",\n    excludeAltAccounts: false,\n    inherited: false,\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to set restrictions for."
+          },
+          {
+            "name": "placeId?",
+            "type": "PlaceId",
+            "description": "The ID of the place to set restrictions for."
+          },
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The ID of the uset to set restrictions to get."
+          },
+          {
+            "name": "updatedData",
+            "type": "UpdatedData",
+            "description": "The new restrictions."
+          },
+          {
+            "name": "idempotencyKey?",
+            "type": "string",
+            "description": "The unique key to use for idempotency."
+          },
+          {
+            "name": "firstSent?",
+            "type": "Date | ISODateTime",
+            "description": "The timestamp at which the first request was sent. If this is further in the past than the lifetime of the idempotency key (which may exceed the annotated minimum lifetime), the server must return an error."
+          }
+        ]
+      },
+      "listRestrictionLogs": {
+        "description": "Gets a list of restriction logs from a specific universe.",
+        "tags": {
+          "endpoint": "GET /v2/universes/${universeId}/user-restrictions:listLogs",
+          "example": "const { data: logs } = await UserRestrictionsApi.listRestrictionLogs({\n  universeId: 5795192361,\n  placeId: 18210254887,\n  userId: 6193495014,\n});",
+          "exampleData": "[\n  {\n    user: \"users/6193495014\",\n    place: \"18210254887\",\n    moderator: { robloxUser: \"45348281\" },\n    createTime: \"2024-06-25T22:56:58.873Z\",\n    active: true,\n    startTime: \"2024-06-25T22:56:58.873Z\",\n    duration: \"31540000s\",\n    privateReason: \"Being a meanie :/\",\n    displayReason: \"Annoying other players.\",\n    excludeAltAccounts: false,\n  },\n]\n",
+          "exampleRawBody": "{\n  logs: [\n    {\n      user: \"users/6193495014\",\n      place: \"18210254887\",\n      moderator: { robloxUser: \"45348281\" },\n      createTime: \"2024-06-25T22:56:58.873Z\",\n      active: true,\n      startTime: \"2024-06-25T22:56:58.873Z\",\n      duration: \"31540000s\",\n      privateReason: \"Being a meanie :/\",\n      displayReason: \"Annoying other players.\",\n      excludeAltAccounts: false,\n    },\n  ],\n  nextPageToken: \"id_2zwAAAZBRnd35xBBXeienIm9K54uMH01-RpcT\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to get restriction logs for."
+          },
+          {
+            "name": "placeId?",
+            "type": "PlaceId",
+            "description": "The ID of the place to get restriction logs for."
+          },
+          {
+            "name": "userId?",
+            "type": "UserId",
+            "description": "The ID of the uset to get restriction logs to get."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The maximum number of items to return."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "Provide to request the next set of data."
+          }
+        ]
+      }
+    },
     "users": {
       "userInfo": {
         "description": "Gets information about a user from their id.",
@@ -1363,6 +1468,44 @@
     }
   },
   "classic": {
+    "develop": {
+      "universePlaces": {
+        "description": "Gets a list of places for the specified universe.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/places",
+          "example": "const { data } = await ClassicDevelopApi.universePlaces({ universeId: 6026274246 });",
+          "exampleData": "[\n  {\n    id: 11969698031,\n    universeId: 6026274246,\n    name: \"MightyPart's Place Number: 140\",\n    description: \"\",\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: null,\n  data: [\n    {\n      id: 11969698031,\n      universeId: 6026274246,\n      name: \"MightyPart's Place Number: 140\",\n      description: \"\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The id of the universe to get places for."
+          },
+          {
+            "name": "isUniverseCreation?",
+            "type": "boolean",
+            "description": "Returns only new universe creations."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
+            "description": "The number of results to be returned."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "SortOrder",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      }
+    },
     "friends": {
       "friendsMetadata": {
         "description": "Gets friends metadata.",
@@ -1396,17 +1539,17 @@
           {
             "name": "limit?",
             "type": "10 | 18 | 25 | 50 | 100",
-            "description": "limit"
+            "description": "The number of results to be returned per request."
           },
           {
             "name": "sortOrder?",
             "type": "SortOrder",
-            "description": "sortOrder"
+            "description": "The order that the results are sorted in."
           },
           {
             "name": "cursor?",
             "type": "string",
-            "description": "cursor"
+            "description": "The paging cursor for the previous or next page."
           }
         ]
       },
@@ -1624,6 +1767,27 @@
           }
         ]
       },
+      "authenticatedUserRequestFriendship": {
+        "description": "Sends a friend request to a specific user.",
+        "tags": {
+          "endpoint": "REST /...",
+          "example": "const { data: requestStatus } = await ClassicFriendsApi.authenticatedUserRequestFriendship({\n  userId: 2655994471,\n  originSourceType: \"UserProfile\",\n});",
+          "exampleData": "{ success: true, isCaptchaRequired: false }\n",
+          "exampleRawBody": "{ success: true, isCaptchaRequired: false }\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the user to send a friend request to."
+          },
+          {
+            "name": "originSourceType?",
+            "type": "FriendshipOriginSourceType",
+            "description": "Where the friend request originated from."
+          }
+        ]
+      },
       "authenticatedUserUnfriend": {
         "description": "Removes a friend for the authenticated user.",
         "tags": {
@@ -1653,6 +1817,21 @@
             "name": "userId",
             "type": "Identifier",
             "description": "The id of the user to get the followers for."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 18 | 25 | 50 | 100",
+            "description": "The number of results to be returned."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "SortOrder",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
           }
         ]
       },
@@ -1669,6 +1848,37 @@
             "name": "userId",
             "type": "Identifier",
             "description": "The id of the user to get the follower count for."
+          }
+        ]
+      },
+      "userFollowings": {
+        "description": "Gets the followings for a specific user.",
+        "tags": {
+          "endpoint": "REST /...",
+          "example": "",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the user to get followings for."
+          },
+          {
+            "name": "limit",
+            "type": "10 | 18 | 25 | 50 | 100",
+            "description": "The number of results to be returned."
+          },
+          {
+            "name": "sortOrder",
+            "type": "SortOrder",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "cursor",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
           }
         ]
       }
@@ -3153,13 +3363,34 @@
           }
         ]
       },
+      "orgRoleMetadata": {
+        "description": "Gets metadata for a specific role of an organization.",
+        "tags": {
+          "endpoint": "GET /v1/organizations/{orgId}/roles/{roleId}/metadata",
+          "example": "const { data: metadata } = await ClassicOrganizationsApi.orgRoleMetadata({\n  orgId: \"4244556007738484576\",\n  roleId: \"914257001913009232\",\n});",
+          "exampleData": "{\n  id: \"914257001913009232\",\n  organizationId: \"4244556007738484576\",\n  name: \"Developer\",\n  color: \"LightOrange\",\n  updatedTime: \"2024-05-31T01:24:02.823Z\",\n}\n",
+          "exampleRawBody": "{\n  id: \"914257001913009232\",\n  organizationId: \"4244556007738484576\",\n  name: \"Developer\",\n  color: \"LightOrange\",\n  updatedTime: \"2024-05-31T01:24:02.823Z\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "OrgId",
+            "description": "The ID of the organization to get a roles metadata for."
+          },
+          {
+            "name": "roleId",
+            "type": "RoleId",
+            "description": "The ID of the role to get metadata for."
+          }
+        ]
+      },
       "overwriteOrgRolePermissions": {
         "description": "Overwrites permissions for a role of an organizations.",
         "tags": {
-          "endpoint": "POST /v1/organizations/{orgId}/roles/{roleId}/permissions",
+          "endpoint": "PATCH /v1/organizations/{orgId}/roles/{roleId}/permissions",
           "example": "const { data: success } = await ClassicOrganizationsApi.overwriteOrgRolePermissions({\n  orgId: \"4244556007738484576\",\n  roleId: \"4500991930780611394\",\n  newPermissions: {\n    manageMembers: true,\n    manageRoles: true,\n    configure: true,\n    play: true,\n    edit: true,\n    viewAnalytics: true,\n  },\n});",
-          "exampleData": "{ success: true }\n",
-          "exampleRawBody": ""
+          "exampleData": "",
+          "exampleRawBody": "{ success: true }\n"
         },
         "params": [
           {
@@ -3168,8 +3399,8 @@
             "description": "The ID of the organization to overwrite a roles permissions in."
           },
           {
-            "name": "roleid",
-            "type": "🤷",
+            "name": "roleId",
+            "type": "Identifier",
             "description": "The ID of the group to overwrite permissions for."
           },
           {
@@ -3231,6 +3462,74 @@
           }
         ]
       },
+      "orgInvitations": {
+        "description": "Gets a page of members for an organization.",
+        "tags": {
+          "endpoint": "GET /v1/organizations/{orgId}/users",
+          "example": "const { data: invitations } = await ClassicOrganizationsApi.orgInvitations({ orgId: \"4244556007738484576\" });",
+          "exampleData": "[\n  {\n    id: \"7659171709868310756\",\n    organizationId: \"4244556007738484576\",\n    recipientUserId: \"2655994471\",\n    senderUserId: \"45348281\",\n    invitationStatusType: \"Open\",\n    updatedTime: \"2024-05-31T04:30:08.713Z\",\n  },\n]\n",
+          "exampleRawBody": "{\n  invitations: [\n    {\n      id: \"7659171709868310756\",\n      organizationId: \"4244556007738484576\",\n      recipientUserId: \"2655994471\",\n      senderUserId: \"45348281\",\n      invitationStatusType: \"Open\",\n      updatedTime: \"2024-05-31T04:30:08.713Z\",\n    },\n  ],\n  pageToken: \"\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "OrgId",
+            "description": "The ID of the organization to get invitations for."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The maximum amount of roles to return."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "createOrgInvitation": {
+        "description": "Invites a user to an organization.",
+        "tags": {
+          "endpoint": "POST /v1/organizations/{orgId}/invitations",
+          "example": "const { data: inviteInfo } = await ClassicOrganizationsApi.createOrgInvitation({\n  orgId: \"4244556007738484576\",\n  userId: 2655994471,\n});",
+          "exampleData": "[\n  {\n    userId: \"45348281\",\n    roles: [\n      {\n        id: \"914257001913009232\",\n        organizationId: \"4244556007738484576\",\n        name: \"Developer\",\n        color: \"LightOrange\",\n        updatedTime: \"2024-05-31T01:24:02.823Z\",\n      },\n    ],\n  },\n]\n",
+          "exampleRawBody": "{\n  users: [\n    {\n      userId: \"45348281\",\n      roles: [\n        {\n          id: \"914257001913009232\",\n          organizationId: \"4244556007738484576\",\n          name: \"Developer\",\n          color: \"LightOrange\",\n          updatedTime: \"2024-05-31T01:24:02.8238408Z\",\n        },\n      ],\n    },\n  ],\n  pageToken: \"\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "OrgId",
+            "description": "The ID of the organization to invite a user to."
+          },
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The ID of the user to invite to the organization."
+          }
+        ]
+      },
+      "removeOrgInvitation": {
+        "description": "Invites a user to an organization.",
+        "tags": {
+          "endpoint": "DELETE /v1/organizations/{orgId}/invitations/{invitationId}",
+          "example": "const { data: success } = await ClassicOrganizationsApi.removeOrgInvitation({\n  orgId: \"4244556007738484576\",\n  invitationId: \"2985153037232505065\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{ success: true }\n"
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "Identifier",
+            "description": "The ID of the organization to invite a user to."
+          },
+          {
+            "name": "invitationId",
+            "type": "Identifier",
+            "description": "The ID of the invitation to remove."
+          }
+        ]
+      },
       "orgMemberPermissions": {
         "description": "Gets permissions for a specific member of an organization.",
         "tags": {
@@ -3252,11 +3551,11 @@
           }
         ]
       },
-      "giveOrgMemberRole": {
-        "description": "Gives an organization member a specific role.",
+      "giveRoleToOrgMember": {
+        "description": "Gives a specifc role to an organization member.",
         "tags": {
           "endpoint": "POST /v1/organizations/{orgId}/users/{userId}/roles/{roleId}",
-          "example": "const { data: success } = await ClassicOrganizationsApi.giveOrgMemberRole({\n  orgId: \"4244556007738484576\",\n  userId: 45348281,\n  roleId: \"914257001913009232\",\n});",
+          "example": "const { data: success } = await ClassicOrganizationsApi.giveRoleToOrgMember({\n  orgId: \"4244556007738484576\",\n  userId: 45348281,\n  roleId: \"914257001913009232\",\n});",
           "exampleData": "{ success: true }\n",
           "exampleRawBody": ""
         },
@@ -3278,11 +3577,11 @@
           }
         ]
       },
-      "deleteOrgRole": {
-        "description": "Deletes a role from a specific organization.",
+      "removeRoleFromOrgMember": {
+        "description": "Removes a specifc role from an organization member.",
         "tags": {
-          "endpoint": "POST /v1/organizations/{orgId}/users/{userId}/roles/{roleId}",
-          "example": "const { data: success } = await ClassicOrganizationsApi.deleteOrgRole({\n  orgId: \"4244556007738484576\",\n  roleId: \"3960412067952396265\",\n});",
+          "endpoint": "DELETE /v1/organizations/{orgId}/users/{userId}/roles/{roleId}",
+          "example": "const { data: success } = await ClassicOrganizationsApi.removeRoleFromOrgMember({\n  orgId: \"4244556007738484576\",\n  userId: 45348281,\n  roleId: \"914257001913009232\",\n});",
           "exampleData": "{ success: true }\n",
           "exampleRawBody": ""
         },
@@ -3290,12 +3589,17 @@
           {
             "name": "orgId",
             "type": "Identifier",
-            "description": "The ID of the organization to delete a role from."
+            "description": "The ID of the organization to give a user a role in."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the user to give a role to."
           },
           {
             "name": "roleId",
             "type": "Identifier",
-            "description": "The ID of the role to be deleted."
+            "description": "The ID of the role to be given."
           }
         ]
       },
@@ -3303,7 +3607,7 @@
         "description": "Creates a role in a specific organization.",
         "tags": {
           "endpoint": "POST /v1/organizations/{orgId}/roles",
-          "example": "const {\n  data,\n  response: { body },\n} = await ClassicOrganizationsApi.createOrgRole({\n  orgId: \"4244556007738484576\",\n  roleName: \"Admin\",\n  roleColor: \"LightOrange\",\n});",
+          "example": "const { data } = await ClassicOrganizationsApi.createOrgRole({\n  orgId: \"4244556007738484576\",\n  roleName: \"Admin\",\n  roleColor: \"LightOrange\",\n});",
           "exampleData": "{\n  id: \"4508567586590971666\",\n  organizationId: \"4244556007738484576\",\n  name: \"Admin\",\n  color: \"LightOrange\",\n  updatedTime: \"2024-05-31T03:25:37.841Z\",\n}\n",
           "exampleRawBody": "{\n  id: \"4508567586590971666\",\n  organizationId: \"4244556007738484576\",\n  name: \"Admin\",\n  color: \"LightOrange\",\n  updatedTime: \"2024-05-31T03:25:37.8410158Z\",\n}\n"
         },
@@ -3322,6 +3626,58 @@
             "name": "roleColor",
             "type": "RoleColor",
             "description": "The color for the new role."
+          }
+        ]
+      },
+      "updateOrgRole": {
+        "description": "Updates an existing role in a specific organization.",
+        "tags": {
+          "endpoint": "PATCH /v1/organizations/{orgId}/roles/{roleId}/metadata",
+          "example": "const { data: updatedRoleInfo } = await ClassicOrganizationsApi.updateOrgRole({\n  orgId: \"4244556007738484576\",\n  roleId: \"517896615410563397\",\n  roleName: \"Admin\",\n  roleColor: \"LightOrange\",\n});",
+          "exampleData": "{\n  id: \"4508567586590971666\",\n  organizationId: \"4244556007738484576\",\n  name: \"Admin\",\n  color: \"LightOrange\",\n  updatedTime: \"2024-05-31T03:25:37.841Z\",\n}\n",
+          "exampleRawBody": "{\n  id: \"4508567586590971666\",\n  organizationId: \"4244556007738484576\",\n  name: \"Admin\",\n  color: \"LightOrange\",\n  updatedTime: \"2024-05-31T03:25:37.8410158Z\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "OrgId",
+            "description": "The ID of the organization to update a role in."
+          },
+          {
+            "name": "roleId",
+            "type": "RoleId",
+            "description": "The ID of the role to update."
+          },
+          {
+            "name": "roleName",
+            "type": "RoleName",
+            "description": "The new name for the role."
+          },
+          {
+            "name": "roleColor",
+            "type": "RoleColor",
+            "description": "The new color for the role."
+          }
+        ]
+      },
+      "deleteOrgRole": {
+        "description": "Deletes a role from a specific organization.",
+        "tags": {
+          "endpoint": "DELETE /v1/organizations/{orgId}/roles/{roleId}",
+          "example": "const { data: success } = await ClassicOrganizationsApi.deleteOrgRole({\n  orgId: \"4244556007738484576\",\n  roleId: \"3960412067952396265\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{ success: true }\n"
+        },
+        "params": [
+          {
+            "name": "orgId",
+            "type": "Identifier",
+            "description": "The ID of the organization to delete a role from."
+          },
+          {
+            "name": "roleId",
+            "type": "Identifier",
+            "description": "The ID of the role to be deleted."
           }
         ]
       }

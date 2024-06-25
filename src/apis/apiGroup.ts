@@ -89,7 +89,7 @@ const formatSearchParams = (params?: Record<string, any>) => {
     if (param == undefined || param == null) return
     if (typeof(param) == "string") return formattedParams[paramsKeys[i] as string] = param
     if (Array.isArray(param)) return formattedParams[paramsKeys[i] as string] = param.join(",")
-    if (param instanceof Date) return formattedParams[paramsKeys[i] as string] = param.toDateString()
+    if (param instanceof Date) return formattedParams[paramsKeys[i] as string] = param.toISOString()
     return formattedParams[paramsKeys[i] as string] = param.toString()
   })
   

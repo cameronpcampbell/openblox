@@ -64,3 +64,24 @@ export function mergeDeep(target: Record<any, any>, ...sources: Record<any, any>
 
   return mergeDeep(target, ...sources);
 }
+
+export const objectToFieldMask = (o: Record<any, any>) => {
+  if (!o || typeof o !== 'object') return [];
+
+  const paths = [];
+  const stack = [{ obj: o, path: [] }] as [{ obj: typeof o, path: [] }];
+
+  while (stack.length > 0) {
+    const { obj, path } = stack.pop() as any as { obj: typeof o, path: [] };
+
+    if (typeof obj === 'object' && obj !== null) {
+      for (const key in obj) {
+        stack.push({ obj: obj[key], path: [...path, key] as any });
+      }
+    } else {
+      paths.push(path);
+    }
+  }
+
+  return paths.map(path => path.join(".")).join(",")
+}

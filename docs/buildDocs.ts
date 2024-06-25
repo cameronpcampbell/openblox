@@ -53,6 +53,8 @@ const highlightedMethods = {
   PUT: "[38;5;228mPUT[0m[2;33m[0m"
 }
 
+const highlightedMethodsKeys = Object.keys(highlightedMethods) as unknown as Array<keyof typeof highlightedMethods>
+
 const allJsDocData: {
   cloud: { [apiName: string]: { [methodName: string]:  Awaited<ReturnType<typeof getJsDocData>> } },
   classic: { [apiName: string]: { [methodName: string]: Awaited<ReturnType<typeof getJsDocData>> } },
@@ -168,10 +170,10 @@ const buildDocsForApis = async (apis: Directory[], apisName: "classic" | "cloud"
 
 const highlightEndpointMethod = (endpoint?: string) => {
   if (!endpoint) return ""
-  const splitEndpoint = endpoint.split(" ", 2) 
-  if (splitEndpoint.length !== 2) return
+  
+  highlightedMethodsKeys.forEach(key => endpoint = (endpoint as string).replaceAll(`${key}`, highlightedMethods[key]))
 
-  return `${highlightedMethods[splitEndpoint[0] as any as keyof typeof highlightedMethods]} ${splitEndpoint[1]}`
+  return endpoint
 }
 
 type MdData = {

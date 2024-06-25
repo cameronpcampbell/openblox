@@ -17,19 +17,3 @@ const settings = {
 } satisfies esbuild.BuildOptions
 
 await esbuild.build(settings);
-
-
-
-/*
-
-async ({ universeId, isUniverseCreation, limit, sortOrder, cursor }) => ({
-  method: "GET",
-  path: `/v1/universes/${universeId}/places`,
-  searchParams: { isUniverseCreation, limit, cursor, sortOrder },
-  name: "universePlaces",
-  prettifyFn: __name(({ data }) => data, "prettifyFn")
-}) 
-
-async ({ universeId: r, isUniverseCreation: e, limit: i, sortOrder: s, cursor: t }) => ({ method: "GET", path: `/v1/universes/${r}/places`, searchParams: { isUniverseCreation: e, limit: i, cursor: t, sortOrder: s }, name: "universePlaces", prettifyFn: a(({ data: p }) => p, "prettifyFn") }) 
-
-*/
