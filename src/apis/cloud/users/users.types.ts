@@ -15,7 +15,7 @@ type UserInfoData<UserId extends Identifier, TimeType> = {
   idVerified?: boolean,
 }
 export type RawUserInfoData<UserId extends Identifier> = UserInfoData<UserId, ISODateTime> & {
-  socialNetworkProfiles: {
+  socialNetworkProfiles?: {
     facebook: string,
     twitter: string,
     youtube: string,
@@ -25,7 +25,7 @@ export type RawUserInfoData<UserId extends Identifier> = UserInfoData<UserId, IS
   }
 }
 export type PrettifiedUserInfoData<UserId extends Identifier> = UserInfoData<UserId, Date> & {
-  socialNetworkProfiles: {
+  socialNetworkProfiles?: {
     facebook?: string,
     twitter?: string,
     youtube?: string,

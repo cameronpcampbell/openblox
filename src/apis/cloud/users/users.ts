@@ -7,7 +7,6 @@ import { createApiGroup } from "../../apiGroup"
 import type { ApiMethod } from "../../apiGroup"
 import type { Identifier } from "../../../utils/utils.types"
 import { NotificationData, PrettifiedUserInfoData, RawUserInfoData, SendNotificationToUser_NotificationData, UserThumbnailData } from "./users.types"
-import { cloneDeep } from "lodash"
 import { cloneAndMutateObject } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -45,10 +44,12 @@ export const userInfo = addApiMethod(async <UserId extends Identifier>(
 
   prettifyFn: (rawData) => cloneAndMutateObject<RawUserInfoData<UserId>, PrettifiedUserInfoData<UserId>>(rawData, obj => {
     const socialNetworkProfiles = obj.socialNetworkProfiles 
-    Object.entries(socialNetworkProfiles).forEach(([ key, value ]) => {
-      if (value != "") return
-      delete socialNetworkProfiles[key as keyof typeof socialNetworkProfiles]
-    })
+    if (socialNetworkProfiles) {
+      Object.entries(socialNetworkProfiles).forEach(([ key, value ]) => {
+        if (value != "") return
+        delete socialNetworkProfiles[key as keyof typeof socialNetworkProfiles]
+      })
+    }
     obj.createTime = new Date(obj.createTime)
   })
 }))
