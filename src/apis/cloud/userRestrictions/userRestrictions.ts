@@ -7,7 +7,7 @@ import { createApiGroup } from "../../apiGroup"
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
 import { PrettifiedListRestrictionLogsData, PrettifiedUserRestrictionsData, RawListRestrictionLogsData, RawUserRestrictionsData, UpdateUserRestrictionsData } from "./userRestrictions.types"
-import { cloneAndMutateObject, objectToFieldMask } from "src/utils/utils"
+import { cloneAndMutateObject } from "../../../utils/utils"
 import { filter } from "lodash"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -26,7 +26,7 @@ const addApiMethod = createApiGroup({ groupName: "UserRestrictions", baseUrl: "h
  * Gets restrictions for a user.
  * @endpoint
  * PATCH /v2/universes/{universe}/user-restrictions/{user-restriction}
- * PATCH /v2/universes/${universeId}/places/${placeId}/user-restrictions/${userId}
+ * PATCH /v2/universes/{universeId}/places/{placeId}/user-restrictions/{userId}
  * 
  * @param universeId The ID of the universe to get restrictions for.
  * @param placeId The ID of the place to get restrictions for.
@@ -64,7 +64,7 @@ export const restrictions = addApiMethod(async <
  * Updates restrctions for a user.
  * @endpoint
  * PATCH /v2/universes/{universe}/user-restrictions/{user-restriction}
- * PATCH /v2/universes/${universeId}/places/${placeId}/user-restrictions/${userId}
+ * PATCH /v2/universes/{universeId}/places/{placeId}/user-restrictions/{userId}
  * 
  * @param universeId The ID of the universe to set restrictions for.
  * @param placeId The ID of the place to set restrictions for.
@@ -123,7 +123,7 @@ export const updateRestrictionsForUser = addApiMethod(async <
 
 /**
  * Gets a list of restriction logs from a specific universe.
- * @endpoint GET /v2/universes/${universeId}/user-restrictions:listLogs
+ * @endpoint GET /v2/universes/{universeId}/user-restrictions:listLogs
  * 
  * @param universeId The ID of the universe to get restriction logs for.
  * @param placeId The ID of the place to get restriction logs for.

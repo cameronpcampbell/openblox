@@ -1,0 +1,1 @@
+export const PollUntilComplete = async (path: string) => ({ data: "hello" });

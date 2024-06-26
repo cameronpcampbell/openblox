@@ -104,7 +104,7 @@ export const HttpHandler = async <RawData extends any = any>(
     "Content-Type": !(formData && Object.keys(formData)?.length) && "application/json" || null,
   })
 
-  const handlerMain = async (): Promise<HttpResponse<RawData> | HttpError | unknown> => {
+  const handlerMain = async (): Promise<HttpResponse<RawData> | HttpError> => {
     try {
       const response = await adapter<RawData>({ ...requestData, headers: { ...requestDataHeaders, "x-csrf-token": savedCsrfToken } })
       if (!response.success) throw response
@@ -112,7 +112,7 @@ export const HttpHandler = async <RawData extends any = any>(
       return response
 
     } catch (error) {
-      if (!(error instanceof HttpResponse)) return error
+      if (!(error instanceof HttpResponse)) return error as any
 
       if (currentCsrfAttempt > maxCsrfAttempts) return new HttpError(error)
       currentCsrfAttempt++

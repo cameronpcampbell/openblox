@@ -38,7 +38,7 @@ export type PrettifiedUserRestrictionsData<
 
 
 /* PATCH /v2/universes/{universe}/user-restrictions/{user-restriction}
-   PATCH /v2/universes/${universeId}/places/${placeId}/user-restrictions/${userId --------------------------------- */
+   PATCH /v2/universes/{universeId}/places/{placeId}/user-restrictions/{userId --------------------------------- */
 export type UpdateUserRestrictionsData = {
   gameJoinRestriction: {
     active: boolean,
