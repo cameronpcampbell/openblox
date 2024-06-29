@@ -69,6 +69,11 @@ export const instanceChildren = addApiMethod(async <UniverseId extends Identifie
   searchParams: { maxPageSize: limit, pageToken: cursor },
   name: `instanceChildren`,
 
+  getCursorsFn: ({ response }) => {
+    if (!response) return [ null, null ]
+    return [ null, response.nextPageToken ]
+  },
+
   prettifyFn: (rawData) => {
     const response = rawData.response
     if (!response) return rawData

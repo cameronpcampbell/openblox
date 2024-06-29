@@ -101,7 +101,8 @@ type InstanceChildrenData<UniverseId extends Identifier, PlaceId extends Identif
   `universes/${UniverseId}/places/${PlaceId}/instances/${InstanceId}/operations/${string}`, 
   {
     "@type": "type.googleapis.com/roblox.open_cloud.cloud.v2.ListInstanceChildrenResponsee",
-    instances: Instances[]
+    instances: Instances[],
+    nextPageToken: string
   }
 >
 
