@@ -107,7 +107,6 @@ export type RawFlushAllQueuesData<UniverseId extends Identifier> = {
 
 export type PrettifiedFlushAllQueuesData<UniverseId extends Identifier> = {
   path: `cloud/v2/universes/${UniverseId}/operations/${string}`,
-  done: boolean,
-  id: string
+  done: boolean
 }
 // -------------------------------------------------------------------------------------------------------------------

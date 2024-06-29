@@ -1,14 +1,14 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
-import { FetchAdapter } from "../http/httpAdapters/fetchHttpAdapter"
+import { isObject } from "lodash"
+
+import { mergeDeep } from "../utils/utils"
+import { TtlCacheAdapter } from "../cache/cacheAdapters"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { HttpAdapter } from "../http/httpAdapters"
+import type { HttpAdapter } from "../http/http.utils"
 import type { CacheAdapter } from "../cache/cacheAdapters/cacheAdapters"
-import { mergeDeep, removeNullUndefined } from "../utils/utils"
-import { TtlCacheAdapter } from "../cache/cacheAdapters"
-import { isObject } from "lodash"
 
 export type RobloxCookie = `_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|${string}`
 

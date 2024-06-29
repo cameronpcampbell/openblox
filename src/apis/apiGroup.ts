@@ -1,11 +1,13 @@
-// [ Types ] /////////////////////////////////////////////////////////////////////
-import { getConfig, RobloxCookie } from "../config"
-import { HttpHandler, HttpResponse } from "../http/httpHandler"
+// [ Modules ] ///////////////////////////////////////////////////////////////////
+import { getConfig } from "../config"
+import { HttpHandler, isOpenCloudUrl } from "../http/httpHandler"
+import { HttpResponse } from "../http/http.utils"
+import { objectToFieldMask } from "../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { IsUnion, UnionPrettify, ObjectPrettify, Falsey } from "typeforge"
+import type { IsUnion, UnionPrettify, ObjectPrettify } from "typeforge"
 import type { RestMethod, SecureUrl } from "../utils/utils.types"
 
 export type ApiMethod<
@@ -19,11 +21,14 @@ export type ApiMethod<
     headers?: Record<string, string | null | undefined>,
     formData?: Record<string, any>,
     body?: any,
+    applyFieldMask?: boolean,
     name: string,
 
     // Hacky workaround to set types for rawData and prettifiedData
     rawData?: RawData,
     prettifiedData?: PrettifiedDataOrRawData,
+
+    pathToPoll?: <OperationId extends number>(rawData: RawData) => string,
 
     getCursorsFn?: (rawData: RawData) => ([ previous: string | number | undefined | null, next: string | number | undefined | null ])
   } &
@@ -71,10 +76,31 @@ export type PrettifyData<Input, _ExtendsDate extends boolean = Input extends Dat
   : Input extends Array<any> ? PrettifyData<Input[number]>[]
   : Input
 )
+
+
+type CallApiMethod< Args extends Record<string, any> | undefined, Returns extends ApiMethod<any, any>> = (
+  (this: any, args: keyof Args extends undefined ? void : Args) => (
+    Promise<ApiMethodResult<
+      Args,
+      PrettifyData<NonNullable<Awaited<Returns>["rawData"]>>,
+      PrettifyData<NonNullable<Awaited<Returns>["prettifiedData"]>>
+    >>
+  )
+)
+
+type CreateApiGroup = (args: { groupName: string, baseUrl: SecureUrl }) => (
+  <
+    Args extends Record<string, any> | undefined,
+    Returns extends ApiMethod<any, any>,
+  >(getDataFn: (args: Args) => Returns) => CallApiMethod<Args, Returns>
+)
 //////////////////////////////////////////////////////////////////////////////////
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
 const config = getConfig()
+
+const opPrefixRegexWithVersion = /((?:.+)(?:v[1-9]+\/))(?:.+)/
+const opPrefixRegexWithoutVersion = /(.+\/)(cloud\/)(?:v[1-9]+)(?:.+)/
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -129,25 +155,14 @@ const getRatelimitMetadata = (headers: Headers) => {
     reset: prettifiedDate
   })
 }
+
+const sleep = async (s: number) => new Promise(resolve => setTimeout(resolve, s * 1000))
+
+const expBackoff = (delay: number, lastIter: number) => {
+  return delay + (5 * lastIter)
+}
 //////////////////////////////////////////////////////////////////////////////////
 
-
-type CallApiMethod< Args extends Record<string, any> | undefined, Returns extends ApiMethod<any, any>> = (
-  (this: any, args: keyof Args extends undefined ? void : Args) => (
-    Promise<ApiMethodResult<
-      Args,
-      PrettifyData<NonNullable<Awaited<Returns>["rawData"]>>,
-      PrettifyData<NonNullable<Awaited<Returns>["prettifiedData"]>>
-    >>
-  )
-)
-
-type CreateApiGroup = (args: { groupName: string, baseUrl: SecureUrl }) => (
-  <
-    Args extends Record<string, any> | undefined,
-    Returns extends ApiMethod<any, any>,
-  >(getDataFn: (args: Args) => Returns) => CallApiMethod<Args, Returns>
-)
 
 export const createApiGroup: CreateApiGroup = ({ groupName, baseUrl }) => {
   return (getDataFn) => {
@@ -157,17 +172,45 @@ export const createApiGroup: CreateApiGroup = ({ groupName, baseUrl }) => {
     const callApiMethod: CallApiMethod<Record<string, any>, ApiMethod<any, any>> = async function (this, args) {
       const overrides = this
       const apiMethodData = await getDataFn(args as any)
-      const { path, method, searchParams, headers, body, formData } = apiMethodData
+      const { path, method, searchParams, headers, body, applyFieldMask, formData, name, pathToPoll:getPathToPoll } = apiMethodData
 
-      const url: SecureUrl = `${baseUrl}${path}${formatSearchParams(searchParams)}`
+      const formattedSearchParams = formatSearchParams(applyFieldMask ? { searchParams, updateMask: objectToFieldMask(body) } : searchParams)
+      const url: SecureUrl = `${baseUrl}${path}${formattedSearchParams}`
 
-      const response = await HttpHandler({ url, method, headers, body, formData }, {
+      const credentials = {
         cookie: overrides.cookie || config.cookie,
         cloudKey: overrides.cloudKey || config.cloudKey,
         oauthToken: overrides.oauthToken,
-      })
-      if (!(response instanceof HttpResponse)) throw response // TODO: better error handling
-      const responseBody = response.body
+      }
+
+      let response = await HttpHandler({ url, method, headers, body, formData }, credentials)
+      if (!(response instanceof HttpResponse)) throw response // Throws the response to be handled in the catch block below.
+      let responseBody = response.body
+
+      // Uncompleted long running operation.
+      let opPath = responseBody.path
+      if (isOpenCloudUrl(url) && opPath && responseBody.done === false) {
+        console.warn(`Polling '${groupName}.${name}' (Please be patient)...`)
+
+        if (getPathToPoll) opPath = getPathToPoll(responseBody)
+
+        const opPrefix = opPath.match(/^(\/?)cloud\/v[1-9]+(\/?)/)
+          ? opPrefixRegexWithoutVersion.exec(url)?.[1] as SecureUrl
+          : opPrefixRegexWithVersion.exec(url)?.[1] as SecureUrl
+        const opUrl = `${opPrefix}${opPath}` as SecureUrl
+
+        let delay = 0
+        for (let iter = 0; iter > -1; iter++) {
+          response = await HttpHandler({ url: opUrl, method: "GET" }, credentials)
+          if (!(response instanceof HttpResponse)) throw response // Throws the response to be handled in the catch block below.
+          responseBody = response.body
+
+          if (responseBody?.done === true) break
+
+          await sleep(delay)
+          delay = expBackoff(delay, iter)
+        }
+      }
 
       //getRatelimitMetadata(response.headers)
 
@@ -214,9 +257,9 @@ export const createApiGroup: CreateApiGroup = ({ groupName, baseUrl }) => {
   }
 }
 
-type NumberIsLiteral<Num extends number> = (
-  number extends Num ? false
-  : [Num] extends [never] ? false
-  : [Num] extends [string | number] ? true
-  : false
-)
+
+
+
+
+
+

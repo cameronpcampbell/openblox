@@ -1,6 +1,11 @@
+// [ Modules ] ///////////////////////////////////////////////////////////////////
+import { HttpResponse } from "../http.utils"
+//////////////////////////////////////////////////////////////////////////////////
+
+
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ObjectPrettify } from "typeforge"
-import type { HttpHandlerProps, HttpResponse } from "../httpHandler"
+import type { HttpHandlerProps } from "../http.utils"
 
 export type HttpAdapter = <
   Body extends any = any

@@ -69,19 +69,61 @@ export const objectToFieldMask = (o: Record<any, any>) => {
   if (!o || typeof o !== 'object') return [];
 
   const paths = [];
-  const stack = [{ obj: o, path: [] }] as [{ obj: typeof o, path: [] }];
+  const stack = [{ obj: o, path: [] as string[] }];
 
   while (stack.length > 0) {
-    const { obj, path } = stack.pop() as any as { obj: typeof o, path: [] };
+    const { obj, path } = stack.pop() as { obj: any, path: string[] };
 
     if (typeof obj === 'object' && obj !== null) {
+      let isEmpty = true;
       for (const key in obj) {
-        stack.push({ obj: obj[key], path: [...path, key] as any });
+        isEmpty = false;
+        stack.push({ obj: obj[key], path: [...path, key] });
+      }
+      if (isEmpty) {
+        // Add the path for empty objects or arrays
+        paths.push(path);
       }
     } else {
       paths.push(path);
     }
   }
 
-  return paths.map(path => path.join(".")).join(",")
+  return paths.map(path => path.join(".")).join(",");
 }
+
+
+export const toCamel = <Input extends Record<any, any>, Output extends Record<any, any>>(o: Input): Output => {
+  var newO: Record<any, any>, origKey, newKey, value
+  if (o instanceof Array) {
+    return o.map(function(value) {
+        if (typeof value === "object") {
+          value = toCamel(value)
+        }
+        return value
+    }) as any as Output
+  } else {
+    newO = {}
+    for (origKey in o) {
+      if (o.hasOwnProperty(origKey)) {
+        newKey = (origKey.charAt(0).toLowerCase() + origKey.slice(1) || origKey).toString()
+        value = o[origKey]
+        if (value instanceof Array || (value !== null && value.constructor === Object)) {
+          value = toCamel(value)
+        }
+        newO[newKey] = value
+      }
+    }
+  }
+  return newO as any as Output
+}
+
+export const toPascal = (obj: Record<any, any>) => {
+  return Object.keys(obj).reduce(
+    (result, key) => ({
+      ...result,
+      [key.charAt(0).toUpperCase() + key.slice(1)]: obj[key],
+    }),
+    {},
+  );
+};

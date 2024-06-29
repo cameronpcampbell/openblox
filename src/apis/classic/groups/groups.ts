@@ -1,6 +1,6 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
-import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware, dataIsSuccess } from "../../../utils/utils"
+import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware, dataIsSuccess, toCamel, toPascal } from "../../../utils/utils"
 import { readFile } from "../../../file"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -16,47 +16,7 @@ import type { SortOrder } from "../../../utils/utils.types"
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
 const addApiMethod = createApiGroup({ groupName: "ClassicGroups", baseUrl: "https://groups.roblox.com" })
-//////////////////////////////////////////////////////////////////////////////////
-
-
-// [ Private Functions ] /////////////////////////////////////////////////////////
-const toCamel = <Input extends Record<any, any>, Output extends Record<any, any>>(o: Input): Output => {
-  var newO: Record<any, any>, origKey, newKey, value
-  if (o instanceof Array) {
-    return o.map(function(value) {
-        if (typeof value === "object") {
-          value = toCamel(value)
-        }
-        return value
-    }) as any as Output
-  } else {
-    newO = {}
-    for (origKey in o) {
-      if (o.hasOwnProperty(origKey)) {
-        newKey = (origKey.charAt(0).toLowerCase() + origKey.slice(1) || origKey).toString()
-        value = o[origKey]
-        if (value instanceof Array || (value !== null && value.constructor === Object)) {
-          value = toCamel(value)
-        }
-        newO[newKey] = value
-      }
-    }
-  }
-  return newO as any as Output
-}
-
-
-
-const toPascal = (obj: Record<any, any>) => {
-  return Object.keys(obj).reduce(
-    (result, key) => ({
-      ...result,
-      [key.charAt(0).toUpperCase() + key.slice(1)]: obj[key],
-    }),
-    {},
-  );
-};
-//////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Groups ] ////////////////////////////////////////////////////////////////////

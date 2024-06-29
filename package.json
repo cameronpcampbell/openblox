@@ -1,7 +1,7 @@
 {
   "name": "openblox",
   "type": "commonjs",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MightyPart/openblox/issues"
@@ -26,7 +26,7 @@
     "./cloud": "./src/apis/cloud/index.ts",
     "./cloud/*": "./src/apis/cloud/*/index.ts",
     "./cache/adapters": "./src/cache/cacheAdapters/index.ts",
-    "./http/adapters": "./src/http/httpAdapters/index.ts",
+    "./http": "./src/http/http.utils.ts",
     "./types": "./src/types.ts"
   },
   "exports": {
@@ -58,9 +58,9 @@
       "types": "./dist/cache/cacheAdapters/index.d.ts",
       "default": "./dist/cache/cacheAdapters/index.js"
     },
-    "./http/adapters": {
-      "types": "./dist/http/httpAdapters/index.d.ts",
-      "default": "./dist/http/httpAdapters/index.js"
+    "./http": {
+      "types": "./dist/http/http.utils.d.ts",
+      "default": "./dist/http/http.utils.js"
     },
     "./types": {
       "types": "./dist/types.d.ts",
@@ -68,7 +68,8 @@
     }
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "parse-roblox-errors": "^1.1.10"
   },
   "devDependencies": {
     "@types/bun": "^1.1.2",

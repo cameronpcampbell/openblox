@@ -17,3 +17,11 @@ export type RestMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 export type SecureUrl = `https://${string}`
 
 export type SortOrder = "Asc" | "Desc"
+
+
+type NumberIsLiteral<Num extends number> = (
+  number extends Num ? false
+  : [Num] extends [never] ? false
+  : [Num] extends [string | number] ? true
+  : false
+)

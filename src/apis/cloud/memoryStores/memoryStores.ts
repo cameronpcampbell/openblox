@@ -261,28 +261,13 @@ export const flushAllQueues = addApiMethod(async <UniverseId extends Identifier>
   method: "POST",
   name: "flushQueue",
 
+  pathToPoll: ({ path }) => `/universes/${universeId}/memory-store/operations/${path.split("/")[5] as string}`,
+
   prettifyFn: ({ path, done }) => ({
-    path, done: done ? true : false, id: path.split("/")[5] as string
+    path, done: done ? true : false
   })
 }))
 
-/**
- * Removes all items from every queue in a given universe.
- * @endpoint GET /v2/universes/{universeId}/memory-store/operations/{operation}
- * 
- * @param universeId The id of the universe to flush all queue items from.
- * 
- * @example
- * const { data:operation } = await MemoryStoresApi.operationStatus({
- *  universeId: 5243626809, operation: "AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ"
- * });
- * @exampleData {"path":"cloud/v2/universes/5243626809/operations/AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ","done":false}
- * @exampleRawBody {"path":"cloud/v2/universes/5243626809/operations/AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ","done":false}
- */
-export const operationStatus = addApiMethod(async <UniverseId extends Identifier>(
-  { universeId, operation }: { universeId: UniverseId, operation: string }
-): ApiMethod<Operation<UniverseId>> => ({
-  path: `/v2/universes/${universeId}/memory-store/operations/${operation}`,
-  method: "GET",
-  name: "operationStatus"
-}))
+
+
+

@@ -1,73 +1,20 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
+import { parseBEDEV1ErrorFromStringAndHeaders, parseBEDEV2ErrorFromStringAndHeaders } from "parse-roblox-errors"
+
+import { HttpError, HttpResponse } from "../http.utils"
 import { FetchAdapter } from "../httpAdapters/fetchHttpAdapter"
 import { getConfig } from "../../config"
+import { removeNullUndefined } from "../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { RobloxCookie } from "../../config"
-import type { RestMethod, SecureUrl } from "../../utils/utils.types"
-import { ObjectPrettify, Prettify } from "typeforge"
-import { removeNullUndefined } from "../../utils/utils"
-
-export type HttpHandlerProps = {
-  url: SecureUrl,
-  method: RestMethod,
-  headers?: Record<string, any>,
-  body?: any,
-  formData?: Record<string, any>
-}
-
-export type Credentials = {
-  cookie?: RobloxCookie,
-  cloudKey?: string,
-  oauthToken?: string
-}
+import type { Credentials, HttpHandlerProps } from "../http.utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
 let savedCsrfToken = ""
-
-export type HttpResponseProps<
-  Body extends any = any,
-> = ObjectPrettify<{
-  fullResponse: any,
-  url: SecureUrl,
-  method: RestMethod,
-  success: boolean,
-  statusCode: number,
-  headers: Headers,
-  body: Body,
-}>
-
-export class HttpResponse<Body extends any = any> {
-  fullResponse: any
-  url: SecureUrl
-  method: RestMethod
-  success: boolean
-  statusCode: number
-  headers: Headers
-  body: Prettify<Body>
-
-  constructor(props: HttpResponseProps) {
-    this.fullResponse = props.fullResponse
-    this.url = props.url
-    this.method = props.method
-    this.success = props.success
-    this.statusCode = props.statusCode
-    this.headers = props.headers
-    this.body = props.body
-  }
-}
-
-export class HttpError {
-  errorResponse: HttpResponse
-
-  constructor(error: HttpResponse) {
-    this.errorResponse = error
-  }
-}
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -78,6 +25,29 @@ const objectToFormData = (formDataObject?: Record<string, any>) => {
   Object.entries(formDataObject).forEach(([key, value]) => formData.append(key, value))
 
   return formData
+}
+
+export const isOpenCloudUrl = (url: string): boolean =>
+  url.startsWith("https://apis.roblox.com/cloud")
+  || url.startsWith("https://apis.roblox.com/datastore")
+  || url.startsWith("https://apis.roblox.com/messaging-service")
+  || url.startsWith("https://apis.roblox.com/ordered-data-stores")
+
+export const detectBEDEVVersionForUrl = (url: string): 1 | 2 | undefined => {
+  const urlObject = new URL(url)
+
+  if (urlObject.host == "apis.roblox.com") return 2
+  if (urlObject.host.endsWith(".roblox.com")) return 1
+  return undefined
+}
+
+export const getParsedErrors = async (response: HttpResponse): Promise<any> => {
+  const BEDEVVersion = detectBEDEVVersionForUrl(response.url)
+  return BEDEVVersion == 1 ?
+    await parseBEDEV1ErrorFromStringAndHeaders(JSON.stringify(response.body), response.headers as any as Headers)
+  : BEDEVVersion == 2 ?
+    await parseBEDEV2ErrorFromStringAndHeaders(JSON.stringify(response.body), response.headers as any as Headers)
+  : undefined
 }
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -112,18 +82,23 @@ export const HttpHandler = async <RawData extends any = any>(
       return response
 
     } catch (error) {
-      if (!(error instanceof HttpResponse)) return error as any
+      if (!(error instanceof HttpResponse)) throw error
 
-      if (currentCsrfAttempt > maxCsrfAttempts) return new HttpError(error)
-      currentCsrfAttempt++
+      if (currentCsrfAttempt > maxCsrfAttempts) throw new HttpError("Csrf", error, await getParsedErrors(error))
 
       const responseCsrfToken = error.headers.get("x-csrf-token")
-      if (error.statusCode != 403 || (!responseCsrfToken)) return new HttpError(error)
+      if (error.statusCode != 403 || (!responseCsrfToken)) {
+        // Not a csrf error.
+        throw new HttpError("Generic", error, await getParsedErrors(error))
 
-      // Only Changes the saved csrf token to be that of the response csrf token if the cookie used was not an override.
-      if (cookie == getConfig()?.cookie) savedCsrfToken = responseCsrfToken
+      } else {
+        // Only Changes the saved csrf token to be that of the response csrf token if the cookie used was not an override.
+        if (cookie == getConfig()?.cookie) savedCsrfToken = responseCsrfToken
 
-      return handlerMain()
+        // retries the request with the new csrf token.
+        currentCsrfAttempt++
+        return handlerMain()
+      }
     }
   }
 

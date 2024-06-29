@@ -16,30 +16,6 @@ const addApiMethod = createApiGroup({ groupName: "Experiences", baseUrl: "https:
 //////////////////////////////////////////////////////////////////////////////////
 
 
-// [ Private Functions ] /////////////////////////////////////////////////////////
-const objectToFieldMask = (o: Record<any, any>) => {
-  if (!o || typeof o !== 'object') return [];
-
-  const paths = [];
-  const stack = [{ obj: o, path: [] }] as [{ obj: typeof o, path: [] }];
-
-  while (stack.length > 0) {
-    const { obj, path } = stack.pop() as any as { obj: typeof o, path: [] };
-
-    if (typeof obj === 'object' && obj !== null) {
-      for (const key in obj) {
-        stack.push({ obj: obj[key], path: [...path, key] as any });
-      }
-    } else {
-      paths.push(path);
-    }
-  }
-
-  return paths.map(path => path.join(".")).join(",")
-}
-//////////////////////////////////////////////////////////////////////////////////
-
-
 /**
  * Gets information about a universe.
  * @endpoint GET /v2/universes/{universeId}
@@ -83,8 +59,8 @@ export const updateUniverse = addApiMethod(async <UniverseId extends Identifier,
 ): ApiMethod<RawUpdateUniverseData<UniverseId, NewData>, PrettifiedUpdateUniverseData<UniverseId, NewData>> => ({
   path: `/v2/universes/${universeId}`,
   method: "PATCH",
-  searchParams: { updateMask: objectToFieldMask(newData) },
   body: newData,
+  applyFieldMask: true,
   name: "updateUniverse",
 
   prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => {
@@ -156,12 +132,12 @@ export const placeInfo = addApiMethod(async <UniverseId extends Identifier, Plac
  * @exampleRawBody {"path":"universes/5795192361/places/16866553538","createTime":"2024-03-25T10:42:46.297Z","updateTime":"2024-05-13T10:21:20.247157600Z","displayName":"Hello World","description":"","serverSize":50}
  */
 export const updatePlace = addApiMethod(async <UniverseId extends Identifier, PlaceId extends Identifier, const NewData extends UpdatePlace_NewData>(
-  { universeId, placeId: PlaceId, newData }: { universeId: UniverseId, placeId: PlaceId, newData: NewData }
+  { universeId, placeId, newData }: { universeId: UniverseId, placeId: PlaceId, newData: NewData }
 ): ApiMethod<RawUpdatePlaceData<UniverseId, PlaceId, NewData>, PrettifiedUpdatePlaceData<UniverseId, PlaceId, NewData>> => ({
-  path: `/v2/universes/${universeId}/places/${PlaceId}`,
-  searchParams: { updateMask: objectToFieldMask(newData) },
+  path: `/v2/universes/${universeId}/places/${placeId}`,
   method: "PATCH",
   body: newData,
+  applyFieldMask: true,
   name: "updatePlace",
 
   prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => {
