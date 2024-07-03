@@ -31,7 +31,7 @@ type Universe = {
   vrEnabled: boolean
 }
 
-// GET v2/universes/{universeId} -------------------------------------------------------------------------------------
+// GET /cloud/v2/universes/{universeId} ------------------------------------------------------------------------------
 type UniverseInfoData<UniverseId extends Identifier, TimeType> = {
   path: `universes/${UniverseId}`,
   createTime: TimeType,
@@ -45,7 +45,7 @@ export type PrettifiedUniverseInfoData<UniverseId extends Identifier> = Universe
 // -------------------------------------------------------------------------------------------------------------------
 
 
-// PATCH v2/universes/{universeId} -----------------------------------------------------------------------------------
+// PATCH /cloud/v2/universes/{universeId} ----------------------------------------------------------------------------
 export type UpdateUniverse_NewData = ObjectPrettify<Partial<Universe>>
 
 type UpdateUniverseData<UniverseId extends Identifier, NewData extends UpdateUniverse_NewData, TemporalType> = ObjectPrettify<Omit<{
@@ -77,7 +77,7 @@ type Place = ObjectPrettify<{
   serverSize: number
 }>
 
-// GET /v2/universes/${universeId}/places/${PlaceId} -----------------------------------------------------------------
+// GET /cloud/v2/universes/${universeId}/places/${PlaceId} -----------------------------------------------------------
 type PlaceInfoData<UniverseId extends Identifier, PlaceId extends Identifier, TemporalType> = ObjectPrettify<{
   path: `universes/${UniverseId}/places/${PlaceId}`,
   createTime: TemporalType,
@@ -90,7 +90,7 @@ export type PrettifiedPlaceInfoData<UniverseId extends Identifier, PlaceId exten
 // -------------------------------------------------------------------------------------------------------------------
 
 
-// PATCH /v2/universes/${universeId}/places/${PlaceId} ---------------------------------------------------------------
+// PATCH /cloud//v2/universes/${universeId}/places/${PlaceId} --------------------------------------------------------
 export type UpdatePlace_NewData = ObjectPrettify<Partial<Place>>
 
 type UpdatePlaceData<

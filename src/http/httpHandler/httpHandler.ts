@@ -62,7 +62,7 @@ export const HttpHandler = async <RawData extends any = any>(
 
   const requestData = {
     url, method,
-    body: typeof body == "object" ? JSON.stringify(body) : body,
+    body: body.constructor == Object ? JSON.stringify(body) : body,
     formData: objectToFormData(formData),
   }
 
@@ -71,7 +71,7 @@ export const HttpHandler = async <RawData extends any = any>(
     Cookie: cookie as string,
     "x-api-key": cloudKey,
     Authorization: oauthToken && `Bearer ${oauthToken}`,
-    "Content-Type": !(formData && Object.keys(formData)?.length) && "application/json" || null,
+    "Content-Type": headers?.["Content-Type"] || (!(formData && Object.keys(formData)?.length) && "application/json" || null),
   })
 
   const handlerMain = async (): Promise<HttpResponse<RawData> | HttpError> => {
