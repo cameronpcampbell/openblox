@@ -24,16 +24,16 @@ const addApiMethod = createApiGroup({ groupName: "Engine", baseUrl: "https://api
  * @param placeId The ID of the place to get the Instance from.
  * @param instanceId The ID of the Instance to get.
  * 
- * @example const { data:instance } = await EngineApi.instance({ universeId: 5795192361, placeId: 16866553538, instanceId: "root" })
+ * @example const { data:instance } = await EngineApi.instanceInfo({ universeId: 5795192361, placeId: 16866553538, instanceId: "root" })
  * @exampleData {"path":"universes/5795192361/places/16866553538/instances/root/operations/2ae28479-2d4f-4725-99e6-123cb44b5193","done":true,"response":{"@type":"type.googleapis.com/roblox.open_cloud.cloud.v2.Instance","path":"universes/5795192361/places/16866553538/instances/78c032f0-6e1a-1015-0691-6a1600000001","hasChildren":true,"engineInstance":{"id":"78c032f0-6e1a-1015-0691-6a1600000001","parent":"","name":"Game","details":{}}}}
  * @exampleRawBody {"path":"universes/5795192361/places/16866553538/instances/root/operations/2ae28479-2d4f-4725-99e6-123cb44b5193","done":true,"response":{"@type":"type.googleapis.com/roblox.open_cloud.cloud.v2.Instance","path":"universes/5795192361/places/16866553538/instances/78c032f0-6e1a-1015-0691-6a1600000001","hasChildren":true,"engineInstance":{"Id":"78c032f0-6e1a-1015-0691-6a1600000001","Parent":"","Name":"Game","Details":{}}}}
  */
-export const instance = addApiMethod(async <UniverseId extends Identifier, PlaceId extends Identifier, InstanceId extends string>(
+export const instanceInfo = addApiMethod(async <UniverseId extends Identifier, PlaceId extends Identifier, InstanceId extends string>(
   { universeId, placeId, instanceId }: { universeId: UniverseId, placeId: PlaceId, instanceId: InstanceId }
 ): ApiMethod<RawInstanceData<UniverseId, PlaceId, InstanceId>, PrettifiedInstanceData<UniverseId, PlaceId, InstanceId>> => ({
   method: "GET",
   path: `/v2/universes/${universeId}/places/${placeId}/instances/${instanceId}`,
-  name: `instance`,
+  name: `instanceInfo`,
 
   prettifyFn: (rawData) => {
     const response = rawData.response

@@ -62,7 +62,7 @@ export const HttpHandler = async <RawData extends any = any>(
 
   const requestData = {
     url, method,
-    body: body.constructor == Object ? JSON.stringify(body) : body,
+    body: body?.constructor == Object ? JSON.stringify(body) : body,
     formData: objectToFormData(formData),
   }
 
