@@ -648,7 +648,7 @@ export const allGroupRolesForUser_V1 = addApiMethod(async (
 export const removeGroupMember = addApiMethod(async (
   { groupId, userId }: { groupId: Identifier, userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
-  method: "GET",
+  method: "DELETE",
   path: `/v1/groups/${groupId}/users/${userId}`,
   name: "removeGroupMember",
 
