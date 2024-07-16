@@ -1,7 +1,7 @@
 {
   "name": "openblox",
   "type": "commonjs",
-  "version": "1.0.14",
+  "version": "1.0.17",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MightyPart/openblox/issues"

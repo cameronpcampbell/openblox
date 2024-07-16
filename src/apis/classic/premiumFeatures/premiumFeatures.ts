@@ -7,6 +7,7 @@ import { cloneAndMutateObject } from "../../../utils/utils"
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
 import type { Identifier } from "../../../utils/utils.types"
+import { PrettifiedUserSubscriptionsData, RawUserSubscriptionsData } from "./premiumFeatures.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -16,10 +17,10 @@ const addApiMethod = createApiGroup({ groupName: "ClassicPremiumFeatures", baseU
 
 
 /**
- * Gets the followers count for a specific user.
+ * Returns true if the user currently has a Roblox Premium subscription.
  * @endpoint GET /v1/users/{userId}/validate-membership
  * 
- * @param userId The id of the user to get the follower count for.
+ * @param userId The ID of the user to get premium membership for.
  * 
  * @example const { data:hasPremium } = await ClassicPremiumFeaturesApi.userHasPremium({ userId: 45348281 })
  * @exampleData true
@@ -31,4 +32,28 @@ export const userHasPremium = addApiMethod(async (
   path: `/v1/users/${userId}/validate-membership`,
   method: "GET",
   name: "userHasPremium",
+}))
+
+/**
+ * Gets a list of subscriptions for a user. NOTE: Can only get subscriptions for the authenticated user.
+ * @endpoint GET /v1/users/{userId}/subscriptions
+ * 
+ * @param userId The ID of the user to get subscriptions for.
+ * 
+ * @example const { data:subscriptions } = await ClassicPremiumFeaturesApi.userSubscriptions({ userId: 45348281 });
+ * @exampleData {"subscriptionProductModel":{"premiumFeatureId":505,"subscriptionTypeName":"RobloxPremium450","robuxStipendAmount":450,"isLifetime":false,"expiration":2024-08-15T15:04:28.326Z,"renewal":2024-08-12T15:04:28.326Z,"created":2014-02-14T16:20:38.117Z,"purchasePlatform":"isIosApp","subscriptionName":"Roblox Premium 450"}}
+ * @exampleRawBody {"subscriptionProductModel":{"premiumFeatureId":505,"subscriptionTypeName":"RobloxPremium450","robuxStipendAmount":450,"isLifetime":false,"expiration":"2024-08-15T15:04:28.326Z","renewal":"2024-08-12T15:04:28.326Z","created":"2014-02-14T16:20:38.117Z","purchasePlatform":"isIosApp","subscriptionName":"Roblox Premium 450"}}
+ */
+export const userSubscriptions = addApiMethod(async (
+  { userId }: { userId: Identifier }
+): ApiMethod<RawUserSubscriptionsData, PrettifiedUserSubscriptionsData> => ({
+  path: `/v1/users/${userId}/subscriptions`,
+  method: "GET",
+  name: "userSubscriptions",
+
+  prettifyFn: (rawData) => cloneAndMutateObject(rawData, ({ subscriptionProductModel }) => {
+    subscriptionProductModel.expiration = new Date(subscriptionProductModel.expiration)
+    subscriptionProductModel.renewal = new Date(subscriptionProductModel.renewal)
+    subscriptionProductModel.created = new Date(subscriptionProductModel.created)
+  })
 }))

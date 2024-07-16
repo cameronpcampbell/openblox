@@ -9,6 +9,8 @@
     "moduleDetection": "force",
     "isolatedModules": true,
 
+    "noErrorTruncation": true,
+
     "declaration": true,
     "outDir": "dist", // Output directory
     "rootDirs": ["src"], // Source directory

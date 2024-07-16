@@ -19,6 +19,47 @@ const addApiMethod = createApiGroup({ groupName: "ClassicGroups", baseUrl: "http
 /////////////////////////////////////////////////////////////////////////////////
 
 
+// [ Featured Content ] /////////////////////////////////////////////////////////
+/**
+ * DESCRIPTION
+ * @endpoint REST /...
+ * 
+ * @param
+ * 
+ * @example
+ * @exampleData
+ * @exampleRawBody
+ */
+/*export const featuredEvent = addApiMethod(async (
+  { groupId }: { groupId: Identifier }
+): ApiMethod<any> => ({
+  method: "GET",
+  path: `/v1/featured-content/event`,
+  name: `featuredEvent`,
+}))*/
+
+
+/**
+ * DESCRIPTION
+ * @endpoint REST /...
+ * 
+ * @param
+ * 
+ * @example
+ * @exampleData
+ * @exampleRawBody
+ */
+/*export const setFeaturedEvent = addApiMethod(async (
+  { groupId, eventId }: { groupId: Identifier, eventId: Identifier }
+): ApiMethod<any> => ({
+  method: "GET",
+  path: `/v1/featured-content/event`,
+  searchParams: { groupId, eventId },
+  name: `setFeaturedEvent`,
+}))*/
+/////////////////////////////////////////////////////////////////////////////////
+
+
 // [ Groups ] ////////////////////////////////////////////////////////////////////
 /**
  * Gets information about a group.

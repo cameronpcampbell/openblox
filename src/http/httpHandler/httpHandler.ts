@@ -19,19 +19,21 @@ let savedCsrfToken = ""
 
 
 // [ Private Functions ] /////////////////////////////////////////////////////////
-const objectToFormData = (formDataObject?: Record<string, any>) => {
+const objectToFormData = (formDataObject?: Record<string, any>, rawFormData?: FormData) => {
   if (!formDataObject) return
-  const formData = new FormData()
-  Object.entries(formDataObject).forEach(([key, value]) => formData.append(key, value))
+  const formData = rawFormData || new FormData()
+
+  Object.entries(formDataObject).forEach(([key, value]) => formData.append(key, value?.constructor == Object ? JSON.stringify(value) : value))
 
   return formData
 }
 
 export const isOpenCloudUrl = (url: string): boolean =>
-  url.startsWith("https://apis.roblox.com/cloud")
-  || url.startsWith("https://apis.roblox.com/datastore")
-  || url.startsWith("https://apis.roblox.com/messaging-service")
-  || url.startsWith("https://apis.roblox.com/ordered-data-stores")
+  url.startsWith("https://apis.roblox.com/cloud") ||
+  url.startsWith("https://apis.roblox.com/datastore") ||
+  url.startsWith("https://apis.roblox.com/messaging-service") ||
+  url.startsWith("https://apis.roblox.com/ordered-data-stores") ||
+  url.startsWith("https://apis.roblox.com/assets")
 
 export const detectBEDEVVersionForUrl = (url: string): 1 | 2 | undefined => {
   const urlObject = new URL(url)
@@ -52,7 +54,7 @@ export const getParsedErrors = async (response: HttpResponse): Promise<any> => {
 //////////////////////////////////////////////////////////////////////////////////
 
 export const HttpHandler = async <RawData extends any = any>(
-  { url, method, headers, body, formData }: HttpHandlerProps, { cookie, cloudKey, oauthToken }: Credentials
+  { url, method, headers, body, formData, rawFormData }: HttpHandlerProps, { cookie, cloudKey, oauthToken }: Credentials
 ) => {
   const configHttp = getConfig()?.http
   const adapter = configHttp?.adapter || FetchAdapter
@@ -60,10 +62,12 @@ export const HttpHandler = async <RawData extends any = any>(
 
   let currentCsrfAttempt = 1
 
+  const parsedFormData = objectToFormData(formData, rawFormData)
+
   const requestData = {
     url, method,
     body: body?.constructor == Object ? JSON.stringify(body) : body,
-    formData: objectToFormData(formData),
+    formData: parsedFormData,
   }
 
   const requestDataHeaders = removeNullUndefined({
@@ -71,7 +75,7 @@ export const HttpHandler = async <RawData extends any = any>(
     Cookie: cookie as string,
     "x-api-key": cloudKey,
     Authorization: oauthToken && `Bearer ${oauthToken}`,
-    "Content-Type": headers?.["Content-Type"] || (!(formData && Object.keys(formData)?.length) && "application/json" || null),
+    "Content-Type": headers?.["Content-Type"] || (!((formData && Object.keys(formData)?.length) || rawFormData) && "application/json" || null),
   })
 
   const handlerMain = async (): Promise<HttpResponse<RawData> | HttpError> => {

@@ -1,5 +1,203 @@
 {
   "cloud": {
+    "assets": {
+      "assetInfo": {
+        "description": "Gets information for a specific asset.",
+        "tags": {
+          "endpoint": "GET /v1/assets/{assetId}",
+          "example": "const { data: assetInfo } = await AssetsApi.assetInfo({ assetId: 16989283104 });",
+          "exampleData": "{\n  path: \"assets/16989283104\",\n  revisionId: \"1\",\n  revisionCreateTime: \"2024-04-02T22:57:45.953Z\",\n  assetId: \"16989283104\",\n  displayName: \"suzanne\",\n  assetType: \"Model\",\n  creationContext: { creator: { userId: \"45348281\" } },\n  moderationResult: { moderationState: \"Approved\" },\n  previews: [],\n}\n",
+          "exampleRawBody": "{\n  path: \"assets/16989283104\",\n  revisionId: \"1\",\n  revisionCreateTime: \"2024-04-02T22:57:45.953Z\",\n  assetId: \"16989283104\",\n  displayName: \"suzanne\",\n  assetType: \"Model\",\n  creationContext: { creator: { userId: \"45348281\" } },\n  moderationResult: { moderationState: \"Approved\" },\n  previews: [],\n}\n"
+        },
+        "params": [
+          {
+            "name": "assetId",
+            "type": "AssetId",
+            "description": "The ID of the asset to get information for."
+          },
+          {
+            "name": "fields?",
+            "type": "Field[]",
+            "description": "The specific fields to get (if omitted then all fields will be gotten)."
+          }
+        ]
+      },
+      "createAsset": {
+        "description": "Creates a new asset.",
+        "tags": {
+          "endpoint": "POST /v1/assets",
+          "example": "const { data: createdAssetInfo } = await AssetsApi.createAsset({\n  assetType: \"Model\",\n  displayName: \"Model\",\n  userId: 45348281,\n  file: \"suzanne.fbx\",\n});",
+          "exampleData": "{\n  path: \"operations/b9682431-3c86-4473-8779-2ae9df9f0c0e\",\n  operationId: \"b9682431-3c86-4473-8779-2ae9df9f0c0e\",\n  done: true,\n  response: {\n    path: \"assets/18490359719\",\n    revisionId: \"1\",\n    revisionCreateTime: \"2024-07-14T18:02:50.597Z\",\n    assetId: \"18490359719\",\n    displayName: \"Model\",\n    assetType: \"Model\",\n    creationContext: { creator: { userId: \"45348281\" } },\n    moderationResult: { moderationState: \"Approved\" },\n    state: \"Active\",\n  },\n}\n",
+          "exampleRawBody": "{\n  path: \"operations/b9682431-3c86-4473-8779-2ae9df9f0c0e\",\n  operationId: \"b9682431-3c86-4473-8779-2ae9df9f0c0e\",\n  done: true,\n  response: {\n    path: \"assets/18490359719\",\n    revisionId: \"1\",\n    revisionCreateTime: \"2024-07-14T18:02:50.597689600Z\",\n    assetId: \"18490359719\",\n    displayName: \"Model\",\n    assetType: \"Model\",\n    creationContext: { creator: { userId: \"45348281\" } },\n    moderationResult: { moderationState: \"Approved\" },\n    state: \"Active\",\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "displayName",
+            "type": "🤷",
+            "description": "The display name for the asset."
+          },
+          {
+            "name": "description",
+            "type": "🤷",
+            "description": "The description for the asset."
+          },
+          {
+            "name": "userId",
+            "type": "🤷",
+            "description": "Define a userId to create the asset under the user."
+          },
+          {
+            "name": "groupId",
+            "type": "🤷",
+            "description": "Define a groupId to create the asset under the group."
+          },
+          {
+            "name": "assetType",
+            "type": "🤷",
+            "description": "The type for the asset."
+          },
+          {
+            "name": "file",
+            "type": "🤷",
+            "description": "The file containing the asset data."
+          },
+          {
+            "name": "fileName",
+            "type": "🤷",
+            "description": "This is required if your `file` argument is a `Buffer`."
+          },
+          {
+            "name": "expectedPrice",
+            "type": "🤷",
+            "description": "Expected asset upload fee in Robux. When the actual price is more than expected, the operation fails."
+          },
+          {
+            "name": "previews",
+            "type": "🤷",
+            "description": "The thumbnail previews for the asset."
+          }
+        ]
+      },
+      "updateAsset": {
+        "description": "Updates an asset.",
+        "tags": {
+          "endpoint": "PATCH /v1/assets/{assetId}",
+          "example": "const { data: updatedAssetInfo } = await AssetsApi.updateAsset({\n  assetId: 18494719558,\n  file: \"suzanne.fbx\",\n  assetType: \"Model\",\n});",
+          "exampleData": "{\n  path: \"operations/b9682431-3c86-4473-8779-2ae9df9f0c0e\",\n  operationId: \"b9682431-3c86-4473-8779-2ae9df9f0c0e\",\n  done: true,\n  response: {\n    path: \"assets/18490359719\",\n    revisionId: \"2\",\n    revisionCreateTime: \"2024-07-14T18:02:50.597Z\",\n    assetId: \"18490359719\",\n    displayName: \"Model\",\n    assetType: \"Model\",\n    creationContext: { creator: { userId: \"45348281\" } },\n    moderationResult: { moderationState: \"Approved\" },\n    state: \"Active\",\n  },\n}\n",
+          "exampleRawBody": "{\n  path: \"operations/b9682431-3c86-4473-8779-2ae9df9f0c0e\",\n  operationId: \"b9682431-3c86-4473-8779-2ae9df9f0c0e\",\n  done: true,\n  response: {\n    path: \"assets/18490359719\",\n    revisionId: \"2\",\n    revisionCreateTime: \"2024-07-14T18:02:50.597689600Z\",\n    assetId: \"18490359719\",\n    displayName: \"Model\",\n    assetType: \"Model\",\n    creationContext: { creator: { userId: \"45348281\" } },\n    moderationResult: { moderationState: \"Approved\" },\n    state: \"Active\",\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "assetId",
+            "type": "🤷",
+            "description": "The ID of the asset to update."
+          },
+          {
+            "name": "assetType",
+            "type": "🤷",
+            "description": "The type for the asset. Required if updating the assets file content."
+          },
+          {
+            "name": "displayName",
+            "type": "🤷",
+            "description": "The display name for the asset."
+          },
+          {
+            "name": "description",
+            "type": "🤷",
+            "description": "The description for the asset."
+          },
+          {
+            "name": "file",
+            "type": "🤷",
+            "description": "The file containing the new asset data."
+          },
+          {
+            "name": "fileName",
+            "type": "🤷",
+            "description": "This is required if your `file` argument is a `Buffer`."
+          },
+          {
+            "name": "expectedPrice",
+            "type": "🤷",
+            "description": "Expected asset upload fee in Robux. When the actual price is more than expected, the operation fails."
+          },
+          {
+            "name": "previews",
+            "type": "🤷",
+            "description": "The thumbnail previews for the asset."
+          }
+        ]
+      },
+      "assetOfVersion": {
+        "description": "Gets an asset of a specific version.",
+        "tags": {
+          "endpoint": "GET /v1/assets/{assetId}/versions/{version}",
+          "example": "const { data: assetInfo } = await AssetsApi.assetOfVersion({ assetId: 18508967120, version: 1 });",
+          "exampleData": "{\n  path: \"assets/18508967120/versions/1\",\n  creationContext: { creator: { userId: \"45348281\" } },\n  moderationResult: { moderationState: \"Approved\" },\n}\n",
+          "exampleRawBody": "{\n  path: \"assets/18508967120/versions/1\",\n  creationContext: { creator: { userId: \"45348281\" } },\n  moderationResult: { moderationState: \"Approved\" },\n}\n"
+        },
+        "params": [
+          {
+            "name": "assetId",
+            "type": "AssetId",
+            "description": "The ID of the asset to get."
+          },
+          {
+            "name": "version",
+            "type": "Version",
+            "description": "The version of the asset to get."
+          }
+        ]
+      },
+      "assetVersions": {
+        "description": "Lists versions of a specific asset.",
+        "tags": {
+          "endpoint": "GET /v1/assets/{assetId}/versions",
+          "example": "const { data: versions } = await AssetsApi.assetVersions({ assetId: 18508967120 });",
+          "exampleData": "[\n  {\n    path: \"assets/18494719558/versions/2\",\n    creationContext: { creator: { userId: \"45348281\" } },\n    moderationResult: { moderationState: \"Approved\" },\n  },\n  {\n    path: \"assets/18494719558/versions/1\",\n    creationContext: { creator: { userId: \"45348281\" } },\n    moderationResult: { moderationState: \"Approved\" },\n  },\n]\n",
+          "exampleRawBody": "{\n  assetVersions: [\n    {\n      path: \"assets/18494719558/versions/2\",\n      creationContext: { creator: { userId: \"45348281\" } },\n      moderationResult: { moderationState: \"Approved\" },\n    },\n    {\n      path: \"assets/18494719558/versions/1\",\n      creationContext: { creator: { userId: \"45348281\" } },\n      moderationResult: { moderationState: \"Approved\" },\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "assetId",
+            "type": "AssetId",
+            "description": "The ID of the asset to get asset versions for."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The maximum amount of games to return. Valid values range from 1 to 50 (inclusive). Defaults to 8 when not provided."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "the paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "rollbackAssetVersion": {
+        "description": "Rolls back a specific version of an asset",
+        "tags": {
+          "endpoint": "POST /v1/assets/{assetId}/versions/{version}:rollback",
+          "example": "const { data: rolledBackAssetInfo } = await AssetsApi.rollbackAssetVersion({ assetId: 18494719558, version: 2 });",
+          "exampleData": "{\n  path: \"assets/18494719558/versions/2\",\n  creationContext: { creator: { userId: \"45348281\" } },\n  moderationResult: { moderationState: \"Approved\" },\n}\n",
+          "exampleRawBody": "{\n  path: \"assets/18494719558/versions/2\",\n  creationContext: { creator: { userId: \"45348281\" } },\n  moderationResult: { moderationState: \"Approved\" },\n}\n"
+        },
+        "params": [
+          {
+            "name": "assetId",
+            "type": "AssetId",
+            "description": "The ID of the asset to rollback."
+          },
+          {
+            "name": "version",
+            "type": "Version",
+            "description": "The version of the asset to rollback."
+          }
+        ]
+      }
+    },
     "creatorStore": {
       "creatorStoreProductInfo": {
         "description": "",
@@ -80,11 +278,106 @@
         "params": []
       }
     },
+    "engine": {
+      "instanceInfo": {
+        "description": "Gets an Instance.",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universeId}/places/{placeId}/instances/{instanceId}",
+          "example": "const { data: instance } = await EngineApi.instanceInfo({\n  universeId: 5795192361,\n  placeId: 16866553538,\n  instanceId: \"root\",\n});",
+          "exampleData": "{\n  path: \"universes/5795192361/places/16866553538/instances/root/operations/2ae28479-2d4f-4725-99e6-123cb44b5193\",\n  done: true,\n  response: {\n    \"@type\": \"type.googleapis.com/roblox.open_cloud.cloud.v2.Instance\",\n    path: \"universes/5795192361/places/16866553538/instances/78c032f0-6e1a-1015-0691-6a1600000001\",\n    hasChildren: true,\n    engineInstance: {\n      id: \"78c032f0-6e1a-1015-0691-6a1600000001\",\n      parent: \"\",\n      name: \"Game\",\n      details: {},\n    },\n  },\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5795192361/places/16866553538/instances/root/operations/2ae28479-2d4f-4725-99e6-123cb44b5193\",\n  done: true,\n  response: {\n    \"@type\": \"type.googleapis.com/roblox.open_cloud.cloud.v2.Instance\",\n    path: \"universes/5795192361/places/16866553538/instances/78c032f0-6e1a-1015-0691-6a1600000001\",\n    hasChildren: true,\n    engineInstance: {\n      Id: \"78c032f0-6e1a-1015-0691-6a1600000001\",\n      Parent: \"\",\n      Name: \"Game\",\n      Details: {},\n    },\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to get the Instance from."
+          },
+          {
+            "name": "placeId",
+            "type": "PlaceId",
+            "description": "The ID of the place to get the Instance from."
+          },
+          {
+            "name": "instanceId",
+            "type": "InstanceId",
+            "description": "The ID of the Instance to get."
+          }
+        ]
+      },
+      "instanceChildren": {
+        "description": "Gets children for an Instance.",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universeId}/places/{placeId}/instances/{instanceId}:listChildren",
+          "example": "const { data: children } = await EngineApi.instanceChildren({\n  universeId: 5795192361,\n  placeId: 16866553538,\n  instanceId: \"root\",\n});",
+          "exampleData": "{\n  path: \"universes/5795192361/places/16866553538/instances/root/operations/1a9a74a7-c687-492d-8035-759b29295867\",\n  done: true,\n  response: {\n    \"@type\": \"type.googleapis.com/roblox.open_cloud.cloud.v2.ListInstanceChildrenResponse\",\n    instances: [\n      {\n        path: \"universes/5795192361/places/16866553538/instances/44b188da-ce63-2b47-02e9-c68d004815fc\",\n        hasChildren: true,\n        engineInstance: {\n          id: \"44b188da-ce63-2b47-02e9-c68d004815fc\",\n          parent: \"649b6a4b-51bf-b866-0691-76d800000001\",\n          name: \"Workspace\",\n          details: {},\n        },\n      },\n    ],\n    nextPageToken: \"\",\n  },\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5795192361/places/16866553538/instances/root/operations/1a9a74a7-c687-492d-8035-759b29295867\",\n  done: true,\n  response: {\n    \"@type\": \"type.googleapis.com/roblox.open_cloud.cloud.v2.ListInstanceChildrenResponse\",\n    instances: [\n      {\n        path: \"universes/5795192361/places/16866553538/instances/44b188da-ce63-2b47-02e9-c68d004815fc\",\n        hasChildren: true,\n        engineInstance: {\n          Id: \"44b188da-ce63-2b47-02e9-c68d004815fc\",\n          Parent: \"649b6a4b-51bf-b866-0691-76d800000001\",\n          Name: \"Workspace\",\n          Details: {},\n        },\n      },\n    ],\n    nextPageToken: \"\",\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to get the Instance children from."
+          },
+          {
+            "name": "placeId",
+            "type": "PlaceId",
+            "description": "The ID of the place to get the Instance children from."
+          },
+          {
+            "name": "instanceId",
+            "type": "InstanceId",
+            "description": "The ID of the Instance to get children for."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The maximum number of child instance to return. The service may return fewer than this value. If unspecified, at most 200 children will be returned. The maximum value is 200; values above 200 will be coerced to 200."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "updateInstance": {
+        "description": "Updates an Instance.",
+        "tags": {
+          "endpoint": "PATCH /v2/universes/{universe}/places/{place}/instances/{instance}",
+          "example": "const { data: updatedInstance } = await EngineApi.updateInstance({\n  universeId: 5795192361,\n  placeId: 16866553538,\n  instanceId: \"4b70b051-16c0-dede-0691-7e9e00004e03\",\n  newData: {\n    script: {\n      source: \"-- editing a script via typescript :)\",\n    },\n  },\n});",
+          "exampleData": "{\n  path: \"universes/5795192361/places/16866553538/instances/4b70b051-16c0-dede-0691-7e9e00004e03/operations/7a865423-3566-4377-8b9e-ffd831341399\",\n  done: true,\n  response: {\n    \"@type\": \"type.googleapis.com/roblox.open_cloud.cloud.v2.Instance\",\n    path: \"universes/5795192361/places/16866553538/instances/4b70b051-16c0-dede-0691-7e9e00004e03\",\n    hasChildren: false,\n    engineInstance: {\n      id: \"4b70b051-16c0-dede-0691-7e9e00004e03\",\n      parent: \"44b188da-ce63-2b47-02e9-c68d004815fc\",\n      name: \"Script\",\n      details: {\n        script: {\n          enabled: true,\n          runContext: \"Legacy\",\n          source: \"-- editing a script via typescript :)\",\n        },\n      },\n    },\n  },\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5795192361/places/16866553538/instances/4b70b051-16c0-dede-0691-7e9e00004e03/operations/7a865423-3566-4377-8b9e-ffd831341399\",\n  done: true,\n  response: {\n    \"@type\": \"type.googleapis.com/roblox.open_cloud.cloud.v2.Instance\",\n    path: \"universes/5795192361/places/16866553538/instances/4b70b051-16c0-dede-0691-7e9e00004e03\",\n    hasChildren: false,\n    engineInstance: {\n      Id: \"4b70b051-16c0-dede-0691-7e9e00004e03\",\n      Parent: \"44b188da-ce63-2b47-02e9-c68d004815fc\",\n      Name: \"Script\",\n      Details: {\n        Script: {\n          Enabled: true,\n          RunContext: \"Legacy\",\n          Source: \"-- editing a script via typescript :)\",\n        },\n      },\n    },\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to get the Instance from."
+          },
+          {
+            "name": "placeId",
+            "type": "PlaceId",
+            "description": "The ID of the place to get the Instance from."
+          },
+          {
+            "name": "instanceId",
+            "type": "InstanceId",
+            "description": "The ID of the Instance to get."
+          },
+          {
+            "name": "newData",
+            "type": "UpdateInstance_NewData",
+            "description": "The new data to apply to the Instance."
+          }
+        ]
+      }
+    },
     "experiences": {
       "universeInfo": {
         "description": "Gets information about a universe.",
         "tags": {
-          "endpoint": "GET /v2/universes/{universeId}",
+          "endpoint": "GET /cloud/v2/universes/{universeId}",
           "example": "const { data: universeInfo } = await ExperiencesApi.universeInfo({ universeId: 5795192361 });",
           "exampleData": "{\n  path: \"universes/5795192361\",\n  createTime: \"2024-03-25T10:42:46.360Z\",\n  updateTime: \"2024-03-25T10:42:46.360Z\",\n  displayName: \"MightyPart's Place Number: 201\",\n  description: \"\",\n  user: \"users/45348281\",\n  visibility: \"PRIVATE\",\n  voiceChatEnabled: false,\n  ageRating: \"AGE_RATING_UNSPECIFIED\",\n  desktopEnabled: true,\n  mobileEnabled: true,\n  tabletEnabled: true,\n  consoleEnabled: false,\n  vrEnabled: true,\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5795192361\",\n  createTime: \"2024-03-25T10:42:46.360Z\",\n  updateTime: \"2024-03-25T10:42:46.360Z\",\n  displayName: \"MightyPart's Place Number: 201\",\n  description: \"\",\n  user: \"users/45348281\",\n  visibility: \"PRIVATE\",\n  voiceChatEnabled: false,\n  ageRating: \"AGE_RATING_UNSPECIFIED\",\n  desktopEnabled: true,\n  mobileEnabled: true,\n  tabletEnabled: true,\n  consoleEnabled: false,\n  vrEnabled: true,\n}\n"
@@ -100,7 +393,7 @@
       "updateUniverse": {
         "description": "Updates a universes information.",
         "tags": {
-          "endpoint": "PATCH /v2/universes/{universeId}",
+          "endpoint": "PATCH /cloud/v2/universes/{universeId}",
           "example": "const { data: updatedData } = await ExperiencesApi.updateUniverse({\n  universeId: 5795192361,\n  newData: { displayName: \"Lorem Ipsum\", visibility: \"PRIVATE\" },\n});",
           "exampleData": "{\n  path: \"universes/5795192361\",\n  createTime: \"2024-03-25T10:42:46.360Z\",\n  updateTime: \"2024-03-25T10:42:46.360Z\",\n  displayName: \"MightyPart's Place Number: 201\",\n  description: \"\",\n  user: \"users/45348281\",\n  visibility: \"PRIVATE\",\n  voiceChatEnabled: false,\n  ageRating: \"AGE_RATING_UNSPECIFIED\",\n  desktopEnabled: true,\n  mobileEnabled: true,\n  tabletEnabled: true,\n  consoleEnabled: false,\n  vrEnabled: true,\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5795192361\",\n  createTime: \"2024-03-25T10:42:46.360Z\",\n  updateTime: \"2024-03-25T10:42:46.360Z\",\n  displayName: \"MightyPart's Place Number: 201\",\n  description: \"\",\n  user: \"users/45348281\",\n  visibility: \"PRIVATE\",\n  voiceChatEnabled: false,\n  ageRating: \"AGE_RATING_UNSPECIFIED\",\n  desktopEnabled: true,\n  mobileEnabled: true,\n  tabletEnabled: true,\n  consoleEnabled: false,\n  vrEnabled: true,\n}\n"
@@ -122,7 +415,7 @@
         "description": "Restarts all currently running servers for a given universe. Used for releasing experience updates.",
         "tags": {
           "category": "Users",
-          "endpoint": "GET /v2/universes/{universeId}",
+          "endpoint": "GET /cloud/v2/universes/{universeId}",
           "example": "await ExperiencesApi.restartUniverseServers({ universeId: 5795192361 });",
           "exampleData": "{}\n",
           "exampleRawBody": "{}\n"
@@ -138,7 +431,7 @@
       "placeInfo": {
         "description": "Gets information about a universes place.",
         "tags": {
-          "endpoint": "GET /v2/universes/{universeId}/{placeId}",
+          "endpoint": "GET /cloud/v2/universes/{universeId}/{placeId}",
           "example": "const { data: placeInfo } = await ExperiencesApi.placeInfo({ universeId: 5795192361, placeId: 16866553538 });",
           "exampleData": "{\n  path: \"universes/5795192361/places/16866553538\",\n  createTime: \"2024-03-25T10:42:46.297Z\",\n  updateTime: \"2024-03-26T16:50:19.023Z\",\n  displayName: \"MightyPart's Place Number: 201\",\n  description: \"\",\n  serverSize: 50,\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5795192361/places/16866553538\",\n  createTime: \"2024-03-25T10:42:46.297Z\",\n  updateTime: \"2024-03-26T16:50:19.023Z\",\n  displayName: \"MightyPart's Place Number: 201\",\n  description: \"\",\n  serverSize: 50,\n}\n"
@@ -159,7 +452,7 @@
       "updatePlace": {
         "description": "Updates a places information.",
         "tags": {
-          "endpoint": "PATCH /v2/universes/{universeId}/places/{PlaceId}",
+          "endpoint": "PATCH /cloud/v2/universes/{universeId}/places/{PlaceId}",
           "example": "const { data: updatedInfo } = await ExperiencesApi.updatePlace({\n  universeId: 5795192361,\n  placeId: 16866553538,\n  newData: { displayName: \"Hello World\" },\n});",
           "exampleData": "{\n  path: \"universes/5795192361/places/16866553538\",\n  createTime: \"2024-03-25T10:42:46.297Z\",\n  updateTime: \"2024-05-13T10:21:20.247Z\",\n  displayName: \"Hello World\",\n  description: \"\",\n  serverSize: 50,\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5795192361/places/16866553538\",\n  createTime: \"2024-03-25T10:42:46.297Z\",\n  updateTime: \"2024-05-13T10:21:20.247157600Z\",\n  displayName: \"Hello World\",\n  description: \"\",\n  serverSize: 50,\n}\n"
@@ -179,6 +472,37 @@
             "name": "newData",
             "type": "NewData",
             "description": "the updated place information."
+          }
+        ]
+      },
+      "publishPlace": {
+        "description": "Publishes a place file (.rbxl or .rbxlx) to a specific place.",
+        "tags": {
+          "endpoint": "POST /universes/v1/{universeId}/places/{placeId}/versions",
+          "example": "const { data: newVersion } = await ExperiencesApi.publishPlace({\n  universeId: 5795192361,\n  placeId: 16866553538,\n  versionType: \"Published\",\n  placeFile: \"./place.rbxlx\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{ versionNumber: 26 }\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe the publish the place file to."
+          },
+          {
+            "name": "placeId",
+            "type": "Identifier",
+            "description": "The ID of the place to publish the place file to."
+          },
+          {
+            "name": "versionType",
+            "type": "\"Saved\" | \"Published\"",
+            "description": "The version type to publish with."
+          },
+          {
+            "name": "placeFile",
+            "type": "Buffer | string",
+            "description": "Either a string or a buffer of the place file. (Using a string is recommended)."
           }
         ]
       }
@@ -655,22 +979,6 @@
             "description": "The id of the universe to flush all queue items from."
           }
         ]
-      },
-      "operationStatus": {
-        "description": "Removes all items from every queue in a given universe.",
-        "tags": {
-          "endpoint": "GET /v2/universes/{universeId}/memory-store/operations/{operation}",
-          "example": "const { data: operation } = await MemoryStoresApi.operationStatus({\n  universeId: 5243626809,\n  operation: \"AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ\",\n});",
-          "exampleData": "{\n  path: \"cloud/v2/universes/5243626809/operations/AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ\",\n  done: false,\n}\n",
-          "exampleRawBody": "{\n  path: \"cloud/v2/universes/5243626809/operations/AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ\",\n  done: false,\n}\n"
-        },
-        "params": [
-          {
-            "name": "universeId",
-            "type": "UniverseId",
-            "description": "The id of the universe to flush all queue items from."
-          }
-        ]
       }
     },
     "messaging": {
@@ -682,6 +990,18 @@
           "example": "// Openblox (Typescript Code) - Sending Message\ntype Message = { targetId: number; reason: string };\nawait MessagingApi.publishMessage<Message>({\n  universeId: 5097539509,\n  topic: \"kickPlr\",\n  message: { targetId: 45348281, reason: \"You smell kinda funny.\" },\n});\n\n/* Roblox Luau Code - Recieving The Message Above\nlocal MessagingService = game:GetService(\"MessagingService\")\nlocal HttpService = game:GetService(\"HttpService\")\nlocal Players = game:GetService(\"Players\")\n\nMessagingService:SubscribeAsync(\"kickPlr\", function(msg)\n    local data = HttpService:JSONDecode(msg.Data)\n     \n    local plr = Players:GetPlayerByUserId(data.targetId)\n    if not plr then return end\n    \n    plr:Kick(`You have been kicked for: \"{data.reason}\"`)\nend) */",
           "exampleData": "",
           "exampleRawBody": ""
+        },
+        "params": []
+      }
+    },
+    "oauth": {
+      "userInfo": {
+        "description": "Gets user information from the current access token.",
+        "tags": {
+          "endpoint": "GET /v1/userinfo",
+          "example": "const { data: userInfo } = await OAuthApi.userInfo.bind({ oauthToken: \"g3dcga9abegb1aacaag93ea46d5c064g\" })();",
+          "exampleData": "{\n  sub: \"45348281\",\n  name: \"Mighty\",\n  nickname: \"Mighty\",\n  preferred_username: \"MightyPart\",\n  created_at: 1373701800,\n  profile: \"https://www.roblox.com/users/45348281/profile\",\n  picture: \"https://tr.rbxcdn.com/30DAY-AvatarHeadshot-11BD4BBC67E3F95A4F4BED256CFB4591-Png/150/150/AvatarHeadshot/Png/noFilter\",\n}\n",
+          "exampleRawBody": "{\n  sub: \"45348281\",\n  name: \"Mighty\",\n  nickname: \"Mighty\",\n  preferred_username: \"MightyPart\",\n  created_at: 1373701800,\n  profile: \"https://www.roblox.com/users/45348281/profile\",\n  picture: \"https://tr.rbxcdn.com/30DAY-AvatarHeadshot-11BD4BBC67E3F95A4F4BED256CFB4591-Png/150/150/AvatarHeadshot/Png/noFilter\",\n}\n"
         },
         "params": []
       }
@@ -1290,7 +1610,7 @@
       "restrictions": {
         "description": "Gets restrictions for a user.",
         "tags": {
-          "endpoint": "PATCH /v2/universes/{universe}/user-restrictions/{user-restriction}\nPATCH /v2/universes/${universeId}/places/${placeId}/user-restrictions/${userId}",
+          "endpoint": "PATCH /v2/universes/{universe}/user-restrictions/{user-restriction}\nPATCH /v2/universes/{universeId}/places/{placeId}/user-restrictions/{userId}",
           "example": "const { data: restrictions } = await UserRestrictionsApi.restrictions({\n  universeId: 5795192361,\n  placeId: 18210254887,\n  userId: 6193495014,\n});",
           "exampleData": "{\n  path: \"universes/5795192361/places/18210254887/user-restrictions/6193495014\",\n  user: \"users/6193495014\",\n  gameJoinRestriction: {\n    active: true,\n    startTime: \"2024-06-25T22:56:58.873Z\",\n    duration: \"31540000s\",\n    privateReason: \"Being a meanie :/\",\n    displayReason: \"Annoying other players.\",\n    excludeAltAccounts: false,\n    inherited: false,\n  },\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5795192361/places/18210254887/user-restrictions/6193495014\",\n  user: \"users/6193495014\",\n  gameJoinRestriction: {\n    active: true,\n    startTime: \"2024-06-25T22:56:58.873Z\",\n    duration: \"31540000s\",\n    privateReason: \"Being a meanie :/\",\n    displayReason: \"Annoying other players.\",\n    excludeAltAccounts: false,\n    inherited: false,\n  },\n}\n"
@@ -1316,7 +1636,7 @@
       "updateRestrictionsForUser": {
         "description": "Updates restrctions for a user.",
         "tags": {
-          "endpoint": "PATCH /v2/universes/{universe}/user-restrictions/{user-restriction}\nPATCH /v2/universes/${universeId}/places/${placeId}/user-restrictions/${userId}",
+          "endpoint": "PATCH /v2/universes/{universe}/user-restrictions/{user-restriction}\nPATCH /v2/universes/{universeId}/places/{placeId}/user-restrictions/{userId}",
           "example": "import { v4 as uuidv4 } from \"uuid\";\nconst idempotencyKey = uuidv4(),\n  firstSent = new Date();\n\nconst { data: updatedRestrictions } = await UserRestrictionsApi.updateRestrictionsForUser({\n  universeId: 5795192361,\n  placeId: 18210254887,\n  userId: 6193495014,\n  idempotencyKey,\n  firstSent,\n  updatedData: {\n    gameJoinRestriction: {\n      active: true,\n      duration: \"31540000s\", // 1 year.\n      privateReason: \"Being a meanie :/\",\n      displayReason: \"Annoying other players.\",\n      excludeAltAccounts: false,\n      inherited: true,\n    },\n  },\n});",
           "exampleData": "{\n  path: \"universes/5795192361/places/18210254887/user-restrictions/6193495014\",\n  user: \"users/6193495014\",\n  gameJoinRestriction: {\n    active: true,\n    startTime: \"2024-06-25T22:54:39.245Z\",\n    duration: \"31540000s\",\n    privateReason: \"Being a meanie :/\",\n    displayReason: \"Annoying other players.\",\n    excludeAltAccounts: false,\n    inherited: false,\n  },\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5795192361/places/18210254887/user-restrictions/6193495014\",\n  user: \"users/6193495014\",\n  gameJoinRestriction: {\n    active: true,\n    startTime: \"2024-06-25T22:54:39.245Z\",\n    duration: \"31540000s\",\n    privateReason: \"Being a meanie :/\",\n    displayReason: \"Annoying other players.\",\n    excludeAltAccounts: false,\n    inherited: false,\n  },\n}\n"
@@ -1357,7 +1677,7 @@
       "listRestrictionLogs": {
         "description": "Gets a list of restriction logs from a specific universe.",
         "tags": {
-          "endpoint": "GET /v2/universes/${universeId}/user-restrictions:listLogs",
+          "endpoint": "GET /v2/universes/{universeId}/user-restrictions:listLogs",
           "example": "const { data: logs } = await UserRestrictionsApi.listRestrictionLogs({\n  universeId: 5795192361,\n  placeId: 18210254887,\n  userId: 6193495014,\n});",
           "exampleData": "[\n  {\n    user: \"users/6193495014\",\n    place: \"18210254887\",\n    moderator: { robloxUser: \"45348281\" },\n    createTime: \"2024-06-25T22:56:58.873Z\",\n    active: true,\n    startTime: \"2024-06-25T22:56:58.873Z\",\n    duration: \"31540000s\",\n    privateReason: \"Being a meanie :/\",\n    displayReason: \"Annoying other players.\",\n    excludeAltAccounts: false,\n  },\n]\n",
           "exampleRawBody": "{\n  logs: [\n    {\n      user: \"users/6193495014\",\n      place: \"18210254887\",\n      moderator: { robloxUser: \"45348281\" },\n      createTime: \"2024-06-25T22:56:58.873Z\",\n      active: true,\n      startTime: \"2024-06-25T22:56:58.873Z\",\n      duration: \"31540000s\",\n      privateReason: \"Being a meanie :/\",\n      displayReason: \"Annoying other players.\",\n      excludeAltAccounts: false,\n    },\n  ],\n  nextPageToken: \"id_2zwAAAZBRnd35xBBXeienIm9K54uMH01-RpcT\",\n}\n"
@@ -3684,7 +4004,7 @@
     },
     "premiumFeatures": {
       "userHasPremium": {
-        "description": "Gets the followers count for a specific user.",
+        "description": "Returns true if the user currently has a Roblox Premium subscription.",
         "tags": {
           "endpoint": "GET /v1/users/{userId}/validate-membership",
           "example": "const { data: hasPremium } = await ClassicPremiumFeaturesApi.userHasPremium({ userId: 45348281 });",
@@ -3695,7 +4015,23 @@
           {
             "name": "userId",
             "type": "Identifier",
-            "description": "The id of the user to get the follower count for."
+            "description": "The ID of the user to get premium membership for."
+          }
+        ]
+      },
+      "userSubscriptions": {
+        "description": "Gets a list of subscriptions for a user. NOTE: Can only get subscriptions for the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/subscriptions",
+          "example": "const { data: subscriptions } = await ClassicPremiumFeaturesApi.userSubscriptions({ userId: 45348281 });",
+          "exampleData": "{\n  subscriptionProductModel: {\n    premiumFeatureId: 505,\n    subscriptionTypeName: \"RobloxPremium450\",\n    robuxStipendAmount: 450,\n    isLifetime: false,\n    expiration: \"2024-08-15T15:04:28.326Z\",\n    renewal: \"2024-08-12T15:04:28.326Z\",\n    created: \"2014-02-14T16:20:38.117Z\",\n    purchasePlatform: \"isIosApp\",\n    subscriptionName: \"Roblox Premium 450\",\n  },\n}\n",
+          "exampleRawBody": "{\n  subscriptionProductModel: {\n    premiumFeatureId: 505,\n    subscriptionTypeName: \"RobloxPremium450\",\n    robuxStipendAmount: 450,\n    isLifetime: false,\n    expiration: \"2024-08-15T15:04:28.326Z\",\n    renewal: \"2024-08-12T15:04:28.326Z\",\n    created: \"2014-02-14T16:20:38.117Z\",\n    purchasePlatform: \"isIosApp\",\n    subscriptionName: \"Roblox Premium 450\",\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the user to get subscriptions for."
           }
         ]
       }
@@ -4785,6 +5121,205 @@
           {
             "name": "cursor?",
             "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      }
+    },
+    "virtualEvents": {
+      "eventInfo": {
+        "description": "Gets information about an event.",
+        "tags": {
+          "endpoint": "GET /v1/virtual-events/{eventId}",
+          "example": "const { data: eventInfo } = await ClassicVirtualEventsApi.eventInfo({ eventId: \"5904751593700196492\" });",
+          "exampleData": "{\n  id: \"5904751593700196492\",\n  title: \"My Cool Event Of Epic Awesomeness\",\n  displayTitle: \"My Cool Event Of Epic Awesomeness\",\n  description: \"hello\",\n  displayDescription: \"hello\",\n  eventTime: {\n    startUtc: \"2024-07-12T19:18:00.000Z\",\n    endUtc: \"2024-07-13T20:30:00.000Z\",\n  },\n  host: {\n    hostName: \"Bloxfolio\",\n    hasVerifiedBadge: false,\n    hostType: \"group\",\n    hostId: 15842838,\n  },\n  universeId: 6255645791,\n  eventStatus: \"active\",\n  createdUtc: \"2024-07-12T19:01:41.661Z\",\n  updatedUtc: \"2024-07-13T20:29:50.734Z\",\n  eventCategories: [\n    { category: \"activity\", rank: 0 },\n    { category: \"systemUpdate\", rank: 1 },\n  ],\n  thumbnails: [{ mediaId: 18459197740, rank: 0 }],\n  allThumbnailsCreated: false,\n  userRsvpStatus: \"going\",\n}\n",
+          "exampleRawBody": "{\n  id: \"5904751593700196492\",\n  title: \"My Cool Event Of Epic Awesomeness\",\n  displayTitle: \"My Cool Event Of Epic Awesomeness\",\n  description: \"hello\",\n  displayDescription: \"hello\",\n  eventTime: {\n    startUtc: \"2024-07-12T19:18:00.000Z\",\n    endUtc: \"2024-07-13T20:30:00.000Z\",\n  },\n  host: {\n    hostName: \"Bloxfolio\",\n    hasVerifiedBadge: false,\n    hostType: \"group\",\n    hostId: 15842838,\n  },\n  universeId: 6255645791,\n  eventStatus: \"active\",\n  createdUtc: \"2024-07-12T19:01:41.661Z\",\n  updatedUtc: \"2024-07-13T20:29:50.734Z\",\n  eventCategories: [\n    { category: \"activity\", rank: 0 },\n    { category: \"systemUpdate\", rank: 1 },\n  ],\n  thumbnails: [{ mediaId: 18459197740, rank: 0 }],\n  allThumbnailsCreated: false,\n  userRsvpStatus: \"going\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "eventId",
+            "type": "Identifier",
+            "description": "The ID of the event to get information for."
+          }
+        ]
+      },
+      "createEvent": {
+        "description": "Creates a virtual event.",
+        "tags": {
+          "endpoint": "POST /v1/virtual-events/create",
+          "example": "const { data: createdEvent } = await ClassicVirtualEventsApi.createEvent({\n  title: \"Event Name\",\n  description: \"Description\",\n  startTime: \"2024-08-14T00:46:54.000Z\",\n  endTime: \"2024-08-14T01:46:54.000Z\",\n  universeId: 6255645791,\n  groupId: 15842838,\n  primaryCategory: \"contentUpdate\",\n  secondaryCategory: \"activity\",\n});",
+          "exampleData": "{\n  id: \"6533473338141704368\",\n  title: \"Event Name\",\n  displayTitle: null,\n  description: \"Description\",\n  displayDescription: null,\n  eventTime: {\n    startUtc: \"2024-08-14T00:46:54.000Z\",\n    endUtc: \"2024-08-14T01:46:54.000Z\",\n  },\n  host: {\n    hostName: \"Bloxfolio\",\n    hasVerifiedBadge: false,\n    hostType: \"group\",\n    hostId: 15842838,\n  },\n  universeId: 6255645791,\n  eventStatus: \"unpublished\",\n  createdUtc: \"2024-07-14T00:35:35.487Z\",\n  updatedUtc: \"2024-07-14T00:35:35.487Z\",\n  eventCategories: [\n    { category: \"contentUpdate\", rank: 0 },\n    { category: \"activity\", rank: 1 },\n  ],\n  thumbnails: null,\n  allThumbnailsCreated: false,\n}\n",
+          "exampleRawBody": "{\n  id: \"6533473338141704368\",\n  title: \"Event Name\",\n  displayTitle: null,\n  description: \"Description\",\n  displayDescription: null,\n  eventTime: {\n    startUtc: \"2024-08-14T00:46:54+00:00\",\n    endUtc: \"2024-08-14T01:46:54+00:00\",\n  },\n  host: {\n    hostName: \"Bloxfolio\",\n    hasVerifiedBadge: false,\n    hostType: \"group\",\n    hostId: 15842838,\n  },\n  universeId: 6255645791,\n  eventStatus: \"unpublished\",\n  createdUtc: \"2024-07-14T00:35:35.487+00:00\",\n  updatedUtc: \"2024-07-14T00:35:35.487+00:00\",\n  eventCategories: [\n    { category: \"contentUpdate\", rank: 0 },\n    { category: \"activity\", rank: 1 },\n  ],\n  thumbnails: null,\n  allThumbnailsCreated: false,\n}\n"
+        },
+        "params": [
+          {
+            "name": "title",
+            "type": "Title",
+            "description": "The title of the event."
+          },
+          {
+            "name": "description",
+            "type": "Description",
+            "description": "The description of the event."
+          },
+          {
+            "name": "startTime",
+            "type": "StartTime",
+            "description": "The start time of the event."
+          },
+          {
+            "name": "endTime",
+            "type": "EndTime",
+            "description": "The end time of the event."
+          },
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to create the event in."
+          },
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The ID of the group to create the event in. The universe must be owned by this group."
+          },
+          {
+            "name": "primaryCategory?",
+            "type": "PrimaryCategory",
+            "description": "The primary purpose/category of this event."
+          },
+          {
+            "name": "secondaryCategory?",
+            "type": "SecondaryCategory",
+            "description": "The secondary purpose/category of this event."
+          },
+          {
+            "name": "thumbnailIds?",
+            "type": "ThumbnailIds",
+            "description": "An array of thumbnailIds to be used for this event."
+          }
+        ]
+      },
+      "updateEvent": {
+        "description": "DESCRIPTION",
+        "tags": {
+          "endpoint": "REST /...",
+          "example": "const { data: updatedEvent } = await ClassicVirtualEventsApi.updateEvent({\n  eventId: \"7512531542949494927\",\n  title: \"Event Name\",\n  description: \"Description\",\n  startTime: \"2024-08-14T00:46:54.000Z\",\n  endTime: \"2024-08-14T01:46:54.000Z\",\n  primaryCategory: \"contentUpdate\",\n  secondaryCategory: \"locationUpdate\",\n});",
+          "exampleData": "{ isUpdated: true, thumbnailsUpdated: false, categoriesUpdated: true }\n",
+          "exampleRawBody": "{ isUpdated: true, thumbnailsUpdated: false, categoriesUpdated: true }\n"
+        },
+        "params": []
+      },
+      "publishEvent": {
+        "description": "Publishes an event.",
+        "tags": {
+          "endpoint": "POST /v1/virtual-events/{eventId}/status",
+          "example": "const { data: success } = await ClassicVirtualEventsApi.publishEvent({ eventId: \"6533473338141704368\" });",
+          "exampleData": "{ isUpdated: true }\n",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "eventId",
+            "type": "Identifier",
+            "description": "The ID of the event to update status for."
+          }
+        ]
+      },
+      "eventRsvps": {
+        "description": "Gets rsvps for an event.",
+        "tags": {
+          "endpoint": "GET /v1/virtual-events/{eventId}/rsvps",
+          "example": "const { data: rsvps } = await ClassicVirtualEventsApi.eventRsvps({ eventId: \"5904751593700196492\" });",
+          "exampleData": "[\n  {\n    userId: 45348281,\n    rsvpStatus: \"going\",\n    shouldSeeNotificationsUpsellModal: false,\n  },\n]\n",
+          "exampleRawBody": "{\n  nextPageCursor: \"\",\n  previousPageCursor: \"\",\n  data: [\n    {\n      userId: 45348281,\n      rsvpStatus: \"going\",\n      shouldSeeNotificationsUpsellModal: false,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "eventId",
+            "type": "Identifier",
+            "description": "The ID of the event to get rsvps for."
+          }
+        ]
+      },
+      "eventRsvpCounters": {
+        "description": "Gets rsvp counters for an event.",
+        "tags": {
+          "endpoint": "GET /v1/virtual-events/{eventId}/rsvps/counters",
+          "example": "const { data: counters } = await ClassicVirtualEventsApi.eventRsvpCounters({ eventId: \"5904751593700196492\" });",
+          "exampleData": "{ none: 0, going: 1, maybeGoing: 0, notGoing: 0 }\n",
+          "exampleRawBody": "{ counters: { none: 0, going: 1, maybeGoing: 0, notGoing: 0 } }\n"
+        },
+        "params": [
+          {
+            "name": "eventId",
+            "type": "Identifier",
+            "description": "The ID of the event to get rsvp counters for."
+          }
+        ]
+      },
+      "authenticatedUserEventPermissionsForHost": {
+        "description": "Gets permissions for all events created by either a user or a group.",
+        "tags": {
+          "endpoint": "GET /v1/virtual-events/permissions",
+          "example": "const { data: permissions } = await ClassicVirtualEventsApi.authenticatedUserEventPermissionsForHost({\n  groupId: 15842838,\n});",
+          "exampleData": "{ maxPermissionLevel: \"edit\" }\n",
+          "exampleRawBody": "{ maxPermissionLevel: \"edit\" }\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "🤷",
+            "description": "Define a userId to get permissions for all events created by the user."
+          },
+          {
+            "name": "groupId",
+            "type": "🤷",
+            "description": "Define a groupId to get permissions for all events created by the group."
+          }
+        ]
+      },
+      "authenticatedUserEvents": {
+        "description": "Gets events that the authenticated user has edit access to from a group.",
+        "tags": {
+          "endpoint": "GET /v1/virtual-events/my-events",
+          "example": "const { data: myEvents } = await ClassicVirtualEventsApi.authenticatedUserEvents({ groupId: 15842838 });",
+          "exampleData": "[\n  {\n    id: \"5904751593700196492\",\n    title: \"My Cool Event Of Epic Awesomeness\",\n    displayTitle: null,\n    description: \"hello\",\n    displayDescription: null,\n    eventTime: {\n      startUtc: \"2024-07-12T19:18:00.000Z\",\n      endUtc: \"2024-07-13T20:30:00.000Z\",\n    },\n    host: {\n      hostName: \"Bloxfolio\",\n      hasVerifiedBadge: false,\n      hostType: \"group\",\n      hostId: 15842838,\n    },\n    universeId: 6255645791,\n    eventStatus: \"active\",\n    createdUtc: \"2024-07-12T19:01:41.661Z\",\n    updatedUtc: \"2024-07-13T20:29:50.734Z\",\n    eventCategories: null,\n    thumbnails: [{ mediaId: 18459197740, rank: 0 }],\n    allThumbnailsCreated: false,\n  },\n  {\n    id: \"3425484122702479513\",\n    title: \"Test\",\n    displayTitle: null,\n    description: \"lol\",\n    displayDescription: null,\n    eventTime: {\n      startUtc: \"2024-07-13T21:27:32.656Z\",\n      endUtc: \"2024-07-13T22:27:32.656Z\",\n    },\n    host: {\n      hostName: \"Bloxfolio\",\n      hasVerifiedBadge: false,\n      hostType: \"group\",\n      hostId: 15842838,\n    },\n    universeId: 6255645791,\n    eventStatus: \"active\",\n    createdUtc: \"2024-07-13T20:27:52.493Z\",\n    updatedUtc: \"2024-07-13T20:27:52.967Z\",\n    eventCategories: null,\n    thumbnails: null,\n    allThumbnailsCreated: false,\n  },\n]\n",
+          "exampleRawBody": "{\n  nextPageCursor: \"\",\n  previousPageCursor: \"\",\n  data: [\n    {\n      id: \"5904751593700196492\",\n      title: \"My Cool Event Of Epic Awesomeness\",\n      displayTitle: null,\n      description: \"hello\",\n      displayDescription: null,\n      eventTime: {\n        startUtc: \"2024-07-12T19:18:00+00:00\",\n        endUtc: \"2024-07-13T20:30:00+00:00\",\n      },\n      host: {\n        hostName: \"Bloxfolio\",\n        hasVerifiedBadge: false,\n        hostType: \"group\",\n        hostId: 15842838,\n      },\n      universeId: 6255645791,\n      eventStatus: \"active\",\n      createdUtc: \"2024-07-12T19:01:41.661+00:00\",\n      updatedUtc: \"2024-07-13T20:29:50.734+00:00\",\n      eventCategories: null,\n      thumbnails: [{ mediaId: 18459197740, rank: 0 }],\n      allThumbnailsCreated: false,\n    },\n    {\n      id: \"3425484122702479513\",\n      title: \"Test\",\n      displayTitle: null,\n      description: \"lol\",\n      displayDescription: null,\n      eventTime: {\n        startUtc: \"2024-07-13T21:27:32.656+00:00\",\n        endUtc: \"2024-07-13T22:27:32.656+00:00\",\n      },\n      host: {\n        hostName: \"Bloxfolio\",\n        hasVerifiedBadge: false,\n        hostType: \"group\",\n        hostId: 15842838,\n      },\n      universeId: 6255645791,\n      eventStatus: \"active\",\n      createdUtc: \"2024-07-13T20:27:52.493+00:00\",\n      updatedUtc: \"2024-07-13T20:27:52.967+00:00\",\n      eventCategories: null,\n      thumbnails: null,\n      allThumbnailsCreated: false,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The ID of the group to get events from."
+          },
+          {
+            "name": "filterBy?",
+            "type": "\"upcoming\" | \"past\" | \"drafts\"",
+            "description": "Filter the events by different criterias."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "\"desc\" | \"asc\"",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "sortBy?",
+            "type": "\"startUtc\" | \"createdUtc\"",
+            "description": "The criteria used to sort the results."
+          },
+          {
+            "name": "fromUtc?",
+            "type": "Date | ISODateTime",
+            "description": "Only include events during or after a specific time."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The number of results to be returned."
+          },
+          {
+            "name": "cursor?",
+            "type": "number",
             "description": "The paging cursor for the previous or next page."
           }
         ]

@@ -14,3 +14,32 @@ It wraps over 100+ Roblox API endpoints, each with its own strictly typed respon
 - Each Openblox method utilises only one Roblox API endpoint to ensure clarity and efficiency in your codebase.
 
 - Scarcely utilise classes to allow for treeshaking.
+
+
+<h3>Example Usage</h3>
+
+```ts
+import "dotenv/config";
+import { setConfig } from "openblox/config";
+import { UsersApi } from "openblox/cloud";
+import { ClassicUsersApi } from "openblox/classic"; // Classic (BEDEV & BEDEV2) APIs will always be prefixed with `Classic`.
+
+/*
+Naming your Roblox Cookie environment variable `ROBLOX_COOKIE` will automatically
+import it into your Openblox config, therefore voiding the need to set it in the config
+manually. Similarly, naming your OpenCloud API Key environment variable `ROBLOX_CLOUD_KEY`
+will also automatically import it into your Openblox config.
+*/
+setConfig({
+  cookie: process.env.MY_ROBLOX_COOKIE,
+  cloudKey: process.env.MY_ROBLOX_CLOUD_KEY
+})
+
+(async () => {
+
+  const { data:userInfo_classic } = await ClassicUsersApi.userInfo({ userId: 45348281 })
+
+  const { data:userInfo_cloud } = await UsersApi.userInfo({ userId: 45348281 })
+
+})
+```

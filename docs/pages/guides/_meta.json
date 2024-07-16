@@ -1,4 +1,6 @@
 {
-  "httpAdapters": "HTTP Adapters",
-  "pagination": "Pagination"
+  "pagination": "Pagination",
+  "rebindingCredentials": "Rebinding Credentials",
+  "oauth": "OAuth",
+  "httpAdapters": "HTTP Adapters"
 }

@@ -1,4 +1,5 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import { LongRunningOperation } from "src/apis/apis.types";
 import type { Identifier, ObjectEither, ObjectPrettify } from "typeforge"
 
 type LowercaseFirstLetter<S extends string> =
@@ -13,16 +14,6 @@ type KeysToCamelCase<Obj> = ObjectPrettify<{
   )
 }>
 //////////////////////////////////////////////////////////////////////////////////
-
-
-export type LongRunningOperation<Path extends string, Response extends Record<any, any>> = ObjectPrettify<ObjectEither<{
-  path: Path,
-  done: true,
-  response: ObjectPrettify<Response>
-}, {
-  path: Path,
-  done: false
-}>>
 
 
 type InstanceDetails = ObjectEither<

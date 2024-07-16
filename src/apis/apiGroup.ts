@@ -20,6 +20,7 @@ export type ApiMethod<
     searchParams?: Record<string, any>,
     headers?: Record<string, string | null | undefined>,
     formData?: Record<string, any>,
+    rawFormData?: FormData,
     body?: any,
     applyFieldMask?: boolean,
     name: string,
@@ -172,9 +173,9 @@ export const createApiGroup: CreateApiGroup = ({ groupName, baseUrl }) => {
     const callApiMethod: CallApiMethod<Record<string, any>, ApiMethod<any, any>> = async function (this, args) {
       const overrides = this
       const apiMethodData = await getDataFn(args as any)
-      const { path, method, searchParams, headers, body, applyFieldMask, formData, name, pathToPoll:getPathToPoll } = apiMethodData
+      const { path, method, searchParams, headers, body, applyFieldMask, formData, rawFormData, name, pathToPoll:getPathToPoll } = apiMethodData
 
-      const formattedSearchParams = formatSearchParams(applyFieldMask ? { searchParams, updateMask: objectToFieldMask(body) } : searchParams)
+      const formattedSearchParams = formatSearchParams(applyFieldMask ? { searchParams, updateMask: objectToFieldMask(body || formData) } : searchParams)
       const url: SecureUrl = `${baseUrl}${path}${formattedSearchParams}`
 
       const credentials = {
@@ -183,13 +184,13 @@ export const createApiGroup: CreateApiGroup = ({ groupName, baseUrl }) => {
         oauthToken: overrides.oauthToken,
       }
 
-      let response = await HttpHandler({ url, method, headers, body, formData }, credentials)
+      let response = await HttpHandler({ url, method, headers, body, formData, rawFormData }, credentials)
       if (!(response instanceof HttpResponse)) throw response // Throws the response to be handled in the catch block below.
       let responseBody = response.body
 
       // Uncompleted long running operation.
-      let opPath = responseBody.path
-      if (isOpenCloudUrl(url) && opPath && responseBody.done === false) {
+      let opPath = responseBody?.path
+      if (isOpenCloudUrl(url) && opPath && responseBody?.done === false) {
         console.warn(`Polling '${groupName}.${name}' (Please be patient)...`)
 
         if (getPathToPoll) opPath = getPathToPoll(responseBody)

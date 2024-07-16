@@ -10,7 +10,8 @@ export type HttpHandlerProps = {
   method: RestMethod,
   headers?: Record<string, any>,
   body?: any,
-  formData?: Record<string, any>
+  formData?: Record<string, any>,
+  rawFormData?: FormData
 }
 
 export type Credentials = {
@@ -34,7 +35,7 @@ export type HttpResponseProps<
 
 
 export class HttpResponse<Body extends any = any> {
-  fullResponse: any
+  fullResponse: unknown
   url: SecureUrl
   method: RestMethod
   success: boolean

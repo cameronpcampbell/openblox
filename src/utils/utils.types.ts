@@ -18,8 +18,9 @@ export type SecureUrl = `https://${string}`
 
 export type SortOrder = "Asc" | "Desc"
 
+export type StringIsLiteral<Str extends string> =  Str extends `${infer U}` ? string extends U ? false : true : false;
 
-type NumberIsLiteral<Num extends number> = (
+export type NumberIsLiteral<Num extends number> = (
   number extends Num ? false
   : [Num] extends [never] ? false
   : [Num] extends [string | number] ? true
