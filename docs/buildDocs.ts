@@ -160,6 +160,7 @@ const buildDocsForApis = async (apis: Directory[], apisName: "classic" | "cloud"
     //if (apiName !== "standardDataStores_V1") continue
   
     const methods = apiFile?.getExportSymbols()
+    if (apiName == "standardDataStores_V2") console.log(methods)
     if (!methods) continue
 
     for (const method of methods) {
