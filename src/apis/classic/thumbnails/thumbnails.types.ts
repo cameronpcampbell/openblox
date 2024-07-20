@@ -19,7 +19,7 @@ export type RawThumbnailsData<UserId extends Identifier> = ObjectPrettify<{
   data: ThumbnailData<UserId>[]
 }>
 export type PrettifiedThumbnailsData<UserId extends Identifier> = ObjectPrettify<{
-  [Key in UserId]: ThumbnailData
+  [Key in UserId]: ThumbnailData | undefined
 }>
 
 // [ ASSETS ] ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +75,7 @@ export type RawGamesThumbnailsData<UniverseId extends Identifier> = ObjectPretti
 }>
 
 export type PrettifiedGamesThumbnailsData<UniverseId extends Identifier> = ObjectPrettifyDeep<{
-  [Key in UniverseId]: GamesThumbnailsData
+  [Key in UniverseId]: GamesThumbnailsData | undefined
 }>
 // -------------------------------------------------------------------------------------------------------------------
 

@@ -1,21 +1,10 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import { LowercaseFirstLetter } from "../../../utils/utils.types"
 import { Identifier, ISODateTime, ObjectPrettify } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 export type FriendsUserSort = "Alphabetical" | "StatusAlphabetical" | "StatusFrequents"
 
-type LowercaseFirstLetter<S extends string> =
-S extends `${infer First}${infer Rest}`
-? `${Lowercase<First>}${Rest}`
-: S;
-type KeysToCamelCase<Obj> = ObjectPrettify<{
-  [Key in keyof Obj as LowercaseFirstLetter<string &Key>]: (
-    Obj[Key] extends Array<any> ? Obj[Key]
-    : Obj[Key] extends {} ? KeysToCamelCase< Obj[Key]>
-    : Obj[Key]
-  )
-}>
-type ArrWithObjectsToCamelCase<Arr extends unknown[]> =  { [Key in keyof Arr]: ObjectPrettify<KeysToCamelCase<Arr[Key]>> }
 
 export type FriendshipOriginSourceType = "Unknown" | "PlayerSearch" | "QrCode" | "InGame" | "UserProfile" | "QqContactImporter" | "WeChatContactImporter" | "ProfileShare" | "PhoneContactImporter" | "FriendRecommendations"
 
@@ -185,7 +174,7 @@ export type RawFriendsStatusesData<RelatedUserId extends Identifier> = {
 }
 
 export type PrettifiedFriendsStatusesData<RelatedUserId extends Identifier> = {
-  [Key in RelatedUserId]: "NotFriends" | "Friends" | "RequestSent" | "RequestReceived"
+  [Key in RelatedUserId]: "NotFriends" | "Friends" | "RequestSent" | "RequestReceived" | undefined
 }
 // -------------------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////////////
@@ -193,9 +182,29 @@ export type PrettifiedFriendsStatusesData<RelatedUserId extends Identifier> = {
 
 
 // [ Followings ] ////////////////////////////////////////////////////////////////
+// GET /v1/users/{userId}/followers/count ----------------------------------------
 export type RawUserFollowersData = {
   data: FriendData<ISODateTime>[]
 }
 
 export type PrettifiedUserFollowersData = FriendData<Date>[]
+// -------------------------------------------------------------------------------
+
+
+// POST /v1/user/following-exists ------------------------------------------------
+export type RawAuthenticatedUserFollowingsExistData<UserId extends Identifier> = {
+  followings: {
+    isFollowing: boolean,
+    isFollowed: boolean,
+    userId: UserId
+  }[]
+}
+
+export type PrettifiedAuthenticatedUserFollowingsExistData<UserId extends Identifier> = {
+  [Key in UserId]: {
+    isFollowing: boolean,
+    isFollowed: boolean
+  } | undefined
+}
+// -------------------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////////////

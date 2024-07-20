@@ -1,18 +1,7 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import { LongRunningOperation } from "src/apis/apis.types";
+import { LongRunningOperation } from "../../../apis/apis.types";
+import { KeysToCamelCase } from "../../../utils/utils.types";
 import type { Identifier, ObjectEither, ObjectPrettify } from "typeforge"
-
-type LowercaseFirstLetter<S extends string> =
-S extends `${infer First}${infer Rest}`
-? `${Lowercase<First>}${Rest}`
-: S;
-type KeysToCamelCase<Obj> = ObjectPrettify<{
-  [Key in keyof Obj as LowercaseFirstLetter<string &Key>]: (
-    Obj[Key] extends Array<any> ? Obj[Key]
-    : Obj[Key] extends {} ? KeysToCamelCase<Obj[Key]>
-    : Obj[Key]
-  )
-}>
 //////////////////////////////////////////////////////////////////////////////////
 
 

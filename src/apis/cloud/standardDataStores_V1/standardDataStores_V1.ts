@@ -14,7 +14,7 @@ import { md5Checksum } from "../../../crypto"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "Messaging", baseUrl: "https://apis.roblox.com/datastores" })
+const addApiMethod = createApiGroup({ groupName: "StandardDatastores_V1", baseUrl: "https://apis.roblox.com/datastores" })
 //////////////////////////////////////////////////////////////////////////////////
 
 

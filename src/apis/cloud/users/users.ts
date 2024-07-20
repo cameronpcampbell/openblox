@@ -6,7 +6,7 @@ import { createApiGroup } from "../../apiGroup"
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
 import type { Identifier } from "../../../utils/utils.types"
-import { NotificationData, PrettifiedUserInfoData, RawUserInfoData, SendNotificationToUser_NotificationData, UserThumbnailData } from "./users.types"
+import { NotificationData, PrettifiedUserInfoData, RawUserInfoData, SendNotificationToUser_NotificationData, UserThumbnailData, UserThumbnailSize } from "./users.types"
 import { cloneAndMutateObject } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -68,8 +68,7 @@ export const userInfo = addApiMethod(async <UserId extends Identifier>(
  * @exampleRawBody {"path":"users/45348281/operations/eyJOb25jZSI6ImM5ZGZmN2E3OTQ1ZTQxYTc4M2E3OGY4Nzk2ZTYwOTczIiwiVHlwZSI6IkdlbmVyYXRlVXNlclRodW1ibmFpbFJlcXVlc3QiLCJQYXRoIjoidXNlcnMvNDUzNDgyODEiLCJTaXplIjoiMCIsIkZvcm1hdCI6IjAiLCJTaGFwZSI6IjAifQ==","done":true,"response":{"@type":"apis.roblox.com/roblox.open_cloud.cloud.v2.GenerateUserThumbnailResponse","imageUri":"https://tr.rbxcdn.com/30DAY-AvatarHeadshot-8D297BB79DBA963A48A765F78DFC5D1B-Png/420/420/AvatarHeadshot/Png/isCircular"}}
  */
 export const userThumbnail = addApiMethod(async <UserId extends Identifier>(
-  { userId, size, format, shape }
-  :{ userId: UserId, size?: 48 | 50 | 60 | 75 | 100 | 110 | 150 | 180 | 352 | 420 | 720 | 420, format?: "PNG" | "JPEG", shape?: "ROUND" | "SQUARE" }
+  { userId, size, format, shape }: { userId: UserId, size?: UserThumbnailSize, format?: "PNG" | "JPEG", shape?: "ROUND" | "SQUARE" }
 ): ApiMethod<UserThumbnailData<UserId>> => ({
   path: `/v2/users/${userId}:generateThumbnail`,
   method: "GET",

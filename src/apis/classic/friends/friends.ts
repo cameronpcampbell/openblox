@@ -7,7 +7,7 @@ import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware, dataIsSuccess
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
 import type { Identifier, SortOrder } from "../../../utils/utils.types"
-import { FriendshipOriginSourceType, FriendsMetadataData, FriendsUserSort, PrettifiedAuthenticatedUserFriendRequestsData, PrettifiedFindFriendsData, PrettifiedFriendsListData, PrettifiedFriendsSearchData, PrettifiedFriendsStatusesData, PrettifiedInactiveFriendsData, PrettifiedOnlineFriendsUserPresenceData, PrettifiedUserFollowersData, RawAuthenticatedUserFriendRequestsData, RawFindFriendsData, RawFriendsListData, RawFriendsSearchData, RawFriendsStatusesData, RawInactiveFriendsData, RawOnlineFriendsUserPresenceData, RawUserFollowersData } from "./friends.types"
+import { FriendshipOriginSourceType, FriendsMetadataData, FriendsUserSort, PrettifiedAuthenticatedUserFollowingsExistData, PrettifiedAuthenticatedUserFriendRequestsData, PrettifiedFindFriendsData, PrettifiedFriendsListData, PrettifiedFriendsSearchData, PrettifiedFriendsStatusesData, PrettifiedInactiveFriendsData, PrettifiedOnlineFriendsUserPresenceData, PrettifiedUserFollowersData, RawAuthenticatedUserFollowingsExistData, RawAuthenticatedUserFriendRequestsData, RawFindFriendsData, RawFriendsListData, RawFriendsSearchData, RawFriendsStatusesData, RawInactiveFriendsData, RawOnlineFriendsUserPresenceData, RawUserFollowersData } from "./friends.types"
 import { ArrayNonEmpty } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -309,19 +309,19 @@ export const authenticatedUserDeclineAllFriendRequests = addApiMethod(async (
 
 /**
  * Accepts a friend request from a specific user for the authenticated user.
- * @endpoint POST /v1/users/{requesterUserId}/accept-friend-request
+ * @endpoint POST /v1/users/{userId}/accept-friend-request
  * 
- * @param requesterUserId The id of the user to accept friend request from.
+ * @param userId The id of the user to accept friend request from.
  * 
- * @example const { data:success } = await ClassicFriendsApi.authenticatedUserAcceptFriendRequest({ requesterUserId: 2655994471 })
+ * @example const { data:success } = await ClassicFriendsApi.authenticatedUserAcceptFriendRequest({ userId: 2655994471 })
  * @exampleData true
  * @exampleRawBody {}
  */
 export const authenticatedUserAcceptFriendRequest = addApiMethod(async (
-  { requesterUserId }: { requesterUserId: Identifier }
+  { userId }: { userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "POST",
-  path: `/v1/users/${requesterUserId}/accept-friend-request`,
+  path: `/v1/users/${userId}/accept-friend-request`,
   name: `authenticatedUserAcceptFriendRequest`,
 
   prettifyFn: (rawData) => dataIsSuccess(rawData)
@@ -463,5 +463,47 @@ export const userFollowings = addApiMethod(async (
   path: `/v1/users/${userId}/followings`,
   searchParams: { limit, sortOrder, cursor },
   name: `userFollowings`,
+}))
+
+
+/**
+ * Gets the number of followings a user has.
+ * @endpoint GET /v1/users/{userId}/followings/count
+ * 
+ * @param userId The ID of the user to get followings count for.
+ * 
+ * @example const { data:followingsCount } = await ClassicFriendsApi.userFollowingsCount({ userId: 45348281 })
+ * @exampleData 337
+ * @exampleRawBody { count: 337 }
+ */
+export const userFollowingsCount = addApiMethod(async (
+  { userId }: { userId: Identifier }
+): ApiMethod<{ count: number }, number> => ({
+  method: "GET",
+  path: `/v1/users/${userId}/followings/count`,
+  name: `userFollowingsCount`,
+
+  prettifyFn: ({ count }) => count
+}))
+
+/**
+ * Returns whether or not the current user is following each userId in a list of userIds
+ * @endpoint POST /v1/user/following-exists
+ * 
+ * @param userIds The userIds to get following statuses for.
+ * 
+ * @example const { data:followings } = await ClassicFriendsApi.authenticatedUserFollowingsExist({ userIds: [ 2655994471 ] })
+ * @exampleData {"2655994471":{"isFollowing":false,"isFollowed":false}}
+ * @exampleRawBody {"followings":[{"isFollowing":false,"isFollowed":false,"userId":2655994471}]}
+ */
+export const authenticatedUserFollowingsExist = addApiMethod(async <UserId extends Identifier>(
+  { userIds }: { userIds: ArrayNonEmpty<UserId> }
+): ApiMethod<RawAuthenticatedUserFollowingsExistData<UserId>, PrettifiedAuthenticatedUserFollowingsExistData<UserId>> => ({
+  method: "POST",
+  path: `/v1/user/following-exists`,
+  body: { targetUserIds: userIds },
+  name: `authenticatedUserFollowingsExist`,
+
+  prettifyFn: ({ followings }) => createObjectMapByKeyWithMiddleware(followings, "userId", ({ userId, ...rest }) => ({ ...rest }))
 }))
 //////////////////////////////////////////////////////////////////////////////////

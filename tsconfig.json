@@ -26,9 +26,6 @@
     "moduleResolution": "Bundler",
     "jsx": "preserve",
 
-    /* Path Aliases */
-    "baseUrl": ".",
-
     "types": [ "node", "bun" ],
     "typeRoots": ["./node_modules/@types"]
   },

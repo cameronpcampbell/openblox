@@ -1,19 +1,8 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import { ArrWithObjectsToCamelCase, KeysToCamelCase } from "../../../utils/utils.types";
 import type { Identifier, ISODateTime, ObjectPrettify, UnionPrettify, UnionToArray, Url } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
-type LowercaseFirstLetter<S extends string> =
-S extends `${infer First}${infer Rest}`
-? `${Lowercase<First>}${Rest}`
-: S;
-type KeysToCamelCase<Obj> = ObjectPrettify<{
-  [Key in keyof Obj as LowercaseFirstLetter<string &Key>]: (
-    Obj[Key] extends Array<any> ? Obj[Key]
-    : Obj[Key] extends {} ? KeysToCamelCase< Obj[Key]>
-    : Obj[Key]
-  )
-}>
-type ArrWithObjectsToCamelCase<Arr extends unknown[]> =  { [Key in keyof Arr]: ObjectPrettify<KeysToCamelCase<Arr[Key]>> }
 
 type UrlProtocol = `http${"s" | ""}://`;
 
@@ -960,7 +949,7 @@ export type PrettifiedGroupRolesFromIdsData<RoleId extends Identifier> = ObjectP
     groupId: number,
     name: string,
     rank: number
-  }>
+  }> | undefined
 }>
 // -------------------------------------------------------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1056,7 +1045,7 @@ export type PrettifiedGroupIdsToGroupsInfoData<GroupId extends Identifier> = Obj
     },
     created: Date,
     hasVerifiedBadge: boolean
-  }
+  } | undefined
 }>
 // -------------------------------------------------------------------------------------------------------------------
 

@@ -1,5 +1,5 @@
 import { Add, GtOrEq, Pow, Subtract } from "ts-arithmetic"
-import { ArrayToUnion, UnionToArray } from "typeforge"
+import { ArrayToUnion, ObjectPrettify, UnionToArray } from "typeforge"
 
 export type Identifier = number | `${number}`
 
@@ -26,3 +26,21 @@ export type NumberIsLiteral<Num extends number> = (
   : [Num] extends [string | number] ? true
   : false
 )
+
+
+
+export type LowercaseFirstLetter<S extends string> =
+S extends `${infer First}${infer Rest}`
+? `${Lowercase<First>}${Rest}`
+: S;
+
+export type KeysToCamelCase<Obj> = ObjectPrettify<{
+  [Key in keyof Obj as LowercaseFirstLetter<string &Key>]: (
+    Obj[Key] extends Array<any> ? Obj[Key]
+    : Obj[Key] extends Date ? Date
+    : Obj[Key] extends Record<any, any> ? KeysToCamelCase< Obj[Key]>
+    : Obj[Key]
+  )
+} & {}>
+
+export type ArrWithObjectsToCamelCase<Arr extends unknown[]> =  { [Key in keyof Arr]: ObjectPrettify<KeysToCamelCase<Arr[Key]>> }

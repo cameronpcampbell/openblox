@@ -999,7 +999,7 @@
         "description": "Gets user information from the current access token.",
         "tags": {
           "endpoint": "GET /v1/userinfo",
-          "example": "const { data: userInfo } = await OAuthApi.userInfo.bind({ oauthToken: \"g3dcga9abegb1aacaag93ea46d5c064g\" })();",
+          "example": "const { data: userInfo } = await OAuthApi.userInfo.bind({ oauthToken: \"SENSITIVE_INFO\" })();",
           "exampleData": "{\n  sub: \"45348281\",\n  name: \"Mighty\",\n  nickname: \"Mighty\",\n  preferred_username: \"MightyPart\",\n  created_at: 1373701800,\n  profile: \"https://www.roblox.com/users/45348281/profile\",\n  picture: \"https://tr.rbxcdn.com/30DAY-AvatarHeadshot-11BD4BBC67E3F95A4F4BED256CFB4591-Png/150/150/AvatarHeadshot/Png/noFilter\",\n}\n",
           "exampleRawBody": "{\n  sub: \"45348281\",\n  name: \"Mighty\",\n  nickname: \"Mighty\",\n  preferred_username: \"MightyPart\",\n  created_at: 1373701800,\n  profile: \"https://www.roblox.com/users/45348281/profile\",\n  picture: \"https://tr.rbxcdn.com/30DAY-AvatarHeadshot-11BD4BBC67E3F95A4F4BED256CFB4591-Png/150/150/AvatarHeadshot/Png/noFilter\",\n}\n"
         },
@@ -1788,7 +1788,448 @@
     }
   },
   "classic": {
+    "badges": {
+      "badgeInfo": {
+        "description": "Gets information for a badge.",
+        "tags": {
+          "endpoint": "GET /v1/badges/{badgeId}",
+          "example": "const { data: badgeInfo } = await ClassicBadgesApi.badgeInfo({ badgeId: 2124533401 });",
+          "exampleData": "{\n  id: 2124533401,\n  name: \"Tutorial Done\",\n  description: \"Tutorial Lol\",\n  displayName: \"Tutorial Done\",\n  displayDescription: \"Tutorial Lol\",\n  enabled: true,\n  iconImageId: 5316501478,\n  displayIconImageId: 5316501478,\n  created: \"2020-05-05T08:20:10.653Z\",\n  updated: \"2023-08-26T12:43:15.280Z\",\n  statistics: {\n    pastDayAwardedCount: 0,\n    awardedCount: 394,\n    winRatePercentage: 0,\n  },\n  awardingUniverse: {\n    id: 1685831367,\n    name: \"RoCamping\",\n    rootPlaceId: 4922741943,\n  },\n}\n",
+          "exampleRawBody": "{\n  id: 2124533401,\n  name: \"Tutorial Done\",\n  description: \"Tutorial Lol\",\n  displayName: \"Tutorial Done\",\n  displayDescription: \"Tutorial Lol\",\n  enabled: true,\n  iconImageId: 5316501478,\n  displayIconImageId: 5316501478,\n  created: \"2020-05-05T08:20:10.653Z\",\n  updated: \"2023-08-26T12:43:15.280Z\",\n  statistics: {\n    pastDayAwardedCount: 0,\n    awardedCount: 394,\n    winRatePercentage: 0,\n  },\n  awardingUniverse: {\n    id: 1685831367,\n    name: \"RoCamping\",\n    rootPlaceId: 4922741943,\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "badgeId",
+            "type": "BadgeId",
+            "description": "The ID of the badge to get information for."
+          }
+        ]
+      },
+      "updateBadge": {
+        "description": "Updates a badge.",
+        "tags": {
+          "endpoint": "PATCH /v1/badges/{badgeId}",
+          "example": "const { data: success } = await ClassicBadgesApi.updateBadge({ badgeId: 2124533401, description: \"hello\" });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "badgeId",
+            "type": "Identifier",
+            "description": "The ID of the badge to update."
+          },
+          {
+            "name": "name?",
+            "type": "string",
+            "description": "The new name for the badge."
+          },
+          {
+            "name": "description?",
+            "type": "string",
+            "description": "The new description for the badge."
+          },
+          {
+            "name": "enabled?",
+            "type": "boolean",
+            "description": "If the badge is to enabled."
+          }
+        ]
+      },
+      "badgesMetadata": {
+        "description": "Gets metadata about the badges system.",
+        "tags": {
+          "endpoint": "GET /v1/badges/metadata",
+          "example": "const { data: metadata } = await ClassicBadgesApi.badgesMetadata();",
+          "exampleData": "{\n  badgeCreationPrice: 100,\n  maxBadgeNameLength: 50,\n  maxBadgeDescriptionLength: 1000,\n}\n",
+          "exampleRawBody": "{\n  badgeCreationPrice: 100,\n  maxBadgeNameLength: 50,\n  maxBadgeDescriptionLength: 1000,\n}\n"
+        },
+        "params": []
+      },
+      "badgesForUniverse": {
+        "description": "Gets badges for a specific universe.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/badges",
+          "example": "const { data: badges } = await ClassicBadgesApi.badgesForUniverse({ universeId: 1685831367 });",
+          "exampleData": "[\n  {\n    id: 2124533401,\n    name: \"Tutorial Done\",\n    description: \"true\",\n    displayName: \"Tutorial Done\",\n    displayDescription: \"true\",\n    enabled: true,\n    iconImageId: 5316501478,\n    displayIconImageId: 5316501478,\n    created: \"2020-05-05T08:20:10.653Z\",\n    updated: \"2024-07-16T22:34:44.021Z\",\n    statistics: {\n      pastDayAwardedCount: 0,\n      awardedCount: 394,\n      winRatePercentage: 0,\n    },\n    awardingUniverse: {\n      id: 1685831367,\n      name: \"RoCamping\",\n      rootPlaceId: 4922741943,\n    },\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: \"eyJrZXkiOiJpZF8yendBQUFYSGo2OEVkem42aHpwayIsInNvcnRPcmRlciI6IkFzYyIsInBhZ2luZ0RpcmVjdGlvbiI6IkZvcndhcmQiLCJwYWdlTnVtYmVyIjoyLCJkaXNjcmltaW5hdG9yIjoidW5pdmVyc2VJZDoxNjg1ODMxMzY3IiwiY291bnQiOjEwfQplMzk4ODQzNTg5NGYxNzU4MTk1YmVlNWFhMDE5NTI1MmJiMjdhZDRiYzU5YzE3NjNjNjg3M2UxYmExNDdkMWZh\",\n  data: [\n    {\n      id: 2124533401,\n      name: \"Tutorial Done\",\n      description: \"true\",\n      displayName: \"Tutorial Done\",\n      displayDescription: \"true\",\n      enabled: true,\n      iconImageId: 5316501478,\n      displayIconImageId: 5316501478,\n      created: \"2020-05-05T08:20:10.653+00:00\",\n      updated: \"2024-07-16T22:34:44.021+00:00\",\n      statistics: {\n        pastDayAwardedCount: 0,\n        awardedCount: 394,\n        winRatePercentage: 0,\n      },\n      awardingUniverse: {\n        id: 1685831367,\n        name: \"RoCamping\",\n        rootPlaceId: 4922741943,\n      },\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to get badges from."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "SortOrder",
+            "description": "The order the results are sorted in."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "freeBadgesLeftForUniverse": {
+        "description": "Gets the number of free badges left for the current UTC day by their awarding game.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/free-badges-quota",
+          "example": "const { data: freeBadgesLeft } = await ClassicBadgesApi.freeBadgesLeftForUniverse({ universeId: 1685831367 });",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get free badges for."
+          }
+        ]
+      },
+      "userBadges": {
+        "description": "Gets a list of badges a user has been awarded",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/badges",
+          "example": "const { data: badges } = await ClassicBadgesApi.userBadges({ userId: 45348281 });",
+          "exampleData": "[\n  {\n    id: 2124533401,\n    name: \"Tutorial Done\",\n    description: \"true\",\n    displayName: \"Tutorial Done\",\n    displayDescription: \"true\",\n    enabled: true,\n    iconImageId: 5316501478,\n    displayIconImageId: 5316501478,\n    created: \"2020-05-05T08:20:10.653Z\",\n    updated: \"2024-07-16T22:34:44.021Z\",\n    statistics: {\n      pastDayAwardedCount: 0,\n      awardedCount: 394,\n      winRatePercentage: 0,\n    },\n    awardingUniverse: {\n      id: 1685831367,\n      name: \"RoCamping\",\n      rootPlaceId: 4922741943,\n    },\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: \"eyJrZXkiOiJpZF8yendBQUFYSGo2OEVkem42aHpwayIsInNvcnRPcmRlciI6IkFzYyIsInBhZ2luZ0RpcmVjdGlvbiI6IkZvcndhcmQiLCJwYWdlTnVtYmVyIjoyLCJkaXNjcmltaW5hdG9yIjoidW5pdmVyc2VJZDoxNjg1ODMxMzY3IiwiY291bnQiOjEwfQplMzk4ODQzNTg5NGYxNzU4MTk1YmVlNWFhMDE5NTI1MmJiMjdhZDRiYzU5YzE3NjNjNjg3M2UxYmExNDdkMWZh\",\n  data: [\n    {\n      id: 2124533401,\n      name: \"Tutorial Done\",\n      description: \"true\",\n      displayName: \"Tutorial Done\",\n      displayDescription: \"true\",\n      enabled: true,\n      iconImageId: 5316501478,\n      displayIconImageId: 5316501478,\n      created: \"2020-05-05T08:20:10.653+00:00\",\n      updated: \"2024-07-16T22:34:44.021+00:00\",\n      statistics: {\n        pastDayAwardedCount: 0,\n        awardedCount: 394,\n        winRatePercentage: 0,\n      },\n      awardingUniverse: {\n        id: 1685831367,\n        name: \"RoCamping\",\n        rootPlaceId: 4922741943,\n      },\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the user to get badges for."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "SortOrder",
+            "description": "The order the results are sorted in."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "badgeAwardedDateForUser": {
+        "description": "Gets timestamp for when a single badge was awarded to a user.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/badges/{badgeId}/awarded-date",
+          "example": "const { data: awardDate } = await ClassicBadgesApi.badgeAwardedDateForUser({ badgeId: 2124533401, userId: 45348281 });",
+          "exampleData": "",
+          "exampleRawBody": "{ badgeId: 2124533401, awardedDate: \"2020-11-15T18:51:30.604064Z\" }\n"
+        },
+        "params": [
+          {
+            "name": "badgeId",
+            "type": "BadgeId",
+            "description": "The ID of the badge to get award date from."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of thw user to get award date for."
+          }
+        ]
+      },
+      "badgesAwardedDatesForUser": {
+        "description": "Gets timestamp for when multiple badges were awarded to a user.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/badges/awarded-dates",
+          "example": "const { data: awardDates } = await ClassicBadgesApi.badgesAwardedDatesForUser({\n  badgeIds: [2124533401],\n  userId: 45348281,\n});",
+          "exampleData": "{ \"2124533401\": \"2020-11-15T18:51:30.604Z\" }\n",
+          "exampleRawBody": "{\n  data: [\n    { badgeId: 2124533401, awardedDate: \"2020-11-15T18:51:30.604064Z\" },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "badgeIds",
+            "type": "ArrayNonEmpty<BadgeId>",
+            "description": "The IDs of the badges to get award dates from."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of thw user to get award date for."
+          }
+        ]
+      },
+      "removeBadgeFromUser": {
+        "description": "Removes a specific badge from a specific user.",
+        "tags": {
+          "endpoint": "DELETE /v1/user/{userId}/badges/{badgeId}",
+          "example": "const { data: success } = await ClassicBadgesApi.removeBadgeFromUser({ badgeId: 2124533401, userId: 45348281 });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "badgeId",
+            "type": "Identifier",
+            "description": "The ID of the badge to remove from the user."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the user to remove the badge from."
+          }
+        ]
+      },
+      "authenticatedUserRemoveBadge": {
+        "description": "Removes a specific badge from the authenticated user.",
+        "tags": {
+          "endpoint": "DELETE /v1/user/badges/{badgeId}",
+          "example": "const { data: success } = await ClassicBadgesApi.authenticatedUserRemoveBadge({ badgeId: 2124533401 });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "badgeId",
+            "type": "Identifier",
+            "description": "The ID of the badge to remove from the authenticated user."
+          }
+        ]
+      }
+    },
     "develop": {
+      "gameTemplates": {
+        "description": "Gets a page of templates that can be used to start off making games",
+        "tags": {
+          "endpoint": "GET /v1/gametemplates",
+          "example": "const { data: templates } = await ClassicDevelopApi.gameTemplates();",
+          "exampleData": "[\n  {\n    gameTemplateType: \"Generic\",\n    hasTutorials: false,\n    universe: {\n      id: 28220420,\n      name: \"Baseplate\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 95206881,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2013-11-01T08:47:14.070Z\",\n      updated: \"2023-05-02T22:03:01.107Z\",\n    },\n  },\n  {\n    gameTemplateType: \"Generic\",\n    hasTutorials: false,\n    universe: {\n      id: 2464612126,\n      name: \"Classic Baseplate\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 6560363541,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2021-03-24T00:56:45.957Z\",\n      updated: \"2021-04-16T18:55:13.820Z\",\n    },\n  },\n  {\n    gameTemplateType: \"Generic\",\n    hasTutorials: false,\n    universe: {\n      id: 28223770,\n      name: \"Flat Terrain\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 95206192,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2013-11-01T08:47:18.013Z\",\n      updated: \"2023-05-02T22:17:58.570Z\",\n    },\n  },\n  {\n    gameTemplateType: \"Gameplay\",\n    hasTutorials: false,\n    universe: {\n      id: 6106389365,\n      name: \"Laser Tag\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 17823019220,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2024-06-11T21:29:12.993Z\",\n      updated: \"2024-06-20T16:58:40.577Z\",\n    },\n  },\n  {\n    gameTemplateType: \"Gameplay\",\n    hasTutorials: false,\n    universe: {\n      id: 6106388692,\n      name: \"FPS System\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 17823017290,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2024-06-11T21:28:57.433Z\",\n      updated: \"2024-06-20T16:58:54.493Z\",\n    },\n  },\n  {\n    gameTemplateType: \"Gameplay\",\n    hasTutorials: false,\n    universe: {\n      id: 5557500170,\n      name: \"Racing\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 16078915506,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2024-01-22T19:47:42.920Z\",\n      updated: \"2024-01-29T17:39:18.837Z\",\n    },\n  },\n  {\n    gameTemplateType: \"Theme\",\n    hasTutorials: true,\n    universe: {\n      id: 202770430,\n      name: \"Village\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 520390648,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2016-10-10T21:32:42.780Z\",\n      updated: \"2023-05-03T23:39:56.663Z\",\n    },\n  },\n  {\n    gameTemplateType: \"Theme\",\n    hasTutorials: true,\n    universe: {\n      id: 93411794,\n      name: \"Castle\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 203810088,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2015-01-14T21:46:11.363Z\",\n      updated: \"2023-05-03T23:46:03.850Z\",\n    },\n  },\n  {\n    gameTemplateType: \"Theme\",\n    hasTutorials: false,\n    universe: {\n      id: 138962641,\n      name: \"Suburban\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 366130569,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2016-02-20T00:02:36.483Z\",\n      updated: \"2023-05-03T23:45:29.983Z\",\n    },\n  },\n  {\n    gameTemplateType: \"Theme\",\n    hasTutorials: true,\n    universe: {\n      id: 107387509,\n      name: \"Pirate Island\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 264719325,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2015-07-01T22:54:38.927Z\",\n      updated: \"2023-05-03T23:49:39.753Z\",\n    },\n  },\n  {\n    gameTemplateType: \"Gameplay\",\n    hasTutorials: false,\n    universe: {\n      id: 93412282,\n      name: \"Obby\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 203812057,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2015-01-14T21:51:25.830Z\",\n      updated: \"2023-05-03T23:50:57.623Z\",\n    },\n  },\n  {\n    gameTemplateType: \"Theme\",\n    hasTutorials: true,\n    universe: {\n      id: 142606178,\n      name: \"Starting Place\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 379736082,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2016-03-09T19:04:30.723Z\",\n      updated: \"2023-05-04T00:09:23.643Z\",\n    },\n  },\n  {\n    gameTemplateType: \"Gameplay\",\n    hasTutorials: false,\n    universe: {\n      id: 115791780,\n      name: \"Line Runner\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 301530843,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2015-09-28T22:16:52.420Z\",\n      updated: \"2023-05-04T00:10:55.837Z\",\n    },\n  },\n  {\n    gameTemplateType: \"Theme\",\n    hasTutorials: false,\n    universe: {\n      id: 3760683948,\n      name: \"Concert\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 10275826693,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2022-07-19T00:42:50.713Z\",\n      updated: \"2023-05-03T23:14:32.480Z\",\n    },\n  },\n  {\n    gameTemplateType: \"Theme\",\n    hasTutorials: false,\n    universe: {\n      id: 4594822820,\n      name: \"Modern City\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 13165709401,\n      isActive: true,\n      privacyType: \"Public\",\n      creatorType: \"User\",\n      creatorTargetId: 998796,\n      creatorName: \"Templates\",\n      created: \"2023-04-17T18:33:52.930Z\",\n      updated: \"2023-04-17T23:24:03.373Z\",\n    },\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      gameTemplateType: \"Generic\",\n      hasTutorials: false,\n      universe: {\n        id: 28220420,\n        name: \"Baseplate\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 95206881,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2013-11-01T08:47:14.07Z\",\n        updated: \"2023-05-02T22:03:01.107Z\",\n      },\n    },\n    {\n      gameTemplateType: \"Generic\",\n      hasTutorials: false,\n      universe: {\n        id: 2464612126,\n        name: \"Classic Baseplate\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 6560363541,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2021-03-24T00:56:45.957Z\",\n        updated: \"2021-04-16T18:55:13.82Z\",\n      },\n    },\n    {\n      gameTemplateType: \"Generic\",\n      hasTutorials: false,\n      universe: {\n        id: 28223770,\n        name: \"Flat Terrain\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 95206192,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2013-11-01T08:47:18.013Z\",\n        updated: \"2023-05-02T22:17:58.57Z\",\n      },\n    },\n    {\n      gameTemplateType: \"Gameplay\",\n      hasTutorials: false,\n      universe: {\n        id: 6106389365,\n        name: \"Laser Tag\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 17823019220,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2024-06-11T21:29:12.993Z\",\n        updated: \"2024-06-20T16:58:40.577Z\",\n      },\n    },\n    {\n      gameTemplateType: \"Gameplay\",\n      hasTutorials: false,\n      universe: {\n        id: 6106388692,\n        name: \"FPS System\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 17823017290,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2024-06-11T21:28:57.433Z\",\n        updated: \"2024-06-20T16:58:54.493Z\",\n      },\n    },\n    {\n      gameTemplateType: \"Gameplay\",\n      hasTutorials: false,\n      universe: {\n        id: 5557500170,\n        name: \"Racing\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 16078915506,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2024-01-22T19:47:42.92Z\",\n        updated: \"2024-01-29T17:39:18.837Z\",\n      },\n    },\n    {\n      gameTemplateType: \"Theme\",\n      hasTutorials: true,\n      universe: {\n        id: 202770430,\n        name: \"Village\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 520390648,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2016-10-10T21:32:42.78Z\",\n        updated: \"2023-05-03T23:39:56.663Z\",\n      },\n    },\n    {\n      gameTemplateType: \"Theme\",\n      hasTutorials: true,\n      universe: {\n        id: 93411794,\n        name: \"Castle\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 203810088,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2015-01-14T21:46:11.363Z\",\n        updated: \"2023-05-03T23:46:03.85Z\",\n      },\n    },\n    {\n      gameTemplateType: \"Theme\",\n      hasTutorials: false,\n      universe: {\n        id: 138962641,\n        name: \"Suburban\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 366130569,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2016-02-20T00:02:36.483Z\",\n        updated: \"2023-05-03T23:45:29.983Z\",\n      },\n    },\n    {\n      gameTemplateType: \"Theme\",\n      hasTutorials: true,\n      universe: {\n        id: 107387509,\n        name: \"Pirate Island\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 264719325,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2015-07-01T22:54:38.927Z\",\n        updated: \"2023-05-03T23:49:39.753Z\",\n      },\n    },\n    {\n      gameTemplateType: \"Gameplay\",\n      hasTutorials: false,\n      universe: {\n        id: 93412282,\n        name: \"Obby\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 203812057,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2015-01-14T21:51:25.83Z\",\n        updated: \"2023-05-03T23:50:57.623Z\",\n      },\n    },\n    {\n      gameTemplateType: \"Theme\",\n      hasTutorials: true,\n      universe: {\n        id: 142606178,\n        name: \"Starting Place\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 379736082,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2016-03-09T19:04:30.723Z\",\n        updated: \"2023-05-04T00:09:23.643Z\",\n      },\n    },\n    {\n      gameTemplateType: \"Gameplay\",\n      hasTutorials: false,\n      universe: {\n        id: 115791780,\n        name: \"Line Runner\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 301530843,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2015-09-28T22:16:52.42Z\",\n        updated: \"2023-05-04T00:10:55.837Z\",\n      },\n    },\n    {\n      gameTemplateType: \"Theme\",\n      hasTutorials: false,\n      universe: {\n        id: 3760683948,\n        name: \"Concert\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 10275826693,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2022-07-19T00:42:50.713Z\",\n        updated: \"2023-05-03T23:14:32.48Z\",\n      },\n    },\n    {\n      gameTemplateType: \"Theme\",\n      hasTutorials: false,\n      universe: {\n        id: 4594822820,\n        name: \"Modern City\",\n        description: null,\n        isArchived: false,\n        rootPlaceId: 13165709401,\n        isActive: true,\n        privacyType: \"Public\",\n        creatorType: \"User\",\n        creatorTargetId: 998796,\n        creatorName: \"Templates\",\n        created: \"2023-04-17T18:33:52.93Z\",\n        updated: \"2023-04-17T23:24:03.373Z\",\n      },\n    },\n  ],\n}\n"
+        },
+        "params": []
+      },
+      "groupUniverses": {
+        "description": "Gets a list of universes for the given group.",
+        "tags": {
+          "endpoint": "GET /v1/groups/{groupId}/universes",
+          "example": "const { data: universes } = await ClassicDevelopApi.groupUniverses({ groupId: 5850082 });",
+          "exampleData": "[\n  {\n    id: 1651554338,\n    name: \"Ninjas Unleashed: Legion\",\n    description: \"No secret projects here\\r\\nScriptor/Game Designer - NamelessGuy2005\\r\\nBuilder/Animator - Flaroh\\r\\n\",\n    isArchived: false,\n    rootPlaceId: 4857762148,\n    isActive: false,\n    privacyType: \"Private\",\n    creatorType: \"Group\",\n    creatorTargetId: 5850082,\n    creatorName: \"MightyPart Games\",\n    created: \"2020-04-04T13:17:08.120Z\",\n    updated: \"2020-04-20T15:37:55.803Z\",\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: null,\n  data: [\n    {\n      id: 1651554338,\n      name: \"Ninjas Unleashed: Legion\",\n      description: \"No secret projects here\\r\\nScriptor/Game Designer - NamelessGuy2005\\r\\nBuilder/Animator - Flaroh\\r\\n\",\n      isArchived: false,\n      rootPlaceId: 4857762148,\n      isActive: false,\n      privacyType: \"Private\",\n      creatorType: \"Group\",\n      creatorTargetId: 5850082,\n      creatorName: \"MightyPart Games\",\n      created: \"2020-04-04T13:17:08.12Z\",\n      updated: \"2020-04-20T15:37:55.803Z\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The ID of the group to get universes from."
+          },
+          {
+            "name": "isArchived?",
+            "type": "boolean",
+            "description": "Whether or not to return archived games."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "SortOrder",
+            "description": "The order to sort the results in. Sorted by universeId."
+          }
+        ]
+      },
+      "teamCreateActiveMembers": {
+        "description": "List of users in the active Team Create session.",
+        "tags": {
+          "endpoint": "GET /v1/places/{placeId}/teamcreate/active_session/members",
+          "example": "const { data: activeMembers } = await ClassicDevelopApi.teamCreateActiveMembers({ placeId: 17718644108 });",
+          "exampleData": "[{ id: 45348281, name: \"MightyPart\", displayName: \"Mighty\" }]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: null,\n  data: [{ id: 45348281, name: \"MightyPart\", displayName: \"Mighty\" }],\n}\n"
+        },
+        "params": [
+          {
+            "name": "placeId",
+            "type": "Identifier",
+            "description": "The ID of the place to get active team create members from."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "teamCreateSettingsForUniverse": {
+        "description": "Gets team create settings for a universe.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/teamcreate",
+          "example": "const { data: settings } = await ClassicDevelopApi.teamCreateSettingsForUniverse({ universeId: 6069031486 });",
+          "exampleData": "{ isEnabled: true }\n",
+          "exampleRawBody": "{ isEnabled: true }\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get team create settings for."
+          }
+        ]
+      },
+      "updateTeamCreateSettingsForUniverse": {
+        "description": "Updates team create settings for a universe.",
+        "tags": {
+          "endpoint": "PATCH /v1/universes/{universeId}/teamcreate",
+          "example": "const { data: success } = await ClassicDevelopApi.updateTeamCreateSettingsForUniverse({\n  universeId: 6069031486,\n  isEnabled: false,\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to update team create settings for."
+          },
+          {
+            "name": "isEnabled",
+            "type": "boolean",
+            "description": "If team create should be enabled."
+          }
+        ]
+      },
+      "teamCreateSettingsForUniverses": {
+        "description": "Gets team create settings for many universes.",
+        "tags": {
+          "endpoint": "GET /v1/universes/multiget/teamcreate",
+          "example": "const { data: settings } = await ClassicDevelopApi.teamCreateSettingsForUniverses({ universeIds: [6069031486] });",
+          "exampleData": "{ \"6069031486\": { isEnabled: false } }\n",
+          "exampleRawBody": "{ data: [{ id: 6069031486, isEnabled: false }] }\n"
+        },
+        "params": [
+          {
+            "name": "universeIds",
+            "type": "ArrayNonEmpty<UniverseId>",
+            "description": "The ID of the universe to get team create settings for."
+          }
+        ]
+      },
+      "teamCreateRemoveUsersAccessForUniverse": {
+        "description": "Removes a users team create access.",
+        "tags": {
+          "endpoint": "DELETE /v1/universes/{universeId}/teamcreate/memberships",
+          "example": "const { data: success } = await ClassicDevelopApi.teamCreateRemoveUsersAccessForUniverse({\n  universeId: 6069031486,\n  userId: 45348281,\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to remove the users team create access from."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the user to remove team create access from."
+          }
+        ]
+      },
+      "pluginsInfo": {
+        "description": "Gets plugin details by IDs.",
+        "tags": {
+          "endpoint": "GET /v1/plugins",
+          "example": "const { data: pluginsInfo } = await ClassicDevelopApi.pluginsInfo({ pluginIds: [18407509477] });",
+          "exampleData": "{\n  \"18407509477\": {\n    created: \"2024-07-09T10:44:37.523Z\",\n    updated: \"2024-07-09T10:44:37.523Z\",\n    name: \"PropertyLab [PRE-ALPHA V0.0.0]\",\n    description: \"A modernised plugin explorer for Roblox.\",\n    commentsEnabled: false,\n    versionId: 24376570646,\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      id: 18407509477,\n      name: \"PropertyLab [PRE-ALPHA V0.0.0]\",\n      description: \"A modernised plugin explorer for Roblox.\",\n      commentsEnabled: false,\n      versionId: 24376570646,\n      created: \"2024-07-09T10:44:37.523Z\",\n      updated: \"2024-07-09T10:44:37.523Z\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "pluginIds",
+            "type": "ArrayNonEmpty<PluginId>",
+            "description": "The IDs of the plugins to get information about."
+          }
+        ]
+      },
+      "updatePlugin": {
+        "description": "Updates a plugin.",
+        "tags": {
+          "endpoint": "PATCH /v1/plugins/{pluginId}",
+          "example": "const { data: success } = await ClassicDevelopApi.updatePlugin({ pluginId: 18407509477, name: \"My New Plugin Name\" });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "pluginId",
+            "type": "Identifier",
+            "description": "The ID of the plugin to update."
+          },
+          {
+            "name": "name?",
+            "type": "string",
+            "description": "The new name for the plugin."
+          },
+          {
+            "name": "description?",
+            "type": "string",
+            "description": "The new description for the plugin."
+          },
+          {
+            "name": "commentsEnabled?",
+            "type": "boolean",
+            "description": "If comments should be enabled for the plugin."
+          }
+        ]
+      },
+      "universeInfo": {
+        "description": "Gets information about a universe.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}",
+          "example": "const { data: universeInfo } = await ClassicDevelopApi.universeInfo({ universeId: 6069031486 });",
+          "exampleData": "{\n  id: 6069031486,\n  name: \"MightyPart's Place: 06032024_1\",\n  description: null,\n  isArchived: false,\n  rootPlaceId: 17718644108,\n  isActive: false,\n  privacyType: \"Private\",\n  creatorType: \"User\",\n  creatorTargetId: 45348281,\n  creatorName: \"MightyPart\",\n  created: \"2024-06-03T09:42:56.270Z\",\n  updated: \"2024-06-03T09:42:56.270Z\",\n}\n",
+          "exampleRawBody": "{\n  id: 6069031486,\n  name: \"MightyPart's Place: 06032024_1\",\n  description: null,\n  isArchived: false,\n  rootPlaceId: 17718644108,\n  isActive: false,\n  privacyType: \"Private\",\n  creatorType: \"User\",\n  creatorTargetId: 45348281,\n  creatorName: \"MightyPart\",\n  created: \"2024-06-03T09:42:56.27Z\",\n  updated: \"2024-06-03T09:42:56.27Z\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get information for."
+          }
+        ]
+      },
+      "authenticatedUserPermissionsForUniverse": {
+        "description": "Returns a list of permissions related to a specific universe for the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/permissions",
+          "example": "const { data: permissions } = await ClassicDevelopApi.authenticatedUserPermissionsForUniverse({\n  universeId: 6069031486,\n});",
+          "exampleData": "{ canManage: true, canCloudEdit: true }\n",
+          "exampleRawBody": "{ canManage: true, canCloudEdit: true }\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get permissions for."
+          }
+        ]
+      },
       "universePlaces": {
         "description": "Gets a list of places for the specified universe.",
         "tags": {
@@ -1822,6 +2263,427 @@
             "name": "cursor?",
             "type": "string",
             "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "universesInfo": {
+        "description": "Gets information about multiple universes.",
+        "tags": {
+          "endpoint": "GET /v1/universes/multiget",
+          "example": "const { data: universesInfo } = await ClassicDevelopApi.universesInfo({ universeIds: [6069031486] });",
+          "exampleData": "{\n  \"6069031486\": {\n    created: \"2024-06-03T09:42:56.270Z\",\n    updated: \"2024-06-03T09:42:56.270Z\",\n    name: \"MightyPart's Place: 06032024_1\",\n    description: null,\n    isArchived: false,\n    rootPlaceId: 17718644108,\n    isActive: false,\n    privacyType: \"Private\",\n    creatorType: \"User\",\n    creatorTargetId: 45348281,\n    creatorName: \"MightyPart\",\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      id: 6069031486,\n      name: \"MightyPart's Place: 06032024_1\",\n      description: null,\n      isArchived: false,\n      rootPlaceId: 17718644108,\n      isActive: false,\n      privacyType: \"Private\",\n      creatorType: \"User\",\n      creatorTargetId: 45348281,\n      creatorName: \"MightyPart\",\n      created: \"2024-06-03T09:42:56.27Z\",\n      updated: \"2024-06-03T09:42:56.27Z\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "🤷",
+            "description": "The IDs of the universes to get information for."
+          }
+        ]
+      },
+      "authenticatedUserPermissionsForUniverses": {
+        "description": "Returns a list of permissions related to specific universes for the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v1/universes/multiget/permissions",
+          "example": "const { data: permissions } = await ClassicDevelopApi.authenticatedUserPermissionsForUniverses({\n  universeIds: [6069031486],\n});",
+          "exampleData": "{ \"6069031486\": { canManage: true, canCloudEdit: true } }\n",
+          "exampleRawBody": "{ data: [{ universeId: 6069031486, canManage: true, canCloudEdit: true }] }\n"
+        },
+        "params": [
+          {
+            "name": "universeIds",
+            "type": "ArrayNonEmpty<UniverseId>",
+            "description": "The IDs of the universes to get permissions for."
+          }
+        ]
+      },
+      "universeConfiguration": {
+        "description": "Gets the configuration for a universe owned by the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/configuration",
+          "example": "const { data: config } = await ClassicDevelopApi.universeConfiguration({ universeId: 6069031486 });",
+          "exampleData": "{\n  allowPrivateServers: false,\n  privateServerPrice: null,\n  isMeshTextureApiAccessAllowed: false,\n  id: 6069031486,\n  name: \"MightyPart's Place: 06032024_1\",\n  universeAvatarType: \"MorphToR15\",\n  universeScaleType: \"AllScales\",\n  universeAnimationType: \"PlayerChoice\",\n  universeCollisionType: \"OuterBox\",\n  universeBodyType: \"Standard\",\n  universeJointPositioningType: \"ArtistIntent\",\n  isArchived: false,\n  isFriendsOnly: false,\n  genre: \"All\",\n  playableDevices: [\"Computer\", \"Phone\", \"Tablet\", \"VR\"],\n  isForSale: false,\n  price: 0,\n  isStudioAccessToApisAllowed: false,\n  privacyType: \"Private\",\n}\n",
+          "exampleRawBody": "{\n  allowPrivateServers: false,\n  privateServerPrice: null,\n  isMeshTextureApiAccessAllowed: false,\n  id: 6069031486,\n  name: \"MightyPart's Place: 06032024_1\",\n  universeAvatarType: \"MorphToR15\",\n  universeScaleType: \"AllScales\",\n  universeAnimationType: \"PlayerChoice\",\n  universeCollisionType: \"OuterBox\",\n  universeBodyType: \"Standard\",\n  universeJointPositioningType: \"ArtistIntent\",\n  isArchived: false,\n  isFriendsOnly: false,\n  genre: \"All\",\n  playableDevices: [\"Computer\", \"Phone\", \"Tablet\", \"VR\"],\n  isForSale: false,\n  price: 0,\n  isStudioAccessToApisAllowed: false,\n  privacyType: \"Private\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to get the configuration for."
+          }
+        ]
+      },
+      "updateUniverseConfiguration_V1": {
+        "description": "Updates the configuration for a universe owned by the authenticated user.",
+        "tags": {
+          "endpoint": "PATCH /v1/universes/{universeId}/configuration",
+          "example": "const { data: updatedConfig } = await ClassicDevelopApi.updateUniverseConfiguration_V1({\n  universeId: 5638577595,\n  playableDevices: [\"Computer\"],\n  avatarType: \"PlayerChoice\",\n});",
+          "exampleData": "{\n  allowPrivateServers: false,\n  privateServerPrice: null,\n  isMeshTextureApiAccessAllowed: true,\n  id: 5638577595,\n  name: \"Terrain Gen Tech Demo\",\n  universeAvatarType: \"PlayerChoice\",\n  universeScaleType: \"AllScales\",\n  universeAnimationType: \"PlayerChoice\",\n  universeCollisionType: \"OuterBox\",\n  universeBodyType: \"Standard\",\n  universeJointPositioningType: \"ArtistIntent\",\n  isArchived: false,\n  isFriendsOnly: false,\n  genre: \"All\",\n  playableDevices: [\"Computer\"],\n  isForSale: false,\n  price: 0,\n  isStudioAccessToApisAllowed: false,\n  privacyType: \"Public\",\n}\n",
+          "exampleRawBody": "{\n  allowPrivateServers: false,\n  privateServerPrice: null,\n  isMeshTextureApiAccessAllowed: true,\n  id: 5638577595,\n  name: \"Terrain Gen Tech Demo\",\n  universeAvatarType: \"PlayerChoice\",\n  universeScaleType: \"AllScales\",\n  universeAnimationType: \"PlayerChoice\",\n  universeCollisionType: \"OuterBox\",\n  universeBodyType: \"Standard\",\n  universeJointPositioningType: \"ArtistIntent\",\n  isArchived: false,\n  isFriendsOnly: false,\n  genre: \"All\",\n  playableDevices: [\"Computer\"],\n  isForSale: false,\n  price: 0,\n  isStudioAccessToApisAllowed: false,\n  privacyType: \"Public\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "🤷",
+            "description": "The ID of the universe to set configuration for."
+          },
+          {
+            "name": "name",
+            "type": "🤷",
+            "description": "The new name for the universe."
+          },
+          {
+            "name": "avatarType",
+            "type": "🤷",
+            "description": "The new avatarType for the universe."
+          },
+          {
+            "name": "scaleType",
+            "type": "🤷",
+            "description": "The new scaleType for the universe."
+          },
+          {
+            "name": "animationType",
+            "type": "🤷",
+            "description": "The new animationType for the universe."
+          },
+          {
+            "name": "collisionType",
+            "type": "🤷",
+            "description": "The new collisionType for the universe."
+          },
+          {
+            "name": "bodyType",
+            "type": "🤷",
+            "description": "The new bodyType for the universe."
+          },
+          {
+            "name": "jointPositioningType",
+            "type": "🤷",
+            "description": "The new jointPositioningType for the universe."
+          },
+          {
+            "name": "isArchived",
+            "type": "🤷",
+            "description": "If the universe is to be archived."
+          },
+          {
+            "name": "isFriendsOnly",
+            "type": "🤷",
+            "description": "If the universe is to be for friends only."
+          },
+          {
+            "name": "genre",
+            "type": "🤷",
+            "description": "The new genre for the universe."
+          },
+          {
+            "name": "playableDevices",
+            "type": "🤷",
+            "description": "The allowed devices the universe can be played on."
+          },
+          {
+            "name": "isMeshTextureApiAccessAllowed",
+            "type": "🤷",
+            "description": "If mesh and texture apis can be used for this universe."
+          },
+          {
+            "name": "isForSale",
+            "type": "🤷",
+            "description": "If the universe is for sale."
+          },
+          {
+            "name": "price",
+            "type": "🤷",
+            "description": "The price of the universe."
+          }
+        ]
+      },
+      "vipServerConfigurationForUniverse": {
+        "description": "Gets the configuration for vip servers of a universe owned by the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/configuration/vip-servers",
+          "example": "const { data: config } = await ClassicDevelopApi.vipServerConfigurationForUniverse({ universeId: 5638577595 });",
+          "exampleData": "{\n  isEnabled: false,\n  price: null,\n  activeServersCount: 0,\n  activeSubscriptionsCount: 0,\n}\n",
+          "exampleRawBody": "{\n  isEnabled: false,\n  price: null,\n  activeServersCount: 0,\n  activeSubscriptionsCount: 0,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get the vip servers configuration from."
+          }
+        ]
+      },
+      "authenticatedUserGroupsCanManage": {
+        "description": "Lists groups that the authenticated user can manage.",
+        "tags": {
+          "endpoint": "GET /v1/user/groups/canmanage",
+          "example": "const { data: groupsCanManage } = await ClassicDevelopApi.authenticatedUserGroupsCanManage();",
+          "exampleData": "[{ id: 5850082, name: \"MightyPart Games\" }]\n",
+          "exampleRawBody": "{ data: [{ id: 5850082, name: \"MightyPart Games\" }] }\n"
+        },
+        "params": []
+      },
+      "authenticatedUserGroupsCanManageGamesOrItems": {
+        "description": "Lists groups that the authenticated user can manage.",
+        "tags": {
+          "endpoint": "GET /v1/user/groups/canmanage",
+          "example": "const { data: groupsCanManage } = await ClassicDevelopApi.authenticatedUserGroupsCanManageGamesOrItems();",
+          "exampleData": "[{ id: 5850082, name: \"MightyPart Games\" }]\n",
+          "exampleRawBody": "{ data: [{ id: 5850082, name: \"MightyPart Games\" }] }\n"
+        },
+        "params": []
+      },
+      "authenticatedUserUniverses": {
+        "description": "Gets a list of universes for the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v1/user/universes",
+          "example": "const { data: universes } = await ClassicDevelopApi.universesForGroup({ groupId: 5850082 });",
+          "exampleData": "[\n  {\n    id: 43387735,\n    name: \"parrrty's Place Number: 2\",\n    description: \"parrrty's Place\",\n    isArchived: false,\n    rootPlaceId: 122862800,\n    isActive: false,\n    privacyType: \"Private\",\n    creatorType: \"User\",\n    creatorTargetId: 45348281,\n    creatorName: \"MightyPart\",\n    created: \"2013-11-01T13:47:47.813Z\",\n    updated: \"2019-04-04T13:32:49.633Z\",\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: null,\n  data: [\n    {\n      id: 43387735,\n      name: \"parrrty's Place Number: 2\",\n      description: \"parrrty's Place\",\n      isArchived: false,\n      rootPlaceId: 122862800,\n      isActive: false,\n      privacyType: \"Private\",\n      creatorType: \"User\",\n      creatorTargetId: 45348281,\n      creatorName: \"MightyPart\",\n      created: \"2013-11-01T13:47:47.813Z\",\n      updated: \"2019-04-04T13:32:49.633Z\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "isArchived?",
+            "type": "boolean",
+            "description": "Whether or not to return archived games."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "SortOrder",
+            "description": "The order to sort the results in. Sorted by universeId."
+          }
+        ]
+      },
+      "updatePlaceConfiguration_V1": {
+        "description": "Updates the configuration for a place owned by the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v1/places/{placeId}",
+          "example": "const { data: updatedPlace } = await ClassicDevelopApi.updatePlaceConfiguration({\n  placeId: 16349154726,\n  name: \"New name\",\n});",
+          "exampleData": "{\n  id: 16349154726,\n  universeId: 5638577595,\n  name: \"New name!\",\n  description: \"\",\n}\n",
+          "exampleRawBody": "{\n  id: 16349154726,\n  universeId: 5638577595,\n  name: \"New name!\",\n  description: \"\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "placeId",
+            "type": "PlaceId",
+            "description": "The ID of the place to update the configuration for."
+          },
+          {
+            "name": "name?",
+            "type": "Name",
+            "description": "The name for the place."
+          },
+          {
+            "name": "description?",
+            "type": "Description",
+            "description": "The description for the place."
+          }
+        ]
+      },
+      "placeConfiguration": {
+        "description": "Gets the configuration for a place owned by the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v2/places/{placeId}",
+          "example": "const { data: config } = await ClassicDevelopApi.placeConfiguration({ placeId: 16349154726 });",
+          "exampleData": "{\n  maxPlayerCount: 50,\n  socialSlotType: \"Automatic\",\n  customSocialSlotsCount: 15,\n  allowCopying: false,\n  currentSavedVersion: 1537,\n  isAllGenresAllowed: true,\n  allowedGearTypes: [],\n  maxPlayersAllowed: 700,\n  id: 16349154726,\n  universeId: 5638577595,\n  name: \"New name!\",\n  description: \"\",\n  isRootPlace: true,\n}\n",
+          "exampleRawBody": "{\n  maxPlayerCount: 50,\n  socialSlotType: \"Automatic\",\n  customSocialSlotsCount: 15,\n  allowCopying: false,\n  currentSavedVersion: 1537,\n  isAllGenresAllowed: true,\n  allowedGearTypes: [],\n  maxPlayersAllowed: 700,\n  id: 16349154726,\n  universeId: 5638577595,\n  name: \"New name!\",\n  description: \"\",\n  isRootPlace: true,\n}\n"
+        },
+        "params": [
+          {
+            "name": "placeId",
+            "type": "PlaceId",
+            "description": "The ID of the place to get the configuration from."
+          }
+        ]
+      },
+      "updatePlaceConfiguration_V2": {
+        "description": "Updates the configuration for a place owned by the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v1/places/{placeId}",
+          "example": "const { data: updatedConfig } = await ClassicDevelopApi.updatePlaceConfiguration_V2({\n  placeId: 16349154726,\n  allowCopying: false,\n});",
+          "exampleData": "{\n  id: 16349154726,\n  universeId: 5638577595,\n  name: \"New name!\",\n  description: \"\",\n}\n",
+          "exampleRawBody": "{\n  id: 16349154726,\n  universeId: 5638577595,\n  name: \"New name!\",\n  description: \"\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "placeId",
+            "type": "PlaceId",
+            "description": "The ID of the place to update the configuration for."
+          },
+          {
+            "name": "name?",
+            "type": "Name",
+            "description": "The name for the place."
+          },
+          {
+            "name": "description?",
+            "type": "Description",
+            "description": "The description for the place."
+          }
+        ]
+      },
+      "updateUniverseConfiguration_V2": {
+        "description": "Updates the configuration for a universe owned by the authenticated user.",
+        "tags": {
+          "endpoint": "PATCH /v2/universes/${universeId}/configuration",
+          "example": "const {\n  data,\n  response: { body },\n} = await ClassicDevelopApi.updateUniverseConfiguration_V2({\n  universeId: 5638577595,\n  playableDevices: [\"Computer\"],\n  avatarType: \"PlayerChoice\",\n});",
+          "exampleData": "{\n  allowPrivateServers: false,\n  privateServerPrice: null,\n  optInRegions: [],\n  isMeshTextureApiAccessAllowed: true,\n  id: 5638577595,\n  name: \"New name!\",\n  description: \"\",\n  universeAvatarType: \"PlayerChoice\",\n  universeAnimationType: \"PlayerChoice\",\n  universeCollisionType: \"OuterBox\",\n  universeJointPositioningType: \"ArtistIntent\",\n  isArchived: false,\n  isFriendsOnly: false,\n  genre: \"All\",\n  playableDevices: [\"Computer\"],\n  isForSale: false,\n  price: 0,\n  universeAvatarMinScales: {\n    height: 0.9,\n    width: 0.7,\n    head: 0.95,\n    depth: 0,\n    proportion: 0,\n    bodyType: 0,\n  },\n  universeAvatarMaxScales: {\n    height: 1.05,\n    width: 1,\n    head: 1,\n    depth: 0,\n    proportion: 1,\n    bodyType: 1,\n  },\n  studioAccessToApisAllowed: false,\n  universeAvatarAssetOverrides: [],\n  permissions: {\n    isThirdPartyTeleportAllowed: false,\n    isThirdPartyAssetAllowed: false,\n    isThirdPartyPurchaseAllowed: false,\n  },\n}\n",
+          "exampleRawBody": "{\n  allowPrivateServers: false,\n  privateServerPrice: null,\n  optInRegions: [],\n  isMeshTextureApiAccessAllowed: true,\n  id: 5638577595,\n  name: \"New name!\",\n  description: \"\",\n  universeAvatarType: \"PlayerChoice\",\n  universeAnimationType: \"PlayerChoice\",\n  universeCollisionType: \"OuterBox\",\n  universeJointPositioningType: \"ArtistIntent\",\n  isArchived: false,\n  isFriendsOnly: false,\n  genre: \"All\",\n  playableDevices: [\"Computer\"],\n  isForSale: false,\n  price: 0,\n  universeAvatarAssetOverrides: [],\n  universeAvatarMinScales: {\n    height: 0.9,\n    width: 0.7,\n    head: 0.95,\n    depth: 0,\n    proportion: 0,\n    bodyType: 0,\n  },\n  universeAvatarMaxScales: {\n    height: 1.05,\n    width: 1,\n    head: 1,\n    depth: 0,\n    proportion: 1,\n    bodyType: 1,\n  },\n  studioAccessToApisAllowed: false,\n  permissions: {\n    IsThirdPartyTeleportAllowed: false,\n    IsThirdPartyAssetAllowed: false,\n    IsThirdPartyPurchaseAllowed: false,\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "🤷",
+            "description": "The ID of the universe to set configuration for."
+          },
+          {
+            "name": "allowPrivateServers",
+            "type": "🤷",
+            "description": "If private servers are allowed for the universe."
+          },
+          {
+            "name": "privateServerPrice",
+            "type": "🤷",
+            "description": "The price of private servers."
+          },
+          {
+            "name": "name",
+            "type": "🤷",
+            "description": "The new name for the universe."
+          },
+          {
+            "name": "description",
+            "type": "🤷",
+            "description": "The universes description."
+          },
+          {
+            "name": "avatarType",
+            "type": "🤷",
+            "description": "The new avatarType for the universe."
+          },
+          {
+            "name": "animationType",
+            "type": "🤷",
+            "description": "The new animationType for the universe."
+          },
+          {
+            "name": "collisionType",
+            "type": "🤷",
+            "description": "The new collisionType for the universe."
+          },
+          {
+            "name": "bodyType",
+            "type": "🤷",
+            "description": "The new bodyType for the universe."
+          },
+          {
+            "name": "jointPositioningType",
+            "type": "🤷",
+            "description": "The new jointPositioningType for the universe."
+          },
+          {
+            "name": "isArchived",
+            "type": "🤷",
+            "description": "If the universe is to be archived."
+          },
+          {
+            "name": "isFriendsOnly",
+            "type": "🤷",
+            "description": "If the universe is to be for friends only."
+          },
+          {
+            "name": "genre",
+            "type": "🤷",
+            "description": "The new genre for the universe."
+          },
+          {
+            "name": "playableDevices",
+            "type": "🤷",
+            "description": "The allowed devices the universe can be played on."
+          },
+          {
+            "name": "avatarAssetOverrides",
+            "type": "🤷",
+            "description": "The overrides for avatar assets."
+          },
+          {
+            "name": "avatarMinScales",
+            "type": "🤷",
+            "description": "The min scales allowed for avatars."
+          },
+          {
+            "name": "avatarMaxScales",
+            "type": "🤷",
+            "description": "The max scales allowed for avatars."
+          },
+          {
+            "name": "studioAccessToApisAllowed",
+            "type": "🤷",
+            "description": "If studio is allowed to access apis."
+          },
+          {
+            "name": "isThirdPartyTeleportAllowed",
+            "type": "🤷",
+            "description": "If third party teleports are allowed."
+          },
+          {
+            "name": "isThirdPartyAssetAllowed",
+            "type": "🤷",
+            "description": "if third party assets are allowed."
+          },
+          {
+            "name": "isThirdPartyPurchaseAllowed",
+            "type": "🤷",
+            "description": "If third party purchases are allowed."
+          },
+          {
+            "name": "isMeshTextureApiAccessAllowed",
+            "type": "🤷",
+            "description": "If mesh and texture apis can be used for this universe."
+          },
+          {
+            "name": "isForSale",
+            "type": "🤷",
+            "description": "If the universe is for sale."
+          },
+          {
+            "name": "price",
+            "type": "🤷",
+            "description": "The price of the universe."
+          }
+        ]
+      },
+      "closeTeamTestSession": {
+        "description": "Close a game instance that is being used for team testing.",
+        "tags": {
+          "endpoint": "DELETE /v2/teamtest/{placeId}",
+          "example": "const { data: success } = await ClassicDevelopApi.closeTeamTestSession({\n  placeId: 16349154726,\n  jobId: \"0e6f3d93-a4aa-44ab-b3b7-9169ddc1d9a1\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "placeId",
+            "type": "Identifier",
+            "description": "The ID of the place to close team test session for."
+          },
+          {
+            "name": "jobId",
+            "type": "string",
+            "description": "The ID of the game instance to close."
           }
         ]
       }
@@ -2058,14 +2920,14 @@
       "authenticatedUserAcceptFriendRequest": {
         "description": "Accepts a friend request from a specific user for the authenticated user.",
         "tags": {
-          "endpoint": "POST /v1/users/{requesterUserId}/accept-friend-request",
-          "example": "const { data: success } = await ClassicFriendsApi.authenticatedUserAcceptFriendRequest({ requesterUserId: 2655994471 });",
+          "endpoint": "POST /v1/users/{userId}/accept-friend-request",
+          "example": "const { data: success } = await ClassicFriendsApi.authenticatedUserAcceptFriendRequest({ userId: 2655994471 });",
           "exampleData": "",
           "exampleRawBody": "{}\n"
         },
         "params": [
           {
-            "name": "requesterUserId",
+            "name": "userId",
             "type": "Identifier",
             "description": "The id of the user to accept friend request from."
           }
@@ -2199,6 +3061,38 @@
             "name": "cursor",
             "type": "string",
             "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "userFollowingsCount": {
+        "description": "Gets the number of followings a user has.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/followings/count",
+          "example": "const { data: followingsCount } = await ClassicFriendsApi.userFollowingsCount({ userId: 45348281 });",
+          "exampleData": "",
+          "exampleRawBody": "{ count: 337 }\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the user to get followings count for."
+          }
+        ]
+      },
+      "authenticatedUserFollowingsExist": {
+        "description": "Returns whether or not the current user is following each userId in a list of userIds",
+        "tags": {
+          "endpoint": "POST /v1/user/following-exists",
+          "example": "const { data: followings } = await ClassicFriendsApi.authenticatedUserFollowingsExist({ userIds: [2655994471] });",
+          "exampleData": "{ \"2655994471\": { isFollowing: false, isFollowed: false } }\n",
+          "exampleRawBody": "{\n  followings: [\n    { isFollowing: false, isFollowed: false, userId: 2655994471 },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userIds",
+            "type": "ArrayNonEmpty<UserId>",
+            "description": "The userIds to get following statuses for."
           }
         ]
       }

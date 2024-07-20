@@ -179,9 +179,9 @@ export const createApiGroup: CreateApiGroup = ({ groupName, baseUrl }) => {
       const url: SecureUrl = `${baseUrl}${path}${formattedSearchParams}`
 
       const credentials = {
-        cookie: overrides.cookie || config.cookie,
-        cloudKey: overrides.cloudKey || config.cloudKey,
-        oauthToken: overrides.oauthToken,
+        cookie: overrides?.cookie || config?.cookie,
+        cloudKey: overrides?.cloudKey || config?.cloudKey,
+        oauthToken: overrides?.oauthToken,
       }
 
       let response = await HttpHandler({ url, method, headers, body, formData, rawFormData }, credentials)

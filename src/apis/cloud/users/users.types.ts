@@ -1,4 +1,4 @@
-import { ISODate, ISODateTime, Prettify } from "typeforge"
+import { ISODate, ISODateTime, ObjectPrettify, Prettify, UnionPrettify } from "typeforge"
 import type { Identifier, SecureUrl } from "../../../utils/utils.types"
 
 // GET https://apis.roblox.com/cloud/v2/users/${userId}
@@ -24,7 +24,7 @@ export type RawUserInfoData<UserId extends Identifier> = UserInfoData<UserId, IS
     visibility: "SOCIAL_NETWORK_VISIBILITY_UNSPECIFIED" | "NO_ONE" | "FRIENDS" | "FRIENDS_AND_FOLLOWING" | "FRIENDS_FOLLOWING_AND_FOLLOWERS" | "EVERYONE"
   }
 }
-export type PrettifiedUserInfoData<UserId extends Identifier> = UserInfoData<UserId, Date> & {
+export type PrettifiedUserInfoData<UserId extends Identifier> = ObjectPrettify<UserInfoData<UserId, Date> & {
   socialNetworkProfiles?: {
     facebook?: string,
     twitter?: string,
@@ -33,9 +33,10 @@ export type PrettifiedUserInfoData<UserId extends Identifier> = UserInfoData<Use
     guilded?: string,
     visibility: "SOCIAL_NETWORK_VISIBILITY_UNSPECIFIED" | "NO_ONE" | "FRIENDS" | "FRIENDS_AND_FOLLOWING" | "FRIENDS_FOLLOWING_AND_FOLLOWERS" | "EVERYONE"
   }
-}
+}>
 
 
+export type UserThumbnailSize = UnionPrettify<48 | 50 | 60 | 75 | 100 | 110 | 150 | 180 | 352 | 420 | 720 | 420>
 
 export type UserThumbnailData<UserId extends Identifier> = (
   {

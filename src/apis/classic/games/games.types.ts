@@ -45,7 +45,7 @@ export type RawGamesInfoData<UniverseId extends Identifier> = ObjectPrettify<{
 
 
 export type PrettifiedGamesInfoData<UniverseId extends Identifier> = ObjectPrettify<{
-  [Key in UniverseId]: ObjectPrettify<GamesInfoData<Date>>
+  [Key in UniverseId]: ObjectPrettify<GamesInfoData<Date>> | undefined
 }>
 // -------------------------------------------------------------------------------------------------------------------
 
