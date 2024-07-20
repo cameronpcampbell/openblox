@@ -36,4 +36,4 @@ export type PrettifiedListStandardDatastoreEntriesData<
 UniverseId extends Identifier, Prefix extends string, DataStore extends string, Scope extends string
 > =
   MinimalDatastore<UniverseId, `${Prefix}${string}`, true, DataStore, Scope>[]
-// -------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
