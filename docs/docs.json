@@ -1578,6 +1578,70 @@
         ]
       }
     },
+    "standardDataStores_V2": {
+      "listStandardDatastores": {
+        "description": "Returns a list of data stores belonging to an experience.",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universeId}/data-stores",
+          "example": "const { data: datastores } = await StandardDatastoresApi_V2.listStandardDatastores({\n  universeId: 5097539509,\n  prefix: \"Ba\",\n});",
+          "exampleData": "[{ path: \"universes/5097539509/data-stores/Bans\", id: \"Bans\" }]\n",
+          "exampleRawBody": "{\n  dataStores: [\n    { path: \"universes/5097539509/data-stores/Bans\", id: \"Bans\" },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to list datastores for."
+          },
+          {
+            "name": "prefix?",
+            "type": "Prefix",
+            "description": "Provide to return only data stores with this prefix."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The maximum number of data stores to return. The service might return fewer than this value. If unspecified, at most 10 data stores are returned. The maximum value is 100 and higher values are set to 100."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "listStandardDatastoreEntries": {
+        "description": "Lists entries for a standard datastore.",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universe}/data-stores/{data-store}/entries\nGET /v2/universes/{universe}/data-stores/{data-store}/scopes/{scope}/entries",
+          "example": "await StandardDatastoresApi_V2.listStandardDatastoreEntries({\n  universeId: 5097539509,\n  dataStore: \"InventoryStore\",\n});",
+          "exampleData": "[\n  {\n    path: \"universes/5097539509/data-stores/InventoryStore/entries/user/45348281\",\n    id: \"user/45348281\",\n  },\n]\n",
+          "exampleRawBody": "{\n  dataStoreEntries: [\n    {\n      path: \"universes/5097539509/data-stores/InventoryStore/entries/user/45348281\",\n      id: \"user/45348281\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to get data store entries for."
+          },
+          {
+            "name": "prefix?",
+            "type": "Prefix",
+            "description": "Provide to return only data store entries with this prefix."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The maximum number of data store entries to return. The service might return fewer than this value. If unspecified, at most 10 data store entries are returned. The maximum value is 256 and higher values are set to 256."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      }
+    },
     "subscriptions": {
       "subscriptionInfo": {
         "description": "",
@@ -1744,7 +1808,7 @@
           },
           {
             "name": "size?",
-            "type": "48 | 50 | 60 | 75 | 100 | 110 | 150 | 180 | 352 | 420 | 720 | 420",
+            "type": "UserThumbnailSize",
             "description": "The size of the thumbnail to be returned."
           },
           {
@@ -3093,6 +3157,24 @@
             "name": "userIds",
             "type": "ArrayNonEmpty<UserId>",
             "description": "The userIds to get following statuses for."
+          }
+        ]
+      }
+    },
+    "gamePasses": {
+      "gamePassInfo": {
+        "description": "Gets information about a game pass.",
+        "tags": {
+          "endpoint": "GET /v1/game-passes/{gamePassId}/product-info",
+          "example": "const { data: gamePassInfo } = await ClassicGamePassesApi.gamePassInfo({ gamePassId: 9260480 });",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "gamePassId",
+            "type": "GamePassId",
+            "description": "The ID of the game pass to get information about."
           }
         ]
       }
