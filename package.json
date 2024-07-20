@@ -1,7 +1,7 @@
 {
   "name": "openblox",
   "type": "commonjs",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MightyPart/openblox/issues"
@@ -18,7 +18,7 @@
     "Bedev",
     "Bedev2"
   ],
-  "exports": {
+  "exports_DEV": {
     ".": "./src/index.ts",
     "./config": "./src/config/index.ts",
     "./classic": "./src/apis/classic/index.ts",
@@ -31,7 +31,7 @@
 
     "./queries/cloud": "./src/queries/cloud/index.ts"
   },
-  "exports_PROD": {
+  "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
@@ -67,6 +67,11 @@
     "./types": {
       "types": "./dist/types.d.ts",
       "default": "./dist/types.ts"
+    },
+
+    "./queries/cloud": {
+      "types": "./dist/queries/cloud/index.d.ts",
+      "default": "./dist/queries/cloud/index.js"
     }
   },
   "dependencies": {
