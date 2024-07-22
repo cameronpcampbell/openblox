@@ -156,16 +156,13 @@ const buildDocsForApis = async (apis: Directory[], apisName: "classic" | "cloud"
     const apiName = api.getBaseName()
     const apiFile = api.getSourceFile(`${api.getPath()}/${apiName}.ts`)
     allJsDocData[apisName][apiName] = {}
-
-    //if (apiName !== "standardDataStores_V1") continue
   
     const methods = apiFile?.getExportSymbols()
-    if (apiName == "standardDataStores_V2") console.log(methods)
+    if (apiName == "standardDataStores_V2") console.log(`${api.getPath()}/${apiName}.ts`)
     if (!methods) continue
 
     for (const method of methods) {
       const methodName = method.getName()
-      //if (methodName !== "listStandardDatastoreEntryVersions") continue
       allJsDocData[apisName][apiName][methodName] = await getJsDocData(method)
     }
   }
