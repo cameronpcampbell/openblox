@@ -11,7 +11,7 @@ const getBody = async (response: Response, contentType: string | null) => {
 
 
 export const FetchAdapter: HttpAdapter = async ({ url, method, headers, body, formData }) => {
-  const response = await fetch(url, { method, headers: headers as any, body: formData || body, cache: "no-store" } as any)
+  const response = await fetch(url, { method, headers: headers as any, body: formData || body, cache: "no-store", credentials: "include" } as any)
 
   return new HttpResponse({
       url, method,

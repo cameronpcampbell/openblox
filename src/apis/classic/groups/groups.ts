@@ -21,22 +21,26 @@ const addApiMethod = createApiGroup({ groupName: "ClassicGroups", baseUrl: "http
 
 // [ Featured Content ] /////////////////////////////////////////////////////////
 /**
- * DESCRIPTION
- * @endpoint REST /...
+ * Gets the featured event for a group.
+ * @endpoint GET /v1/featured-content/event
  * 
- * @param
+ * @param groupId The ID of the group to get the event for.
  * 
- * @example
- * @exampleData
- * @exampleRawBody
+ * @example const { data:eventId } = await ClassicGroupsApi.featuredEvent({ groupId: 15842838 })
+ * @exampleData "6533473338141704368"
+ * @exampleRawBody {"groupId":15842838,"contentType":"event","contentId":"6533473338141704368"}
  */
-/*export const featuredEvent = addApiMethod(async (
-  { groupId }: { groupId: Identifier }
-): ApiMethod<any> => ({
+export const featuredEvent = addApiMethod(async <GroupId extends Identifier>(
+  { groupId }: { groupId: GroupId }
+): ApiMethod<{ groupId: GroupId, contentType: "event", contentId: Identifier }, Identifier> => ({
   method: "GET",
   path: `/v1/featured-content/event`,
+  headers: { Cookie: null },
+  searchParams: { groupId },
   name: `featuredEvent`,
-}))*/
+
+  prettifyFn: ({ contentId }) => contentId
+}))
 
 
 /**
@@ -52,7 +56,7 @@ const addApiMethod = createApiGroup({ groupName: "ClassicGroups", baseUrl: "http
 /*export const setFeaturedEvent = addApiMethod(async (
   { groupId, eventId }: { groupId: Identifier, eventId: Identifier }
 ): ApiMethod<any> => ({
-  method: "GET",
+  method: "POST",
   path: `/v1/featured-content/event`,
   searchParams: { groupId, eventId },
   name: `setFeaturedEvent`,

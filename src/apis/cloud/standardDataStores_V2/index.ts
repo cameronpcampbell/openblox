@@ -1,1 +1,1 @@
-export * from "./standardDatastores_V2"
+export * from "./standardDataStores_V2"

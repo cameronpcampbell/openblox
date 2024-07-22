@@ -1,5 +1,6 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { parseBEDEV1ErrorFromStringAndHeaders, parseBEDEV2ErrorFromStringAndHeaders } from "parse-roblox-errors"
+import { HBAClient } from "roblox-bat"
 
 import { HttpError, HttpResponse } from "../http.utils"
 import { FetchAdapter } from "../httpAdapters/fetchHttpAdapter"
@@ -70,12 +71,25 @@ export const HttpHandler = async <RawData extends any = any>(
     formData: parsedFormData,
   }
 
+
+  /*const hbaClient = new HBAClient({
+    keys: await crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, false, [ "sign" ]),
+    cookie,
+  });*/
+
+  /*const hbaHeaders = await hbaClient.generateBaseHeaders(
+    url,
+    true, // set to false or undefined if not authenticated
+  );*/
+
+
   const requestDataHeaders = removeNullUndefined({
-    ...headers,
     Cookie: cookie as string,
     "x-api-key": cloudKey,
     Authorization: oauthToken && `Bearer ${oauthToken}`,
     "Content-Type": headers?.["Content-Type"] || (!((formData && Object.keys(formData)?.length) || rawFormData) && "application/json" || null),
+    ...headers,
+    //...hbaHeaders,
   })
 
   const handlerMain = async (): Promise<HttpResponse<RawData> | HttpError> => {

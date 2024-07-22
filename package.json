@@ -1,7 +1,7 @@
 {
   "name": "openblox",
   "type": "commonjs",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MightyPart/openblox/issues"
@@ -28,7 +28,6 @@
     "./cache/adapters": "./src/cache/cacheAdapters/index.ts",
     "./http": "./src/http/http.utils.ts",
     "./types": "./src/types.ts",
-
     "./queries/cloud": "./src/queries/cloud/index.ts"
   },
   "exports": {
@@ -68,7 +67,6 @@
       "types": "./dist/types.d.ts",
       "default": "./dist/types.ts"
     },
-
     "./queries/cloud": {
       "types": "./dist/queries/cloud/index.d.ts",
       "default": "./dist/queries/cloud/index.js"

@@ -1,6 +1,8 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import { Identifier, ISODateTime, ObjectPrettify, ObjectRemoveKeys, StringIsLiteral } from "typeforge"
+import { Identifier, ISODateTime, ObjectPrettify, ObjectRemoveKeys, PrettifyDeep, StringIsLiteral, StringReplaceAll, UnionPrettify } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
+
+type DataStoreEntryState = UnionPrettify<"STATE_UNSPECIFIED" | "ACTIVE" | "DELETED">
 
 type MinimalDatastore<
   UniverseId extends Identifier, Id extends string = string, IsEntry extends boolean = false,
@@ -11,6 +13,26 @@ type MinimalDatastore<
   }`,
   id: Id
 }>
+
+
+type FullDatastore<
+  TemporalType extends ISODateTime | Date, Schema extends Record<any, any> | any[] | null | boolean | string | number
+> = {
+  path: `universes/${Identifier}/data-stores/${string}${`/scope/${string}` | ""}/entries/${string}${`@${string}` | ""}`,
+  createTime: TemporalType,
+  revisionId: string,
+  revisionCreateTime: TemporalType,
+  state: DataStoreEntryState,
+  etag: string,
+  value: PrettifyDeep<Schema>,
+  id: string,
+  users: `users/${Identifier}`[],
+  attributes: Record<any, any>
+}
+
+export type RawFullDatastoreData<Schema extends Record<any, any> | any[] | null | boolean | string | number> = FullDatastore<ISODateTime, Schema>
+
+export type PrettifiedFullDatastoreData<Schema extends Record<any, any> | any[] | null | boolean | string | number> = FullDatastore<Date, Schema>
 
 // GET /v2/universes/{universeId}/data-stores ------------------------------------------------------------------------
 export type RawListStandardDatastoresData<UniverseId extends Identifier, Prefix extends string> = {
@@ -24,7 +46,7 @@ export type PrettifiedListStandardDatastoresData<UniverseId extends Identifier, 
 
 
 /* GET /v2/universes/{universe}/data-stores/{data-store}/entries
-   GET /v2/universes/{universe}/data-stores/{data-store}/scopes/{scope}/entries ----------------------------------- */
+   GET /v2/universes/{universe}/data-stores/{data-store}/scopes/{scope}/entries ------------------------------------ */
 export type RawListStandardDatastoreEntriesData<
   UniverseId extends Identifier, Prefix extends string, DataStore extends string, Scope extends string
 > = {
@@ -36,4 +58,32 @@ export type PrettifiedListStandardDatastoreEntriesData<
 UniverseId extends Identifier, Prefix extends string, DataStore extends string, Scope extends string
 > =
   MinimalDatastore<UniverseId, `${Prefix}${string}`, true, DataStore, Scope>[]
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+/* GET /v2/universes/{universe}/data-stores/{data-store}/entries/{entryId}:listRevisions
+ * GET /v2/universes/{universe}/data-stores/{data-store}/scopes/{scope}/entries/{entryId}:listRevisions ------------- */
+type StandardDataStoreEntryRevision<
+  TemporalType extends ISODateTime | Date, UniverseId extends Identifier, DataStore extends string, Scope extends string, EntryId extends string
+> = ObjectPrettify<{
+  path: `universes/${UniverseId}/data-stores/${DataStore}${StringIsLiteral<Scope> extends true ? `/scope/${Scope}` : ""}/entries/${StringReplaceAll<EntryId, "/", ":">}@${string}`,
+  createTime: TemporalType,
+  revisionId: string,
+  revisionCreateTime: TemporalType,
+  state: DataStoreEntryState,
+  etag: string,
+  id: `${EntryId}@${string}`
+}>
+
+export type RawListStandardDataStoreEntryRevisionsData<
+  UniverseId extends Identifier, DataStore extends string, Scope extends string, EntryId extends string
+> = {
+  dataStoreEntries: StandardDataStoreEntryRevision<ISODateTime, UniverseId, DataStore, EntryId, Scope>[],
+  nextPageToken: string
+}
+
+export type PrettifiedListStandardDataStoreEntryRevisionsData<
+  UniverseId extends Identifier, DataStore extends string, Scope extends string, EntryId extends string
+> = StandardDataStoreEntryRevision<Date, UniverseId, DataStore, Scope, EntryId>[]
 // --------------------------------------------------------------------------------------------------------------------
