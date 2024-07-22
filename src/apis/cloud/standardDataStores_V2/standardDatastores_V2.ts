@@ -39,7 +39,7 @@ const formatRevisionCreateTimeClamp = (createdBefore?: ISODateTime | Date, creat
  * @param limit The maximum number of data stores to return. The service might return fewer than this value. If unspecified, at most 10 data stores are returned. The maximum value is 100 and higher values are set to 100.
  * @param cursor The paging cursor for the previous or next page.
  * 
- * @example const { data:datastores } = await StandardDatastoresApi_V2.listStandardDataStores({ universeId: 5097539509, prefix: "Ba" })
+ * @example const { data:datastores } = await StandardDataStoresApi_V2.listStandardDataStores({ universeId: 5097539509, prefix: "Ba" })
  * @exampleData [{"path":"universes/5097539509/data-stores/Bans","id":"Bans"}] 
  * @exampleRawBody {"dataStores":[{"path":"universes/5097539509/data-stores/Bans","id":"Bans"}]}
  */
@@ -67,7 +67,7 @@ export const listStandardDataStores = addApiMethod(async <UniverseId extends Ide
  * @param cursor The paging cursor for the previous or next page.
  * 
  * @example
- * await StandardDatastoresApi_V2.listStandardDataStoreEntries({
+ * await StandardDataStoresApi_V2.listStandardDataStoreEntries({
      universeId: 5097539509, dataStore: "InventoryStore"
    })
  * @exampleData [{"path":"universes/5097539509/data-stores/InventoryStore/entries/user/45348281","id":"user/45348281"}]
@@ -112,7 +112,7 @@ export const listStandardDataStoreEntries = addApiMethod(async <
  * 
  * @example
  * type InventorySchema = { Iron?: number, Gold?: number, Copper?: number, Stone?: number, Wood?: number }
- * const { data:entry } = await StandardDatastoresApi_V2.createStandardDataStoreEntry<InventorySchema>({
+ * const { data:entry } = await StandardDataStoresApi_V2.createStandardDataStoreEntry<InventorySchema>({
      universeId: 5097539509, dataStore: "InventoryStore", entryId: "users/45348281", value: { Iron: 50 }, users: [ 45348281 ]
    })
  * @exampleData {"path":"universes/5097539509/data-stores/InventoryStore/entries/users:45348281","createTime":"2024-07-22T19:06:55.829Z","revisionId":"08DCAA81744A406E.0000000001.08DCAA81744A406E.01","revisionCreateTime":"2024-07-22T19:06:55.829Z","state":"ACTIVE","etag":"08DCAA81744A406E.0000000001.08DCAA81744A406E.01","value":{"Iron":50},"id":"users:45348281","users":["users/45348281"],"attributes":{}}
@@ -155,7 +155,7 @@ export const createStandardDataStoreEntry = addApiMethod(async <Schema extends R
  * 
  * @example
  * type InventorySchema = { Iron?: number, Gold?: number, Copper?: number, Stone?: number, Wood?: number }
-   const { data, response:{body} } = await StandardDatastoresApi_V2.standardDataStoreEntry<InventorySchema>({
+   const { data, response:{body} } = await StandardDataStoresApi_V2.standardDataStoreEntry<InventorySchema>({
      universeId: 5097539509, dataStore: "InventoryStore", entryId: "users/45348281"
    })
  * @exampleData
@@ -191,7 +191,7 @@ export const standardDataStoreEntry = addApiMethod(async <Schema extends Record<
  * @param entryId The ID (key / name) of the entry.
  * 
  * @example
- * const { data:success } = await StandardDatastoresApi_V2.deleteStandardDataStoreEntry({
+ * const { data:success } = await StandardDataStoresApi_V2.deleteStandardDataStoreEntry({
      universeId: 5097539509, dataStore: "InventoryStore", entryId: "users/45348281"
    })
  * @exampleData true
@@ -228,7 +228,7 @@ export const deleteStandardDataStoreEntry = addApiMethod(async (
  * 
  * @example
  * type InventorySchema = { Iron?: number, Gold?: number, Copper?: number, Stone?: number, Wood?: number }
-   const { data, response:{body} } = await StandardDatastoresApi_V2.updateStandardDataStoreEntry<InventorySchema>({
+   const { data, response:{body} } = await StandardDataStoresApi_V2.updateStandardDataStoreEntry<InventorySchema>({
       universeId: 5097539509, dataStore: "InventoryStore", entryId: "users/453482811", value: { Iron: 50, Gold: 26 }, users: [ 45348281 ]
    })
  * @exampleData {"path":"universes/5097539509/data-stores/InventoryStore/entries/users:453482811","createTime":"2024-07-22T19:02:27.811Z","revisionId":"08DCAA80D489FD52.0000000003.08DCAA8627CF76E1.01","revisionCreateTime":"2024-07-22T19:02:27.811Z","state":"ACTIVE","etag":"08DCAA80D489FD52.0000000003.08DCAA8627CF76E1.01","value":{"Iron":50,"Gold":26},"id":"users:453482811","users":["users/45348281"],"attributes":{}}
@@ -271,7 +271,7 @@ export const updateStandardDataStoreEntry = addApiMethod(async <Schema extends R
  * @param attributes Key-Value Pairs metadata containing arbitrary data.
  * 
  * @example
- * const { data:entry } = await StandardDatastoresApi_V2.incrementStandardDatastoreEntry({
+ * const { data:entry } = await StandardDataStoresApi_V2.incrementStandardDatastoreEntry({
      universeId: 5097539509, dataStore: "Deaths", entryId: "users/45348281", amount: 3, users: [ 45348281 ]
    })
  * @exampleData {"path":"universes/5097539509/data-stores/Deaths/entries/users:45348281","createTime":"2024-07-22T19:46:42.453Z","revisionId":"08DCAA8702D435AC.0000000003.08DCAA877D776995.01","revisionCreateTime":"2024-07-22T19:46:42.453Z","state":"ACTIVE","etag":"08DCAA8702D435AC.0000000003.08DCAA877D776995.01","value":9,"id":"users:45348281","users":["users/45348281"],"attributes":{}}
@@ -315,7 +315,7 @@ export const incrementStandardDatastoreEntry = addApiMethod(async (
  * @param cursor The paging cursor for the previous or next page.
  * 
  * @example
- * const { data:entries } = await StandardDatastoresApi_V2.listStandardDataStoreEntryRevisions({
+ * const { data:entries } = await StandardDataStoresApi_V2.listStandardDataStoreEntryRevisions({
      universeId: 5097539509, dataStore: "Deaths", entryId: "users/45348281"
    })
  * @exampleData [{"path":"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000003.08DCAA877D776995.01","createTime":"2024-07-22T19:46:42.453Z","revisionId":"08DCAA8702D435AC.0000000003.08DCAA877D776995.01","revisionCreateTime":"2024-07-22T19:46:42.453Z","state":"ACTIVE","etag":"08DCAA8702D435AC.0000000003.08DCAA877D776995.01","id":"users:45348281@08DCAA8702D435AC.0000000003.08DCAA877D776995.01"},{"path":"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01","createTime":"2024-07-22T19:46:42.453Z","revisionId":"08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01","revisionCreateTime":"2024-07-22T19:46:42.453Z","state":"ACTIVE","etag":"08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01","id":"users:45348281@08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01"},{"path":"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01","createTime":"2024-07-22T19:46:42.453Z","revisionId":"08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01","revisionCreateTime":"2024-07-22T19:46:42.453Z","state":"ACTIVE","etag":"08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01","id":"users:45348281@08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01"}]
