@@ -1579,11 +1579,11 @@
       }
     },
     "standardDataStores_V2": {
-      "listStandardDatastores": {
+      "listStandardDataStores": {
         "description": "Returns a list of data stores belonging to an experience.",
         "tags": {
           "endpoint": "GET /v2/universes/{universeId}/data-stores",
-          "example": "const { data: datastores } = await StandardDatastoresApi_V2.listStandardDatastores({\n  universeId: 5097539509,\n  prefix: \"Ba\",\n});",
+          "example": "const { data: datastores } = await StandardDataStoresApi_V2.listStandardDataStores({\n  universeId: 5097539509,\n  prefix: \"Ba\",\n});",
           "exampleData": "[{ path: \"universes/5097539509/data-stores/Bans\", id: \"Bans\" }]\n",
           "exampleRawBody": "{\n  dataStores: [\n    { path: \"universes/5097539509/data-stores/Bans\", id: \"Bans\" },\n  ],\n}\n"
         },
@@ -1610,11 +1610,11 @@
           }
         ]
       },
-      "listStandardDatastoreEntries": {
+      "listStandardDataStoreEntries": {
         "description": "Lists entries for a standard datastore.",
         "tags": {
           "endpoint": "GET /v2/universes/{universe}/data-stores/{data-store}/entries\nGET /v2/universes/{universe}/data-stores/{data-store}/scopes/{scope}/entries",
-          "example": "await StandardDatastoresApi_V2.listStandardDatastoreEntries({\n  universeId: 5097539509,\n  dataStore: \"InventoryStore\",\n});",
+          "example": "await StandardDataStoresApi_V2.listStandardDataStoreEntries({\n  universeId: 5097539509,\n  dataStore: \"InventoryStore\",\n});",
           "exampleData": "[\n  {\n    path: \"universes/5097539509/data-stores/InventoryStore/entries/user/45348281\",\n    id: \"user/45348281\",\n  },\n]\n",
           "exampleRawBody": "{\n  dataStoreEntries: [\n    {\n      path: \"universes/5097539509/data-stores/InventoryStore/entries/user/45348281\",\n      id: \"user/45348281\",\n    },\n  ],\n}\n"
         },
@@ -1633,6 +1633,257 @@
             "name": "limit?",
             "type": "number",
             "description": "The maximum number of data store entries to return. The service might return fewer than this value. If unspecified, at most 10 data store entries are returned. The maximum value is 256 and higher values are set to 256."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "createStandardDataStoreEntry": {
+        "description": "Creates an entry in a standard datastore.",
+        "tags": {
+          "endpoint": "POST /v2/universes/{universe}/data-stores/{data-store}/entries\nPOST /v2/universes/{universe}/data-stores/{data-store}/scopes/{scope}/entries",
+          "example": "type InventorySchema = { Iron?: number; Gold?: number; Copper?: number; Stone?: number; Wood?: number };\nconst { data: entry } = await StandardDataStoresApi_V2.createStandardDataStoreEntry<InventorySchema>({\n  universeId: 5097539509,\n  dataStore: \"InventoryStore\",\n  entryId: \"users/45348281\",\n  value: { Iron: 50 },\n  users: [45348281],\n});",
+          "exampleData": "{\n  path: \"universes/5097539509/data-stores/InventoryStore/entries/users:45348281\",\n  createTime: \"2024-07-22T19:06:55.829Z\",\n  revisionId: \"08DCAA81744A406E.0000000001.08DCAA81744A406E.01\",\n  revisionCreateTime: \"2024-07-22T19:06:55.829Z\",\n  state: \"ACTIVE\",\n  etag: \"08DCAA81744A406E.0000000001.08DCAA81744A406E.01\",\n  value: { Iron: 50 },\n  id: \"users:45348281\",\n  users: [\"users/45348281\"],\n  attributes: {},\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5097539509/data-stores/InventoryStore/entries/users:45348281\",\n  createTime: \"2024-07-22T19:06:55.829412600Z\",\n  revisionId: \"08DCAA81744A406E.0000000001.08DCAA81744A406E.01\",\n  revisionCreateTime: \"2024-07-22T19:06:55.829412600Z\",\n  state: \"ACTIVE\",\n  etag: \"08DCAA81744A406E.0000000001.08DCAA81744A406E.01\",\n  value: { Iron: 50 },\n  id: \"users:45348281\",\n  users: [\"users/45348281\"],\n  attributes: {},\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to create the entry in."
+          },
+          {
+            "name": "dataStore",
+            "type": "string",
+            "description": "the name of the datastore to create the entry in."
+          },
+          {
+            "name": "scope?",
+            "type": "string",
+            "description": "The optional scope for the dataStore."
+          },
+          {
+            "name": "entryId",
+            "type": "string",
+            "description": "The ID (key / name) for the entry."
+          },
+          {
+            "name": "value",
+            "type": "Schema",
+            "description": "The value (content) for the entry."
+          },
+          {
+            "name": "users?",
+            "type": "ArrayNonEmpty<Identifier>",
+            "description": "Array metadata containing the IDs of the users this entry is affiliated with."
+          },
+          {
+            "name": "attributes?",
+            "type": "Record<any, any>",
+            "description": "Key-Value Pairs metadata containing arbitrary data."
+          }
+        ]
+      },
+      "standardDataStoreEntry": {
+        "description": "Gets an entry from a standard datastore.",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universe}/data-stores/{data-store}/entries/{entryId}\nGET /v2/universes/{universe}/data-stores/{data-store}/scopes/{scope}/entries/{entryId}",
+          "example": "type InventorySchema = { Iron?: number; Gold?: number; Copper?: number; Stone?: number; Wood?: number };\nconst {\n  data,\n  response: { body },\n} = await StandardDataStoresApi_V2.standardDataStoreEntry<InventorySchema>({\n  universeId: 5097539509,\n  dataStore: \"InventoryStore\",\n  entryId: \"users/45348281\",\n});",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get the entry in."
+          },
+          {
+            "name": "dataStore",
+            "type": "string",
+            "description": "the name of the datastore to get the entry in."
+          },
+          {
+            "name": "scope?",
+            "type": "string",
+            "description": "The optional scope of the dataStore."
+          },
+          {
+            "name": "entryId",
+            "type": "string",
+            "description": "The ID (key / name) of the entry."
+          }
+        ]
+      },
+      "deleteStandardDataStoreEntry": {
+        "description": "Deletes an entry from a standard datastore.",
+        "tags": {
+          "endpoint": "DELETE /v2/universes/{universe}/data-stores/{data-store}/entries/{entryId}\nDELETE /v2/universes/{universe}/data-stores/{data-store}/scopes/{scope}/entries/{entryId}",
+          "example": "const { data: success } = await StandardDataStoresApi_V2.deleteStandardDataStoreEntry({\n  universeId: 5097539509,\n  dataStore: \"InventoryStore\",\n  entryId: \"users/45348281\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to delete the entry in."
+          },
+          {
+            "name": "dataStore",
+            "type": "string",
+            "description": "the name of the datastore to delete the entry in."
+          },
+          {
+            "name": "scope?",
+            "type": "string",
+            "description": "The optional scope of the dataStore."
+          },
+          {
+            "name": "entryId",
+            "type": "string",
+            "description": "The ID (key / name) of the entry."
+          }
+        ]
+      },
+      "updateStandardDataStoreEntry": {
+        "description": "Updates an entry in a standard datastore.",
+        "tags": {
+          "endpoint": "PATCH /v2/universes/{universe}/data-stores/{data-store}/entries/{entryId}\nPATCH /v2/universes/{universe}/data-stores/{data-store}/scopes/{scope}/entries/{entryId}",
+          "example": "type InventorySchema = { Iron?: number; Gold?: number; Copper?: number; Stone?: number; Wood?: number };\nconst {\n  data,\n  response: { body },\n} = await StandardDataStoresApi_V2.updateStandardDataStoreEntry<InventorySchema>({\n  universeId: 5097539509,\n  dataStore: \"InventoryStore\",\n  entryId: \"users/453482811\",\n  value: { Iron: 50, Gold: 26 },\n  users: [45348281],\n});",
+          "exampleData": "{\n  path: \"universes/5097539509/data-stores/InventoryStore/entries/users:453482811\",\n  createTime: \"2024-07-22T19:02:27.811Z\",\n  revisionId: \"08DCAA80D489FD52.0000000003.08DCAA8627CF76E1.01\",\n  revisionCreateTime: \"2024-07-22T19:02:27.811Z\",\n  state: \"ACTIVE\",\n  etag: \"08DCAA80D489FD52.0000000003.08DCAA8627CF76E1.01\",\n  value: { Iron: 50, Gold: 26 },\n  id: \"users:453482811\",\n  users: [\"users/45348281\"],\n  attributes: {},\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5097539509/data-stores/InventoryStore/entries/users:453482811\",\n  createTime: \"2024-07-22T19:02:27.811669Z\",\n  revisionId: \"08DCAA80D489FD52.0000000003.08DCAA8627CF76E1.01\",\n  revisionCreateTime: \"2024-07-22T19:40:35.001520100Z\",\n  state: \"ACTIVE\",\n  etag: \"08DCAA80D489FD52.0000000003.08DCAA8627CF76E1.01\",\n  value: { Iron: 50, Gold: 26 },\n  id: \"users:453482811\",\n  users: [\"users/45348281\"],\n  attributes: {},\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to update an entry in."
+          },
+          {
+            "name": "dataStore",
+            "type": "string",
+            "description": "the name of the datastore to update an entry in."
+          },
+          {
+            "name": "scope?",
+            "type": "string",
+            "description": "The optional scope of the dataStore."
+          },
+          {
+            "name": "entryId",
+            "type": "string",
+            "description": "The ID (key / name) of the entry."
+          },
+          {
+            "name": "value",
+            "type": "Schema",
+            "description": "The value (content) of the entry."
+          },
+          {
+            "name": "users?",
+            "type": "ArrayNonEmpty<Identifier>",
+            "description": "Array metadata containing the IDs of the users this entry is affiliated with."
+          },
+          {
+            "name": "attributes?",
+            "type": "Record<any, any>",
+            "description": "Key-Value Pairs metadata containing arbitrary data."
+          }
+        ]
+      },
+      "incrementStandardDatastoreEntry": {
+        "description": "Increments an entry in a standard datastore.",
+        "tags": {
+          "endpoint": "POST /v2/universes/{universe}/data-stores/{data-store}/entries/{entryId}:increment\nPOST /v2/universes/{universe}/data-stores/{data-store}/scopes/{scope}/entries/{entryId}:increment",
+          "example": "const { data: entry } = await StandardDataStoresApi_V2.incrementStandardDatastoreEntry({\n  universeId: 5097539509,\n  dataStore: \"Deaths\",\n  entryId: \"users/45348281\",\n  amount: 3,\n  users: [45348281],\n});",
+          "exampleData": "{\n  path: \"universes/5097539509/data-stores/Deaths/entries/users:45348281\",\n  createTime: \"2024-07-22T19:46:42.453Z\",\n  revisionId: \"08DCAA8702D435AC.0000000003.08DCAA877D776995.01\",\n  revisionCreateTime: \"2024-07-22T19:46:42.453Z\",\n  state: \"ACTIVE\",\n  etag: \"08DCAA8702D435AC.0000000003.08DCAA877D776995.01\",\n  value: 9,\n  id: \"users:45348281\",\n  users: [\"users/45348281\"],\n  attributes: {},\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5097539509/data-stores/Deaths/entries/users:45348281\",\n  createTime: \"2024-07-22T19:46:42.453649200Z\",\n  revisionId: \"08DCAA8702D435AC.0000000003.08DCAA877D776995.01\",\n  revisionCreateTime: \"2024-07-22T19:50:08.205250100Z\",\n  state: \"ACTIVE\",\n  etag: \"08DCAA8702D435AC.0000000003.08DCAA877D776995.01\",\n  value: 9,\n  id: \"users:45348281\",\n  users: [\"users/45348281\"],\n  attributes: {},\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to increment an entry in."
+          },
+          {
+            "name": "dataStore",
+            "type": "string",
+            "description": "the name of the datastore to increment an entry in."
+          },
+          {
+            "name": "scope?",
+            "type": "string",
+            "description": "The optional scope of the dataStore."
+          },
+          {
+            "name": "entryId",
+            "type": "string",
+            "description": "The ID (key / name) of the entry."
+          },
+          {
+            "name": "value",
+            "type": "🤷",
+            "description": "The value (content) of the entry."
+          },
+          {
+            "name": "users?",
+            "type": "ArrayNonEmpty<Identifier>",
+            "description": "Array metadata containing the IDs of the users this entry is affiliated with."
+          },
+          {
+            "name": "attributes?",
+            "type": "Record<any, any>",
+            "description": "Key-Value Pairs metadata containing arbitrary data."
+          }
+        ]
+      },
+      "listStandardDataStoreEntryRevisions": {
+        "description": "Lists revisions for a standard datastores entries.",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universe}/data-stores/{data-store}/entries/{entryId}:listRevisions\nGET /v2/universes/{universe}/data-stores/{data-store}/scopes/{scope}/entries/{entryId}:listRevisions",
+          "example": "const { data: entries } = await StandardDataStoresApi_V2.listStandardDataStoreEntryRevisions({\n  universeId: 5097539509,\n  dataStore: \"Deaths\",\n  entryId: \"users/45348281\",\n});",
+          "exampleData": "[\n  {\n    path: \"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000003.08DCAA877D776995.01\",\n    createTime: \"2024-07-22T19:46:42.453Z\",\n    revisionId: \"08DCAA8702D435AC.0000000003.08DCAA877D776995.01\",\n    revisionCreateTime: \"2024-07-22T19:46:42.453Z\",\n    state: \"ACTIVE\",\n    etag: \"08DCAA8702D435AC.0000000003.08DCAA877D776995.01\",\n    id: \"users:45348281@08DCAA8702D435AC.0000000003.08DCAA877D776995.01\",\n  },\n  {\n    path: \"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01\",\n    createTime: \"2024-07-22T19:46:42.453Z\",\n    revisionId: \"08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01\",\n    revisionCreateTime: \"2024-07-22T19:46:42.453Z\",\n    state: \"ACTIVE\",\n    etag: \"08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01\",\n    id: \"users:45348281@08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01\",\n  },\n  {\n    path: \"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01\",\n    createTime: \"2024-07-22T19:46:42.453Z\",\n    revisionId: \"08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01\",\n    revisionCreateTime: \"2024-07-22T19:46:42.453Z\",\n    state: \"ACTIVE\",\n    etag: \"08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01\",\n    id: \"users:45348281@08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01\",\n  },\n]\n",
+          "exampleRawBody": "{\n  dataStoreEntries: [\n    {\n      path: \"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000003.08DCAA877D776995.01\",\n      createTime: \"2024-07-22T19:46:42.453649200Z\",\n      revisionId: \"08DCAA8702D435AC.0000000003.08DCAA877D776995.01\",\n      revisionCreateTime: \"2024-07-22T19:50:08.205250100Z\",\n      state: \"ACTIVE\",\n      etag: \"08DCAA8702D435AC.0000000003.08DCAA877D776995.01\",\n      id: \"users:45348281@08DCAA8702D435AC.0000000003.08DCAA877D776995.01\",\n    },\n    {\n      path: \"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01\",\n      createTime: \"2024-07-22T19:46:42.453649200Z\",\n      revisionId: \"08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01\",\n      revisionCreateTime: \"2024-07-22T19:49:30.797636Z\",\n      state: \"ACTIVE\",\n      etag: \"08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01\",\n      id: \"users:45348281@08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01\",\n    },\n    {\n      path: \"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01\",\n      createTime: \"2024-07-22T19:46:42.453649200Z\",\n      revisionId: \"08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01\",\n      revisionCreateTime: \"2024-07-22T19:46:42.453649200Z\",\n      state: \"ACTIVE\",\n      etag: \"08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01\",\n      id: \"users:45348281@08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01\",\n    },\n  ],\n  nextPageToken: \"eyJpbmxpbmVWZXJzaW9uIjpmYWxzZSwibGFzdFZlcnNpb24iOiIwOERDQUE4NzAyRDQzNUFDLjAwMDAwMDAwMDEuMDhEQ0FBODcwMkQ0MzVBQy4wMSIsIkN1cnNvclZlcnNpb24iOjF9\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to get data store entry revisions for."
+          },
+          {
+            "name": "dataStore",
+            "type": "DataStore",
+            "description": "The name of the data store to get entry revisions for,"
+          },
+          {
+            "name": "scope?",
+            "type": "Scope",
+            "description": "The optional scope for the dataStore."
+          },
+          {
+            "name": "entryId",
+            "type": "EntryId",
+            "description": "The ID (key / name) for the entry."
+          },
+          {
+            "name": "createdBefore?",
+            "type": "ISODateTime | Date",
+            "description": "Only include revisions made before (inclusive), this filter is combined with createdAfter."
+          },
+          {
+            "name": "createdAfter?",
+            "type": "ISODateTime | Date",
+            "description": "Only include revisions made after (inclusive), this filter is combined with createdBefore."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The service might return fewer than the maximum number of revisions. If unspecified, at most 10 revisions are returned. The maximum value is 100 values and higher values are set to 100."
           },
           {
             "name": "cursor?",
@@ -3244,6 +3495,22 @@
       }
     },
     "groups": {
+      "featuredEvent": {
+        "description": "Gets the featured event for a group.",
+        "tags": {
+          "endpoint": "GET /v1/featured-content/event",
+          "example": "const { data: eventId } = await ClassicGroupsApi.featuredEvent({ groupId: 15842838 });",
+          "exampleData": "",
+          "exampleRawBody": "{\n  groupId: 15842838,\n  contentType: \"event\",\n  contentId: \"6533473338141704368\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The ID of the group to get the event for."
+          }
+        ]
+      },
       "groupInfo": {
         "description": "Gets information about a group.",
         "tags": {
