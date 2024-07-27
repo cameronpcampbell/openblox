@@ -2,7 +2,7 @@
 By default Openblox uses `fetch` to make HTTP requests. Some users may prefer to use something different or are using a runtime which doesn't support fetch. For this reason Openblox facilitates the use of any of any HTTP library / framework via `HTTP Adapters`.
 
 ## Example HTTP Adapter.
-```ts
+```ts showLineNumbers copy
 // ./myHttpAdapter.ts
 
 // [ Modules ] ///////////////////////////////////////////////////////////////////
@@ -35,7 +35,7 @@ export const FetchAdapter: HttpAdapter = async ({ url, method, headers, body, fo
 
 ## Configuring Openblox To Use The Above HTTP Adapter.
 
-```ts
+```ts showLineNumbers copy
 // ./index.ts
 import "dotenv/config"
 import { updateConfig } from "openblox/config"

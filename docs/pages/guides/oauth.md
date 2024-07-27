@@ -8,7 +8,7 @@ If you are looking for an incredibly simple OAuth library then [Arctic](https://
 
 Here is a simple OAuth application using Arctic and [`Bun.serve`](https://bun.sh/docs/api/http).
 
-```ts
+```ts showLineNumbers copy
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import "dotenv/config";
 import { OAuthApi } from "openblox/cloud";

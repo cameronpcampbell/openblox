@@ -1,7 +1,7 @@
 # Pagination
 Openblox makes it easy to iterate over multiple pages of certain endpoints. Pagination data (such as `nextCursor` and `previousCursor`) are abstracted away from the main data and into its own `cursors` array. This cursors array is returned alongside the response data:
 
-```ts
+```ts showLineNumbers copy
 const { data:userInfo, cursors } = await ClassicUsersApi.usernameHistory({ userId: 123456 })
 const nextCursor = cursors.next, previousCursor = cursors.previous
 ```
@@ -12,7 +12,7 @@ If a method has an optional `cursor` parameter and returns `cursors` in its resu
 ## Example
 The following example fetches a users username history across all pages.
 
-```ts
+```ts showLineNumbers copy
 import "dotenv/config"
 import { ClassicUsersApi } from "openblox/classic"
 

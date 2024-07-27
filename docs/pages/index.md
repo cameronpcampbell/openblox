@@ -18,7 +18,7 @@ It wraps over 100+ Roblox API endpoints, each with its own strictly typed respon
 
 <h3>Example Usage</h3>
 
-```ts
+```ts showLineNumbers copy
 import "dotenv/config";
 import { setConfig } from "openblox/config";
 import { UsersApi } from "openblox/cloud";
