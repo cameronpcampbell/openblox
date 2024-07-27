@@ -1,6 +1,6 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
-import { cloneAndMutateObject, dataIsSuccess } from "../../../utils/utils"
+import { dataIsSuccess } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -12,7 +12,7 @@ import type { OrderedDatastoreEntry, PrettifiedListOrderedDatastoreEntriesData, 
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "Messaging", baseUrl: "https://apis.roblox.com/ordered-data-stores" })
+const addApiMethod = createApiGroup({ groupName: "OrderedDatastores_V1", baseUrl: "https://apis.roblox.com/ordered-data-stores" })
 //////////////////////////////////////////////////////////////////////////////////
 
 

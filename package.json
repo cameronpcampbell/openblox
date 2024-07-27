@@ -73,8 +73,6 @@
     }
   },
   "dependencies": {
-    "@types/jwk-to-pem": "^2.0.3",
-    "jwk-to-pem": "^2.0.5",
     "lodash": "^4.17.21",
     "parse-roblox-errors": "^1.1.10",
     "typeforge": "^0.0.19"
