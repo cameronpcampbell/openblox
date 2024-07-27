@@ -6,7 +6,7 @@ import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware, dataIsSuccess
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
-import type { Identifier, SortOrder } from "../../../utils/utils.types"
+import type { ArrayNonEmptyIfConst, Identifier, SortOrder } from "../../../utils/utils.types"
 import { FriendshipOriginSourceType, FriendsMetadataData, FriendsUserSort, PrettifiedAuthenticatedUserFollowingsExistData, PrettifiedAuthenticatedUserFriendRequestsData, PrettifiedFindFriendsData, PrettifiedFriendsListData, PrettifiedFriendsSearchData, PrettifiedFriendsStatusesData, PrettifiedInactiveFriendsData, PrettifiedOnlineFriendsUserPresenceData, PrettifiedUserFollowersData, RawAuthenticatedUserFollowingsExistData, RawAuthenticatedUserFriendRequestsData, RawFindFriendsData, RawFriendsListData, RawFriendsSearchData, RawFriendsStatusesData, RawInactiveFriendsData, RawOnlineFriendsUserPresenceData, RawUserFollowersData } from "./friends.types"
 import { ArrayNonEmpty } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
@@ -278,7 +278,7 @@ export const friendsSearch = addApiMethod(async (
  */
 export const friendsStatuses = addApiMethod(async <RelatedUserId extends Identifier>(
   { userId, relatedUserIds }:
-  { userId: Identifier, relatedUserIds: ArrayNonEmpty<RelatedUserId> }
+  { userId: Identifier, relatedUserIds: ArrayNonEmptyIfConst<RelatedUserId> }
 ): ApiMethod<RawFriendsStatusesData<RelatedUserId>, PrettifiedFriendsStatusesData<RelatedUserId>> => ({
   method: "GET",
   path: `/v1/users/${userId}/friends/statuses`,
@@ -497,7 +497,7 @@ export const userFollowingsCount = addApiMethod(async (
  * @exampleRawBody {"followings":[{"isFollowing":false,"isFollowed":false,"userId":2655994471}]}
  */
 export const authenticatedUserFollowingsExist = addApiMethod(async <UserId extends Identifier>(
-  { userIds }: { userIds: ArrayNonEmpty<UserId> }
+  { userIds }: { userIds: ArrayNonEmptyIfConst<UserId> }
 ): ApiMethod<RawAuthenticatedUserFollowingsExistData<UserId>, PrettifiedAuthenticatedUserFollowingsExistData<UserId>> => ({
   method: "POST",
   path: `/v1/user/following-exists`,

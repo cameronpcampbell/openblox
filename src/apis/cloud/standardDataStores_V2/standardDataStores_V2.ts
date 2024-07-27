@@ -8,6 +8,7 @@ import type { ApiMethod } from "../../apiGroup"
 import type { ArrayNonEmpty, Identifier, ISODateTime } from "typeforge"
 import { PrettifiedFullDatastoreData, PrettifiedListStandardDatastoreEntriesData, PrettifiedListStandardDataStoreEntryRevisionsData, PrettifiedListStandardDatastoresData, RawFullDatastoreData, RawListStandardDatastoreEntriesData, RawListStandardDataStoreEntryRevisionsData, RawListStandardDatastoresData } from "./standardDataStores_V2.types"
 import { cloneAndMutateObject, dataIsSuccess } from "../../../utils/utils"
+import { ArrayNonEmptyIfConst } from "../../../utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -122,7 +123,7 @@ export const createStandardDataStoreEntry = addApiMethod(async <Schema extends R
   { universeId, dataStore, scope, entryId, value, users, attributes }:
   {
     universeId: Identifier, dataStore: string, scope?: string, entryId: string,
-    value: Schema, users?: ArrayNonEmpty<Identifier>, attributes?: Record<any, any>
+    value: Schema, users?: ArrayNonEmptyIfConst<Identifier>, attributes?: Record<any, any>
   }
 ): ApiMethod<RawFullDatastoreData<Schema>, PrettifiedFullDatastoreData<Schema>> => ({
   method: "POST",
@@ -238,7 +239,7 @@ export const updateStandardDataStoreEntry = addApiMethod(async <Schema extends R
   { universeId, dataStore, scope, entryId, value, users, attributes }:
   {
     universeId: Identifier, dataStore: string, scope?: string, entryId: string,
-    value: Schema, users?: ArrayNonEmpty<Identifier>, attributes?: Record<any, any>
+    value: Schema, users?: ArrayNonEmptyIfConst<Identifier>, attributes?: Record<any, any>
   }
 ): ApiMethod<RawFullDatastoreData<Schema>, PrettifiedFullDatastoreData<Schema>> => ({
   method: "PATCH",
@@ -281,7 +282,7 @@ export const incrementStandardDatastoreEntry = addApiMethod(async (
   { universeId, dataStore, scope, entryId, amount, users, attributes }:
   {
     universeId: Identifier, dataStore: string, scope?: string, entryId: string,
-    amount: number, users?: ArrayNonEmpty<Identifier>, attributes?: Record<any, any>
+    amount: number, users?: ArrayNonEmptyIfConst<Identifier>, attributes?: Record<any, any>
   }
 ): ApiMethod<RawFullDatastoreData<number>, PrettifiedFullDatastoreData<number>> => ({
   method: "POST",

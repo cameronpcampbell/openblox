@@ -1,5 +1,6 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { parseBEDEV1ErrorFromStringAndHeaders, parseBEDEV2ErrorFromStringAndHeaders } from "parse-roblox-errors"
+import jwkToPem from 'jwk-to-pem'
 import { HBAClient } from "roblox-bat"
 
 import { HttpError, HttpResponse } from "../http.utils"
@@ -52,7 +53,44 @@ export const getParsedErrors = async (response: HttpResponse): Promise<any> => {
     await parseBEDEV2ErrorFromStringAndHeaders(JSON.stringify(response.body), response.headers as any as Headers)
   : undefined
 }
+
+
+
+function stringToArrayBuffer(str: string) {
+  const buf = new ArrayBuffer(str.length);
+  const bufView = new Uint8Array(buf);
+  for (let i = 0, strLen = str.length; i < strLen; i++) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return buf;
+}
+
+const arrayBufferToString = (buf: ArrayBuffer) => String.fromCharCode.apply<null, any, string>(null, new Uint8Array(buf))
+
+const exportPrivateKey = async (key: CryptoKey) => btoa(arrayBufferToString(await crypto.subtle.exportKey("pkcs8", key)))
+const exportPublicKey = async (key: CryptoKey) => btoa(arrayBufferToString(await crypto.subtle.exportKey("spki", key)))
+
+const importPrivateKey = async (key: string) => await crypto.subtle.importKey(
+  "pkcs8", stringToArrayBuffer(atob(key)), { name: "ECDSA", namedCurve: "P-256" }, true, ["sign"]
+)
+const importPublicKey = async (key: string) => await crypto.subtle.importKey(
+  "spki", stringToArrayBuffer(atob(key)), { name: "ECDSA", namedCurve: "P-256" }, true, []
+)
+
+
+const createHbaKeys = async () => {
+  const keyPair = await crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, true, ["sign"])
+  return {
+    private: await exportPrivateKey(keyPair.privateKey),
+    public: await exportPublicKey(keyPair.publicKey)
+  }
+}
+
+const importHbaKeys = async (keys: { private: string, public: string }): Promise<CryptoKeyPair> => {
+  return { privateKey: await importPrivateKey(keys.private), publicKey: await importPublicKey(keys.public) }
+}
 //////////////////////////////////////////////////////////////////////////////////
+
 
 export const HttpHandler = async <RawData extends any = any>(
   { url, method, headers, body, formData, rawFormData }: HttpHandlerProps, { cookie, cloudKey, oauthToken }: Credentials
@@ -72,15 +110,17 @@ export const HttpHandler = async <RawData extends any = any>(
   }
 
 
-  /*const hbaClient = new HBAClient({
-    keys: await crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, false, [ "sign" ]),
-    cookie,
-  });*/
 
-  /*const hbaHeaders = await hbaClient.generateBaseHeaders(
+  const hbaClient = new HBAClient({
+    cookie,
+    keys: await importHbaKeys({ private: process.env.ROBLOX_HBA_PRIVATE_KEY as string, public: process.env.ROBLOX_HBA_PUBLIC_KEY as string })
+  });
+
+  const hbaHeaders = await hbaClient.generateBaseHeaders(
     url,
     true, // set to false or undefined if not authenticated
-  );*/
+    body
+  );
 
 
   const requestDataHeaders = removeNullUndefined({
@@ -122,3 +162,101 @@ export const HttpHandler = async <RawData extends any = any>(
 
   return await handlerMain()
 }
+
+
+/*(async () => {
+  let request = await window.indexedDB.open("hbaDB")
+  request.onsuccess = () => {
+      let db = request.result
+      let transaction = db.transaction("hbaObjectStore", "readonly")
+      let objStore = transaction.objectStore("hbaObjectStore")
+      let get = objStore.get("hba_keys")
+      get.onsuccess = () => {
+          let keys = get.result
+          window.crypto.subtle.exportKey("raw", keys.publicKey).then(buffer => {
+            let binary = '';
+            const bytes = new Uint8Array(buffer);
+            const len = bytes.byteLength;
+            for (let i = 0; i < len; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            console.log(window.btoa(binary))
+          })
+      }
+      transaction.oncomplete = () => db.close()
+  }
+})();*/
+
+
+
+// Helper function to convert PEM to ArrayBuffer
+function pemToArrayBuffer(pem: string) {
+    const b64Lines = pem.replace(/-----[^-]+-----/g, "").replace(/\s+/g, "");
+    const b64 = window.atob(b64Lines);
+    const arrayBuffer = new ArrayBuffer(b64.length);
+    const uint8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < b64.length; i++) {
+        uint8Array[i] = b64.charCodeAt(i);
+    }
+    return arrayBuffer;
+}
+
+
+
+
+
+
+/*function spkiToPEM(keydata) {
+  var keydataS = arrayBufferToString(keydata);
+  var keydataB64 = btoa(keydataS);
+  var keydataB64Pem = formatAsPem(keydataB64);
+  return keydataB64Pem;
+}
+
+function arrayBufferToString( buffer ) {
+  var binary = '';
+  var bytes = new Uint8Array( buffer );
+  var len = bytes.byteLength;
+  for (var i = 0; i < len; i++) {
+      binary += String.fromCharCode( bytes[ i ] );
+  }
+  return binary;
+}
+
+function formatAsPem(str) {
+  var finalString = '-----BEGIN PUBLIC KEY-----\n';
+
+  while(str.length > 0) {
+      finalString += str.substring(0, 64) + '\n';
+      str = str.substring(64);
+  }
+
+  finalString = finalString + "-----END PUBLIC KEY-----";
+
+  return finalString;
+}*/
+
+
+
+
+/*(async () => {
+  crypto.subtle.generateKey(
+    {
+        name: "ECDSA",
+        namedCurve: "P-256",
+    },
+    true,
+    ["sign"],
+  ).then((keys) => {
+    console.log(keys)
+    crypto.subtle.exportKey("jwk", keys.publicKey).then(key => console.log(jwkToPem(key)))
+    crypto.subtle.exportKey("jwk", keys.privateKey).then(key => console.log(jwkToPem(key)))
+    //crypto.subtle.exportKey("jwk", keys.privateKey).then(key => console.log(jwkToPem(key).then(key => console.log(key))))
+  })
+
+  
+})();
+
+
+
+*/

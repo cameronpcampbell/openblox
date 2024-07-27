@@ -6,7 +6,7 @@ import { UsersApi } from "../../apis/cloud"
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import { ArrayNonEmpty, ArrayToUnion, Identifier, ObjectKeepKeys, ObjectPrettify, ObjectPrettifyDeep, UnionPrettify, UnionToArray } from "typeforge"
 import { PrettifiedUserInfoData, UserThumbnailSize } from "../../apis/cloud/users/users.types"
-import { SecureUrl } from "../../utils/utils.types"
+import { ArrayNonEmptyIfConst, SecureUrl } from "../../utils/utils.types"
 
 
 type UnionKeepTypes<U, ToKeep> = U extends ToKeep ? U : never
@@ -69,7 +69,7 @@ const getUserInfoMulti_forId = async (userId: Identifier, data: any, fields: Arr
 const getUsersInfo_forIds = (
   fields: ArrayNonEmpty<UserInfoField>, getUserInfo_forId: typeof getUserInfoSingle_forId | typeof getUserInfoMulti_forId
 ) => (
-  async (userIds: ArrayNonEmpty<Identifier>, data: any) => {
+  async (userIds: ArrayNonEmptyIfConst<Identifier>, data: any) => {
     await Promise.all(userIds.map(userId => getUserInfo_forId(userId, data, fields)))
   }
 )
@@ -96,7 +96,7 @@ const getUserThumbnailMulti_forId = async (
 }
 
 const getUsersThumbnail_forIds = async (
-  userIds: ArrayNonEmpty<Identifier>, data: any, getUserThumbnail_forId: typeof getUserThumbnailMulti_forId | typeof getUserThumbnailSingle_forId,
+  userIds: ArrayNonEmptyIfConst<Identifier>, data: any, getUserThumbnail_forId: typeof getUserThumbnailMulti_forId | typeof getUserThumbnailSingle_forId,
   thumnail: string, size?: UserThumbnailSize, format?: "PNG" | "JPEG", shape?: "ROUND" | "SQUARE"
 ) => {
   return await Promise.all(userIds.map(userId => getUserThumbnail_forId(userId, data, data[userId], thumnail, size, format, shape)))
@@ -105,7 +105,7 @@ const getUsersThumbnail_forIds = async (
 const getUsersThumbnails_forIds = (
   fields: string[][], getUserThumbnail_forId: typeof getUserThumbnailMulti_forId | typeof getUserThumbnailSingle_forId
 ) => (
-  async (userIds: ArrayNonEmpty<Identifier>, data: any) => {
+  async (userIds: ArrayNonEmptyIfConst<Identifier>, data: any) => {
     await Promise.all(fields.map(field => getUsersThumbnail_forIds(
       userIds, data, getUserThumbnail_forId, field?.[0] as any as string,
       field?.[2] as any as UserThumbnailSize, field?.[3] as any as "PNG" | "JPEG", field?.[4] as any as "ROUND" | "SQUARE", 
@@ -117,24 +117,25 @@ const getUsersThumbnails_forIds = (
 
 
 export const Users = {
-  get: <Field extends UsersField>(fields: ArrayNonEmpty<Field>) => {
-    fields = uniq_fast(fields) as ArrayNonEmpty<Field>
-    const isSingleField = fields.length == 1
+  get: <Field extends UsersField>(fields: ArrayNonEmptyIfConst<Field>) => {
+    fields = uniq_fast(fields)
+    const isSingleField = (fields as Field[]).length == 1
 
-    const usersInfoFields = fields.filter(field => userInfoFields.includes(field as UserInfoField)) as any as ArrayNonEmpty<UserInfoField>
+    const usersInfoFields =
+      (fields as Field[]).filter(field => userInfoFields.includes(field as UserInfoField)) as any as ArrayNonEmpty<UserInfoField>
     const thisGetUsersInfo_forIds = usersInfoFields.length
       ? getUsersInfo_forIds(usersInfoFields, isSingleField ? getUserInfoSingle_forId : getUserInfoMulti_forId) : shellFn
 
-    const userThumbnailFields = fields.filter(field => field.startsWith("thumbnail")).map(field => [ field, ...field.split("/") ])
+    const userThumbnailFields = (fields as Field[]).filter(field => field.startsWith("thumbnail")).map(field => [ field, ...field.split("/") ])
     const thisGetUsersThumbnails_forIds = userThumbnailFields.length
       ? getUsersThumbnails_forIds(userThumbnailFields, isSingleField ? getUserThumbnailSingle_forId : getUserThumbnailMulti_forId) : shellFn
 
     const createData = isSingleField
-      ? (userIds: ArrayNonEmpty<Identifier>) => ({})
-      : (userIds: ArrayNonEmpty<Identifier>) => { const data: any = {}; userIds.forEach(userId => data[userId] = {}); return data }
+      ? (userIds: ArrayNonEmptyIfConst<Identifier>) => ({})
+      : (userIds: ArrayNonEmptyIfConst<Identifier>) => { const data: any = {}; userIds.forEach(userId => data[userId] = {}); return data }
 
     return {
-      forIds: async <UserId extends Identifier>(userIds: ArrayNonEmpty<UserId>): Promise<{
+      forIds: async <UserId extends Identifier>(userIds: ArrayNonEmptyIfConst<UserId>): Promise<{
         data: ObjectPrettifyDeep<{
           [Id in UserId]: CleanObject<
             PrettifiedUserInfoData<Id> &

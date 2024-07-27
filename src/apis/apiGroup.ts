@@ -217,8 +217,15 @@ export const createApiGroup: CreateApiGroup = ({ groupName, baseUrl }) => {
 
       const prettifyFn = (apiMethodData as any)?.prettifyFn
 
-      const apiMethodResult = {
-        response, data: (prettifyFn ? prettifyFn(response.body, response) : response.body)
+      let apiMethodResult: any
+      if (prettifyFn) {
+        apiMethodResult = {
+          response, get data() { return prettifyFn(responseBody, response) }
+        }
+      } else {
+        apiMethodResult = {
+          response, data: responseBody
+        }
       }
 
       if (rawArgsContainsCursor) {

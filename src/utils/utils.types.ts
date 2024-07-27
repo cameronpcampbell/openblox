@@ -1,5 +1,5 @@
 import { Add, GtOrEq, Pow, Subtract } from "ts-arithmetic"
-import { ArrayToUnion, ObjectPrettify, UnionToArray } from "typeforge"
+import { ArrayNonEmpty, ArrayToUnion, ObjectPrettify, UnionToArray } from "typeforge"
 
 export type Identifier = number | `${number}`
 
@@ -44,3 +44,11 @@ export type KeysToCamelCase<Obj> = ObjectPrettify<{
 } & {}>
 
 export type ArrWithObjectsToCamelCase<Arr extends unknown[]> =  { [Key in keyof Arr]: ObjectPrettify<KeysToCamelCase<Arr[Key]>> }
+
+
+export type IsLiteral<T extends unknown> =
+  T extends number ? NumberIsLiteral<T>
+  : T extends string ? StringIsLiteral<T>
+  : false
+
+export type ArrayNonEmptyIfConst<T extends unknown> = IsLiteral<T> extends true ? ArrayNonEmptyIfConst<T> : T[]

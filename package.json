@@ -1,7 +1,7 @@
 {
   "name": "openblox",
   "type": "commonjs",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MightyPart/openblox/issues"
@@ -73,6 +73,8 @@
     }
   },
   "dependencies": {
+    "@types/jwk-to-pem": "^2.0.3",
+    "jwk-to-pem": "^2.0.5",
     "lodash": "^4.17.21",
     "parse-roblox-errors": "^1.1.10",
     "typeforge": "^0.0.19"

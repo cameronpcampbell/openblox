@@ -6,7 +6,7 @@ import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware, dataIsSuccess
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
-import type { Identifier, SortOrder } from "../../../utils/utils.types"
+import type { ArrayNonEmptyIfConst, Identifier, SortOrder } from "../../../utils/utils.types"
 import { PrettifiedBadgeAwardedDateForUserData, PrettifiedBadgeInfoData, PrettifiedBadgesAwardedDatesForUserData, PrettifiedPaginatedBadgesData, RawBadgeAwardedDateForUserData, RawBadgeInfoData, RawBadgesAwardedDatesForUserData, RawPaginatedBadgesData } from "./badges.types"
 import { ArrayNonEmpty, ISODateTime, IsUnion, ObjectEither, UnionToArray } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
@@ -202,7 +202,7 @@ export const badgeAwardedDateForUser = addApiMethod(async <BadgeId extends Ident
  * @exampleRawBody {"data":[{"badgeId":2124533401,"awardedDate":"2020-11-15T18:51:30.604064Z"}]}
  */
 export const badgesAwardedDatesForUser = addApiMethod(async <BadgeId extends Identifier>(
-  { badgeIds, userId }: { badgeIds: ArrayNonEmpty<BadgeId>, userId: Identifier }
+  { badgeIds, userId }: { badgeIds: ArrayNonEmptyIfConst<BadgeId>, userId: Identifier }
 ): ApiMethod<RawBadgesAwardedDatesForUserData<BadgeId>, PrettifiedBadgesAwardedDatesForUserData<BadgeId>> => ({
   method: "GET",
   path: `/v1/users/${userId}/badges/awarded-dates`,

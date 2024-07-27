@@ -7,3 +7,4 @@ node_modules/
 assets/
 bun.lockb
 tsconfig.tsbuildinfo
+./build.ts

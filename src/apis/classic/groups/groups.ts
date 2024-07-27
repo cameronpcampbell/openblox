@@ -10,7 +10,7 @@ import type { ArrayNonEmpty, Identifier, UnionToArray } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
 import type { AddGroupSocialLinkData, AuthenticatedUserGroupMembershipInfoData, FormattedAllGroupRolesForUserData_V1, GroupAuditLogActionType, GroupPayoutRestrictionsInfoData, GroupRelationshipType, GroupRolePermissions, GroupRolePermissionsData, GroupsConfigMetadataData, GroupSettingsData, GroupsMetadataData, NewSocialLinkRequest, PrettifiedAllGroupRolesForUserData_V2, PrettifiedAllRolesForGroupData, PrettifiedAuthenticatedUserPendingGroupsData, PrettifiedGroupAuditLogData, PrettifiedGroupIdsToGroupsInfoData, PrettifiedGroupInfoData, PrettifiedGroupJoinRequestForUser, PrettifiedGroupJoinRequests, PrettifiedGroupLookupSearch, PrettifiedGroupMembersData, PrettifiedGroupMembersWithRoleData, PrettifiedGroupNameHistoryData, PrettifiedGroupPayoutsInfoData, PrettifiedGroupPermissionsForAllRoles, PrettifiedGroupPolicyInfoData, PrettifiedGroupRelationshipsData, PrettifiedGroupRolesFromIdsData, PrettifiedGroupSearchData, PrettifiedGroupSearchMetadata, PrettifiedGroupShoutData, PrettifiedGroupSocialLinksData, PrettifiedGroupsThatUsersFriendsAreInData, PrettifiedGroupWallPostsData_V1, PrettifiedGroupWallPostsData_V2, PrettifiedPrimaryGroupForUserData, RawAllGroupRolesForUserData_V1, RawAllGroupRolesForUserData_V2, RawAllRolesForGroupData, RawAuthenticatedUserPendingGroupsData, RawGroupAuditLogData, RawGroupIdsToGroupsInfoData, RawGroupInfoData, RawGroupJoinRequestForUser, RawGroupJoinRequests, RawGroupLookupSearch, RawGroupMembersData, RawGroupMembersWithRoleData, RawGroupNameHistoryData, RawGroupPayoutsInfoData, RawGroupPermissionsForAllRoles, RawGroupPolicyInfoData, RawGroupRelationshipsData, RawGroupRolesFromIdsData, RawGroupSearchData, RawGroupSearchMetadata, RawGroupShoutData, RawGroupSocialLinksData, RawGroupsThatUsersFriendsAreInData, RawGroupWallPostsData_V1, RawGroupWallPostsData_V2, RawPrimaryGroupForUserData, UpdateRoleSetData, UpdateRoleSetRequest } from "./groups.types"
-import type { SortOrder } from "../../../utils/utils.types"
+import type { ArrayNonEmptyIfConst, SortOrder } from "../../../utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -35,7 +35,6 @@ export const featuredEvent = addApiMethod(async <GroupId extends Identifier>(
 ): ApiMethod<{ groupId: GroupId, contentType: "event", contentId: Identifier }, Identifier> => ({
   method: "GET",
   path: `/v1/featured-content/event`,
-  headers: { Cookie: null },
   searchParams: { groupId },
   name: `featuredEvent`,
 
@@ -44,7 +43,7 @@ export const featuredEvent = addApiMethod(async <GroupId extends Identifier>(
 
 
 /**
- * DESCRIPTION
+ * Sets the featured event for a group.
  * @endpoint REST /...
  * 
  * @param
@@ -53,14 +52,16 @@ export const featuredEvent = addApiMethod(async <GroupId extends Identifier>(
  * @exampleData
  * @exampleRawBody
  */
-/*export const setFeaturedEvent = addApiMethod(async (
+export const setFeaturedEvent = addApiMethod(async <GroupId extends Identifier>(
   { groupId, eventId }: { groupId: Identifier, eventId: Identifier }
-): ApiMethod<any> => ({
+): ApiMethod<{ groupId: GroupId, contentType: "event", contentId: Identifier }, Identifier> => ({
   method: "POST",
   path: `/v1/featured-content/event`,
   searchParams: { groupId, eventId },
   name: `setFeaturedEvent`,
-}))*/
+
+  prettifyFn: ({ contentId }) => contentId
+}))
 /////////////////////////////////////////////////////////////////////////////////
 
 
@@ -259,7 +260,7 @@ export const groupsMetadata = addApiMethod(async (
  * @exampleRawBody { groups: [ { canViewGroup: true, groupId: 5850082 } ] }
  */
 export const groupsPolicyInfo = addApiMethod(async <GroupId extends Identifier>(
-  { groupIds }: { groupIds: ArrayNonEmpty<GroupId> }
+  { groupIds }: { groupIds: ArrayNonEmptyIfConst<GroupId> }
 ): ApiMethod<RawGroupPolicyInfoData<GroupId>, PrettifiedGroupPolicyInfoData<GroupId>> => ({
   method: "POST",
   path: `/v1/groups/policies`,
@@ -365,7 +366,7 @@ export const setGroupIcon = addApiMethod(async (
  * @exampleRawBody {}
  */
 export const batchDeclineGroupJoinRequests = addApiMethod(async (
-  { groupId, userIds }: { groupId: Identifier, userIds: ArrayNonEmpty<Identifier> }
+  { groupId, userIds }: { groupId: Identifier, userIds: ArrayNonEmptyIfConst<Identifier> }
 ): ApiMethod<{}, boolean> => ({
   method: "DELETE",
   path: `/v1/groups/${groupId}/join-requests`,
@@ -416,7 +417,7 @@ export const groupJoinRequests = addApiMethod(async (
  * @exampleRawBody {}
  */
 export const batchAcceptGroupJoinRequests = addApiMethod(async (
-  { groupId, userIds }: { groupId: Identifier, userIds: ArrayNonEmpty<Identifier> }
+  { groupId, userIds }: { groupId: Identifier, userIds: ArrayNonEmptyIfConst<Identifier> }
 ): ApiMethod<{}, boolean> => ({
   method: "POST",
   path: `/v1/groups/${groupId}/join-requests`,
@@ -1407,7 +1408,7 @@ export const groupSearchMetadata = addApiMethod(async (
  * @exampleRawBody { data: [ { groupId: 5850082, id: 38353811, name: 'NamelessGuy2005 - Scriptor', rank: 255 } ] }
  */
 export const groupRolesFromIds = addApiMethod(async <RoleId extends Identifier>(
-  { roleIds }: { roleIds: ArrayNonEmpty<RoleId> }
+  { roleIds }: { roleIds: ArrayNonEmptyIfConst<RoleId> }
 ): ApiMethod<RawGroupRolesFromIdsData<RoleId>, PrettifiedGroupRolesFromIdsData<RoleId>> => ({
   method: "GET",
   path: `/v1/roles`,

@@ -6,9 +6,8 @@ import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware } from "../../
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
-import type { Identifier, SortOrder } from "../../../utils/utils.types"
+import type { ArrayNonEmptyIfConst, Identifier, SortOrder } from "../../../utils/utils.types"
 import type { PrettifiedGamesInfoData, PrettifiedUserGamesData, RawGamesInfoData, RawUserGamesData } from "./games.types"
-import { ArrayNonEmpty } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -31,7 +30,7 @@ const addApiMethod = createApiGroup({ groupName: "ClassicGames", baseUrl: "https
  * @exampleRawBody
  */
 export const gamesInfo = addApiMethod(async <UniverseId extends Identifier>(
-  { universeIds }: { universeIds: ArrayNonEmpty<UniverseId> }
+  { universeIds }: { universeIds: ArrayNonEmptyIfConst<UniverseId> }
 ): ApiMethod<RawGamesInfoData<UniverseId>, PrettifiedGamesInfoData<UniverseId>> => ({
   path: `/v1/games`,
   method: "GET",

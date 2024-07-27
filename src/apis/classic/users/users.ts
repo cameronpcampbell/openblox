@@ -8,7 +8,7 @@ import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware, dataIsSuccess
 import { ArrayNonEmpty, ISODateTime } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
-import type { Identifier, SortOrder } from "../../../utils/utils.types"
+import type { ArrayNonEmptyIfConst, Identifier, SortOrder } from "../../../utils/utils.types"
 import type { AuthenticatedUserInfoData, PrettifiedAuthenticatedUserAgeBracketData, PrettifiedAuthenticatedUserCountryCodeData, PrettifiedAuthenticatedUserGenderData, PrettifiedUserSearchData, PrettifiedUserIdsToUsersInfoData, PrettifiedUserInfoData, PrettifiedUsernamesToUsersInfoData, RawAuthenticatedUserAgeBracketData, RawAuthenticatedUserBirthdateData, RawAuthenticatedUserCountryCodeData, RawAuthenticatedUserDescriptionData, RawAuthenticatedUserGenderData, RawAuthenticatedUserRolesData, RawUserSearchData, RawUserIdsToUsersInfoData, RawUserInfoData, RawUsernameHistoryData, RawUsernamesToUsersInfoData } from "./users.types"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -262,12 +262,12 @@ export const authenticatedUserRoles = addApiMethod(async  (
  * @param usernames The usernames of the users to get info about.
  * @param excludeBannedUsers Dictates if info about banned users should be excluded from the returned data. (defaults to false).
  * 
- * @example const { data:usersInfo } = await ClassicUsersApi.usernamesToUsersInfo({ usernames: [ "MightyPart" ] });
+ * @example const { data:usersInfo } = await ClassicUsersApi.usersInfoFromNames({ usernames: [ "MightyPart" ] });
  * @exampleData { MightyPart: { hasVerifiedBadge: false, id: 45348281, name: "MightyPart", displayName: "MightyPart" } }
  * @exampleRawBody { data: [ { requestedUsername: "MightyPart", hasVerifiedBadge: false, id: 45348281, name: "MightyPart", displayName: "MightyPart" } ] }
  */
-export const usernamesToUsersInfo = addApiMethod(async <Username extends string>(
-  { usernames, excludeBannedUsers = false }: { usernames: ArrayNonEmpty<Username>, excludeBannedUsers?: boolean }
+export const usersInfoFromNames = addApiMethod(async <Username extends string>(
+  { usernames, excludeBannedUsers = false }: { usernames: ArrayNonEmptyIfConst<Username>, excludeBannedUsers?: boolean }
 ): ApiMethod<RawUsernamesToUsersInfoData<Username>, PrettifiedUsernamesToUsersInfoData<Username>> => ({
   path: `/v1/usernames/users`,
   method: "POST",
@@ -288,12 +288,12 @@ export const usernamesToUsersInfo = addApiMethod(async <Username extends string>
  * @param userIds The ids of the users to get info about.
  * @param excludeBannedUsers Dictates if info about banned users should be excluded from the returned data. (defaults to false).
  * 
- * @example const { data:usersInfo } = await ClassicUsersApi.userIdsToUsersInfo({ userIds: [45348281] });
+ * @example const { data:usersInfo } = await ClassicUsersApi.usersInfoFromIds({ userIds: [45348281] });
  * @exampleData { "45348281": { hasVerifiedBadge: false, name: "MightyPart", displayName: "MightyPart" } }
  * @exampleRawBody { data: [ { hasVerifiedBadge: false, id: 45348281, name: "MightyPart", displayName: "MightyPart" } ] }
  */
-export const userIdsToUsersInfo = addApiMethod(async <UserId extends Identifier>(
-  { userIds, excludeBannedUsers }: { userIds: ArrayNonEmpty<UserId>, excludeBannedUsers?: boolean }
+export const usersInfoFromIds = addApiMethod(async <UserId extends Identifier>(
+  { userIds, excludeBannedUsers }: { userIds: ArrayNonEmptyIfConst<UserId>, excludeBannedUsers?: boolean }
 ): ApiMethod<RawUserIdsToUsersInfoData<UserId>, PrettifiedUserIdsToUsersInfoData<UserId>> => ({
   path: `/v1/users`,
   method: "POST",

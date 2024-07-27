@@ -9,6 +9,7 @@ import type { ApiMethod } from "../../apiGroup"
 import { ArrayNonEmpty, Identifier } from "typeforge"
 
 import type { AssetAnimatedThumbnailData, AssetSize, AvatarsFullThumbnailsSize, BatchRequest, BatchResponseElement, BundleSize, DeveloperProductSize, GamesIconSize, GameThumbnailSize, GroupEmblemSize, OutfitSize, PlaceThumbnailSize, PrettifiedBatchThumbnailsData, PrettifiedGamesThumbnailsData, PrettifiedThumbnailsData, RawBatchThumbnailsData, RawThumbnailsData, ThumbnailData, ThumbnailFormat, ThumbnailReturnPolicy, ThumbnailsMetadataData } from "./thumbnails.types"
+import { ArrayNonEmptyIfConst } from "../../../utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -35,7 +36,7 @@ const addApiMethod = createApiGroup({ groupName: "ClassicThumbnails", baseUrl: "
  */
 export const assetsThumbnails = addApiMethod(async <AssetId extends Identifier>(
   { assetIds, returnPolicy = "PlaceHolder", size, format = "WebP", isCircular }:
-  { assetIds: ArrayNonEmpty<AssetId>, returnPolicy?: ThumbnailReturnPolicy, size: AssetSize, format?: ThumbnailFormat, isCircular?: boolean }
+  { assetIds: ArrayNonEmptyIfConst<AssetId>, returnPolicy?: ThumbnailReturnPolicy, size: AssetSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<AssetId>, PrettifiedThumbnailsData<AssetId>> => ({
   path: `/v1/assets`,
   method: "GET",
@@ -103,7 +104,7 @@ export const assetAnimatedThumbnail = addApiMethod(async <AssetId extends Identi
  * @exampleRawBody { data: [ { targetId: 2124533401, state: "Completed", imageUrl: "https://tr.rbxcdn.com/87105a9a85ea09e7591cfdd3f0825225/150/150/Image/Png" } ] }
  */
 export const badgesThumbnails = addApiMethod(async <BadgeId extends Identifier>(
-  { badgeIds, format  = "WebP", isCircular }: { badgeIds: ArrayNonEmpty<BadgeId>, format?: ThumbnailFormat, isCircular?: boolean }
+  { badgeIds, format  = "WebP", isCircular }: { badgeIds: ArrayNonEmptyIfConst<BadgeId>, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<BadgeId>, PrettifiedThumbnailsData<BadgeId>> => ({
   method: "GET",
   path: `/v1/badges/icons`,
@@ -134,7 +135,7 @@ export const badgesThumbnails = addApiMethod(async <BadgeId extends Identifier>(
  */
 export const bundlesThumbnails = addApiMethod(async <BundleId extends Identifier>(
   { bundleIds, size="420x420", format = "WebP", isCircular }:
-  { bundleIds: ArrayNonEmpty<BundleId>, size?: BundleSize, format?: ThumbnailFormat, isCircular?: boolean }
+  { bundleIds: ArrayNonEmptyIfConst<BundleId>, size?: BundleSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<BundleId>, PrettifiedThumbnailsData<BundleId>> => ({
   method: "GET",
   path: `/v1/bundles/thumbnails`,
@@ -162,7 +163,7 @@ export const bundlesThumbnails = addApiMethod(async <BundleId extends Identifier
  */
 export const developerProductsThumbnails = addApiMethod(async <DeveloperProductId extends Identifier>(
   { developerProductIds, size = "420x420", format = "WebP", isCircular }: {
-    developerProductIds: ArrayNonEmpty<DeveloperProductId>, size?: DeveloperProductSize, format?: ThumbnailFormat, isCircular?: boolean 
+    developerProductIds: ArrayNonEmptyIfConst<DeveloperProductId>, size?: DeveloperProductSize, format?: ThumbnailFormat, isCircular?: boolean 
   }
 ): ApiMethod<RawThumbnailsData<DeveloperProductId>, PrettifiedThumbnailsData<DeveloperProductId>> => ({
   method: "GET",
@@ -191,7 +192,7 @@ export const developerProductsThumbnails = addApiMethod(async <DeveloperProductI
  */
 export const gamePassesThumbnails = addApiMethod(async <GamePassId extends Identifier>(
   { gamePassIds, format = "WebP", isCircular }:
-  { gamePassIds: ArrayNonEmpty<GamePassId>, format?: ThumbnailFormat, isCircular?: boolean }
+  { gamePassIds: ArrayNonEmptyIfConst<GamePassId>, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<GamePassId>, PrettifiedThumbnailsData<GamePassId>> => ({
   method: "GET",
   path: `/v1/game-passes`,
@@ -220,7 +221,7 @@ export const gamePassesThumbnails = addApiMethod(async <GamePassId extends Ident
  */
 export const gameThumbnailsFromIds = addApiMethod(async <ThumbnailId extends Identifier>(
   { universeId, thumbnailIds, size = "480x270", format = "WebP", isCircular }:
-  { universeId: Identifier, thumbnailIds: ArrayNonEmpty<ThumbnailId>, size?: GameThumbnailSize, format?: ThumbnailFormat, isCircular?: boolean }
+  { universeId: Identifier, thumbnailIds: ArrayNonEmptyIfConst<ThumbnailId>, size?: GameThumbnailSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<ThumbnailId>, PrettifiedThumbnailsData<ThumbnailId>> => ({
   method: "GET",
   path: `/v1/games/${universeId}/thumbnails`,
@@ -249,7 +250,7 @@ export const gameThumbnailsFromIds = addApiMethod(async <ThumbnailId extends Ide
 export const gamesIcons = addApiMethod(async <UniverseId extends Identifier>(
   { universeIds, returnPolicy, size = "256x256", format = "WebP", isCircular }:
   {
-    universeIds: ArrayNonEmpty<UniverseId>, returnPolicy?: ThumbnailReturnPolicy, size?: GamesIconSize, format?: ThumbnailFormat, isCircular?: boolean
+    universeIds: ArrayNonEmptyIfConst<UniverseId>, returnPolicy?: ThumbnailReturnPolicy, size?: GamesIconSize, format?: ThumbnailFormat, isCircular?: boolean
   }
 ): ApiMethod<RawThumbnailsData<UniverseId>, PrettifiedThumbnailsData<UniverseId>> => ({
   path: `/v1/games/icons`,
@@ -279,7 +280,7 @@ export const gamesIcons = addApiMethod(async <UniverseId extends Identifier>(
 export const gamesThumbnails = addApiMethod(async <UniverseId extends Identifier>(
   { universeIds, countPerUniverse, defaults, size = "480x270", format = "WebP", isCircular }:
   {
-    universeIds: ArrayNonEmpty<UniverseId>, countPerUniverse?: number, defaults?: boolean,
+    universeIds: ArrayNonEmptyIfConst<UniverseId>, countPerUniverse?: number, defaults?: boolean,
     size?: GameThumbnailSize, format?: ThumbnailFormat, isCircular?: boolean
   }
 ): ApiMethod<RawThumbnailsData<UniverseId>, PrettifiedGamesThumbnailsData<UniverseId>> => ({
@@ -313,7 +314,7 @@ export const gamesThumbnails = addApiMethod(async <UniverseId extends Identifier
  */
 export const groupsEmblems = addApiMethod(async <GroupId extends Identifier>(
   { groupIds, size = "420x420", format = "WebP", isCircular }:
-  { groupIds: ArrayNonEmpty<GroupId>, size?: GroupEmblemSize, format?: ThumbnailFormat, isCircular?: boolean }
+  { groupIds: ArrayNonEmptyIfConst<GroupId>, size?: GroupEmblemSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<GroupId>, PrettifiedThumbnailsData<GroupId>> => ({
   method: "GET",
   path: `/v1/groups/icons`,
@@ -362,7 +363,7 @@ export const thumbnailsMetadata = addApiMethod(async (
  */
 export const placesIcons = addApiMethod(async <PlaceId extends Identifier>(
   { placeIds, returnPolicy, size = "256x256", format = "WebP", isCircular }:
-  { placeIds: ArrayNonEmpty<PlaceId>, returnPolicy?: ThumbnailReturnPolicy, size?: PlaceThumbnailSize, format?: ThumbnailFormat, isCircular?: boolean }
+  { placeIds: ArrayNonEmptyIfConst<PlaceId>, returnPolicy?: ThumbnailReturnPolicy, size?: PlaceThumbnailSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<PlaceId>, PrettifiedThumbnailsData<PlaceId>> => ({
   method: "GET",
   path: `/v1/places/gameicons`,
@@ -391,7 +392,7 @@ export const placesIcons = addApiMethod(async <PlaceId extends Identifier>(
  */
 export const avatarsFullThumbnails = addApiMethod(async <UserId extends Identifier>(
   { userIds, size = "420x420", format = "WebP", isCircular }:
-  { userIds: ArrayNonEmpty<UserId>, size?: AvatarsFullThumbnailsSize, format?: ThumbnailFormat, isCircular?: boolean }
+  { userIds: ArrayNonEmptyIfConst<UserId>, size?: AvatarsFullThumbnailsSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<UserId>, PrettifiedThumbnailsData<UserId>> => ({
   method: "GET",
   path: `/v1/users/avatar`,
@@ -417,7 +418,7 @@ export const avatarsFullThumbnails = addApiMethod(async <UserId extends Identifi
  */
 export const avatarsBustsThumbnails = addApiMethod(async <UserId extends Identifier>(
   { userIds, size = "420x420", format = "WebP", isCircular }:
-  { userIds: ArrayNonEmpty<UserId>, size?: AvatarsFullThumbnailsSize, format?: ThumbnailFormat, isCircular?: boolean }
+  { userIds: ArrayNonEmptyIfConst<UserId>, size?: AvatarsFullThumbnailsSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<UserId>, PrettifiedThumbnailsData<UserId>> => ({
   method: "GET",
   path: `/v1/users/avatar-bust`,
@@ -444,7 +445,7 @@ export const avatarsBustsThumbnails = addApiMethod(async <UserId extends Identif
  */
 export const avatarsHeadshotsThumbnails = addApiMethod(async <UserId extends Identifier>(
   { userIds, size = "420x420", format = "WebP", isCircular }:
-  { userIds: ArrayNonEmpty<UserId>, size?: AvatarsFullThumbnailsSize, format?: ThumbnailFormat, isCircular?: boolean }
+  { userIds: ArrayNonEmptyIfConst<UserId>, size?: AvatarsFullThumbnailsSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<UserId>, PrettifiedThumbnailsData<UserId>> => ({
   method: "GET",
   path: `/v1/users/avatar-headshot`,
@@ -513,7 +514,7 @@ export const outfit3dThumbnail = addApiMethod(async <OutfitId extends Identifier
  */
 export const outfitsThumbnails = addApiMethod(async <OutfitId extends Identifier>(
   { outfitIds, size = "420x420", format = "WebP", isCircular }:
-  { outfitIds: ArrayNonEmpty<OutfitId>, size?: OutfitSize, format?: ThumbnailFormat, isCircular?: boolean }
+  { outfitIds: ArrayNonEmptyIfConst<OutfitId>, size?: OutfitSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<OutfitId>, PrettifiedThumbnailsData<OutfitId>> => ({
   method: "GET",
   path: `/v1/users/outfits`,

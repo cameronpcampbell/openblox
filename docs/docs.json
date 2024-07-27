@@ -1677,7 +1677,7 @@
           },
           {
             "name": "users?",
-            "type": "ArrayNonEmpty<Identifier>",
+            "type": "ArrayNonEmptyIfConst<Identifier>",
             "description": "Array metadata containing the IDs of the users this entry is affiliated with."
           },
           {
@@ -1785,7 +1785,7 @@
           },
           {
             "name": "users?",
-            "type": "ArrayNonEmpty<Identifier>",
+            "type": "ArrayNonEmptyIfConst<Identifier>",
             "description": "Array metadata containing the IDs of the users this entry is affiliated with."
           },
           {
@@ -1831,7 +1831,7 @@
           },
           {
             "name": "users?",
-            "type": "ArrayNonEmpty<Identifier>",
+            "type": "ArrayNonEmptyIfConst<Identifier>",
             "description": "Array metadata containing the IDs of the users this entry is affiliated with."
           },
           {
@@ -2271,7 +2271,7 @@
         "params": [
           {
             "name": "badgeIds",
-            "type": "ArrayNonEmpty<BadgeId>",
+            "type": "ArrayNonEmptyIfConst<BadgeId>",
             "description": "The IDs of the badges to get award dates from."
           },
           {
@@ -2440,7 +2440,7 @@
         "params": [
           {
             "name": "universeIds",
-            "type": "ArrayNonEmpty<UniverseId>",
+            "type": "ArrayNonEmptyIfConst<UniverseId>",
             "description": "The ID of the universe to get team create settings for."
           }
         ]
@@ -2477,7 +2477,7 @@
         "params": [
           {
             "name": "pluginIds",
-            "type": "ArrayNonEmpty<PluginId>",
+            "type": "ArrayNonEmptyIfConst<PluginId>",
             "description": "The IDs of the plugins to get information about."
           }
         ]
@@ -2608,7 +2608,7 @@
         "params": [
           {
             "name": "universeIds",
-            "type": "ArrayNonEmpty<UniverseId>",
+            "type": "ArrayNonEmptyIfConst<UniverseId>",
             "description": "The IDs of the universes to get permissions for."
           }
         ]
@@ -3217,7 +3217,7 @@
           },
           {
             "name": "relatedUserIds",
-            "type": "ArrayNonEmpty<RelatedUserId>",
+            "type": "ArrayNonEmptyIfConst<RelatedUserId>",
             "description": "An array of the related userIds to get friends statuses for."
           }
         ]
@@ -3406,7 +3406,7 @@
         "params": [
           {
             "name": "userIds",
-            "type": "ArrayNonEmpty<UserId>",
+            "type": "ArrayNonEmptyIfConst<UserId>",
             "description": "The userIds to get following statuses for."
           }
         ]
@@ -3510,6 +3510,16 @@
             "description": "The ID of the group to get the event for."
           }
         ]
+      },
+      "setFeaturedEvent": {
+        "description": "Sets the featured event for a group.",
+        "tags": {
+          "endpoint": "REST /...",
+          "example": "",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": []
       },
       "groupInfo": {
         "description": "Gets information about a group.",
@@ -3680,7 +3690,7 @@
         "params": [
           {
             "name": "groupIds",
-            "type": "ArrayNonEmpty<GroupId>",
+            "type": "ArrayNonEmptyIfConst<GroupId>",
             "description": "the ids of groups to get policy info for."
           }
         ]
@@ -3772,7 +3782,7 @@
           },
           {
             "name": "userIds",
-            "type": "ArrayNonEmpty<Identifier>",
+            "type": "ArrayNonEmptyIfConst<Identifier>",
             "description": "The ids of the user to decline."
           }
         ]
@@ -3828,7 +3838,7 @@
           },
           {
             "name": "userIds",
-            "type": "ArrayNonEmpty<Identifier>",
+            "type": "ArrayNonEmptyIfConst<Identifier>",
             "description": "The ids of the user to accept."
           }
         ]
@@ -4716,7 +4726,7 @@
         "params": [
           {
             "name": "roleIds",
-            "type": "ArrayNonEmpty<RoleId>",
+            "type": "ArrayNonEmptyIfConst<RoleId>",
             "description": "The ids of roles to get."
           }
         ]
@@ -5521,7 +5531,7 @@
         "params": [
           {
             "name": "assetIds",
-            "type": "ArrayNonEmpty<AssetId>",
+            "type": "ArrayNonEmptyIfConst<AssetId>",
             "description": "The ids of the assets to get thumbnails for."
           },
           {
@@ -5592,7 +5602,7 @@
         "params": [
           {
             "name": "badgeIds",
-            "type": "ArrayNonEmpty<BadgeId>",
+            "type": "ArrayNonEmptyIfConst<BadgeId>",
             "description": "The ids of the badges to get thumbnails for."
           },
           {
@@ -5619,7 +5629,7 @@
         "params": [
           {
             "name": "bundleIds",
-            "type": "ArrayNonEmpty<BundleId>",
+            "type": "ArrayNonEmptyIfConst<BundleId>",
             "description": "The ids of the bundles to get thumbnails for."
           },
           {
@@ -5651,7 +5661,7 @@
         "params": [
           {
             "name": "developerProductIds",
-            "type": "ArrayNonEmpty<DeveloperProductId>",
+            "type": "ArrayNonEmptyIfConst<DeveloperProductId>",
             "description": "The ids of the developer products to get thumbnails for."
           },
           {
@@ -5683,7 +5693,7 @@
         "params": [
           {
             "name": "gamePassIds",
-            "type": "ArrayNonEmpty<GamePassId>",
+            "type": "ArrayNonEmptyIfConst<GamePassId>",
             "description": "The ids of the game passes to get thumbnails for."
           },
           {
@@ -5715,7 +5725,7 @@
           },
           {
             "name": "thumbnailIds",
-            "type": "ArrayNonEmpty<ThumbnailId>",
+            "type": "ArrayNonEmptyIfConst<ThumbnailId>",
             "description": "The ids of the thumbnails."
           },
           {
@@ -5747,7 +5757,7 @@
         "params": [
           {
             "name": "universeIds",
-            "type": "ArrayNonEmpty<UniverseId>",
+            "type": "ArrayNonEmptyIfConst<UniverseId>",
             "description": "The ids of the universes to get the thumbnail icons from."
           },
           {
@@ -5784,7 +5794,7 @@
         "params": [
           {
             "name": "universeIds",
-            "type": "ArrayNonEmpty<UniverseId>",
+            "type": "ArrayNonEmptyIfConst<UniverseId>",
             "description": "The ids of the universe to get thumbnails for."
           },
           {
@@ -5826,7 +5836,7 @@
         "params": [
           {
             "name": "groupIds",
-            "type": "ArrayNonEmpty<GroupId>",
+            "type": "ArrayNonEmptyIfConst<GroupId>",
             "description": "The ids of the groups to get the thumbnail icons from."
           },
           {
@@ -5869,7 +5879,7 @@
         "params": [
           {
             "name": "placeIds",
-            "type": "ArrayNonEmpty<PlaceId>",
+            "type": "ArrayNonEmptyIfConst<PlaceId>",
             "description": "The ids of the places to get thumbnails for."
           },
           {
@@ -5906,7 +5916,7 @@
         "params": [
           {
             "name": "userIds",
-            "type": "ArrayNonEmpty<UserId>",
+            "type": "ArrayNonEmptyIfConst<UserId>",
             "description": "The ids of the users to get thumbnails for."
           },
           {
@@ -5938,7 +5948,7 @@
         "params": [
           {
             "name": "userIds",
-            "type": "ArrayNonEmpty<UserId>",
+            "type": "ArrayNonEmptyIfConst<UserId>",
             "description": "The ids of the users to get thumbnails for."
           },
           {
@@ -5970,7 +5980,7 @@
         "params": [
           {
             "name": "userIds",
-            "type": "ArrayNonEmpty<UserId>",
+            "type": "ArrayNonEmptyIfConst<UserId>",
             "description": "The ids of the users to get thumbnails for."
           },
           {
@@ -6036,7 +6046,7 @@
         "params": [
           {
             "name": "outfitIds",
-            "type": "ArrayNonEmpty<OutfitId>",
+            "type": "ArrayNonEmptyIfConst<OutfitId>",
             "description": "The ids of the outfits to get thumbnails for."
           },
           {
@@ -6263,19 +6273,19 @@
         },
         "params": []
       },
-      "usernamesToUsersInfo": {
+      "usersInfoFromNames": {
         "description": "Gets information about multiple users from their usernames.",
         "tags": {
           "category": "Users",
           "endpoint": "POST /v1/usernames/users",
-          "example": "const { data: usersInfo } = await ClassicUsersApi.usernamesToUsersInfo({ usernames: [\"MightyPart\"] });",
+          "example": "const { data: usersInfo } = await ClassicUsersApi.usersInfoFromNames({ usernames: [\"MightyPart\"] });",
           "exampleData": "{\n  MightyPart: {\n    hasVerifiedBadge: false,\n    id: 45348281,\n    name: \"MightyPart\",\n    displayName: \"MightyPart\",\n  },\n}\n",
           "exampleRawBody": "{\n  data: [\n    {\n      requestedUsername: \"MightyPart\",\n      hasVerifiedBadge: false,\n      id: 45348281,\n      name: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n  ],\n}\n"
         },
         "params": [
           {
             "name": "usernames",
-            "type": "ArrayNonEmpty<Username>",
+            "type": "ArrayNonEmptyIfConst<Username>",
             "description": "The usernames of the users to get info about."
           },
           {
@@ -6285,19 +6295,19 @@
           }
         ]
       },
-      "userIdsToUsersInfo": {
+      "usersInfoFromIds": {
         "description": "Gets information about multiple users from their ids.",
         "tags": {
           "category": "Users",
           "endpoint": "POST /v1/users",
-          "example": "const { data: usersInfo } = await ClassicUsersApi.userIdsToUsersInfo({ userIds: [45348281] });",
+          "example": "const { data: usersInfo } = await ClassicUsersApi.usersInfoFromIds({ userIds: [45348281] });",
           "exampleData": "{\n  \"45348281\": {\n    hasVerifiedBadge: false,\n    name: \"MightyPart\",\n    displayName: \"MightyPart\",\n  },\n}\n",
           "exampleRawBody": "{\n  data: [\n    {\n      hasVerifiedBadge: false,\n      id: 45348281,\n      name: \"MightyPart\",\n      displayName: \"MightyPart\",\n    },\n  ],\n}\n"
         },
         "params": [
           {
             "name": "userIds",
-            "type": "ArrayNonEmpty<UserId>",
+            "type": "ArrayNonEmptyIfConst<UserId>",
             "description": "The ids of the users to get info about."
           },
           {

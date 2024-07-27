@@ -6,9 +6,9 @@ import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware, dataIsSuccess
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
-import type { Identifier, SortOrder } from "../../../utils/utils.types"
+import type { ArrayNonEmptyIfConst, Identifier, SortOrder } from "../../../utils/utils.types"
 import { PrettifiedGameTemplatesData, PrettifiedPluginsInfoData, PrettifiedTeamCreateActiveMembersData, PrettifiedTeamCreateSettingsForUniversesData, PrettifiedGroupUniversesData, PrettifiedUniverseInfo, PrettifiedUniversePlacesData, RawGameTemplatesData, RawPluginsInfoData, RawTeamCreateActiveMembersData, RawTeamCreateSettingsForUniversesData, RawGroupUniversesData, RawUniverseInfo, RawUniversePlacesData, RawUniversesInfoData, PrettifiedUniversesInfoData, RawAuthenticatedUserPermissionsForUniversesData, PrettifiedAuthenticatedUserPermissionsForUniversesData, UniverseConfigurationData_V1, UniverseAvatarType, UniverseScaleType, UniverseAnimationType, UniverseCollisionType, UniverseBodyType, UniverseJointPositioningType, UniverseGenre, UniversePlayableDevice, RawAuthenticatedUserGroupsCanManage, PrettifiedAuthenticatedUserGroupsCanManage, PrettifiedAuthenticatedUserUniversesData, RawPaginatedUniverseData, RawAuthenticatedUserUniversesData, PlaceConfigurationData, PlaceSocialSlotType, PlaceGearType, UpdatePlaceConfigurationData_V2, PrettifiedAvatarAssetOverride, AvatarScales, UniverseRegion, RawUpdateUniverseConfigurationData_V2, PrettifiedUpdateUniverseConfigurationData_V2 } from "./develop.types"
-import { ArrayNonEmpty, ObjectEither } from "typeforge"
+import { ObjectEither } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -152,7 +152,7 @@ export const updateTeamCreateSettingsForUniverse = addApiMethod(async (
  * @exampleRawBody {"data":[{"id":6069031486,"isEnabled":false}]}
  */
 export const teamCreateSettingsForUniverses = addApiMethod(async <UniverseId extends Identifier>(
-  { universeIds }: { universeIds: ArrayNonEmpty<UniverseId> }
+  { universeIds }: { universeIds: ArrayNonEmptyIfConst<UniverseId> }
 ): ApiMethod<RawTeamCreateSettingsForUniversesData<UniverseId>, PrettifiedTeamCreateSettingsForUniversesData<UniverseId>> => ({
   method: "GET",
   path: `/v1/universes/multiget/teamcreate`,
@@ -199,7 +199,7 @@ export const teamCreateRemoveUsersAccessForUniverse = addApiMethod(async (
  * @exampleRawBody {"data":[{"id":18407509477,"name":"PropertyLab [PRE-ALPHA V0.0.0]","description":"A modernised plugin explorer for Roblox.","commentsEnabled":false,"versionId":24376570646,"created":"2024-07-09T10:44:37.523Z","updated":"2024-07-09T10:44:37.523Z"}]}
  */
 export const pluginsInfo = addApiMethod(async <PluginId extends Identifier>(
-  { pluginIds }: { pluginIds: ArrayNonEmpty<PluginId> }
+  { pluginIds }: { pluginIds: ArrayNonEmptyIfConst<PluginId> }
 ): ApiMethod<RawPluginsInfoData<PluginId>, PrettifiedPluginsInfoData<PluginId>> => ({
   method: "GET",
   path: `/v1/plugins`,
@@ -321,7 +321,7 @@ export const universePlaces = addApiMethod(async <UniverseId extends Identifier>
  * @exampleRawBody {"data":[{"id":6069031486,"name":"MightyPart's Place: 06032024_1","description":null,"isArchived":false,"rootPlaceId":17718644108,"isActive":false,"privacyType":"Private","creatorType":"User","creatorTargetId":45348281,"creatorName":"MightyPart","created":"2024-06-03T09:42:56.27Z","updated":"2024-06-03T09:42:56.27Z"}]}
  */
 export const universesInfo = addApiMethod(async <UniverseId extends Identifier>(
-  { universeIds }: { universeIds: ArrayNonEmpty<Identifier> }
+  { universeIds }: { universeIds: ArrayNonEmptyIfConst<UniverseId> }
 ): ApiMethod<RawUniversesInfoData<UniverseId>, PrettifiedUniversesInfoData<UniverseId>> => ({
   method: "GET",
   path: `/v1/universes/multiget`,
@@ -345,7 +345,7 @@ export const universesInfo = addApiMethod(async <UniverseId extends Identifier>(
  * @exampleRawBody {"data":[{"universeId":6069031486,"canManage":true,"canCloudEdit":true}]}
  */
 export const authenticatedUserPermissionsForUniverses = addApiMethod(async <UniverseId extends Identifier>(
-  { universeIds }: { universeIds: ArrayNonEmpty<UniverseId> }
+  { universeIds }: { universeIds: ArrayNonEmptyIfConst<UniverseId> }
 ): ApiMethod<
   RawAuthenticatedUserPermissionsForUniversesData<UniverseId>, PrettifiedAuthenticatedUserPermissionsForUniversesData<UniverseId>
 > => ({
@@ -663,7 +663,7 @@ export const updateUniverseConfiguration_V2 = addApiMethod(async <
     universeId: UniverseId, name?: Name, description?: Description, avatarType?: AvatarType,
     animationType?: AnimationType, collisionType?: CollisionType, jointPositioningType?: JointPositioningType, 
     isArchived?: IsArchived, isFriendsOnly?: IsFriendsOnly, genre?: Genre, playableDevices?: PlayableDevice[],
-    avatarAssetOverrides?: ArrayNonEmpty<AvatarAssetOverride>, avatarMinScales?: AvatarMinScales,
+    avatarAssetOverrides?: ArrayNonEmptyIfConst<AvatarAssetOverride>, avatarMinScales?: AvatarMinScales,
     avatarMaxScales?: AvatarMaxScales, studioAccessToApisAllowed?: StudioAccessToApisAllowed,
     isThirdPartyTeleportAllowed?: IsThirdPartyTeleportAllowed, isThirdPartyAssetAllowed?: IsThirdPartyAssetAllowed,
     isThirdPartyPurchaseAllowed?: IsThirdPartyPurchaseAllowed, isMeshTextureApiAccessAllowed?: IsMeshTextureApiAccessAllowed,
