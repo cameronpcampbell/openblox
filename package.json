@@ -77,6 +77,7 @@
     "jwk-to-pem": "^2.0.5",
     "lodash": "^4.17.21",
     "parse-roblox-errors": "^1.1.10",
+    "roblox-bat": "^0.4.0",
     "typeforge": "^0.0.19"
   },
   "devDependencies": {
