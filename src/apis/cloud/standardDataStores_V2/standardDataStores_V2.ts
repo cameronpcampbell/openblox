@@ -6,7 +6,7 @@ import { createApiGroup } from "../../apiGroup"
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
 import type { ArrayNonEmpty, Identifier, ISODateTime } from "typeforge"
-import { PrettifiedFullDatastoreData, PrettifiedListStandardDatastoreEntriesData, PrettifiedListStandardDataStoreEntryRevisionsData, PrettifiedListStandardDatastoresData, RawFullDatastoreData, RawListStandardDatastoreEntriesData, RawListStandardDataStoreEntryRevisionsData, RawListStandardDatastoresData } from "./standardDataStores_V2.types"
+import { PrettifiedCreateStandardDataStoreSnapshotData, PrettifiedFullDatastoreData, PrettifiedListStandardDatastoreEntriesData, PrettifiedListStandardDataStoreEntryRevisionsData, PrettifiedListStandardDatastoresData, RawCreateStandardDataStoreSnapshotData, RawFullDatastoreData, RawListStandardDatastoreEntriesData, RawListStandardDataStoreEntryRevisionsData, RawListStandardDatastoresData } from "./standardDataStores_V2.types"
 import { cloneAndMutateObject, dataIsSuccess } from "../../../utils/utils"
 import { ArrayNonEmptyIfConst } from "../../../utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +53,31 @@ export const listStandardDataStores = addApiMethod(async <UniverseId extends Ide
   name: `listStandardDataStores`,
 
   prettifyFn: ({ dataStores }) => dataStores
+}))
+
+
+/**
+ * Creates a snapshot of standard datastores for a universe.
+ * @endpoint POST /cloud/v2/universes/{universeId}/data-stores:snapshot
+ * 
+ * @param universeId The ID of the universe to create a snapshot for.
+ * 
+ * @example const { data:snapshot } = await StandardDataStoresApi_V2.createStandardDataStoreSnapshot({ universeId: 5097539509 })
+ * @exampleData {"newSnapshotTaken":false,"latestSnapshotTime":"2024-07-29T22:08:49.588Z"}
+ * @exampleRawBody {"newSnapshotTaken":false,"latestSnapshotTime":"2024-07-29T22:08:49.588Z"}
+ */
+export const createStandardDataStoreSnapshot = addApiMethod(async (
+  { universeId }: { universeId: Identifier }
+): ApiMethod<RawCreateStandardDataStoreSnapshotData, PrettifiedCreateStandardDataStoreSnapshotData> => ({
+  method: "POST",
+  path: `/v2/universes/${universeId}/data-stores:snapshot`,
+  body: {},
+  name: `createStandardDataStoreSnapshot`,
+
+  prettifyFn: rawData => {
+    if (!rawData.latestSnapshotTime) return rawData
+    return cloneAndMutateObject(rawData, obj => obj.latestSnapshotTime = new Date(obj.latestSnapshotTime as any as ISODateTime))
+  }
 }))
 
 

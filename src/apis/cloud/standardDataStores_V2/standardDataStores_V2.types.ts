@@ -1,5 +1,5 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import { Identifier, ISODateTime, ObjectPrettify, ObjectRemoveKeys, PrettifyDeep, StringIsLiteral, StringReplaceAll, UnionPrettify } from "typeforge"
+import { Identifier, ISODateTime, ObjectEither, ObjectPrettify, ObjectRemoveKeys, PrettifyDeep, StringIsLiteral, StringReplaceAll, UnionPrettify } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 type DataStoreEntryState = UnionPrettify<"STATE_UNSPECIFIED" | "ACTIVE" | "DELETED">
@@ -42,6 +42,17 @@ export type RawListStandardDatastoresData<UniverseId extends Identifier, Prefix 
 
 export type PrettifiedListStandardDatastoresData<UniverseId extends Identifier, Prefix extends string> =
   MinimalDatastore<UniverseId, `${Prefix}${string}`>[]
+// -------------------------------------------------------------------------------------------------------------------
+
+
+// /cloud/v2/universes/{universeId}/data-stores:snapshot -------------------------------------------------------------
+type CreateStandardDataStoreSnapshotData<TemporalType extends ISODateTime | Date> = ObjectEither<
+  { newSnapshotTaken: true, latestSnapshotTime: TemporalType },
+  { newSnapshotTaken: false }
+>
+
+export type RawCreateStandardDataStoreSnapshotData = CreateStandardDataStoreSnapshotData<ISODateTime>
+export type PrettifiedCreateStandardDataStoreSnapshotData = CreateStandardDataStoreSnapshotData<Date>
 // -------------------------------------------------------------------------------------------------------------------
 
 

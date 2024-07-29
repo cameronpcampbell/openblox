@@ -6,7 +6,7 @@ import { readFile } from "../../../file"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { ArrayNonEmpty, Identifier, UnionToArray } from "typeforge"
+import type { Identifier, UnionToArray } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
 import type { AddGroupSocialLinkData, AuthenticatedUserGroupMembershipInfoData, FormattedAllGroupRolesForUserData_V1, GroupAuditLogActionType, GroupPayoutRestrictionsInfoData, GroupRelationshipType, GroupRolePermissions, GroupRolePermissionsData, GroupsConfigMetadataData, GroupSettingsData, GroupsMetadataData, NewSocialLinkRequest, PrettifiedAllGroupRolesForUserData_V2, PrettifiedAllRolesForGroupData, PrettifiedAuthenticatedUserPendingGroupsData, PrettifiedGroupAuditLogData, PrettifiedGroupIdsToGroupsInfoData, PrettifiedGroupInfoData, PrettifiedGroupJoinRequestForUser, PrettifiedGroupJoinRequests, PrettifiedGroupLookupSearch, PrettifiedGroupMembersData, PrettifiedGroupMembersWithRoleData, PrettifiedGroupNameHistoryData, PrettifiedGroupPayoutsInfoData, PrettifiedGroupPermissionsForAllRoles, PrettifiedGroupPolicyInfoData, PrettifiedGroupRelationshipsData, PrettifiedGroupRolesFromIdsData, PrettifiedGroupSearchData, PrettifiedGroupSearchMetadata, PrettifiedGroupShoutData, PrettifiedGroupSocialLinksData, PrettifiedGroupsThatUsersFriendsAreInData, PrettifiedGroupWallPostsData_V1, PrettifiedGroupWallPostsData_V2, PrettifiedPrimaryGroupForUserData, RawAllGroupRolesForUserData_V1, RawAllGroupRolesForUserData_V2, RawAllRolesForGroupData, RawAuthenticatedUserPendingGroupsData, RawGroupAuditLogData, RawGroupIdsToGroupsInfoData, RawGroupInfoData, RawGroupJoinRequestForUser, RawGroupJoinRequests, RawGroupLookupSearch, RawGroupMembersData, RawGroupMembersWithRoleData, RawGroupNameHistoryData, RawGroupPayoutsInfoData, RawGroupPermissionsForAllRoles, RawGroupPolicyInfoData, RawGroupRelationshipsData, RawGroupRolesFromIdsData, RawGroupSearchData, RawGroupSearchMetadata, RawGroupShoutData, RawGroupSocialLinksData, RawGroupsThatUsersFriendsAreInData, RawGroupWallPostsData_V1, RawGroupWallPostsData_V2, RawPrimaryGroupForUserData, UpdateRoleSetData, UpdateRoleSetRequest } from "./groups.types"
@@ -43,24 +43,47 @@ export const featuredEvent = addApiMethod(async <GroupId extends Identifier>(
 
 
 /**
- * Sets the featured event for a group.
- * @endpoint REST /...
+ * Sets a featured event for a group.
+ * @endpoint POST /v1/featured-content/event
  * 
- * @param
+ * @param groupId The ID of the group to set the event for.
+ * @param eventId The ID of the event to set.
  * 
- * @example
- * @exampleData
- * @exampleRawBody
+ * @example const { data:eventId } = await ClassicGroupsApi.setFeaturedEvent({ groupId: 15842838, eventId: "5904751593700196492" })
+ * @exampleData 5904751593700196492
+ * @exampleRawBody {"groupId":15842838,"contentType":"event","contentId":"6533473338141704368"}
  */
-export const setFeaturedEvent = addApiMethod(async <GroupId extends Identifier>(
-  { groupId, eventId }: { groupId: Identifier, eventId: Identifier }
-): ApiMethod<{ groupId: GroupId, contentType: "event", contentId: Identifier }, Identifier> => ({
+export const setFeaturedEvent = addApiMethod(async <GroupId extends Identifier, EventId extends Identifier>(
+  { groupId, eventId }: { groupId: Identifier, eventId: EventId }
+): ApiMethod<{ groupId: GroupId, contentType: "event", contentId: EventId }, EventId> => ({
   method: "POST",
   path: `/v1/featured-content/event`,
   searchParams: { groupId, eventId },
   name: `setFeaturedEvent`,
 
-  prettifyFn: ({ contentId }) => contentId
+  prettifyFn: ({ contentId }) => contentId as any
+}))
+
+/**
+ * Removes a featured event for a group.
+ * @endpoint POST /v1/featured-content/event
+ * 
+ * @param groupId The ID of the group to remove the event from.
+ * @param eventId The ID of the event to remove.
+ * 
+ * @example const { data:success } = await ClassicGroupsApi.removeFeaturedEvent({ groupId: 15842838, eventId: "5904751593700196492" })
+ * @exampleData true
+ * @exampleRawBody ""
+ */
+export const removeFeaturedEvent = addApiMethod(async <GroupId extends Identifier, EventId extends Identifier>(
+  { groupId, eventId }: { groupId: Identifier, eventId: EventId }
+): ApiMethod<"", boolean> => ({
+  method: "DELETE",
+  path: `/v1/featured-content/event`,
+  searchParams: { groupId, eventId },
+  name: `removeFeaturedEvent`,
+
+  prettifyFn: rawData => rawData === ""
 }))
 /////////////////////////////////////////////////////////////////////////////////
 

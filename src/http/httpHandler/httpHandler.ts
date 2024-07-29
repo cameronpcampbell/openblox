@@ -1,5 +1,7 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { parseBEDEV1ErrorFromStringAndHeaders, parseBEDEV2ErrorFromStringAndHeaders } from "parse-roblox-errors"
+import jwkToPem from 'jwk-to-pem'
+import { HBAClient } from "roblox-bat"
 
 import { HttpError, HttpResponse } from "../http.utils"
 import { FetchAdapter } from "../httpAdapters/fetchHttpAdapter"
@@ -51,6 +53,41 @@ export const getParsedErrors = async (response: HttpResponse): Promise<any> => {
     await parseBEDEV2ErrorFromStringAndHeaders(JSON.stringify(response.body), response.headers as any as Headers)
   : undefined
 }
+
+
+function stringToArrayBuffer(str: string) {
+  const buf = new ArrayBuffer(str.length);
+  const bufView = new Uint8Array(buf);
+  for (let i = 0, strLen = str.length; i < strLen; i++) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return buf;
+}
+
+const arrayBufferToString = (buf: ArrayBuffer) => String.fromCharCode.apply<null, any, string>(null, new Uint8Array(buf))
+
+const exportPrivateKey = async (key: CryptoKey) => btoa(arrayBufferToString(await crypto.subtle.exportKey("pkcs8", key)))
+const exportPublicKey = async (key: CryptoKey) => btoa(arrayBufferToString(await crypto.subtle.exportKey("spki", key)))
+
+const importPrivateKey = async (key: string) => await crypto.subtle.importKey(
+  "pkcs8", stringToArrayBuffer(atob(key)), { name: "ECDSA", namedCurve: "P-256" }, true, ["sign"]
+)
+const importPublicKey = async (key: string) => await crypto.subtle.importKey(
+  "spki", stringToArrayBuffer(atob(key)), { name: "ECDSA", namedCurve: "P-256" }, true, []
+)
+
+
+const createHbaKeys = async () => {
+  const keyPair = await crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, true, ["sign"])
+  return {
+    private: await exportPrivateKey(keyPair.privateKey),
+    public: await exportPublicKey(keyPair.publicKey)
+  }
+}
+
+const importHbaKeys = async (keys: { private: string, public: string }): Promise<CryptoKeyPair> => {
+  return { privateKey: await importPrivateKey(keys.private), publicKey: await importPublicKey(keys.public) }
+}
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -71,12 +108,27 @@ export const HttpHandler = async <RawData extends any = any>(
     formData: parsedFormData,
   }
 
+
+
+  /*const hbaClient = new HBAClient({
+    cookie,
+    keys: await importHbaKeys({ private: process.env.ROBLOX_HBA_PRIVATE_KEY as string, public: process.env.ROBLOX_HBA_PUBLIC_KEY as string })
+  });
+
+  const hbaHeaders = await hbaClient.generateBaseHeaders(
+    url,
+    true, // set to false or undefined if not authenticated
+    body
+  );*/
+
+
   const requestDataHeaders = removeNullUndefined({
     Cookie: cookie as string,
     "x-api-key": cloudKey,
     Authorization: oauthToken && `Bearer ${oauthToken}`,
     "Content-Type": headers?.["Content-Type"] || (!((formData && Object.keys(formData)?.length) || rawFormData) && "application/json" || null),
     ...headers,
+    //...hbaHeaders,
   })
 
   const handlerMain = async (): Promise<HttpResponse<RawData> | HttpError> => {
