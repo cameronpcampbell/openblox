@@ -118,7 +118,7 @@ const getUsersThumbnails_forIds = (
 
 export const Users = {
   get: <Field extends UsersField>(fields: ArrayNonEmptyIfConst<Field>) => {
-    fields = uniq_fast(fields)
+    fields = uniq_fast(fields) as ArrayNonEmptyIfConst<Field>
     const isSingleField = (fields as Field[]).length == 1
 
     const usersInfoFields =
