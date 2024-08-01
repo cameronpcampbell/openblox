@@ -1,14 +1,15 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { ISODateTime, Identifier, ObjectPrettify, ObjectPrettifyDeep } from "typeforge"
+import type { ISODateTime, Identifier, ObjectPrettify, ObjectPrettifyDeep, UnionPrettify } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 
-type GameGearGenre = "All" | "TownAndCity" | "Fantasy" | "SciFi" | "Ninja" | "Scary" | "Pirate" | "Adventure" | "Sports" | "Funny" | "WildWest" | "War" | "SkatePark" | "Tutorial"
+type GameGearGenre = UnionPrettify<"All" | "TownAndCity" | "Fantasy" | "SciFi" | "Ninja" | "Scary" | "Pirate" | "Adventure" | "Sports" | "Funny" | "WildWest" | "War" | "SkatePark" | "Tutorial">
 
-type GameGearCategories = "Building" | "Explosive" | "Melee" | "Musical" | "Navigation" | "PowerUp" | "Ranged" | "Social" | "Transportation"
+type GameGearCategories = UnionPrettify<"Building" | "Explosive" | "Melee" | "Musical" | "Navigation" | "PowerUp" | "Ranged" | "Social" | "Transportation">
 
 // GET /v2/users/{userId}/games --------------------------------------------------------------------------------------
-type GamesInfoData<TimeType> = ObjectPrettify<{
+type GamesInfoData<TemporalType extends ISODateTime | Date, UniverseId extends Identifier = Identifier> = ObjectPrettify<{
+  id: UniverseId,
   rootPlaceId: Identifier,
   name: string,
   description: string | null,
@@ -28,8 +29,8 @@ type GamesInfoData<TimeType> = ObjectPrettify<{
   playing: number,
   visits: number,
   maxPlayers: number,
-  created: TimeType,
-  updated: TimeType,
+  created: TemporalType,
+  updated: TemporalType,
   studioAccessToApisAllowed: boolean,
   createVipServersAllowed: boolean,
   universeAvatarType: "MorphToR15" | "MorphToR6" | "PlayerChoice",
@@ -40,13 +41,13 @@ type GamesInfoData<TimeType> = ObjectPrettify<{
 }>
 
 export type RawGamesInfoData<UniverseId extends Identifier> = ObjectPrettify<{
-  data: ObjectPrettify<{ id: UniverseId } & GamesInfoData<ISODateTime>>[]
+  data: ObjectPrettify<GamesInfoData<ISODateTime, UniverseId>>[]
 }>
 
 
-export type PrettifiedGamesInfoData<UniverseId extends Identifier> = ObjectPrettify<{
-  [Key in UniverseId]: ObjectPrettify<GamesInfoData<Date>> | undefined
-}>
+export type PrettifiedGamesInfoData<UniverseId extends Identifier> = {
+  [Key in UniverseId]?: ObjectPrettify<Omit<GamesInfoData<Date>, "id">>
+}
 // -------------------------------------------------------------------------------------------------------------------
 
 

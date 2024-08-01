@@ -8,6 +8,7 @@ import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware } from "../../
 import type { ApiMethod } from "../../apiGroup"
 import type { ArrayNonEmptyIfConst, Identifier, SortOrder } from "../../../utils/utils.types"
 import type { PrettifiedGamesInfoData, PrettifiedUserGamesData, RawGamesInfoData, RawUserGamesData } from "./games.types"
+import { ArrayNonEmpty } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -30,19 +31,22 @@ const addApiMethod = createApiGroup({ groupName: "ClassicGames", baseUrl: "https
  * @exampleRawBody
  */
 export const gamesInfo = addApiMethod(async <UniverseId extends Identifier>(
-  { universeIds }: { universeIds: ArrayNonEmptyIfConst<UniverseId> }
+  { universeIds }: { universeIds: ArrayNonEmpty<UniverseId> }
 ): ApiMethod<RawGamesInfoData<UniverseId>, PrettifiedGamesInfoData<UniverseId>> => ({
-  path: `/v1/games`,
   method: "GET",
+  path: `/v1/games`,
   name: "gamesInfo",
   searchParams: { universeIds },
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", gameInfo => {
+  prettifyFn: x => x as any,
+
+ /*prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", gameInfo => {
     delete (gameInfo as Omit<typeof gameInfo, "id"> & { id?: typeof gameInfo["id"] }).id
     gameInfo.created = new Date(gameInfo.created) as any
     gameInfo.updated = new Date(gameInfo.updated) as any
     return gameInfo
-  })
+  })*/
+
 }))
 
 /**
