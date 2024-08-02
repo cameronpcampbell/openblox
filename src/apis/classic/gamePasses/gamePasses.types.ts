@@ -2,7 +2,7 @@ import { Identifier, ISODateTime } from "typeforge"
 import { KeysToCamelCase } from "../../../utils/utils.types"
 
 
-// GET /v1/virtual-events/create -------------------------------------------------------------------------------------
+// GET /v1/game-passes/{gamePassId}/product-info ---------------------------------------------------------------------
 type GamePassInfo<TemporalType extends ISODateTime | Date, GamePassId extends Identifier> = {
   TargetId: GamePassId,
   ProductType: "Game Pass",
@@ -35,4 +35,11 @@ type GamePassInfo<TemporalType extends ISODateTime | Date, GamePassId extends Id
 export type RawGamePassInfo<GamePassId extends Identifier> = GamePassInfo<ISODateTime, GamePassId>
 
 export type PrettifiedGamePassInfo<GamePassId extends Identifier> = KeysToCamelCase<GamePassInfo<Date, GamePassId>>
+// -------------------------------------------------------------------------------------------------------------------
+
+
+// GET /v1/game-passes/universes/${universeId}/creator ---------------------------------------------------------------
+export type PrettifiedGamePassesForUniverse = {
+  
+}
 // -------------------------------------------------------------------------------------------------------------------

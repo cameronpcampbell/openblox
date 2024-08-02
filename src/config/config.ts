@@ -71,10 +71,16 @@ function mergeDeepConfigs(target: Record<any, any>, ...sources: Record<any, any>
 export const getConfig = () => config
 
 export const setConfig = (newConfig: OpenbloxConfig) => {
+  const newConfigCookie = newConfig?.cookie
+  if (newConfigCookie) newConfig.cookie = `.ROBLOSECURITY=${newConfigCookie}` as any
+
   Object.keys(config).forEach(key => delete config[key as keyof OpenbloxConfig])
   Object.assign(config, newConfig)
 }
 
 export const updateConfig = (updateConfigWith: OpenbloxConfig) => {
+  const updateConfigWithCookie = updateConfigWith?.cookie
+  if (updateConfigWithCookie) updateConfigWith.cookie = `.ROBLOSECURITY=${updateConfigWithCookie}` as any
+
   mergeDeepConfigs(config, updateConfigWith)
 }

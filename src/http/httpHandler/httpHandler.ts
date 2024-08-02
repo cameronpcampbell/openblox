@@ -121,7 +121,6 @@ export const HttpHandler = async <RawData extends any = any>(
     body
   );*/
 
-
   const requestDataHeaders = removeNullUndefined({
     Cookie: cookie as string,
     "x-api-key": cloudKey,
