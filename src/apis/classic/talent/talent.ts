@@ -13,7 +13,7 @@ import { SortOrder } from "../../../utils/utils.types"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicTalent", baseUrl: "https://apis.roblox.com/talent" })
+const addApiMethod = createApiGroup({ name: "ClassicTalent", baseUrl: "https://apis.roblox.com/talent" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -34,7 +34,7 @@ export const creatorProfile = addApiMethod(async <UserId extends Identifier>(
   method: "GET",
   name: "creatorProfile",
 
-  prettifyFn: ({ data }) => cloneAndMutateObject(data[0], obj => {
+  formatRawDataFn: ({ data }) => cloneAndMutateObject(data[0], obj => {
     obj.createdUtc = new Date(obj.createdUtc)
     obj.updatedUtc = new Date(obj.updatedUtc)
   })
@@ -61,7 +61,7 @@ export const creatorExperiences = addApiMethod(async <UserId extends Identifier>
   searchParams: { sortOrder, limit, cursor },
   name: "creatorExperiences",
 
-  prettifyFn: ({ data }) => data.map(experienceData => cloneAndMutateObject(experienceData, obj => {
+  formatRawDataFn: ({ data }) => data.map(experienceData => cloneAndMutateObject(experienceData, obj => {
     obj.createdUtc = new Date(obj.createdUtc)
     obj.updatedUtc = new Date(obj.updatedUtc)
     obj.startedUtc = new Date(obj.startedUtc)
@@ -89,7 +89,7 @@ export const creatorIsIdVerified = addApiMethod(async <UserId extends Identifier
   searchParams: { userIds: userId },
   name: "creatorIsIdVerified",
 
-  prettifyFn: ({ data }) => (data[0] as RawUsersAreIdVerifiedData<UserId>["data"][number]).isVerified
+  formatRawDataFn: ({ data }) => (data[0] as RawUsersAreIdVerifiedData<UserId>["data"][number]).isVerified
 }))
 
 
@@ -132,7 +132,7 @@ export const jobSearch = addApiMethod(async (
     ]
   },
 
-  prettifyFn: ({ results, ...rest }) => {
+  formatRawDataFn: ({ results, ...rest }) => {
     const prettifiedResults: PrettifiedJobSearchData["results"] = results.map(result => {
       const prettifiedResult: PrettifiedJobSearchData["results"][number] = {} as any
       const resultKeys = Object.keys(result), resultValues = Object.values(result) as any as ({ raw: unknown })[]

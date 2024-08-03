@@ -1,5 +1,5 @@
-import { Add, GtOrEq, Pow, Subtract } from "ts-arithmetic"
-import { ArrayNonEmpty, ArrayToUnion, ObjectPrettify, UnionToArray } from "typeforge"
+import type { Add, GtOrEq, Pow, Subtract } from "ts-arithmetic"
+import type { ArrayNonEmpty, ArrayToUnion, ObjectPrettify, UnionToArray } from "typeforge"
 
 export type Identifier = number | `${number}`
 

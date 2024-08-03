@@ -14,7 +14,7 @@ import { ArrayNonEmptyIfConst } from "../../../utils/utils.types"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicThumbnails", baseUrl: "https://thumbnails.roblox.com" })
+const addApiMethod = createApiGroup({ name: "ClassicThumbnails", baseUrl: "https://thumbnails.roblox.com" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -43,7 +43,7 @@ export const assetsThumbnails = addApiMethod(async <AssetId extends Identifier>(
   searchParams: { assetIds, returnPolicy, size, format, isCircular },
   name: "gamesThumbnails",
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
 }))
 
 
@@ -111,7 +111,7 @@ export const badgesThumbnails = addApiMethod(async <BadgeId extends Identifier>(
   searchParams: { badgeIds, size:"150x150", format, isCircular },
   name: `badgesThumbnails`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
 }))
 
 
@@ -142,7 +142,7 @@ export const bundlesThumbnails = addApiMethod(async <BundleId extends Identifier
   searchParams: { bundleIds, size, format, isCircular },
   name: `bundlesThumbnails`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
 }))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -171,7 +171,7 @@ export const developerProductsThumbnails = addApiMethod(async <DeveloperProductI
   searchParams: { developerProductIds, size, format, isCircular },
   name: `developerProductsThumbnails`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
 }))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -199,7 +199,7 @@ export const gamePassesThumbnails = addApiMethod(async <GamePassId extends Ident
   searchParams: { gamePassIds, format, size:"150x150", isCircular },
   name: `gamePassesThumbnails`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
 }))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -228,7 +228,7 @@ export const gameThumbnailsFromIds = addApiMethod(async <ThumbnailId extends Ide
   searchParams: { thumbnailIds, size, format, isCircular },
   name: `gameThumbnailsFromIds`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
 }))
 
 
@@ -258,7 +258,7 @@ export const gamesIcons = addApiMethod(async <UniverseId extends Identifier>(
   searchParams: { universeIds, returnPolicy, size, format, isCircular },
   name: "gamesIcons",
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
 }))
 
 /**
@@ -289,7 +289,7 @@ export const gamesThumbnails = addApiMethod(async <UniverseId extends Identifier
   searchParams: { universeIds, countPerUniverse, defaults, size, format, isCircular },
   name: "gamesThumbnails",
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "universeId", gameThumbnailData => {
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "universeId", gameThumbnailData => {
     delete (gameThumbnailData as Omit<typeof gameThumbnailData, "universeId"> & { universeId?: Identifier }).universeId
     return gameThumbnailData
   })
@@ -321,7 +321,7 @@ export const groupsEmblems = addApiMethod(async <GroupId extends Identifier>(
   searchParams: { groupIds, size, format, isCircular },
   name: `groupsEmblems`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
 }))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -370,7 +370,7 @@ export const placesIcons = addApiMethod(async <PlaceId extends Identifier>(
   searchParams: { placeIds, returnPolicy, size, format, isCircular },
   name: `placesIcons`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
 }))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -399,7 +399,7 @@ export const avatarsFullThumbnails = addApiMethod(async <UserId extends Identifi
   searchParams: { userIds, size, format, isCircular },
   name: `avatarsFullThumbnails`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
 }))
 
 /**
@@ -425,7 +425,7 @@ export const avatarsBustsThumbnails = addApiMethod(async <UserId extends Identif
   searchParams: { userIds, size, format, isCircular },
   name: `avatarsBustsThumbnails`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
 }))
 
 
@@ -452,7 +452,7 @@ export const avatarsHeadshotsThumbnails = addApiMethod(async <UserId extends Ide
   searchParams: { userIds, size, format, isCircular },
   name: `avatarsHeadshotsThumbnails`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
 }))
 
 /**
@@ -521,7 +521,7 @@ export const outfitsThumbnails = addApiMethod(async <OutfitId extends Identifier
   searchParams: { userOutfitIds: outfitIds, size, format, isCircular },
   name: `outfitsThumbnails`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware( data, "targetId", ({ targetId, ...rest }) => (rest))
 }))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -555,7 +555,7 @@ export const batchThumbnails = addApiMethod(async <const BReq extends BatchReque
   body: requests,
   name: `batchThumbnails`,
 
-  prettifyFn: ({ data }) => {
+  formatRawDataFn: ({ data }) => {
     const rawBodyDataLength = data.length - 1
     let insertedTypeData: any = data.map((item:any, i: number) => {
       item = { ...item }

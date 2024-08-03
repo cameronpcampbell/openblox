@@ -13,7 +13,7 @@ import { ArrayNonEmpty } from "typeforge"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicFriends", baseUrl: "https://friends.roblox.com" })
+const addApiMethod = createApiGroup({ name: "ClassicFriends", baseUrl: "https://friends.roblox.com" })
 
 const userSortNameToId = {
   Alphabetical: 0,
@@ -66,7 +66,7 @@ export const authenticatedUserFriendsCount = addApiMethod(async (
   method: "GET",
   name: "authenticatedUserFriendsCount",
 
-  prettifyFn: ({ count }) => count
+  formatRawDataFn: ({ count }) => count
 }))
 
 /**
@@ -89,7 +89,7 @@ export const authenticatedUserFriendRequests = addApiMethod(async (
   searchParams: { limit, sortOrder, cursor },
   name: "authenticatedUserFriendRequests",
 
-  prettifyFn: ({ data }) => data.map(requestData => cloneAndMutateObject(requestData, obj => {
+  formatRawDataFn: ({ data }) => data.map(requestData => cloneAndMutateObject(requestData, obj => {
     const friendRequest = obj.friendRequest
     friendRequest.sentAt = new Date(friendRequest.sentAt)
     obj.created = new Date(obj.created)
@@ -110,7 +110,7 @@ export const authenticatedUserFriendRequestsCount = addApiMethod(async (
   method: "GET",
   name: "authenticatedUserFriendRequestsCount",
 
-  prettifyFn: ({ count }) => count
+  formatRawDataFn: ({ count }) => count
 }))
 
 /**
@@ -132,7 +132,7 @@ export const friendsList = addApiMethod(async (
   searchParams: { userSort: userSort ? userSortNameToId[userSort] : undefined },
   name: "friendsList",
 
-  prettifyFn: ({ data }) => data.map(friendData => cloneAndMutateObject(friendData, obj => {
+  formatRawDataFn: ({ data }) => data.map(friendData => cloneAndMutateObject(friendData, obj => {
     obj.created = new Date(obj.created)
   }))
 }))
@@ -154,7 +154,7 @@ export const friendsCount = addApiMethod(async (
   method: "GET",
   name: "friendsCount",
 
-  prettifyFn: ({ count }) => count
+  formatRawDataFn: ({ count }) => count
 }))
 
 /**
@@ -178,7 +178,7 @@ export const findFriends = addApiMethod(async (
   searchParams: { userSort: userSort ? userSortNameToId[userSort] : undefined, limit, cursor },
   name: "findFriends",
 
-  prettifyFn: ({ PageItems:pageItems }) => pageItems,
+  formatRawDataFn: ({ PageItems:pageItems }) => pageItems,
 
   getCursorsFn: ({ PreviousCursor:previousCursor, NextCursor:nextCursor }) => [ previousCursor, nextCursor ]
 }))
@@ -201,7 +201,7 @@ export const inactiveFriends = addApiMethod(async (
   path: `/v1/users/${userId}/friends/inactive`,
   name: `inactiveFriends`,
 
-  prettifyFn: ({ data }) => data.map(inactiveFriend => cloneAndMutateObject(inactiveFriend, obj => obj.created = new Date(obj.created))) 
+  formatRawDataFn: ({ data }) => data.map(inactiveFriend => cloneAndMutateObject(inactiveFriend, obj => obj.created = new Date(obj.created))) 
 }))
 
 
@@ -224,7 +224,7 @@ export const onlineFriends = addApiMethod(async (
   searchParams: { userSort: userSort ? userSortNameToId[userSort] : undefined },
   name: `onlineFriends`,
 
-  prettifyFn: ({ data }) => data.map(onlineFriend => cloneAndMutateObject(onlineFriend, ({ userPresence }) => {
+  formatRawDataFn: ({ data }) => data.map(onlineFriend => cloneAndMutateObject(onlineFriend, ({ userPresence }) => {
     (userPresence as any).userPresenceType = (userPresence as any).UserPresenceType;
     delete (userPresence as any).UserPresenceType;
 
@@ -259,7 +259,7 @@ export const friendsSearch = addApiMethod(async (
   searchParams: { query, userSort: userSort ? userSortNameToId[userSort] : undefined, limit, cursor },
   name: `friendsSearch`,
 
-  prettifyFn: ({ PageItems }) => PageItems,
+  formatRawDataFn: ({ PageItems }) => PageItems,
 
   getCursorsFn: ({ PreviousCursor, NextCursor }) => [ PreviousCursor, NextCursor ]
 }))
@@ -285,7 +285,7 @@ export const friendsStatuses = addApiMethod(async <RelatedUserId extends Identif
   searchParams: { userIds: relatedUserIds },
   name: `friendsStatuses`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", ({ status }) => status)
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", ({ status }) => status)
 }))
 
 
@@ -303,7 +303,7 @@ export const authenticatedUserDeclineAllFriendRequests = addApiMethod(async (
   path: `/v1/user/friend-requests/decline-all`,
   name: `authenticatedUserDeclineAllFriendRequests`,
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -324,7 +324,7 @@ export const authenticatedUserAcceptFriendRequest = addApiMethod(async (
   path: `/v1/users/${userId}/accept-friend-request`,
   name: `authenticatedUserAcceptFriendRequest`,
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -345,7 +345,7 @@ export const authenticatedUserDeclineFriendRequest = addApiMethod(async (
   path: `/v1/users/${requesterUserId}/decline-friend-request`,
   name: `authenticatedUserAcceptFriendRequest`,
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -389,7 +389,7 @@ export const authenticatedUserUnfriend = addApiMethod(async (
   path: `/v1/users/${userId}/unfriend`,
   name: `authenticatedUserUnfriend`,
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -417,7 +417,7 @@ export const userFollowers = addApiMethod(async (
   searchParams: { limit, sortOrder, cursor },
   name: "userFollowers",
 
-  prettifyFn: ({ data }) => data.map(follower => cloneAndMutateObject(follower, obj => obj.created = new Date(obj.created)))
+  formatRawDataFn: ({ data }) => data.map(follower => cloneAndMutateObject(follower, obj => obj.created = new Date(obj.created)))
 }))
 
 
@@ -438,7 +438,7 @@ export const userFollowersCount = addApiMethod(async (
   method: "GET",
   name: "userFollowersCount",
 
-  prettifyFn: ({ count }) => count
+  formatRawDataFn: ({ count }) => count
 }))
 
 
@@ -483,7 +483,7 @@ export const userFollowingsCount = addApiMethod(async (
   path: `/v1/users/${userId}/followings/count`,
   name: `userFollowingsCount`,
 
-  prettifyFn: ({ count }) => count
+  formatRawDataFn: ({ count }) => count
 }))
 
 /**
@@ -504,6 +504,6 @@ export const authenticatedUserFollowingsExist = addApiMethod(async <UserId exten
   body: { targetUserIds: userIds },
   name: `authenticatedUserFollowingsExist`,
 
-  prettifyFn: ({ followings }) => createObjectMapByKeyWithMiddleware(followings, "userId", ({ userId, ...rest }) => ({ ...rest }))
+  formatRawDataFn: ({ followings }) => createObjectMapByKeyWithMiddleware(followings, "userId", ({ userId, ...rest }) => ({ ...rest }))
 }))
 //////////////////////////////////////////////////////////////////////////////////

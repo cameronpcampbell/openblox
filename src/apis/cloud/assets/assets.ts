@@ -7,13 +7,13 @@ import { createApiGroup } from "../../apiGroup"
 import type { ApiMethod } from "../../apiGroup"
 import type { Asset, AssetField, AssetFileName, AssetOfVersionData, AssetPreview, AssetType, PrettifiedAsset, PrettifiedAssetVersionsData, PrettifiedLongRunningAssetData, RawAsset, RawAssetVersionsData, RawLongRunningAssetData } from "./assets.types"
 import { Falsey, ObjectEither, ObjectPrettify, Identifier } from "typeforge"
-import { cloneAndMutateObject } from "../../../utils/utils"
+import { cloneAndMutateObject, formDataBuilder } from "../../../utils/utils"
 import { readFile } from "../../../file"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "Assets", baseUrl: "https://apis.roblox.com/assets" })
+const addApiMethod = createApiGroup({ name: "Assets", baseUrl: "https://apis.roblox.com/assets" })
 
 const assetsDefaultFields = "assetType,assetId,creationContext,description,displayName,path,revisionId,revisionCreateTime,moderationResult,icon,previews,state"
 //////////////////////////////////////////////////////////////////////////////////
@@ -35,7 +35,9 @@ const prettifyLongRunningAssetData = (rawData: any) => {
   }
 }
 
-const formDataWithAssetFile = async (assetType: AssetType, file: string | Buffer, fileName: string | Falsey) => {
+const formDataWithAssetFile = async (
+  formData: FormData, assetType: AssetType, file: string | Buffer, fileName: string | Falsey
+) => {
   const rawAssetType =
     assetType == "Audio" ? "auto" :
     assetType == "Decal" ? "image" :
@@ -47,7 +49,6 @@ const formDataWithAssetFile = async (assetType: AssetType, file: string | Buffer
   const extension = /.+\.(.+)/.exec((fileIsBuffer ? fileName : file) as string)?.[1]
   const typeExtension = extension == "mp3" ? "mpeg" : extension
 
-  const formData = new FormData()
   formData.append(
     'fileContent', new Blob([fileIsBuffer ? file : await readFile(file)],
     { type: `${rawAssetType}/${typeExtension}` }), `${rawAssetType}.${extension}`
@@ -77,7 +78,7 @@ export const assetInfo = addApiMethod(async <AssetId extends Identifier, Field e
   searchParams: { readMask: fields || assetsDefaultFields },
   name: `assetInfo`,
 
-  prettifyFn: prettifyAssetData as any
+  formatRawDataFn: prettifyAssetData as any
 }))
 
 
@@ -123,18 +124,27 @@ export const createAsset = addApiMethod(async <
   method: "POST",
   path: `/v1/assets`,
   name: `createAsset`,
+  formData: await formDataWithAssetFile(
+    formDataBuilder()
+      .append("request", JSON.stringify({
+        displayName, description, assetType, previews,
+        creationContext: { creator: userId ? { userId } : { groupId }, expectedPrice },
+      })),
+    assetType, file, fileName
+  ),
 
-  formData: {
+  formatRawDataFn: prettifyLongRunningAssetData
+}))
+
+
+/*
+{
     request: {
       displayName, description, assetType, previews,
       creationContext: { creator: userId ? { userId } : { groupId }, expectedPrice },
     }
-  },
-  rawFormData: await formDataWithAssetFile(assetType, file, fileName),
-
-  prettifyFn: prettifyLongRunningAssetData
-}))
-
+  }
+*/
 
 
 /**
@@ -180,15 +190,22 @@ export const updateAsset = addApiMethod(async <
   path: `/v1/assets/${assetId}`,
   name: `updateAsset`,
 
-  formData: {
-    request: {
-      assetId, displayName, description, previews,
-      creationContext: expectedPrice ? { expectedPrice } : undefined
-    }
-  },
-  rawFormData: (assetType && file) ? await formDataWithAssetFile(assetType, file, fileName) : undefined,
+  formData: (assetType && file)
+    ? await formDataWithAssetFile(
+      formDataBuilder()
+        .append("request", JSON.stringify({
+          assetId, displayName, description, previews,
+          creationContext: expectedPrice ? { expectedPrice } : undefined
+        })),
+      assetType, file, fileName
+    )
+    : formDataBuilder()
+      .append("request", JSON.stringify({
+        assetId, displayName, description, previews,
+        creationContext: expectedPrice ? { expectedPrice } : undefined
+      })),
 
-  prettifyFn: prettifyLongRunningAssetData
+  formatRawDataFn: prettifyLongRunningAssetData
 }))
 
 
@@ -232,7 +249,7 @@ export const assetVersions = addApiMethod(async <AssetId extends Identifier>(
   searchParams: { maxPageSize: limit, pageToken: cursor },
   name: `assetVersions`,
 
-  prettifyFn: ({ assetVersions }) => assetVersions
+  formatRawDataFn: ({ assetVersions }) => assetVersions
 }))
 
 

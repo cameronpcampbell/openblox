@@ -13,7 +13,7 @@ import { cloneAndMutateObject, dataIsSuccess } from "../../../utils/utils"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "Users", baseUrl: "https://apis.roblox.com/cloud" })
+const addApiMethod = createApiGroup({ name: "Users", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -56,7 +56,7 @@ export const groupInfo = addApiMethod(async <GroupId extends Identifier>(
   method: "GET",
   name: "groupInfo",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => {
     obj.createTime = new Date(obj.createTime)
     obj.updateTime = new Date(obj.updateTime)
   })
@@ -98,7 +98,7 @@ export const groupMembers = addApiMethod(async <
   },
   name: "groupMembers",
 
-  prettifyFn: ({ groupMemberships }) => groupMemberships.map(member => cloneAndMutateObject(member, obj => {
+  formatRawDataFn: ({ groupMemberships }) => groupMemberships.map(member => cloneAndMutateObject(member, obj => {
     obj.createTime = new Date(obj.createTime)
     obj.updateTime = new Date(obj.updateTime)
   })),
@@ -128,7 +128,7 @@ export const groupRoles = addApiMethod(async <GroupId extends Identifier>(
   searchParams: { maxPageSize: limit, pageToken: cursor },
   name: "groupRoles",
 
-  prettifyFn: ({ groupRoles }) => groupRoles.map(role => cloneAndMutateObject(role, obj => {
+  formatRawDataFn: ({ groupRoles }) => groupRoles.map(role => cloneAndMutateObject(role, obj => {
     obj.createTime = new Date(obj.createTime)
     obj.updateTime = new Date(obj.updateTime)
   })),
@@ -156,7 +156,7 @@ export const groupShout = addApiMethod(async <GroupId extends Identifier>(
   method: "GET",
   name: "groupShout",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => {
     obj.createTime = new Date(obj.createTime)
     obj.updateTime = new Date(obj.updateTime)
   })
@@ -185,7 +185,7 @@ export const groupJoinRequests = addApiMethod(async <GroupId extends Identifier>
   searchParams: { maxPageSize: limit, pageToken: cursor, filter: userIdFilter && `user == 'users/${userIdFilter}'` },
   name: "groupJoinRequests",
 
-  prettifyFn: ({ groupJoinRequests }) => groupJoinRequests.map(request => cloneAndMutateObject(request, obj => {
+  formatRawDataFn: ({ groupJoinRequests }) => groupJoinRequests.map(request => cloneAndMutateObject(request, obj => {
     obj.createTime = new Date(obj.createTime)
   })),
 
@@ -212,7 +212,7 @@ export const acceptGroupJoinRequest = addApiMethod(async (
   body: {},
   name: "acceptGroupJoinRequest",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -235,5 +235,5 @@ export const declineGroupJoinRequest = addApiMethod(async (
   body: {},
   name: "declineGroupJoinRequest",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))

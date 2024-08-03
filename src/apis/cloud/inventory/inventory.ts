@@ -12,7 +12,7 @@ import { UnionPrettify } from "typeforge"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "Inventory", baseUrl: "https://apis.roblox.com/cloud" })
+const addApiMethod = createApiGroup({ name: "Inventory", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -50,7 +50,7 @@ export const inventoryItemsForUser = addApiMethod(async (
   searchParams: { maxPageSize: limit, filter: filter && formatInventoryItemsForUserFilters(filter), pageToken: cursor },
   name: "inventoryItemsForUser",
 
-  prettifyFn: ({ inventoryItems }) => inventoryItems,
+  formatRawDataFn: ({ inventoryItems }) => inventoryItems,
 
   getCursorsFn: ({ nextPageToken }) => [ null, nextPageToken ]
 }))

@@ -11,7 +11,7 @@ import { UserInfoData } from "./oauth.types"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "OAuth", baseUrl: "https://apis.roblox.com/oauth" })
+const addApiMethod = createApiGroup({ name: "OAuth", baseUrl: "https://apis.roblox.com/oauth" })
 //////////////////////////////////////////////////////////////////////////////////
 
 

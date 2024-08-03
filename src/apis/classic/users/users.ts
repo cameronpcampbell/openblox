@@ -14,7 +14,7 @@ import type { AuthenticatedUserInfoData, PrettifiedAuthenticatedUserAgeBracketDa
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicUsers", baseUrl: "https://users.roblox.com" })
+const addApiMethod = createApiGroup({ name: "ClassicUsers", baseUrl: "https://users.roblox.com" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -35,7 +35,7 @@ export const authenticatedUserBirthdate = addApiMethod(async  (
   method: "GET",
   name: "authenticatedUserBirthdate",
 
-  prettifyFn: (rawData) => new Date(rawData.birthYear, rawData.birthMonth - 1, rawData.birthDay)
+  formatRawDataFn: (rawData) => new Date(rawData.birthYear, rawData.birthMonth - 1, rawData.birthDay)
 }))
 
 /**
@@ -54,7 +54,7 @@ export const authenticatedUserDescription = addApiMethod(async  (
   method: "GET",
   name: "authenticatedUserDescription",
 
-  prettifyFn: (rawData) => rawData.description
+  formatRawDataFn: (rawData) => rawData.description
 }))
 
 /**
@@ -73,7 +73,7 @@ export const authenticatedUserGender = addApiMethod(async (
   method: "GET",
   name: "authenticatedUserGender",
 
-  prettifyFn: ({ gender }) => gender == 3 ? "Female" : gender == 2 ? "Male" : "Unset"
+  formatRawDataFn: ({ gender }) => gender == 3 ? "Female" : gender == 2 ? "Male" : "Unset"
 }))
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -100,7 +100,7 @@ export const validateDisplayNameForNewUser = addApiMethod(async  (
   searchParams: { displayName, birthdate: birthdate instanceof Date ? birthdate.toISOString() : birthdate },
   name: "validateDisplayNameForNewUser",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 /**
@@ -124,7 +124,7 @@ export const validateDisplayNameForExistingUser = addApiMethod(async  (
   searchParams: { displayName },
   name: "validateDisplayNameForExistingUser",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 /**
@@ -148,7 +148,7 @@ export const authenticatedUserSetDisplayName = addApiMethod(async  (
   body: { newDisplayName },
   name: "authenticatedUserSetDisplayName",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -172,11 +172,7 @@ export const userInfo = addApiMethod(async  <UserId extends Identifier>(
   method: "GET",
   name: "userInfo",
 
-  prettifyFn: (rawData) => (
-    cloneAndMutateObject<RawUserInfoData<UserId>, PrettifiedUserInfoData<UserId>>(
-      rawData, obj => obj.created = new Date(obj.created)
-    )
-  )
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.created = new Date(obj.created))
 }))
 
 /**
@@ -212,7 +208,7 @@ export const authenticatedUserAgeBracket = addApiMethod(async  (
   method: "GET",
   name: "authenticatedUserAgeBracket",
 
-  prettifyFn: ({ ageBracket }) => ageBracket == 0 ? "13+" : "<13"
+  formatRawDataFn: ({ ageBracket }) => ageBracket == 0 ? "13+" : "<13"
 }))
 
 
@@ -232,7 +228,7 @@ export const authenticatedUserCountryCode = addApiMethod(async  (
   method: "GET",
   name: "authenticatedUserCountryCode",
 
-  prettifyFn: ({ countryCode }) => countryCode
+  formatRawDataFn: ({ countryCode }) => countryCode
 }))
 
 /**
@@ -251,7 +247,7 @@ export const authenticatedUserRoles = addApiMethod(async  (
   method: "GET",
   name: "authenticatedUserRoles",
 
-  prettifyFn: ({ roles }) => roles
+  formatRawDataFn: ({ roles }) => roles
 }))
 
 /**
@@ -274,7 +270,7 @@ export const usersInfoFromNames = addApiMethod(async <Username extends string>(
   body: { usernames, excludeBannedUsers },
   name: "usernamesToUsersInfo",
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware(
     data, "requestedUsername",
     ({ hasVerifiedBadge, id, name, displayName }) => ({ hasVerifiedBadge, id, name, displayName })
   )
@@ -300,7 +296,7 @@ export const usersInfoFromIds = addApiMethod(async <UserId extends Identifier>(
   body: { userIds, excludeBannedUsers },
   name: "userIdsToUsersInfo",
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware(
     data, "id",
     ({ hasVerifiedBadge, name, displayName }) => ({ hasVerifiedBadge, name, displayName })
   )
@@ -333,7 +329,7 @@ export const usernameHistory = addApiMethod(async (
   searchParams: { limit, sortOrder, cursor },
   name: "usernameHistory",
 
-  prettifyFn: ({ data }) => data.map(({ name }) => name)
+  formatRawDataFn: ({ data }) => data.map(({ name }) => name)
 }))
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -362,6 +358,6 @@ export const userSearch = addApiMethod(async (
   searchParams: { keyword, limit, cursor },
   name: "userSearch",
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 //////////////////////////////////////////////////////////////////////////////////

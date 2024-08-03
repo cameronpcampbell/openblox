@@ -12,7 +12,7 @@ import type { OrderedDatastoreEntry, PrettifiedListOrderedDatastoreEntriesData, 
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "OrderedDatastores_V1", baseUrl: "https://apis.roblox.com/ordered-data-stores" })
+const addApiMethod = createApiGroup({ name: "OrderedDatastores_V1", baseUrl: "https://apis.roblox.com/ordered-data-stores" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -51,7 +51,7 @@ export const listOrderedDatastoreEntries = addApiMethod(async <UniverseId extend
   searchParams: { max_page_size: maxPageSize, page_token: cursor, order_by: orderBy, filter },
   name: `listOrderedDatastoreEntries`,
 
-  prettifyFn: ({ entries }) => entries,
+  formatRawDataFn: ({ entries }) => entries,
 
   getCursorsFn: (rawData) => [ null, rawData.nextPageToken ]
 }))
@@ -144,7 +144,7 @@ export const deleteOrderedDatastoreEntry = addApiMethod(async (
   path: `/v1/universes/${universeId}/orderedDataStores/${orderedDataStore}/scopes/${scope}/entries/${id}`,
   name: `deleteOrderedDatastoreEntry`,
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 

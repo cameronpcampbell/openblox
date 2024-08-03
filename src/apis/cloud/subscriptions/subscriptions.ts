@@ -12,7 +12,7 @@ import { cloneAndMutateObject } from "../../../utils/utils"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "Inventory", baseUrl: "https://apis.roblox.com/cloud" })
+const addApiMethod = createApiGroup({ name: "Inventory", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -45,7 +45,7 @@ export const subscriptionInfo = addApiMethod(async <
   method: "GET",
   name: "inventoryItemsForUser",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => {
     const { createTime, updateTime, lastBillingTime, nextRenewTime, expireTime } = obj
     if (createTime) obj.createTime = new Date(createTime);
     if (updateTime) obj.updateTime = new Date(updateTime);

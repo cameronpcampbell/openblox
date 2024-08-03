@@ -39,7 +39,26 @@ export type PrettifiedGamePassInfo<GamePassId extends Identifier> = KeysToCamelC
 
 
 // GET /v1/game-passes/universes/${universeId}/creator ---------------------------------------------------------------
-export type PrettifiedGamePassesForUniverse = {
-  
+export type PrettifiedGamePassesForUniverseData = {
+  gamePassId: Identifier,
+  name: string,
+  description: string,
+  isForSale: boolean,
+  iconAssetId: Identifier,
+  placeId: Identifier,
+  createdTimestamp: ISODateTime,
+  updatedTimestamp: ISODateTime,
+  priceInformation: {
+    defaultPriceInRobux: number,
+    isInActivePriceOptimizationExperiment: boolean,
+    isInActiveDiscountCampaign: boolean,
+    discountPercentage: number,
+  },
+  productId: Identifier
+}[]
+
+export type RawGamePassesForUniverseData = {
+  gamePasses: PrettifiedGamePassesForUniverseData,
+  cursor: string | null
 }
 // -------------------------------------------------------------------------------------------------------------------

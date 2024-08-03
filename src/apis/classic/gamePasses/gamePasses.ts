@@ -1,18 +1,19 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
-import { toCamel, cloneAndMutateObject } from "../../../utils/utils"
+import { toCamel, cloneAndMutateObject, removeNullUndefined, formDataBuilder } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
-import { PrettifiedGamePassInfo, RawGamePassInfo } from "./gamePasses.types"
+import { PrettifiedGamePassesForUniverseData, PrettifiedGamePassInfo, RawGamePassesForUniverseData, RawGamePassInfo } from "./gamePasses.types"
 import { Identifier } from "typeforge"
+import { readFile } from "../../../file"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicGamePasses", baseUrl: "https://apis.roblox.com/game-passes" })
+const addApiMethod = createApiGroup({ name: "ClassicGamePasses", baseUrl: "https://apis.roblox.com/game-passes" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -37,8 +38,102 @@ export const gamePassInfo = addApiMethod(async <GamePassId extends Identifier>(
   path: `/v1/game-passes/${gamePassId}/product-info`,
   name: `gamePassInfo`,
 
-  prettifyFn: rawData => cloneAndMutateObject(toCamel(rawData), obj => {
+  formatRawDataFn: rawData => cloneAndMutateObject(toCamel(rawData), obj => {
     obj.created = new Date(obj.created)
     obj.updated = new Date(obj.updated)
   })
+}))
+
+
+/**
+ * Gets game passes for a particular universe. 
+ * @endpoint GET /v1/game-passes/universes/{universeId}/creator
+ * 
+ * @param universeId The ID of the universe to get game passes for.
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
+ * 
+ * @example const { data:gamePasses } = await ClassicGamePassesApi.gamePassesForUniverse({ universeId: 1685831367, limit: 1 })
+ * @exampleData [{"gamePassId":11546631,"name":"Donate Pluss","description":"nulll","isForSale":true,"iconAssetId":18759297002,"placeId":4922741943,"createdTimestamp":"2020-09-01T00:15:17.79Z","updatedTimestamp":"2024-08-02T00:43:10.541Z","priceInformation":{"defaultPriceInRobux":250,"isInActivePriceOptimizationExperiment":false,"isInActiveDiscountCampaign":false,"discountPercentage":0},"productId":1084063256}]
+ * @exampleRawBody {"gamePasses":[{"gamePassId":11546631,"name":"Donate Pluss","description":"nulll","isForSale":true,"iconAssetId":18759297002,"placeId":4922741943,"createdTimestamp":"2020-09-01T00:15:17.79Z","updatedTimestamp":"2024-08-02T00:43:10.541Z","priceInformation":{"defaultPriceInRobux":250,"isInActivePriceOptimizationExperiment":false,"isInActiveDiscountCampaign":false,"discountPercentage":0},"productId":1084063256}],"cursor":"id_2zwAAAXRHBJkezgCwMAc"}
+ */
+export const gamePassesForUniverse = addApiMethod(async (
+  { universeId, limit = 10, cursor }: { universeId: Identifier, limit?: number, cursor?: string }
+): ApiMethod<RawGamePassesForUniverseData, PrettifiedGamePassesForUniverseData> => ({
+  method: "GET",
+  path: `/v1/game-passes/universes/${universeId}/creator`,
+  searchParams: { count: limit, cursor },
+  name: `gamePassesForUniverse`,
+  
+  formatRawDataFn: ({ gamePasses }) => gamePasses,
+
+  getCursorsFn: ({ cursor }) => [ null, cursor ]
+}))
+
+
+/**
+ * Updates a game pass.
+ * @endpoint POST /v1/game-passes/{gamePassId}/details
+ * 
+ * @param gamePassId The ID of the game pass to update.
+ * @param name The new name for the game pass.
+ * @param description The new description for the game pass.
+ * @param icon The new icon for the game pass.
+ * 
+ * @example const { data:success } = await ClassicGamePassesApi.updateGamePass({ gamePassId: 9260480, name: "Donate", icon: "./gamePassIcon.png" })
+ * @exampleData true
+ * @exampleRawBody ""
+ */
+export const updateGamePass = addApiMethod(async (
+  { gamePassId, name, description, icon }: { gamePassId: Identifier, name?: string, description?: string, icon?: string | File }
+): ApiMethod<"", boolean> => ({
+  method: "POST",
+  path: `/v1/game-passes/${gamePassId}/details`,
+  formData: formDataBuilder()
+    .append("Name", name)
+    .append("Description", description)
+    .append("File", typeof icon == "string" ? new File([ new Blob([ await readFile(icon) ]) ], "File") : icon),
+  name: `updateGamePass`,
+
+  formatRawDataFn: rawData => rawData === ""
+}))
+
+
+/*
+
+removeNullUndefined({
+    Name: name,
+    Description: description,
+    File: typeof icon == "string" ? new File([ new Blob([ await readFile(icon) ]) ], "File") : icon
+  })
+*/
+
+/**
+ * Creates a game pass.
+ * @endpoint POST /v1/game-passes
+ * 
+ * @param universeId The ID of the universe to get a game pass in.
+ * @param name The name for the game pass.
+ * @param description The description for the game pass.
+ * @param icon The icon for the game pass.
+ * 
+ * @example const { data:gamePassId } = await ClassicGamePassesApi.createGamePass({
+ *  universeId: 1685831367, name: "My Pass", description: "Lorem Ipsum..."
+ * })
+ * @exampleData 810182288
+ * @exampleRawBody {"gamePassId":810182288}
+ */
+export const createGamePass = addApiMethod(async (
+  { universeId, name, description, icon }: { universeId: Identifier, name: string, description: string, icon?: string | File }
+): ApiMethod<{ gamePassId: Identifier }, Identifier> => ({
+  method: "POST",
+  path: `/v1/game-passes`,
+  formData: formDataBuilder()
+    .append("UniverseId", universeId.toString())
+    .append("Name", name)
+    .append("Description", description)
+    .append("File", typeof icon == "string" ? new File([ new Blob([ await readFile(icon) ]) ], "File") : icon),
+  name: `createGamePass`,
+
+  formatRawDataFn: ({ gamePassId }) => gamePassId
 }))

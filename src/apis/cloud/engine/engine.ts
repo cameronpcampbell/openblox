@@ -12,7 +12,7 @@ import type { Identifier } from "typeforge"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "Engine", baseUrl: "https://apis.roblox.com/cloud" })
+const addApiMethod = createApiGroup({ name: "Engine", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -35,7 +35,7 @@ export const instanceInfo = addApiMethod(async <UniverseId extends Identifier, P
   path: `/v2/universes/${universeId}/places/${placeId}/instances/${instanceId}`,
   name: `instanceInfo`,
 
-  prettifyFn: (rawData) => {
+  formatRawDataFn: (rawData) => {
     const response = rawData.response
     if (!response) return rawData
 
@@ -74,7 +74,7 @@ export const instanceChildren = addApiMethod(async <UniverseId extends Identifie
     return [ null, response.nextPageToken ]
   },
 
-  prettifyFn: (rawData) => {
+  formatRawDataFn: (rawData) => {
     const response = rawData.response
     if (!response) return rawData
 
@@ -122,7 +122,7 @@ export const updateInstance = addApiMethod(async <UniverseId extends Identifier,
     applyFieldMask: true,
     name: `updateInstance`,
 
-    prettifyFn: (rawData) => {
+    formatRawDataFn: (rawData) => {
       const response = rawData.response
       if (!response) return rawData
   

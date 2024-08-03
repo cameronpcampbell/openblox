@@ -13,7 +13,7 @@ import { ArrayNonEmpty, ISODateTime, IsUnion, ObjectEither, UnionToArray } from 
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicVirtualEventsApi", baseUrl: "https://apis.roblox.com/virtual-events" })
+const addApiMethod = createApiGroup({ name: "ClassicVirtualEventsApi", baseUrl: "https://apis.roblox.com/virtual-events" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -48,7 +48,7 @@ export const eventInfo = addApiMethod(async <EventId extends Identifier>(
   method: "GET",
   name: "eventInfo",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, prettifyEvent as any)
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, prettifyEvent as any)
 }))
 
 
@@ -107,7 +107,7 @@ export const createEvent = addApiMethod(async <
     thumbnails: thumbnailIds ? thumbnailIds.map((mediaId, rank) => ({ mediaId, rank })) : undefined
   },
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, prettifyEvent as any)
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, prettifyEvent as any)
 }))
 
 /**
@@ -191,7 +191,7 @@ export const publishEvent = addApiMethod(async (
   name: `publishEvent`,
   body: { eventStatus: "active" },
 
-  prettifyFn: ({ isUpdated }) => isUpdated
+  formatRawDataFn: ({ isUpdated }) => isUpdated
 }))
 
 
@@ -213,7 +213,7 @@ export const eventRsvps = addApiMethod(async (
   searchParams: { limit, cursor },
   name: `eventRsvpCounters`,
 
-  prettifyFn: ({ data }) => data 
+  formatRawDataFn: ({ data }) => data 
 }))
 
 
@@ -234,7 +234,7 @@ export const eventRsvpCounters = addApiMethod(async (
   path: `/v1/virtual-events/${eventId}/rsvps/counters`,
   name: `eventRsvpCounters`,
 
-  prettifyFn: ({ counters }) => counters 
+  formatRawDataFn: ({ counters }) => counters 
 }))
 
 
@@ -288,5 +288,5 @@ export const authenticatedUserEvents = addApiMethod(async <GroupId extends Ident
   searchParams: { groupId, filterBy, sortOrder, sortBy, fromUtc, limit, cursor },
   name: `authenticatedUserEvents`,
 
-  prettifyFn: ({ data }) => data.map(event => cloneAndMutateObject(event, prettifyEvent as any))
+  formatRawDataFn: ({ data }) => data.map(event => cloneAndMutateObject(event, prettifyEvent as any))
 }))

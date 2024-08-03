@@ -1,6 +1,6 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
-import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware, dataIsSuccess, toCamel, toPascal } from "../../../utils/utils"
+import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware, dataIsSuccess, formDataBuilder, toCamel, toPascal } from "../../../utils/utils"
 import { readFile } from "../../../file"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -15,7 +15,7 @@ import type { ArrayNonEmptyIfConst, SortOrder } from "../../../utils/utils.types
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicGroups", baseUrl: "https://groups.roblox.com" })
+const addApiMethod = createApiGroup({ name: "ClassicGroups", baseUrl: "https://groups.roblox.com" })
 /////////////////////////////////////////////////////////////////////////////////
 
 
@@ -38,7 +38,7 @@ export const featuredEvent = addApiMethod(async <GroupId extends Identifier>(
   searchParams: { groupId },
   name: `featuredEvent`,
 
-  prettifyFn: ({ contentId }) => contentId
+  formatRawDataFn: ({ contentId }) => contentId
 }))
 
 
@@ -61,7 +61,7 @@ export const setFeaturedEvent = addApiMethod(async <GroupId extends Identifier, 
   searchParams: { groupId, eventId },
   name: `setFeaturedEvent`,
 
-  prettifyFn: ({ contentId }) => contentId as any
+  formatRawDataFn: ({ contentId }) => contentId as any
 }))
 
 /**
@@ -83,7 +83,7 @@ export const removeFeaturedEvent = addApiMethod(async <GroupId extends Identifie
   searchParams: { groupId, eventId },
   name: `removeFeaturedEvent`,
 
-  prettifyFn: rawData => rawData === ""
+  formatRawDataFn: rawData => rawData === ""
 }))
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -108,7 +108,7 @@ export const groupInfo = addApiMethod(async <GroupId extends Identifier>(
   path: `/v1/groups/${groupId}`,
   name: "universeIdFromPlaceId",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => {
     if (!obj?.shout) return
     obj.shout.created = new Date(obj.shout.created); obj.shout.updated = new Date(obj.shout.updated)
   })
@@ -141,7 +141,7 @@ export const groupAuditLog = addApiMethod(async (
   searchParams: { actionType, userId, limit, sortOrder, cursor },
   name: "groupAuditLog",
 
-  prettifyFn: ({ data }) => {
+  formatRawDataFn: ({ data }) => {
     let formattedData = toCamel<RawGroupAuditLogData["data"], PrettifiedGroupAuditLogData>(data)
     formattedData.forEach(log => {
       log.actionType = log.actionType.replaceAll(/ +/g, "") as typeof log.actionType
@@ -174,7 +174,7 @@ export const groupNameHistory = addApiMethod(async (
   searchParams: { limit, sortOrder, cursor },
   name: "groupNameHistory",
 
-  prettifyFn: ({ data }) => cloneAndMutateObject(data, obj => {
+  formatRawDataFn: ({ data }) => cloneAndMutateObject(data, obj => {
     obj.forEach(name => {
       name.created = new Date(name.created)
     })
@@ -230,7 +230,7 @@ export const setGroupSettings = addApiMethod(async (
   body: newSettings,
   name: "setGroupSettings",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -290,7 +290,7 @@ export const groupsPolicyInfo = addApiMethod(async <GroupId extends Identifier>(
   body: { groupIds },
   name: "groupsPolicyInfo",
 
-  prettifyFn: ({ groups }) => createObjectMapByKeyWithMiddleware(groups, "groupId", ({ groupId, ...rest }) => ({ ...rest }))
+  formatRawDataFn: ({ groups }) => createObjectMapByKeyWithMiddleware(groups, "groupId", ({ groupId, ...rest }) => ({ ...rest }))
 }))
 
 
@@ -315,7 +315,7 @@ export const setGroupDescription = addApiMethod(async <NewDescription extends st
   body: { description: newDescription },
   name: "setGroupDescription",
 
-  prettifyFn: ({ newDescription }) => newDescription as any
+  formatRawDataFn: ({ newDescription }) => newDescription as any
 }))
 
 
@@ -340,7 +340,7 @@ export const setGroupShout = addApiMethod(async <NewShout extends string>(
   body: { message: newShout },
   name: "setGroupShout",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => {
     obj.created = new Date(obj.created)
     obj.updated = new Date(obj.updated)
   })
@@ -366,10 +366,11 @@ export const setGroupIcon = addApiMethod(async (
   method: "PATCH",
   path: `/v1/groups/icon`,
   searchParams: { groupId },
-  formData: { Files: typeof newIcon == "string" ? new File([ new Blob([ await readFile(newIcon) ]) ], "Files") : newIcon },
+  formData: formDataBuilder()
+    .append("Files", typeof newIcon == "string" ? new File([ new Blob([ await readFile(newIcon) ]) ], "Files") : newIcon),
   name: "setGroupIcon",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -396,7 +397,7 @@ export const batchDeclineGroupJoinRequests = addApiMethod(async (
   body: { UserIds: userIds },
   name: "batchDeclineGroupJoinRequests",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -423,7 +424,7 @@ export const groupJoinRequests = addApiMethod(async (
   searchParams: { limit, sortOrder, cursor },
   name: "groupJoinRequests",
 
-  prettifyFn: ({ data }) => cloneAndMutateObject(data, obj => obj.forEach(request => request.created = new Date(request.created)))
+  formatRawDataFn: ({ data }) => cloneAndMutateObject(data, obj => obj.forEach(request => request.created = new Date(request.created)))
 }))
 
 /**
@@ -447,7 +448,7 @@ export const batchAcceptGroupJoinRequests = addApiMethod(async (
   body: { UserIds: userIds },
   name: "batchAcceptGroupJoinRequests",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -471,7 +472,7 @@ export const declineGroupJoinRequest = addApiMethod(async (
   path: `/v1/groups/${groupId}/join-requests/users/${userId}`,
   name: "declineGroupJoinRequest",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -495,7 +496,7 @@ export const groupJoinRequestInfo = addApiMethod(async <UserId extends Identifie
   path: `/v1/groups/${groupId}/join-requests/users/${userId}`,
   name: "groupJoinRequestInfo",
 
-  prettifyFn: (rawData) => !Object.keys(rawData) ? {} : cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: (rawData) => !Object.keys(rawData) ? {} : cloneAndMutateObject(rawData, obj => {
     (obj as any as UnionToArray<typeof obj>[1]).created = new Date((obj as any as UnionToArray<typeof obj>[1]).created)
   })
 }))
@@ -521,7 +522,7 @@ export const acceptGroupJoinRequest = addApiMethod(async (
   path: `/v1/groups/${groupId}/join-requests/users/${userId}`,
   name: "acceptGroupJoinRequest",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 /**
@@ -562,7 +563,7 @@ export const groupRoles = addApiMethod(async <GroupId extends Identifier>(
   path: `/v1/groups/${groupId}/roles`,
   name: "groupRoles",
 
-  prettifyFn: ({ roles }) => roles
+  formatRawDataFn: ({ roles }) => roles
 }))
 
 
@@ -590,7 +591,7 @@ export const groupMembersWithRole = addApiMethod(async (
   searchParams: { limit, sortOrder, cursor },
   name: "groupMembersWithRole",
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 
 
@@ -617,7 +618,7 @@ export const groupMembers = addApiMethod(async (
   searchParams: { limit, sortOrder, cursor },
   name: "groupMembers",
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 
 
@@ -637,7 +638,7 @@ export const authenticatedUserPendingGroups = addApiMethod(async (
   path: `/v1/user/groups/pending`,
   name: "authenticatedUserPendingGroups",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.forEach(group => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.forEach(group => {
     if (!group.shout) return
     group.shout.created = new Date(group.shout.created)
     group.shout.updated = new Date(group.shout.updated)
@@ -664,7 +665,7 @@ export const groupsThatUsersFriendsAreIn = addApiMethod(async (
   path: `/v1/users/${userId}/friends/groups/roles`,
   name: "groupsThatUsersFriendsAreIn",
 
-  prettifyFn: ({ data }) => cloneAndMutateObject(data, obj => obj.forEach(user => {
+  formatRawDataFn: ({ data }) => cloneAndMutateObject(data, obj => obj.forEach(user => {
     user.groups.forEach(group => {
       if (!group.group.shout) return
       group.group.shout.created = new Date(group.group.shout.created)
@@ -693,7 +694,7 @@ export const allGroupRolesForUser_V1 = addApiMethod(async (
   path: `/v1/users/${userId}/groups/roles`,
   name: "allGroupRolesForUser_V1",
 
-  prettifyFn: ({ data }) => cloneAndMutateObject(data, obj => obj.forEach(group => {
+  formatRawDataFn: ({ data }) => cloneAndMutateObject(data, obj => obj.forEach(group => {
     if (!group.group.shout) return
     group.group.shout.created = new Date(group.group.shout.created)
     group.group.shout.updated = new Date(group.group.shout.updated)
@@ -721,7 +722,7 @@ export const removeGroupMember = addApiMethod(async (
   path: `/v1/groups/${groupId}/users/${userId}`,
   name: "removeGroupMember",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -747,7 +748,7 @@ export const updateGroupMemberRole = addApiMethod(async (
   body: { roleId },
   name: "updateGroupMemberRole",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -793,7 +794,7 @@ export const groupPayoutsInfo = addApiMethod(async (
   path: `/v1/groups/${groupId}/payouts`,
   name: "groupPayoutsInfo",
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -823,7 +824,7 @@ export const groupRelationships = addApiMethod(async <GroupId extends Identifier
   searchParams: { StartRowIndex: startRowIndex, MaxRows: maxRows },
   name: "groupRelationships",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => {
     obj.relatedGroups.forEach(group => {
       if (!group.shout) return
       group.shout.created = new Date(group.shout.created)
@@ -861,7 +862,7 @@ export const batchDeclineGroupRelationshipRequests = addApiMethod(async (
   body: { groupIds },
   name: "batchDeclineGroupRelationshipRequests",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -892,7 +893,7 @@ export const groupRelationshipRequests = addApiMethod(async <GroupId extends Ide
   searchParams: { StartRowIndex: startRowIndex, MaxRows: maxRows },
   name: "groupRelationshipRequests",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => {
     obj.relatedGroups.forEach(group => {
       if (!group.shout) return
       group.shout.created = new Date(group.shout.created)
@@ -930,7 +931,7 @@ export const batchAcceptGroupRelationshipRequests = addApiMethod(async (
   body: { groupIds },
   name: "batchDeclineGroupRelationshipRequests",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -956,7 +957,7 @@ export const removeGroupRelationship = addApiMethod(async (
   path: `/v1/groups/${groupId}/relationships/${groupRelationshipType}/${relatedGroupId}`,
   name: "removeGroupRelationship",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -982,7 +983,7 @@ export const requestGroupRelationship = addApiMethod(async (
   path: `/v1/groups/${groupId}/relationships/${groupRelationshipType}/${relatedGroupId}`,
   name: "requestGroupRelationship",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -1008,7 +1009,7 @@ export const declineGroupRelationshipRequest = addApiMethod(async (
   path: `/v1/groups/${groupId}/relationships/${groupRelationshipType}/requests/${relatedGroupId}`,
   name: "declineGroupRelationshipRequest",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -1034,7 +1035,7 @@ export const acceptGroupRelationshipRequest = addApiMethod(async (
   path: `/v1/groups/${groupId}/relationships/${groupRelationshipType}/requests/${relatedGroupId}`,
   name: "acceptGroupRelationshipRequest",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -1088,7 +1089,7 @@ export const setGroupRolePermissions = addApiMethod(async <GroupId extends Ident
   body: { permissions: toPascal(permissions) },
   name: "setGroupRolePermissions",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -1132,7 +1133,7 @@ export const groupPermissionsForAllRoles = addApiMethod(async <GroupId extends I
   path: `/v1/groups/${groupId}/roles/permissions`,
   name: "groupGuestRolePermissions",
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -1157,7 +1158,7 @@ export const groupSocialLinks = addApiMethod(async (
   path: `/v1/groups/${groupId}/social-links`,
   name: "groupSocialLinks",
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 
 
@@ -1209,7 +1210,7 @@ export const removeGroupSocialLink = addApiMethod(async (
   path: `/v1/groups/${groupId}/social-links/${socialLinkId}`,
   name: "removeGroupSocialLink",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -1237,7 +1238,7 @@ export const updateGroupSocialLink = addApiMethod(async <SocialLinkId extends Id
   method: "PATCH",
   path: `/v1/groups/${groupId}/social-links/${socialLinkId}`,
   body: newSocial,
-  name: "updateGroupSocialLink"
+  name: "updateGroupSocialLink",
 }))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1267,7 +1268,7 @@ export const groupWallPosts_V1 = addApiMethod(async <SocialLinkId extends Identi
   searchParams: { limit, sortOrder, cursor },
   name: "groupWallPosts_V1",
 
-  prettifyFn: ({ data }) => cloneAndMutateObject(data, obj => {
+  formatRawDataFn: ({ data }) => cloneAndMutateObject(data, obj => {
     obj.forEach(wallPost => {
       wallPost.created = new Date(wallPost.created)
       wallPost.updated = new Date(wallPost.updated)
@@ -1315,7 +1316,7 @@ export const removeGroupWallPost = addApiMethod(async (
   path: `/v1/groups/${groupId}/wall/posts/${wallPostId}`,
   name: "removeGroupWallPost",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -1339,7 +1340,7 @@ export const removeAllGroupWallPostsMadeByUser = addApiMethod(async (
   path: `/v1/groups/${groupId}/wall/users/${userId}/posts`,
   name: "removeAllGroupWallPostsMadeByUser",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1368,7 +1369,7 @@ export const groupSearch = addApiMethod(async (
   searchParams: { keyword, prioritizeExactMatch, limit, cursor },
   name: "groupSearch",
 
-  prettifyFn: ({ data }) => cloneAndMutateObject(data, obj => obj.forEach(result => {
+  formatRawDataFn: ({ data }) => cloneAndMutateObject(data, obj => obj.forEach(result => {
     result.created = new Date(result.created)
     result.updated = new Date(result.updated)
   }))
@@ -1394,7 +1395,7 @@ export const groupLookupSearch = addApiMethod(async (
   searchParams: { groupName },
   name: "groupLookupSearch",
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 
 
@@ -1413,7 +1414,7 @@ export const groupSearchMetadata = addApiMethod(async (
   path: `/v1/groups/search/metadata`,
   name: "groupSearchMetadata",
 
-  prettifyFn: (rawData) => toCamel<RawGroupSearchMetadata, PrettifiedGroupSearchMetadata>(rawData)
+  formatRawDataFn: (rawData) => toCamel<RawGroupSearchMetadata, PrettifiedGroupSearchMetadata>(rawData)
 }))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1438,7 +1439,7 @@ export const groupRolesFromIds = addApiMethod(async <RoleId extends Identifier>(
   searchParams: { ids: roleIds },
   name: "groupRolesFromIds",
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", ({ id, ...rest }) => rest)
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", ({ id, ...rest }) => rest)
 }))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1462,7 +1463,7 @@ export const primaryGroupForUser = addApiMethod(async (
   path: `/v1/users/${userId}/groups/primary/role`,
   name: "primaryGroupForUser",
 
-  prettifyFn: (rawData) =>  cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: (rawData) =>  cloneAndMutateObject(rawData, obj => {
     if (!obj.group.shout) return
     obj.group.shout.created = new Date(obj.group.shout.created)
     obj.group.shout.updated = new Date(obj.group.shout.updated)
@@ -1485,7 +1486,7 @@ export const authenticatedUserRemovePrimaryGroup = addApiMethod(async (
   path: `/v1/user/groups/primary`,
   name: "authenticatedUserRemovePrimaryGroup",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 
 
@@ -1508,7 +1509,7 @@ export const authenticatedUserSetPrimaryGroup = addApiMethod(async (
   body: { groupId },
   name: "authenticatedUserSetPrimaryGroup",
 
-  prettifyFn: (rawData) => dataIsSuccess(rawData)
+  formatRawDataFn: (rawData) => dataIsSuccess(rawData)
 }))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1563,7 +1564,7 @@ export const groupIdsToGroupsInfo = addApiMethod(async <GroupId extends Identifi
   searchParams: { groupIds },
   name: "groupIdsToGroupsInfo",
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", ({ id, created, ...rest }) => ({ created: new Date(created), ...rest }))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", ({ id, created, ...rest }) => ({ created: new Date(created), ...rest }))
 }))
 
 
@@ -1586,7 +1587,7 @@ export const allGroupRolesForUser_v2 = addApiMethod(async (
   path: `/v2/users/${userId}/groups/roles`,
   name: "allGroupRolesForUser_v2",
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1615,7 +1616,7 @@ export const groupWallPosts_V2 = addApiMethod(async (
   searchParams: { limit, sortOrder, cursor },
   name: "groupWallPosts_V2",
 
-  prettifyFn: ({ data }) => cloneAndMutateObject(data, obj => obj.forEach(wallPost => {
+  formatRawDataFn: ({ data }) => cloneAndMutateObject(data, obj => obj.forEach(wallPost => {
     wallPost.created = new Date(wallPost.created)
     wallPost.updated = new Date(wallPost.updated)
   }))

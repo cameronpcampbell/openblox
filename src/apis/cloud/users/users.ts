@@ -12,7 +12,7 @@ import { cloneAndMutateObject } from "../../../utils/utils"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "Users", baseUrl: "https://apis.roblox.com/cloud" })
+const addApiMethod = createApiGroup({ name: "Users", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -42,7 +42,7 @@ export const userInfo = addApiMethod(async <UserId extends Identifier>(
   method: "GET",
   name: "userInfo",
 
-  prettifyFn: (rawData) => cloneAndMutateObject<RawUserInfoData<UserId>, PrettifiedUserInfoData<UserId>>(rawData, obj => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject<RawUserInfoData<UserId>, PrettifiedUserInfoData<UserId>>(rawData, obj => {
     const socialNetworkProfiles = obj.socialNetworkProfiles 
     if (socialNetworkProfiles) {
       Object.entries(socialNetworkProfiles).forEach(([ key, value ]) => {

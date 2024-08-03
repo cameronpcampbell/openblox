@@ -38,9 +38,11 @@ export const removeNullUndefined = (obj: Record<any, any>) => Object.entries(obj
  * Simple object check.
  * @param item
  */
-export function isObject(item: any) {
+/*export function isObject(item: any) {
   return (item && typeof item === 'object' && !Array.isArray(item));
-}
+}*/
+
+export const isObject = (maybeObject: any) => maybeObject?.constructor === Object
 
 /**
  * Deep merge two objects.
@@ -127,3 +129,25 @@ export const toPascal = (obj: Record<any, any>) => {
     {},
   );
 };
+
+export const isArrayOrObj = (x: any) => isObject(x) || Array.isArray(x)
+
+
+
+type FormDataBuilder = Omit<FormData, "append"> & { append: (name: string, value: string | Blob | undefined) => FormDataBuilder }
+
+export const formDataBuilder = () => {
+  const formData = new FormData() as FormDataBuilder
+  const oldAppend = formData.append.bind(formData)
+  
+  const append = (name: string, value: string | Blob | undefined) => {
+    if (!value) return formData
+    oldAppend(name, value as string | Blob)
+
+    return formData
+  }
+
+  formData.append = append
+
+  return formData
+}

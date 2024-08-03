@@ -13,7 +13,7 @@ import { ArrayNonEmpty, ISODateTime, IsUnion, ObjectEither, UnionToArray } from 
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicBadgesApi", baseUrl: "https://badges.roblox.com" })
+const addApiMethod = createApiGroup({ name: "ClassicBadgesApi", baseUrl: "https://badges.roblox.com" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -39,7 +39,7 @@ export const badgeInfo = addApiMethod(async <BadgeId extends Identifier>(
   path: `/v1/badges/${badgeId}`,
   name: `badgeInfo`,
 
-  prettifyFn: rawData => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: rawData => cloneAndMutateObject(rawData, obj => {
     obj.created = new Date(obj.created)
     obj.updated = new Date(obj.updated)
   })
@@ -67,7 +67,7 @@ export const updateBadge = addApiMethod(async (
   name: `updateBadge`,
   body: { name, description, enabled },
 
-  prettifyFn: rawData => dataIsSuccess(rawData)
+  formatRawDataFn: rawData => dataIsSuccess(rawData)
 }))
 
 
@@ -108,7 +108,7 @@ export const badgesForUniverse = addApiMethod(async <UniverseId extends Identifi
   searchParams: { limit, sortOrder, cursor },
   name: `badgesForUniverse`,
 
-  prettifyFn: ({ data }) => data.map(badgeInfo => cloneAndMutateObject(badgeInfo, obj => {
+  formatRawDataFn: ({ data }) => data.map(badgeInfo => cloneAndMutateObject(badgeInfo, obj => {
     obj.created = new Date(obj.created)
     obj.updated = new Date(obj.updated)
   }))
@@ -155,7 +155,7 @@ export const userBadges = addApiMethod(async (
   searchParams: { limit, sortOrder, cursor },
   name: `userBadges`,
 
-  prettifyFn: ({ data }) => data.map(badgeInfo => cloneAndMutateObject(badgeInfo, obj => {
+  formatRawDataFn: ({ data }) => data.map(badgeInfo => cloneAndMutateObject(badgeInfo, obj => {
     obj.created = new Date(obj.created)
     obj.updated = new Date(obj.updated)
   }))
@@ -183,7 +183,7 @@ export const badgeAwardedDateForUser = addApiMethod(async <BadgeId extends Ident
   path: `/v1/users/${userId}/badges/${badgeId}/awarded-date`,
   name: `badgeAwardedDateForUser`,
 
-  prettifyFn: rawData => {
+  formatRawDataFn: rawData => {
     if (typeof rawData == "string") return null
     return new Date(rawData.awardedDate)
   }
@@ -209,7 +209,7 @@ export const badgesAwardedDatesForUser = addApiMethod(async <BadgeId extends Ide
   searchParams: { badgeIds },
   name: `badgesAwardedDatesForUser`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "badgeId", ({ awardedDate }) => new Date(awardedDate) )
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "badgeId", ({ awardedDate }) => new Date(awardedDate) )
 }))
 
 
@@ -231,7 +231,7 @@ export const removeBadgeFromUser = addApiMethod(async (
   path: `/v1/user/${userId}/badges/${badgeId}`,
   name: `removeBadgeFromUser`,
 
-  prettifyFn: rawData => dataIsSuccess(rawData)
+  formatRawDataFn: dataIsSuccess
 }))
 
 
@@ -252,6 +252,6 @@ export const authenticatedUserRemoveBadge = addApiMethod(async (
   path: `/v1/user/badges/${badgeId}`,
   name: `authenticatedUserRemoveBadge`,
 
-  prettifyFn: rawData => dataIsSuccess(rawData)
+  formatRawDataFn: dataIsSuccess
 }))
 //////////////////////////////////////////////////////////////////////////////////

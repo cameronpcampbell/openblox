@@ -12,7 +12,7 @@ import { CreateSortedMapItem_ConstructItemConfig, EnqueueItem_ConstructItemConfi
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "MemoryStore", baseUrl: "https://apis.roblox.com/cloud" })
+const addApiMethod = createApiGroup({ name: "MemoryStore", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -37,7 +37,7 @@ export const sortedMapItem = addApiMethod(async <ItemValue>(
   method: "GET",
   name: "sortedMapItem",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.expireTime = new Date(obj.expireTime))
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.expireTime = new Date(obj.expireTime))
 }))
 
 
@@ -64,7 +64,7 @@ export const listSortedMapItems = addApiMethod(async (
   searchParams: { maxPageSize, orderBy, filter, pageToken: cursor },
   name: "listSortedMapItems",
 
-  prettifyFn: ({ items }) => cloneAndMutateObject(items, obj => {
+  formatRawDataFn: ({ items }) => cloneAndMutateObject(items, obj => {
     obj.forEach((value) => { value.expireTime = new Date(value.expireTime) })
   }),
 
@@ -96,7 +96,7 @@ export const createSortedMapItem = addApiMethod(async <ItemValue>(
   body: { Id: item.id, Value: item.value, Ttl: item.ttl, NumericSortKey: item.numericSortKey, StringSortKey: item.stringSortKey },
   name: "createSortedMapItem",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.expireTime = new Date(obj.expireTime))
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.expireTime = new Date(obj.expireTime))
 }))
 
 
@@ -131,7 +131,7 @@ export const updateSortedMapItem = addApiMethod(async <ItemValue>(
   },
   name: "updateSortedMapItem",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.expireTime = new Date(obj.expireTime))
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.expireTime = new Date(obj.expireTime))
 }))
 
 
@@ -188,7 +188,7 @@ export const enqueueItem = addApiMethod(async <ItemValue>(
   },
   name: "enqueueItem",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.expireTime = new Date(obj.expireTime))
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.expireTime = new Date(obj.expireTime))
 }))
 
 
@@ -217,7 +217,7 @@ export const readQueueItems = addApiMethod(async <ItemValue>(
   searchParams: { count: limit, allOrNothing, invisibilityTimeoutSeconds },
   name: "readQueueItems",
 
-  prettifyFn: ({ data, id }) => ({ items: data, readId: id })
+  formatRawDataFn: ({ data, id }) => ({ items: data, readId: id })
 }))
 
 
@@ -263,7 +263,7 @@ export const flushAllQueues = addApiMethod(async <UniverseId extends Identifier>
 
   pathToPoll: ({ path }) => `/universes/${universeId}/memory-store/operations/${path.split("/")[5] as string}`,
 
-  prettifyFn: ({ path, done }) => ({
+  formatRawDataFn: ({ path, done }) => ({
     path, done: done ? true : false
   })
 }))

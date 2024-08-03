@@ -1,5 +1,5 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import { ObjectPrettify, UnionPrettify } from "typeforge"
+import { ISODateTime, ObjectPrettify, UnionPrettify } from "typeforge"
 import { Identifier, IdentifierToNumber } from "../../../utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -33,7 +33,7 @@ type UserInfoData<UserId extends Identifier, TimeType> = ObjectPrettify<{
   name: string,
   displayName: string
 }>
-export type RawUserInfoData<UserId extends Identifier> = UserInfoData<UserId, string>
+export type RawUserInfoData<UserId extends Identifier> = UserInfoData<UserId, ISODateTime>
 export type PrettifiedUserInfoData<UserId extends Identifier> = UserInfoData<UserId, Date>
 
 // GET /v1/users/authenticated

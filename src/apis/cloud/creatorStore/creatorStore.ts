@@ -11,7 +11,7 @@ import { CreatorStoreProduct_NewProductData, CreatorStoreProduct_OnlyOneId, Crea
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "CreatorStore", baseUrl: "https://apis.roblox.com/cloud" })
+const addApiMethod = createApiGroup({ name: "CreatorStore", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 

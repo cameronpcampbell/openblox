@@ -11,7 +11,7 @@ import { ISODateTime, Identifier } from "typeforge"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicEconomy", baseUrl: "https://economy.roblox.com" })
+const addApiMethod = createApiGroup({ name: "ClassicEconomy", baseUrl: "https://economy.roblox.com" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -59,7 +59,7 @@ export const assetResellers = addApiMethod(async (
   searchParams: { limit, cursor },
   name: `assetResellers`,
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 
 
@@ -81,7 +81,7 @@ export const authedUserAssetResellableCopies = addApiMethod(async (
   path: `/v1/assets/${assetId}/users/${userId}/resellable-copies`,
   name: `authedUserAssetResellableCopies`,
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 
 
@@ -239,7 +239,7 @@ export const groupTransactionHistory = addApiMethod(async <Type extends GroupTra
   searchParams: { transactionType, limit: 10 },
   name: `groupTransactionHistory`,
 
-  prettifyFn: ({ data }) => data as any
+  formatRawDataFn: ({ data }) => data as any
 }))
 /////////////////////////////////////////////////////////////////////////////////
 

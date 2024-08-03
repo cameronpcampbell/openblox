@@ -13,7 +13,7 @@ import { ArrayNonEmpty } from "typeforge"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicGames", baseUrl: "https://games.roblox.com" })
+const addApiMethod = createApiGroup({ name: "ClassicGames", baseUrl: "https://games.roblox.com" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -38,7 +38,7 @@ export const gamesInfo = addApiMethod(async <UniverseId extends Identifier>(
   name: "gamesInfo",
   searchParams: { universeIds },
 
-  prettifyFn: x => x as any,
+  formatRawDataFn: x => x as any,
 
  /*prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", gameInfo => {
     delete (gameInfo as Omit<typeof gameInfo, "id"> & { id?: typeof gameInfo["id"] }).id
@@ -70,7 +70,7 @@ export const userGames = addApiMethod(async (
   searchParams: { limit, sortOrder, cursor },
   name: "userGames",
 
-  prettifyFn: ({ data }) => data.map(gameData => cloneAndMutateObject(gameData, obj => {
+  formatRawDataFn: ({ data }) => data.map(gameData => cloneAndMutateObject(gameData, obj => {
     obj.created = new Date(obj.created)
     obj.updated = new Date(obj.updated)
   })),

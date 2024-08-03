@@ -1,6 +1,6 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
-import { cloneAndMutateObject } from "../../../utils/utils"
+import { cloneAndMutateObject, formDataBuilder } from "../../../utils/utils"
 import { readFile } from "../../../file"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -13,7 +13,7 @@ import type { AuthenticatedUserSubscriptionsPermissionsForUniverseData, Prettifi
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicSubscriptions", baseUrl: "https://apis.roblox.com/experience-subscriptions" })
+const addApiMethod = createApiGroup({ name: "ClassicSubscriptions", baseUrl: "https://apis.roblox.com/experience-subscriptions" })
 
 const subscriptionTypeToId: { [key in SubscriptionType]: number } = {
   "Durable": 3,
@@ -69,7 +69,7 @@ export const createSubscription = addApiMethod(async <
   body: { productName: name, productDescription: description, productType: subscriptionTypeToId[type], basePriceId: subscriptionPriceToId[price] },
   name: "createSubscription",
 
-  prettifyFn: ({ developerSubscription }) => (cloneAndMutateObject<
+  formatRawDataFn: ({ developerSubscription }) => (cloneAndMutateObject<
     RawCreateSubscriptionData<UniverseId, Name, Description, Type>["developerSubscription"],
     PrettifiedCreateSubscriptionData<UniverseId, Name, Description, Type>
   >(developerSubscription, obj => {
@@ -98,10 +98,12 @@ export const setSubscriptionIcon = addApiMethod(async (
 ): ApiMethod<{ status: boolean }, boolean> => ({
   path: `/v1/experiences/${universeId}/experience-subscriptions/${subscriptionId}/upload-image`,
   method: "POST",
-  formData: { ActingUserId: actingUserId, ImageFile: typeof icon == "string" ? new File([ new Blob([ await readFile(icon) ]) ], "ImageFile") : icon },
+  formData: formDataBuilder()
+    .append("ActingUserId", actingUserId.toString())
+    .append("ImageFile", typeof icon == "string" ? new File([ new Blob([ await readFile(icon) ]) ], "ImageFile") : icon),
   name: "setSubscriptionIcon",
 
-  prettifyFn: ({ status }) => status
+  formatRawDataFn: ({ status }) => status
 }))
 
 
@@ -125,7 +127,7 @@ export const subscriptionsForUniverse = addApiMethod(async <UniverseId extends I
   searchParams: { ResultsPerPage: resultsPerPage, Cursor: cursor },
   name: "subscriptionsForUniverse",
 
-  prettifyFn: ({ developerSubscriptions }) => (cloneAndMutateObject<
+  formatRawDataFn: ({ developerSubscriptions }) => (cloneAndMutateObject<
     RawSubscriptionsForUniverseData<UniverseId>["developerSubscriptions"], PrettifiedSubscriptionsForUniverseData<UniverseId>
   >(developerSubscriptions, obj => {
     obj.forEach((subscription) => {
@@ -157,7 +159,7 @@ export const subscriptionInfo = addApiMethod(async <UniverseId extends Identifie
   method: "GET",
   name: "subscriptionInfo",
 
-  prettifyFn: (rawData) => (cloneAndMutateObject<
+  formatRawDataFn: (rawData) => (cloneAndMutateObject<
     RawSubscriptionInfoData<UniverseId, SubscriptionId>, PrettifiedSubscriptionInfoData<UniverseId, SubscriptionId>
   >(rawData, obj => {
     obj.periodType = "Monthly"
@@ -183,7 +185,7 @@ export const subscriptionsPriceTiersForUniverse = addApiMethod(async (
   method: "GET",
   name: "subscriptionsPriceTiersForUniverse",
 
-  prettifyFn: (({ priceTierPrices }) => cloneAndMutateObject<
+  formatRawDataFn: (({ priceTierPrices }) => cloneAndMutateObject<
     RawSubscriptionsPriceTiersForUniverseData["priceTierPrices"], PrettifiedSubscriptionsPriceTiersForUniverseData
   >(priceTierPrices, obj => {
     for (const key in priceTierPrices) {

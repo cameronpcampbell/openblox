@@ -13,7 +13,7 @@ import type { UpdateUniverse_NewData, PrettifiedPlaceInfoData, PrettifiedUnivers
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "Experiences", baseUrl: "https://apis.roblox.com" })
+const addApiMethod = createApiGroup({ name: "Experiences", baseUrl: "https://apis.roblox.com" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -44,7 +44,7 @@ export const universeInfo = addApiMethod(async <UniverseId extends Identifier>(
   method: "GET",
   name: "universeInfo",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => {
     obj.createTime = new Date(obj.createTime)
     obj.updateTime = new Date(obj.updateTime)
   })
@@ -74,7 +74,7 @@ export const updateUniverse = addApiMethod(async <UniverseId extends Identifier,
   applyFieldMask: true,
   name: "updateUniverse",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => {
     obj.createTime = new Date(obj.createTime)
     obj.updateTime = new Date(obj.updateTime)
   }) as any
@@ -120,7 +120,7 @@ export const placeInfo = addApiMethod(async <UniverseId extends Identifier, Plac
   method: "GET",
   name: "placeInfo",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => {
     obj.createTime = new Date(obj.createTime)
     obj.updateTime = new Date(obj.updateTime)
   })
@@ -151,7 +151,7 @@ export const updatePlace = addApiMethod(async <UniverseId extends Identifier, Pl
   applyFieldMask: true,
   name: "updatePlace",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => {
     obj.createTime = new Date(obj.createTime)
     obj.updateTime = new Date(obj.updateTime)
   }) as any
@@ -200,6 +200,6 @@ export const publishPlace = addApiMethod(async (
     body: placeFile,
     name: `publishPlace`,
 
-    prettifyFn: ({ versionNumber }) => versionNumber
+    formatRawDataFn: ({ versionNumber }) => versionNumber
   })
 })

@@ -13,7 +13,7 @@ import { cloneAndMutateObject } from "../../../utils/utils"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicOrganizations", baseUrl: "https://apis.roblox.com/orgs" })
+const addApiMethod = createApiGroup({ name: "ClassicOrganizations", baseUrl: "https://apis.roblox.com/orgs" })
 
 const permissionsCategory = {
   manageMembers: "Organization",
@@ -66,7 +66,7 @@ export const orgRoles = addApiMethod(async <OrgId extends Identifier>(
   searchParams: { MaxPageSize: limit, PageToken: cursor },
   name: "orgRoles",
 
-  prettifyFn: ({ roles }) => roles.map(role => cloneAndMutateObject(role, obj => {
+  formatRawDataFn: ({ roles }) => roles.map(role => cloneAndMutateObject(role, obj => {
     obj.updatedTime = new Date(obj.updatedTime)
   })),
 
@@ -95,7 +95,7 @@ export const orgRolePermissions = addApiMethod(async (
   path: `/v1/organizations/${orgId}/roles/${roleId}/permissions`,
   name: "orgRolePermissions",
 
-  prettifyFn: ({ permissions }) => permissions
+  formatRawDataFn: ({ permissions }) => permissions
 }))
 
 
@@ -119,7 +119,7 @@ export const orgRoleMetadata = addApiMethod(async <OrgId extends Identifier, Rol
   path: `/v1/organizations/${orgId}/roles/${roleId}/metadata`,
   name: "orgRoleMetadata",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.updatedTime = new Date(obj.updatedTime)),
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.updatedTime = new Date(obj.updatedTime)),
 }))
 
 
@@ -159,7 +159,7 @@ export const overwriteOrgRolePermissions = addApiMethod(async (
   },
   name: "overwriteOrgRolePermissions",
 
-  prettifyFn: ({ success }) => success
+  formatRawDataFn: ({ success }) => success
 }))
 
 
@@ -186,7 +186,7 @@ export const orgRoleMembers = addApiMethod(async <OrgId extends Identifier>(
   searchParams: { MaxPageSize: limit, PageToken: cursor },
   name: `orgRoleMembers`,
 
-  prettifyFn: ({ users }) => users.map(({ roles, ...rest }) => (
+  formatRawDataFn: ({ users }) => users.map(({ roles, ...rest }) => (
     {
       ...rest,
       roles: roles.map(role => cloneAndMutateObject(role, obj => {
@@ -219,7 +219,7 @@ export const orgMembers = addApiMethod(async <OrgId extends Identifier>(
   searchParams: { MaxPageSize: limit, PageToken: cursor },
   name: "orgMembers",
 
-  prettifyFn: ({ users }) => users.map(({ roles, ...rest }) => (
+  formatRawDataFn: ({ users }) => users.map(({ roles, ...rest }) => (
     {
       ...rest,
       roles: roles.map(role => cloneAndMutateObject(role, obj => {
@@ -252,7 +252,7 @@ export const orgInvitations = addApiMethod(async <OrgId extends Identifier>(
   searchParams: { MaxPageSize: limit, PageToken: cursor },
   name: `orgInvitations`,
 
-  prettifyFn: ({ invitations }) => invitations.map(invitation => cloneAndMutateObject(invitation, obj => (
+  formatRawDataFn: ({ invitations }) => invitations.map(invitation => cloneAndMutateObject(invitation, obj => (
     obj.updatedTime = new Date(obj.updatedTime)
   ))),
 
@@ -282,7 +282,7 @@ export const createOrgInvitation = addApiMethod(async <OrgId extends Identifier,
   body: { recipientUserId: userId },
   name: `createOrgInvitation`,
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.updatedTime = new Date(obj.updatedTime))
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => obj.updatedTime = new Date(obj.updatedTime))
 }))
 
 /**
@@ -306,7 +306,7 @@ export const removeOrgInvitation = addApiMethod(async (
   path: `/v1/organizations/${orgId}/invitations/${invitationId}`,
   name: `removeOrgInvitation`,
 
-  prettifyFn: ({ success }) => success
+  formatRawDataFn: ({ success }) => success
 }))
 
 
@@ -352,7 +352,7 @@ export const giveRoleToOrgMember = addApiMethod(async (
   path: `/v1/organizations/${orgId}/users/${userId}/roles/${roleId}`,
   name: "giveRoleToOrgMember",
 
-  prettifyFn: ({ success }) => success
+  formatRawDataFn: ({ success }) => success
 }))
 
 
@@ -378,7 +378,7 @@ export const removeRoleFromOrgMember = addApiMethod(async (
   path: `/v1/organizations/${orgId}/users/${userId}/roles/${roleId}`,
   name: "removeRoleFromOrgMember",
 
-  prettifyFn: ({ success }) => success
+  formatRawDataFn: ({ success }) => success
 }))
 
 
@@ -405,7 +405,7 @@ export const createOrgRole = addApiMethod(async <OrgId extends Identifier, RoleN
   body: { name: roleName, color: roleColor },
   name: "createOrgRole",
 
-  prettifyFn: (role) => cloneAndMutateObject(role, obj => obj.updatedTime = new Date(obj.updatedTime))
+  formatRawDataFn: (role) => cloneAndMutateObject(role, obj => obj.updatedTime = new Date(obj.updatedTime))
 }))
 
 
@@ -435,7 +435,7 @@ export const updateOrgRole = addApiMethod(async <
   body: { name: roleName, color: roleColor },
   name: "createOrgRole",
 
-  prettifyFn: (role) => cloneAndMutateObject(role, obj => obj.updatedTime = new Date(obj.updatedTime))
+  formatRawDataFn: (role) => cloneAndMutateObject(role, obj => obj.updatedTime = new Date(obj.updatedTime))
 }))
 
 
@@ -460,5 +460,5 @@ export const updateOrgRole = addApiMethod(async <
     path: `/v1/organizations/${orgId}/roles/${roleId}`,
     name: "deleteOrgRole",
   
-    prettifyFn: ({ success }) => success
+    formatRawDataFn: ({ success }) => success
   }))

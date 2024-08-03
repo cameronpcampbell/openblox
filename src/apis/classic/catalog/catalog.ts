@@ -13,7 +13,7 @@ import { Falsey, ObjectEither, ObjectPrettify } from "typeforge"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicCatalog", baseUrl: "https://catalog.roblox.com" })
+const addApiMethod = createApiGroup({ name: "ClassicCatalog", baseUrl: "https://catalog.roblox.com" })
 
 const bundleTypeNameToId = {
   "BodyParts": 1,
@@ -138,7 +138,7 @@ export const bundlesAssetIsIn = addApiMethod(async (
   searchParams: { limit, sortOrder, cursor },
   name: `bundlesAssetIsIn`,
 
-  prettifyFn: ({ data }) => data.map(prettifyBundleData)
+  formatRawDataFn: ({ data }) => data.map(prettifyBundleData)
 }))
 
 
@@ -159,7 +159,7 @@ export const bundleInfo = addApiMethod(async <BundleId extends Identifier>(
   path: `/v1/bundles/${bundleId}/details`,
   name: `bundleInfo`,
 
-  prettifyFn: prettifyBundleData
+  formatRawDataFn: prettifyBundleData
 }))
 
 
@@ -182,7 +182,7 @@ export const recommendationsForBundle = addApiMethod(async (
   searchParams: { numItems: amount },
   name: `recommendationsForBundle`,
 
-  prettifyFn: ({ data }) => data.map(prettifyBundleData)
+  formatRawDataFn: ({ data }) => data.map(prettifyBundleData)
 }))
 
 
@@ -204,7 +204,7 @@ export const bundlesInfo = addApiMethod(async <BundleId extends Identifier>(
   searchParams: { bundleIds },
   name: `bundlesInfo`,
 
-  prettifyFn: rawData => rawData.map(prettifyBundleData)
+  formatRawDataFn: rawData => rawData.map(prettifyBundleData)
 }))
 
 /**
@@ -228,7 +228,7 @@ export const bundlesOwnedByUser = addApiMethod(async (
   searchParams: { limit, sortOrder, cursor },
   name: `bundlesOwnedByUser`,
 
-  prettifyFn: ({ data }) => data.map(prettifyBundleData)
+  formatRawDataFn: ({ data }) => data.map(prettifyBundleData)
 }))
 
 
@@ -255,7 +255,7 @@ export const bundlesOfTypeOwnedByUser = addApiMethod(async <Type extends BundleT
   searchParams: { limit, sortOrder, cursor },
   name: `bundlesOwnedByUser`,
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -317,7 +317,7 @@ export const authedUserRemoveAssetFavorite = addApiMethod(async (
   path: `/v1/favorites/users/${userId}/assets/${assetId}/favorite`,
   name: `authedUserRemoveAssetFavorite`,
   
-  prettifyFn: dataIsSuccess
+  formatRawDataFn: dataIsSuccess
 }))
 
 
@@ -339,7 +339,7 @@ export const authedUserGetAssetFavorite = addApiMethod(async <UserId extends Ide
   path: `/v1/favorites/users/${userId}/assets/${assetId}/favorite`,
   name: `authedUserGetAssetFavorite`,
 
-  prettifyFn: rawData => rawData ? cloneAndMutateObject(rawData, obj => obj.created = new Date(obj.created)) : rawData
+  formatRawDataFn: rawData => rawData ? cloneAndMutateObject(rawData, obj => obj.created = new Date(obj.created)) : rawData
 }))
 
 
@@ -361,7 +361,7 @@ export const authedUserCreateAssetFavorite = addApiMethod(async <UserId extends 
   path: `/v1/favorites/users/${userId}/assets/${assetId}/favorite`,
   name: `authedUserCreateAssetFavorite`,
 
-  prettifyFn: dataIsSuccess
+  formatRawDataFn: dataIsSuccess
 }))
 
 
@@ -383,7 +383,7 @@ export const authedUserRemoveBundleFavorite = addApiMethod(async (
   path: `/v1/favorites/users/${userId}/bundles/${bundleId}/favorite`,
   name: `authedUserRemoveBundleFavorite`,
   
-  prettifyFn: dataIsSuccess
+  formatRawDataFn: dataIsSuccess
 }))
 
 /**
@@ -404,7 +404,7 @@ export const authedUserGetBundleFavorite = addApiMethod(async <UserId extends Id
   path: `/v1/favorites/users/${userId}/bundles/${bundleId}/favorite`,
   name: `authedUserGetBundleFavorite`,
 
-  prettifyFn: rawData => rawData ? cloneAndMutateObject(rawData, obj => obj.created = new Date(obj.created)) : rawData
+  formatRawDataFn: rawData => rawData ? cloneAndMutateObject(rawData, obj => obj.created = new Date(obj.created)) : rawData
 }))
 
 
@@ -426,7 +426,7 @@ export const authedUserCreateBundleFavorite = addApiMethod(async <UserId extends
   path: `/v1/favorites/users/${userId}/bundles/${bundleId}/favorite`,
   name: `authedUserCreateBundleFavorite`,
 
-  prettifyFn: dataIsSuccess
+  formatRawDataFn: dataIsSuccess
 }))
 
 
@@ -454,7 +454,7 @@ export const authedUserFavoritedBundlesOfType = addApiMethod(async <Type extends
   searchParams: { cursor, isPrevious },
   name: `authedUserFavoritedBundlesOfType`,
 
-  prettifyFn: ({ favorites }) => favorites.map(prettifyBundleData)
+  formatRawDataFn: ({ favorites }) => favorites.map(prettifyBundleData)
 }))
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -486,7 +486,7 @@ export const catalogBatchInfo = addApiMethod(async <AssetId extends Identifier, 
   body: { items: formatBatchCatalogIds(assetIds, bundleIds) },
   name: `catalogBatchInfo`,
 
-  prettifyFn: ({ data }) => data.map(item => {
+  formatRawDataFn: ({ data }) => data.map(item => {
     const offSaleDeadline = item.offSaleDeadline
     return offSaleDeadline ? cloneAndMutateObject(item, obj => obj.offSaleDeadline = new Date(offSaleDeadline)) : item
   }) as any

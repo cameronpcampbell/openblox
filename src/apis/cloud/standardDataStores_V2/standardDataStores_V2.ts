@@ -13,7 +13,7 @@ import { ArrayNonEmptyIfConst } from "../../../utils/utils.types"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "StandardDatastores_V2", baseUrl: "https://apis.roblox.com/cloud" })
+const addApiMethod = createApiGroup({ name: "StandardDatastores_V2", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -52,7 +52,7 @@ export const listStandardDataStores = addApiMethod(async <UniverseId extends Ide
   searchParams: { filter: prefix ? `id.startsWith("${prefix}")` : null, maxPageSize: limit, pageToken: cursor },
   name: `listStandardDataStores`,
 
-  prettifyFn: ({ dataStores }) => dataStores
+  formatRawDataFn: ({ dataStores }) => dataStores
 }))
 
 
@@ -74,7 +74,7 @@ export const createStandardDataStoreSnapshot = addApiMethod(async (
   body: {},
   name: `createStandardDataStoreSnapshot`,
 
-  prettifyFn: rawData => {
+  formatRawDataFn: rawData => {
     if (!rawData.latestSnapshotTime) return rawData
     return cloneAndMutateObject(rawData, obj => obj.latestSnapshotTime = new Date(obj.latestSnapshotTime as any as ISODateTime))
   }
@@ -116,7 +116,7 @@ export const listStandardDataStoreEntries = addApiMethod(async <
   searchParams: { filter: prefix ? `id.startsWith("${prefix}")` : null, maxPageSize: limit, pageToken: cursor },
   name: `listStandardDataStoreEntries`,
 
-  prettifyFn: rawData => rawData?.dataStoreEntries || [],
+  formatRawDataFn: rawData => rawData?.dataStoreEntries || [],
 
   getCursorsFn: rawData => [ null, rawData?.nextPageToken ]
 }))
@@ -160,7 +160,7 @@ export const createStandardDataStoreEntry = addApiMethod(async <Schema extends R
   body: { value, users: users?.map(user => `users/${user.toString()}`), attributes },
   name: `createStandardDataStoreEntry`,
 
-  prettifyFn: rawData => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: rawData => cloneAndMutateObject(rawData, obj => {
     obj.createTime = new Date(obj.createTime)
     obj.revisionCreateTime = new Date(obj.createTime)
   })
@@ -198,7 +198,7 @@ export const standardDataStoreEntry = addApiMethod(async <Schema extends Record<
   ),
   name: `standardDataStoreEntry`,
 
-  prettifyFn: rawData => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: rawData => cloneAndMutateObject(rawData, obj => {
     obj.createTime = new Date(obj.createTime)
     obj.revisionCreateTime = new Date(obj.createTime)
   })
@@ -234,7 +234,7 @@ export const deleteStandardDataStoreEntry = addApiMethod(async (
   ),
   name: `deleteStandardDataStoreEntry`,
 
-  prettifyFn: dataIsSuccess
+  formatRawDataFn: dataIsSuccess
 }))
 
 
@@ -275,7 +275,7 @@ export const updateStandardDataStoreEntry = addApiMethod(async <Schema extends R
   body: { value, users: users?.map(user => `users/${user.toString()}`), attributes },
   name: `updateStandardDataStoreEntry`,
 
-  prettifyFn: rawData => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: rawData => cloneAndMutateObject(rawData, obj => {
     obj.createTime = new Date(obj.createTime)
     obj.revisionCreateTime = new Date(obj.createTime)
   })
@@ -318,7 +318,7 @@ export const incrementStandardDatastoreEntry = addApiMethod(async (
   body: { amount, users: users?.map(user => `users/${user.toString()}`), attributes },
   name: `incrementStandardDatastoreEntry`,
 
-  prettifyFn: rawData => cloneAndMutateObject(rawData, obj => {
+  formatRawDataFn: rawData => cloneAndMutateObject(rawData, obj => {
     obj.createTime = new Date(obj.createTime)
     obj.revisionCreateTime = new Date(obj.createTime)
   })
@@ -367,7 +367,7 @@ export const listStandardDataStoreEntryRevisions = addApiMethod(async <
   searchParams: { filter: formatRevisionCreateTimeClamp(createdBefore, createdAfter), maxPageSize: limit, pageToken: cursor },
   name: `listStandardDataStoreEntryRevisions`,
 
-  prettifyFn: ({ dataStoreEntries }) => dataStoreEntries.map(
+  formatRawDataFn: ({ dataStoreEntries }) => dataStoreEntries.map(
     entry => cloneAndMutateObject(entry, obj => {
       obj.createTime = new Date(obj.createTime)
       obj.revisionCreateTime = new Date(obj.createTime)

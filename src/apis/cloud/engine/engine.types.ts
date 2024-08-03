@@ -1,6 +1,6 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import { LongRunningOperation } from "../../../apis/apis.types";
-import { KeysToCamelCase } from "../../../utils/utils.types";
+import type { KeysToCamelCase } from "../../../utils/utils.types";
 import type { Identifier, ObjectEither, ObjectPrettify } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 

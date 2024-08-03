@@ -12,7 +12,7 @@ import { PrettifiedUserSubscriptionsData, RawUserSubscriptionsData } from "./pre
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicPremiumFeatures", baseUrl: "https://premiumFeatures.roblox.com" })
+const addApiMethod = createApiGroup({ name: "ClassicPremiumFeatures", baseUrl: "https://premiumFeatures.roblox.com" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -51,7 +51,7 @@ export const userSubscriptions = addApiMethod(async (
   method: "GET",
   name: "userSubscriptions",
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, ({ subscriptionProductModel }) => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, ({ subscriptionProductModel }) => {
     subscriptionProductModel.expiration = new Date(subscriptionProductModel.expiration)
     subscriptionProductModel.renewal = new Date(subscriptionProductModel.renewal)
     subscriptionProductModel.created = new Date(subscriptionProductModel.created)

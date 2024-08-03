@@ -13,7 +13,7 @@ import { ObjectEither } from "typeforge"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicDevelop", baseUrl: "https://develop.roblox.com" })
+const addApiMethod = createApiGroup({ name: "ClassicDevelop", baseUrl: "https://develop.roblox.com" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -32,7 +32,7 @@ export const gameTemplates = addApiMethod(async (
   path: `/v1/gametemplates`,
   name: `gameTemplates`,
 
-  prettifyFn: ({ data }) => data.map(template => cloneAndMutateObject(template, ({ universe }) => {
+  formatRawDataFn: ({ data }) => data.map(template => cloneAndMutateObject(template, ({ universe }) => {
     universe.created = new Date(universe.created)
     universe.updated = new Date(universe.updated)
   }))
@@ -65,7 +65,7 @@ export const groupUniverses = addApiMethod(async <GroupId extends Identifier>(
   searchParams: { isArchived, limit, sortOrder, cursor },
   name: `groupUniverses`,
 
-  prettifyFn: ({ data }) => data.map(universe => cloneAndMutateObject(universe, obj => {
+  formatRawDataFn: ({ data }) => data.map(universe => cloneAndMutateObject(universe, obj => {
     obj.created = new Date(obj.created)
     obj.updated = new Date(obj.updated)
   }))
@@ -95,7 +95,7 @@ export const teamCreateActiveMembers = addApiMethod(async (
   searchParams: { limit, cursor },
   name: `teamCreateActiveMembers`,
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 
 
@@ -137,7 +137,7 @@ export const updateTeamCreateSettingsForUniverse = addApiMethod(async (
   body: { isEnabled },
   name: `updateTeamCreateSettingsForUniverse`,
 
-  prettifyFn: dataIsSuccess
+  formatRawDataFn: dataIsSuccess
 }))
 
 
@@ -159,7 +159,7 @@ export const teamCreateSettingsForUniverses = addApiMethod(async <UniverseId ext
   searchParams: { ids: universeIds },
   name: `teamCreateSettingsForUniverses`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", ({ id, ...rest }) => ({ ...rest }))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", ({ id, ...rest }) => ({ ...rest }))
 }))
 
 
@@ -182,7 +182,7 @@ export const teamCreateRemoveUsersAccessForUniverse = addApiMethod(async (
   body: { userId },
   name: `teamCreateRemoveUsersAccessForUniverse`,
 
-  prettifyFn: dataIsSuccess
+  formatRawDataFn: dataIsSuccess
 }))
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -206,7 +206,7 @@ export const pluginsInfo = addApiMethod(async <PluginId extends Identifier>(
   searchParams: { pluginIds },
   name: `pluginsInfo`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", ({ id, created, updated, ...rest }) => ({
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "id", ({ id, created, updated, ...rest }) => ({
     created: new Date(created),
     updated: new Date(updated),
     ...rest
@@ -235,7 +235,7 @@ export const updatePlugin = addApiMethod(async (
   body: { name, description, commentsEnabled },
   name: `updatePlugin`,
 
-  prettifyFn: dataIsSuccess
+  formatRawDataFn: dataIsSuccess
 }))
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -258,7 +258,7 @@ export const universeInfo = addApiMethod(async <UniverseId extends Identifier>(
   path: `/v1/universes/${universeId}`,
   name: `universeInfo`,
 
-  prettifyFn: data => cloneAndMutateObject(data, obj => {
+  formatRawDataFn: data => cloneAndMutateObject(data, obj => {
     obj.created = new Date(obj.created)
     obj.updated = new Date(obj.updated)
   })
@@ -306,7 +306,7 @@ export const universePlaces = addApiMethod(async <UniverseId extends Identifier>
   searchParams: { isUniverseCreation, limit, cursor, sortOrder },
   name: `universePlaces`,
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 
 
@@ -328,7 +328,7 @@ export const universesInfo = addApiMethod(async <UniverseId extends Identifier>(
   searchParams: { ids: universeIds },
   name: `universesInfo`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware(
     data, "id", ({ id, created, updated, ...rest }) => ({ created: new Date(created), updated: new Date(updated), ...rest })
   )
 }))
@@ -354,7 +354,7 @@ export const authenticatedUserPermissionsForUniverses = addApiMethod(async <Univ
   searchParams: { ids: universeIds },
   name: `authenticatedUserPermissionsForUniverses`,
 
-  prettifyFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "universeId", ({ universeId, ...rest }) => ({ ...rest }))
+  formatRawDataFn: ({ data }) => createObjectMapByKeyWithMiddleware(data, "universeId", ({ universeId, ...rest }) => ({ ...rest }))
 }))
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -473,7 +473,7 @@ export const authenticatedUserGroupsCanManage = addApiMethod(async (
   path: `/v1/user/groups/canmanage`,
   name: `authenticatedUserGroupsCanManage`,
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 
 
@@ -491,7 +491,7 @@ export const authenticatedUserGroupsCanManageGamesOrItems = addApiMethod(async (
   path: `/v1/user/groups/canmanagegamesoritems`,
   name: `authenticatedUserGroupsCanManageGamesOrItems`,
 
-  prettifyFn: ({ data }) => data
+  formatRawDataFn: ({ data }) => data
 }))
 
 
@@ -517,7 +517,7 @@ export const authenticatedUserUniverses = addApiMethod(async (
   searchParams: { isArchived, limit, sortOrder, cursor },
   name: `universesForGroup`,
 
-  prettifyFn: ({ data }) => data.map(universe => cloneAndMutateObject(universe, obj => {
+  formatRawDataFn: ({ data }) => data.map(universe => cloneAndMutateObject(universe, obj => {
     obj.created = new Date(obj.created)
     obj.updated = new Date(obj.updated)
   }))
@@ -700,7 +700,7 @@ export const updateUniverseConfiguration_V2 = addApiMethod(async <
   },
   name: `updateUniverseConfiguration_V2`,
 
-  prettifyFn: ({ permissions, universeAvatarAssetOverrides, ...rest }) => ({
+  formatRawDataFn: ({ permissions, universeAvatarAssetOverrides, ...rest }) => ({
     ...rest,
     universeAvatarAssetOverrides: universeAvatarAssetOverrides.map(({ assetID, assetTypeID, ...rest2 }) => ({
       assetId: assetID, assetTypeId: assetTypeID, ...rest2

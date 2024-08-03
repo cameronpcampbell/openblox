@@ -12,7 +12,7 @@ import { PrettifiedAuthenticatedUserCountryCodeData, RawUsernamesToUsersInfoData
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "ClassicUniverses", baseUrl: "https://apis.roblox.com/universes" })
+const addApiMethod = createApiGroup({ name: "ClassicUniverses", baseUrl: "https://apis.roblox.com/universes" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -33,5 +33,5 @@ export const universeIdFromPlaceId = addApiMethod(async (
   method: "GET",
   name: "universeIdFromPlaceId",
 
-  prettifyFn: ({ universeId }) => universeId
+  formatRawDataFn: ({ universeId }) => universeId
 }))

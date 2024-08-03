@@ -14,7 +14,7 @@ import { dataIsSuccess } from "../../../utils/utils"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "OrderedDatastores_V2", baseUrl: "https://apis.roblox.com/cloud" })
+const addApiMethod = createApiGroup({ name: "OrderedDatastores_V2", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -61,7 +61,7 @@ export const listOrderedDatastoreEntries = addApiMethod(async <UniverseId extend
   searchParams: { orderBy: sortOrder == "Desc" ? "value desc" : "", filter: formatEntryFilter(lessThanOrEq, moreThanOrEq) },
   name: `listOrderedDatastoreEntries`,
 
-  prettifyFn: ({ orderedDataStoreEntries }) => orderedDataStoreEntries
+  formatRawDataFn: ({ orderedDataStoreEntries }) => orderedDataStoreEntries
 }))
 
 
@@ -149,7 +149,7 @@ export const deleteOrderedDataStoreEntry = addApiMethod(async <
   path: `/v2/universes/${universeId}/ordered-data-stores/${dataStoreId}/scopes/${scope}/entries/${entryId}`,
   name: `deleteOrderedDataStoreEntry`,
 
-  prettifyFn: dataIsSuccess
+  formatRawDataFn: dataIsSuccess
 }))
 
 

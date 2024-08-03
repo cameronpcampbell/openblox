@@ -12,7 +12,7 @@ import type { } from "./messaging.types"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "Messaging", baseUrl: "https://apis.roblox.com/cloud" })
+const addApiMethod = createApiGroup({ name: "Messaging", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -53,5 +53,5 @@ export const publishMessage = addApiMethod(async <Message extends string | Recor
   body: { message: JSON.stringify(message) },
   name: "publishMessage",
 
-  prettifyFn: () => true
+  formatRawDataFn: () => true
 }))

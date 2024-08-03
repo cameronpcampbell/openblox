@@ -13,7 +13,7 @@ import { filter } from "lodash"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "UserRestrictions", baseUrl: "https://apis.roblox.com/cloud" })
+const addApiMethod = createApiGroup({ name: "UserRestrictions", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -52,7 +52,7 @@ export const restrictions = addApiMethod(async <
   ),
   name: `restrictions`,
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, ({ gameJoinRestriction }) => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, ({ gameJoinRestriction }) => {
     gameJoinRestriction.startTime = new Date(gameJoinRestriction.startTime)
   })
 }))
@@ -114,7 +114,7 @@ export const updateRestrictionsForUser = addApiMethod(async <
   body: updatedData,
   name: `updateRestrictionsForUser`,
 
-  prettifyFn: (rawData) => cloneAndMutateObject(rawData, ({ gameJoinRestriction }) => {
+  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, ({ gameJoinRestriction }) => {
     gameJoinRestriction.startTime = new Date(gameJoinRestriction.startTime)
   })
 }))
@@ -154,7 +154,7 @@ export const listRestrictionLogs = addApiMethod(async <
   ) },
   name: `listRestrictionLogs`,
 
-  prettifyFn: ({ logs }) => logs.map(log => cloneAndMutateObject(log, obj => {
+  formatRawDataFn: ({ logs }) => logs.map(log => cloneAndMutateObject(log, obj => {
     obj.createTime = new Date(obj.createTime)
     obj.startTime = new Date(obj.startTime)
   })),

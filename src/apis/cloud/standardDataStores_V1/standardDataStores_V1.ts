@@ -14,7 +14,7 @@ import { md5Checksum } from "../../../crypto"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ groupName: "StandardDatastores_V1", baseUrl: "https://apis.roblox.com/datastores" })
+const addApiMethod = createApiGroup({ name: "StandardDatastores_V1", baseUrl: "https://apis.roblox.com/datastores" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -40,7 +40,7 @@ export const listStandardDatastores = addApiMethod(async <Prefix extends string>
   searchParams: { prefix, limit, cursor },
   name: `listStandardDatastores`,
 
-  prettifyFn: ({ datastores }) => cloneAndMutateObject(datastores, obj => obj.forEach(store => store.createdTime = new Date(store.createdTime))),
+  formatRawDataFn: ({ datastores }) => cloneAndMutateObject(datastores, obj => obj.forEach(store => store.createdTime = new Date(store.createdTime))),
 
   getCursorsFn: ({ nextPageCursor }) => [ null, nextPageCursor ]
 }))
@@ -75,7 +75,7 @@ export const standardDatastoreKeys = addApiMethod(async <Prefix extends string>(
   searchParams: { datastoreName, scope, allScopes, prefix, limit, cursor },
   name: `standardDatastoreKeys`,
 
-  prettifyFn: ({ keys }) => keys.map(key => key.key),
+  formatRawDataFn: ({ keys }) => keys.map(key => key.key),
 
   getCursorsFn: (rawData) => [ null, rawData.nextPageCursor ]
 }))
@@ -110,7 +110,7 @@ export const standardDatastoreEntry = addApiMethod(async <Schema extends Record<
   searchParams: { datastoreName, entryKey, scope },
   name: `standardDatastoreKeys`,
 
-  prettifyFn: (rawData, { headers }) => {
+  formatRawDataFn: (rawData, { headers }) => {
     const
       entryCreatedTime = headers?.get("roblox-entry-created-time"), 
       entryVersionCreatedTime = headers?.get("roblox-entry-version-created-time"),
@@ -177,7 +177,7 @@ export const setStandardDatastoreEntry = addApiMethod(async <Schema extends Reco
     },
     name: `setStandardDatastoreEntry`,
 
-    prettifyFn: (rawData) => cloneAndMutateObject(rawData, obj => {
+    formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, obj => {
       obj.createdTime = new Date(obj.createdTime)
       obj.objectCreatedTime = new Date(obj.objectCreatedTime)
     })
@@ -210,7 +210,7 @@ export const deleteStandardDatastoreEntry = addApiMethod(async (
   searchParams: { datastoreName, entryKey, scope },
   name: `deleteStandardDatastoreEntry`,
 
-  prettifyFn: (rawData) => rawData === "" ? true : false
+  formatRawDataFn: (rawData) => rawData === "" ? true : false
 }))
 
 
@@ -282,7 +282,7 @@ export const standardDatastoreEntryOfVersion = addApiMethod(async <Schema extend
   searchParams: { datastoreName, entryKey, versionId, scope },
   name: `standardDatastoreEntryOfVersion`,
 
-  prettifyFn: (rawData, { headers }) => {
+  formatRawDataFn: (rawData, { headers }) => {
     const
       entryCreatedTime = headers?.get("roblox-entry-created-time"), 
       entryVersionCreatedTime = headers?.get("roblox-entry-version-created-time"),
@@ -341,7 +341,7 @@ export const listStandardDatastoreEntryVersions = addApiMethod(async <Schema ext
   searchParams: { datastoreName, entryKey, scope, startTime, endTime, sortOrder, limit, cursor },
   name: `listStandardDatastoreEntryVersions`,
 
-  prettifyFn: ({ versions }) => cloneAndMutateObject(versions, obj => obj.forEach(versionData => {
+  formatRawDataFn: ({ versions }) => cloneAndMutateObject(versions, obj => obj.forEach(versionData => {
     versionData.createdTime = new Date(versionData.createdTime)
     versionData.objectCreatedTime = new Date(versionData.objectCreatedTime)
   })),
