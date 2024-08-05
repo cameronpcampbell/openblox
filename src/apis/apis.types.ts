@@ -1,5 +1,5 @@
 import { ObjectEither, ObjectPrettify } from "typeforge"
-import * as _ImportedClassicApis from "./classic"
+/*import * as _ImportedClassicApis from "./classic"
 import * as _ImportedCloudApis from "./cloud"
 
 type _ClassicApis = typeof _ImportedClassicApis
@@ -11,14 +11,15 @@ type PrettifyApiGroup<ApiGroup> = {
   }
 }
 
-export type ObjectRemoveReadOnly<Obj extends Record<any, any>> = {
-  -readonly [Key in keyof Obj]: Obj[Key]
-} & {}
 
 export type ClassicApis = PrettifyApiGroup<_ClassicApis>
 export type CloudApis = PrettifyApiGroup<_CloudApis>
-export type AllApis = ObjectPrettify<ClassicApis & CloudApis>
+export type AllApis = ObjectPrettify<ClassicApis & CloudApis>*/
 
+
+export type ObjectRemoveReadOnly<Obj extends Record<any, any>> = {
+  -readonly [Key in keyof Obj]: Obj[Key]
+} & {}
 
 export type LongRunningOperation<Path extends string, Response extends Record<any, any>> = ObjectPrettify<ObjectEither<{
   path: Path,

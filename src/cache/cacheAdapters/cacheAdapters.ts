@@ -1,5 +1,7 @@
 import { ObjectPrettifyDeep } from "typeforge"
-import type { AllApis } from "../../apis/apis.types"
+//import type { AllApis } from "../../apis/apis.types"
+
+type AllApis = any
 
 export type CacheConfig<Settings extends Record<string, any>> = Settings | ObjectPrettifyDeep<(
   { "*"?: Settings } &

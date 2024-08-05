@@ -1,7 +1,6 @@
 import type { ObjectPrettify, Prettify, StringIsLiteral } from "typeforge"
 import type { RestMethod } from "../../utils/utils.types"
-import type { HttpResponse } from "../../http/http.utils"
-import type { RobloxCookie } from "../../config"
+import type { HttpResponse, RobloxCookie } from "../../http/http.utils"
 
 // Create Api Group Types ---------------------------------------------------------------------------------------------
 type ApiGroupProps = {

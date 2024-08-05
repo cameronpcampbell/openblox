@@ -7,10 +7,9 @@ import { TtlCacheAdapter } from "../cache/cacheAdapters"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { HttpAdapter } from "../http/http.utils"
+import type { HttpAdapter } from "../http/httpAdapters"
 import type { CacheAdapter } from "../cache/cacheAdapters/cacheAdapters"
-
-export type RobloxCookie = `_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|${string}`
+import type { RobloxCookie } from "../http/http.utils"
 
 export type OpenbloxConfig = {
   cookie?: RobloxCookie,

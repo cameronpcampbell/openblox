@@ -2,8 +2,10 @@
 import type { ObjectPrettify, Prettify } from "typeforge"
 import type { AnyError as AnyRobloxError } from "parse-roblox-errors"
 
-import type { RobloxCookie } from "../config"
 import type { RestMethod, SecureUrl } from "../utils/utils.types"
+
+export type RobloxCookie = `_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|${string}`
+
 
 export type HttpHandlerProps = {
   url: SecureUrl,
@@ -65,5 +67,3 @@ export class HttpError {
     this.response = response
   }
 }
-
-export type { HttpAdapter } from "./httpAdapters/httpAdapters"

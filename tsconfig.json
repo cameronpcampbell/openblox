@@ -20,15 +20,12 @@
     "checkJs": true,
 
     /* Bundled projects */
-    "lib": ["dom", "dom.iterable", "ES2022"],
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "jsx": "preserve",
+    "lib": [ "dom", "dom.iterable", "ES2022" ],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
 
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": [ "./node_modules/@types" ]
   },
-  "include": [
-   "./src"
-  ],
-  "exclude": ["node_modules", "node_modules/@types"],
+  "include": [ "./src" ],
+  "exclude": [ "node_modules" ],
 }

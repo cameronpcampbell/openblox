@@ -27,7 +27,7 @@
     "./cloud": "./src/apis/cloud/index.ts",
     "./cloud/*": "./src/apis/cloud/*/index.ts",
     "./cache/adapters": "./src/cache/cacheAdapters/index.ts",
-    "./http": "./src/http/http.utils.ts",
+    "./http": "./src/http/index.ts",
     "./types": "./src/types.ts",
     "./queries/cloud": "./src/queries/cloud/index.ts"
   },
@@ -74,6 +74,7 @@
     }
   },
   "dependencies": {
+    "delete-cli": "^0.1.3",
     "lodash": "^4.17.21",
     "parse-roblox-errors": "^1.1.10",
     "typeforge": "^0.0.19"
@@ -92,7 +93,7 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "build:code": "delete dist && bun run ./build.ts && tsc --emitDeclarationOnly",
+    "build:code": "delete dist && tsc",
     "build:docs": "bun run ./docs/buildDocs.ts",
     "build": "bun run build:docs && bun run build:code"
   }

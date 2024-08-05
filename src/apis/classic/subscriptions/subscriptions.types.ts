@@ -1,5 +1,5 @@
 import { ObjectPrettify, UnionPrettify } from "typeforge"
-import { Identifier, IdentifierToNumber } from "../../../utils/utils.types"
+import { Identifier } from "../../../utils/utils.types"
 
 export type SubscriptionType = UnionPrettify<"Durable" | "Consumable" | "Currency">
 export type SubsriptionPrice = UnionPrettify<"$2.99" | "$4.99" | "$7.99" | "$9.99" | "$14.99">
@@ -19,7 +19,7 @@ export type RawCreateSubscriptionData<
 > = ObjectPrettify<{
   developerSubscription: {
       id: Identifier,
-      universeId: IdentifierToNumber<UniverseId>,
+      universeId: UniverseId,
       shopId: number,
       name: Name,
       description: Description,
@@ -37,7 +37,7 @@ export type PrettifiedCreateSubscriptionData<
   UniverseId extends Identifier, Name extends string, Description extends string, Type extends SubscriptionType
 > = ObjectPrettify<{
   id: Identifier,
-  universeId: IdentifierToNumber<UniverseId>,
+  universeId: UniverseId,
   shopId: number,
   name: Name,
   description: Description,
@@ -56,7 +56,7 @@ export type PrettifiedCreateSubscriptionData<
 export type RawSubscriptionsForUniverseData<UniverseId extends Identifier> = ObjectPrettify<{
   developerSubscriptions: {
     id: Identifier,
-    universeId: IdentifierToNumber<UniverseId>,
+    universeId: UniverseId,
     name: string,
     description: string,
     imageAssetId: Identifier,
@@ -75,7 +75,7 @@ export type RawSubscriptionsForUniverseData<UniverseId extends Identifier> = Obj
 
 export type PrettifiedSubscriptionsForUniverseData<UniverseId extends Identifier> = ObjectPrettify<{
   id: Identifier,
-  universeId: IdentifierToNumber<UniverseId>,
+  universeId: UniverseId,
   name: string,
   description: string,
   imageAssetId: Identifier,
@@ -93,8 +93,8 @@ export type PrettifiedSubscriptionsForUniverseData<UniverseId extends Identifier
 
 // GET /v1/experiences/{universeId}/experience-subscriptions/{subscriptionId} ----------------------------------------
 export type RawSubscriptionInfoData<UniverseId extends Identifier, SubscriptionId extends Identifier> = ObjectPrettify<{
-  id: IdentifierToNumber<SubscriptionId>,
-  universeId: IdentifierToNumber<UniverseId>,
+  id: SubscriptionId,
+  universeId: UniverseId,
   name: string,
   description: string,
   imageAssetId: number,
@@ -107,8 +107,8 @@ export type RawSubscriptionInfoData<UniverseId extends Identifier, SubscriptionI
 }>
 
 export type PrettifiedSubscriptionInfoData<UniverseId extends Identifier, SubscriptionId extends Identifier> = ObjectPrettify<{
-  id: IdentifierToNumber<SubscriptionId>,
-  universeId: IdentifierToNumber<UniverseId>,
+  id: SubscriptionId,
+  universeId: UniverseId,
   name: string,
   description: string,
   imageAssetId: number,

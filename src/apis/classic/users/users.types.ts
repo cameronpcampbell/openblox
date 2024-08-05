@@ -1,6 +1,6 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import { ISODateTime, ObjectPrettify, UnionPrettify } from "typeforge"
-import { Identifier, IdentifierToNumber } from "../../../utils/utils.types"
+import { Identifier } from "../../../utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -29,7 +29,7 @@ type UserInfoData<UserId extends Identifier, TimeType> = ObjectPrettify<{
   isBanned: boolean,
   externalAppDisplayName: string | null,
   hasVerifiedBadge: boolean,
-  id: IdentifierToNumber<UserId>,
+  id: UserId,
   name: string,
   displayName: string
 }>
