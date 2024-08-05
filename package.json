@@ -79,7 +79,6 @@
     "typeforge": "^0.0.19"
   },
   "devDependencies": {
-    "@types/bun": "^1.1.2",
     "@types/lodash": "^4.17.0",
     "@types/node": "^20.12.12",
     "esbuild": "^0.21.5",

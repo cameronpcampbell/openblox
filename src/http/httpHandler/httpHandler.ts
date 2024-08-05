@@ -1,6 +1,5 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { parseBEDEV1ErrorFromStringAndHeaders, parseBEDEV2ErrorFromStringAndHeaders } from "parse-roblox-errors"
-import { HBAClient } from "roblox-bat"
 
 import { HttpError, HttpResponse } from "../http.utils"
 import { FetchAdapter } from "../httpAdapters/fetchHttpAdapter"

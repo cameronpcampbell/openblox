@@ -13,6 +13,7 @@ type UnionKeepTypes<U, ToKeep> = U extends ToKeep ? U : never
 type UnionRemoveTypes<U, ToKeep> = U extends ToKeep ? never : U
 
 
+// @ts-ignore | ignored
 type UserInfoField = ArrayToUnion<typeof userInfoFields>
 type UserThumbnailField = "thumbnail" | `thumbnail/${UserThumbnailSize}` | `thumbnail/${UserThumbnailSize}/${"PNG" | "JPEG"}` | `thumbnail/${UserThumbnailSize}/${"PNG" | "JPEG"}/${"ROUND" | "SQUARE"}`
 type UsersField = UnionPrettify<UserInfoField | UserThumbnailField>
