@@ -92,8 +92,8 @@ export const authedUserUnfollowUniverse = addApiMethod(async <UniverseId extends
  * @param userId The ID of the authenticated user.
  * 
  * @example const { data:ids } = await LegacyFollowingsApi.authedUserFollowUniverse({ universeId: 4922741943, userId: 45348281 })
- * @exampleData {"universeId":4922741943,"userId":45348281} {"universeId":4922741943,"userId":45348281}
- * @exampleRawBody {"universeId":4922741943,"userId":45348281} {"universeId":4922741943,"userId":45348281}
+ * @exampleData {"universeId":4922741943,"userId":45348281} 
+ * @exampleRawBody {"universeId":4922741943,"userId":45348281} 
  */
 export const authedUserFollowUniverse = addApiMethod(async <UniverseId extends Identifier, UserId extends Identifier>(
   { universeId, userId }: { universeId: UniverseId, userId: UserId }
