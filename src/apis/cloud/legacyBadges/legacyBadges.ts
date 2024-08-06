@@ -29,7 +29,7 @@ const addApiMethod = createApiGroup({ name: "LegacyBadges", baseUrl: "https://ap
  * @param description The new description for the badge.
  * @param enabled If the badge is to enabled.
  * 
- * @example const { data:success } = await ClassicBadgesApi.updateBadge({ badgeId: 2124533401, description: "hello" })
+ * @example const { data:success } = await LegacyBadgesApi.updateBadge({ badgeId: 2124533401, description: "hello" })
  * @exampleData true
  * @exampleRawBody {}
  */
