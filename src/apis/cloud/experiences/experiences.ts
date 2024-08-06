@@ -182,7 +182,7 @@ export const updatePlace = addApiMethod(async <
     Description extends string, ServerSize extends number
   >(
   { universeId, placeId, ...rest }:
-  { universeId: UniverseId, placeId: PlaceId, displayName: DisplayName, description: Description, serverSize: ServerSize }
+  { universeId: UniverseId, placeId: PlaceId, displayName?: DisplayName, description?: Description, serverSize?: ServerSize }
 ): ApiMethod<
   RawUpdatePlaceData<UniverseId, PlaceId, DisplayName, Description, ServerSize>,
   PrettifiedUpdatePlaceData<UniverseId, PlaceId, DisplayName, Description, ServerSize>
