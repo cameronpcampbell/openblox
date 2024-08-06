@@ -6,8 +6,8 @@ import { toCamel, cloneAndMutateObject, removeNullUndefined, formDataBuilder } f
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
-import { PrettifiedGamePassesForUniverseData, PrettifiedGamePassInfo, RawGamePassesForUniverseData, RawGamePassInfo } from "./gamePasses.types"
-import { Identifier } from "typeforge"
+import type { PrettifiedGamePassesForUniverseData, PrettifiedGamePassInfo, RawGamePassesForUniverseData, RawGamePassInfo } from "./gamePasses.types"
+import type { Identifier } from "typeforge"
 import { readFile } from "../../../file"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -99,14 +99,6 @@ export const updateGamePass = addApiMethod(async (
 }))
 
 
-/*
-
-removeNullUndefined({
-    Name: name,
-    Description: description,
-    File: typeof icon == "string" ? new File([ new Blob([ await readFile(icon) ]) ], "File") : icon
-  })
-*/
 
 /**
  * Creates a game pass.

@@ -20,12 +20,12 @@ type ItemRestriction = UnionPrettify<"ThirteenPlus" | "LimitedUnique" | "Limited
 
 // [ Bundle ] ///////////////////////////////////////////////////////////////////
 type Bundle<
-  TemporalType extends ISODateTime | Date, BundleId extends Identifier = Identifier, Type extends BundleType = BundleType
+  TemporalType extends ISODateTime | Date, BundleId extends Identifier = Identifier, BType extends BundleType = BundleType
 > = ObjectPrettify<{
   id: BundleId,
   name: string,
   description: string,
-  bundleType: Type,
+  bundleType: BType,
   items: {
     id: Identifier,
     name: string,
@@ -71,9 +71,9 @@ type Bundle<
   }
 }>
 
-export type RawBundle<BundleId extends Identifier = Identifier, Type extends BundleType = BundleType> = Bundle<ISODateTime, BundleId>
+export type RawBundle<BundleId extends Identifier = Identifier, BType extends BundleType = BundleType> = Bundle<ISODateTime, BundleId, BType>
 
-export type PrettifiedBundle<BundleId extends Identifier = Identifier, Type extends BundleType = BundleType> = Bundle<Date, BundleId>
+export type PrettifiedBundle<BundleId extends Identifier = Identifier, BType extends BundleType = BundleType> = Bundle<Date, BundleId, BType>
 
 export type RawPaginatedBundlesData<BundleId extends Identifier = Identifier, Type extends BundleType = BundleType> = {
   previousPageCursor: string | null,

@@ -204,11 +204,11 @@ export const enqueueItem = addApiMethod(async <ItemValue>(
  * 
  * @example
  * type Item = { isReal: boolean };
- * const { data:queueItems, response:{body} } = await MemoryStoresApi.readQueueItems<Item>({ universeId: 5243626809, queue: "MyQueue", limit: 2 });
+ * const { data:queueItems } = await MemoryStoresApi.readQueueItems<Item>({ universeId: 5243626809, queue: "MyQueue", limit: 2 });
  * @exampleData {"items":[{"name":"Testing123","value":{"isReal":true}},{"name":"Testing1234","value":{"isReal":true}}],"id":"48e44da3c8754a4ab7ed728d07ac9526"}
  * @exampleRawBody {"data":[{"name":"Testing123","value":{"isReal":true}},{"name":"Testing1234","value":{"isReal":true}}],"id":"5cfc27af46da4cf08b41aa9a3d78a75e"}
  */
-export const readQueueItems = addApiMethod(async <ItemValue>(
+export const readQueueItems = addApiMethod(async <ItemValue extends any>(
   { universeId, queue, limit, allOrNothing, invisibilityTimeoutSeconds }:
   { universeId: Identifier, queue: string, limit?: number, allOrNothing?: boolean, invisibilityTimeoutSeconds?: number }
 ): ApiMethod<RawReadQueueItemsData<ItemValue>, PrettifiedReadQueueItemsData<ItemValue>> => ({
@@ -219,6 +219,7 @@ export const readQueueItems = addApiMethod(async <ItemValue>(
 
   formatRawDataFn: ({ data, id }) => ({ items: data, readId: id })
 }))
+// ABOVE
 
 
 /**
@@ -242,7 +243,6 @@ export const dequeueItems = addApiMethod(async (
   searchParams: { readId },
   name: "dequeueItems"
 }))
-
 
 /**
  * Removes all items from every queue in a given universe.

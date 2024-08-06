@@ -1427,7 +1427,7 @@ export const groupSearchMetadata = addApiMethod(async (
  * 
  * @param roleIds The ids of roles to get.
  * 
- * @example const { data:roles } = await ClassicGroupsApi.groupRolesFromIds([38353811])
+ * @example const { data:roles } = await ClassicGroupsApi.groupRolesFromIds({ roleIds: [ 38353811 ] })
  * @exampleData { '38353811': { groupId: 5850082, name: 'NamelessGuy2005 - Scriptor', rank: 255 } }
  * @exampleRawBody { data: [ { groupId: 5850082, id: 38353811, name: 'NamelessGuy2005 - Scriptor', rank: 255 } ] }
  */
@@ -1552,11 +1552,11 @@ export const updateGroupRoleSet = addApiMethod(async <const NewRoleData extends 
  * 
  * @param groupIds The id of the groups to get information for.
  *  
- * @example const { data:groupsInfo } = await ClassicGroupsApi.groupIdsToGroupsInfo({ groupIds: [5850082] })
+ * @example const { data:groupsInfo } = await ClassicGroupsApi.groupsInfo({ groupIds: [ 5850082 ] })
  * @exampleData { "5850082": { name: "MightyPart Games", description: "Welcome to my amazing group", owner: { id: 45348281, type: "User" }, created: 2020-03-29T18:15:20.100Z, hasVerifiedBadge: false } }
  * @exampleRawBody { data: [ { id: 5850082, name: "MightyPart Games", description: "Welcome to my amazing group", owner: { id: 45348281, type: "User" }, created: "2020-03-29T18:15:20.1Z", hasVerifiedBadge: false } ] }
  */
-export const groupIdsToGroupsInfo = addApiMethod(async <GroupId extends Identifier>(
+export const groupsInfo = addApiMethod(async <GroupId extends Identifier>(
   { groupIds }: { groupIds: GroupId[] }
 ): ApiMethod<RawGroupIdsToGroupsInfoData<GroupId>, PrettifiedGroupIdsToGroupsInfoData<GroupId>> => ({
   method: "GET",

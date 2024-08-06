@@ -1,5 +1,5 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import { Identifier, ISODateTime, ObjectEither, ObjectPrettify, ObjectPrettifyDeep } from "typeforge"
+import { ArrayToUnion, Identifier, ISODateTime, ObjectEither, ObjectPrettify, ObjectPrettifyDeep } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 // GET /v2/groups/{groupId} ------------------------------------------------------------------------------------------
@@ -45,7 +45,8 @@ export type GroupMembers_Filter = ObjectEither<
   { roleId: Identifier }
 >
 
-export type GroupMembers_WildcardFilter = ObjectPrettify<{ readonly userIds: Identifier[] }>
+
+export type GroupMembers_WildcardFilter = ObjectPrettify<{ userIds: Identifier[] }>
 
 type GroupMember<GroupId extends Identifier | "-", TemporalType, UserId extends Identifier = Identifier> = ObjectPrettify<{
   path: `groups/${GroupId}/memberships/${string}`,

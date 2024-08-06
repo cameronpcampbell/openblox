@@ -8,7 +8,7 @@ import { readFile } from "../../../file"
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
 import type { Identifier } from "../../../utils/utils.types"
-import type { UpdateUniverse_NewData, PrettifiedPlaceInfoData, PrettifiedUniverseInfoData, PrettifiedUpdateUniverseData, RawPlaceInfoData, RawUniverseInfoData, RawUpdateUniverseData, UpdatePlace_NewData, RawUpdatePlaceData, PrettifiedUpdatePlaceData } from "./experiences.types"
+import type { PrettifiedPlaceInfoData, PrettifiedUniverseInfoData, PrettifiedUpdateUniverseData, RawPlaceInfoData, RawUniverseInfoData, RawUpdateUniverseData, UpdatePlace_NewData, RawUpdatePlaceData, PrettifiedUpdatePlaceData, Universe, UniverseVisibility, UniverseAgeRating } from "./experiences.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -65,12 +65,28 @@ export const universeInfo = addApiMethod(async <UniverseId extends Identifier>(
  * @exampleData {"path":"universes/5795192361","createTime":"2024-03-25T10:42:46.360Z","updateTime":"2024-03-25T10:42:46.360Z","displayName":"MightyPart's Place Number: 201","description":"","user":"users/45348281","visibility":"PRIVATE","voiceChatEnabled":false,"ageRating":"AGE_RATING_UNSPECIFIED","desktopEnabled":true,"mobileEnabled":true,"tabletEnabled":true,"consoleEnabled":false,"vrEnabled":true}
  * @exampleRawBody {"path":"universes/5795192361","createTime":"2024-03-25T10:42:46.360Z","updateTime":"2024-03-25T10:42:46.360Z","displayName":"MightyPart's Place Number: 201","description":"","user":"users/45348281","visibility":"PRIVATE","voiceChatEnabled":false,"ageRating":"AGE_RATING_UNSPECIFIED","desktopEnabled":true,"mobileEnabled":true,"tabletEnabled":true,"consoleEnabled":false,"vrEnabled":true}
  */
-export const updateUniverse = addApiMethod(async <UniverseId extends Identifier, const NewData extends UpdateUniverse_NewData>(
-  { universeId, newData }: { universeId: UniverseId, newData: NewData }
-): ApiMethod<RawUpdateUniverseData<UniverseId, NewData>, PrettifiedUpdateUniverseData<UniverseId, NewData>> => ({
+export const updateUniverse = addApiMethod(async <
+    UniverseId extends Identifier, DisplayName extends string, Description extends string, Visibility extends UniverseVisibility,
+    VoiceChatEnabled extends boolean, AgeRating extends UniverseAgeRating, DesktopEnabled extends boolean,
+    MobileEnabled extends boolean, TabletEnabled extends boolean, ConsoleEnabled extends boolean,
+    VREnabled extends boolean
+  >(
+  { universeId, ...rest }: { universeId: UniverseId } & Partial<Universe<
+    DisplayName, Description, Visibility, VoiceChatEnabled, AgeRating, DesktopEnabled, MobileEnabled, TabletEnabled, ConsoleEnabled, VREnabled
+  >>
+): ApiMethod<
+  RawUpdateUniverseData<
+    UniverseId, DisplayName, Description, Visibility, VoiceChatEnabled, AgeRating, DesktopEnabled,
+    MobileEnabled, TabletEnabled, ConsoleEnabled, VREnabled
+  >,
+  PrettifiedUpdateUniverseData<
+    UniverseId, DisplayName, Description, Visibility, VoiceChatEnabled, AgeRating, DesktopEnabled,
+    MobileEnabled, TabletEnabled, ConsoleEnabled, VREnabled
+  >
+> => ({
   path: `/cloud/v2/universes/${universeId}`,
   method: "PATCH",
-  body: newData,
+  body: rest,
   applyFieldMask: true,
   name: "updateUniverse",
 
@@ -142,12 +158,19 @@ export const placeInfo = addApiMethod(async <UniverseId extends Identifier, Plac
  * @exampleData {"path":"universes/5795192361/places/16866553538","createTime":"2024-03-25T10:42:46.297Z","updateTime":"2024-05-13T10:21:20.247Z","displayName":"Hello World","description":"","serverSize":50}
  * @exampleRawBody {"path":"universes/5795192361/places/16866553538","createTime":"2024-03-25T10:42:46.297Z","updateTime":"2024-05-13T10:21:20.247157600Z","displayName":"Hello World","description":"","serverSize":50}
  */
-export const updatePlace = addApiMethod(async <UniverseId extends Identifier, PlaceId extends Identifier, const NewData extends UpdatePlace_NewData>(
-  { universeId, placeId, newData }: { universeId: UniverseId, placeId: PlaceId, newData: NewData }
-): ApiMethod<RawUpdatePlaceData<UniverseId, PlaceId, NewData>, PrettifiedUpdatePlaceData<UniverseId, PlaceId, NewData>> => ({
+export const updatePlace = addApiMethod(async <
+    UniverseId extends Identifier, PlaceId extends Identifier, DisplayName extends string,
+    Description extends string, ServerSize extends number
+  >(
+  { universeId, placeId, ...rest }:
+  { universeId: UniverseId, placeId: PlaceId, displayName: DisplayName, description: Description, serverSize: ServerSize }
+): ApiMethod<
+  RawUpdatePlaceData<UniverseId, PlaceId, DisplayName, Description, ServerSize>,
+  PrettifiedUpdatePlaceData<UniverseId, PlaceId, DisplayName, Description, ServerSize>
+> => ({
   path: `/cloud/v2/universes/${universeId}/places/${placeId}`,
   method: "PATCH",
-  body: newData,
+  body: rest,
   applyFieldMask: true,
   name: "updatePlace",
 

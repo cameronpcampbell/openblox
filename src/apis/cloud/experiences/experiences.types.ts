@@ -8,12 +8,20 @@ type Universe_SocialLink = ObjectPrettify<{
   uri: UrlSecure
 }>
 
-type Universe_AgeRating = UnionPrettify<"AGE_RATING_UNSPECIFIED" | "AGE_RATING_ALL" | "AGE_RATING_9_PLUS" | "AGE_RATING_13_PLUS" | "AGE_RATING_17_PLUS">
+export type UniverseAgeRating = UnionPrettify<"AGE_RATING_UNSPECIFIED" | "AGE_RATING_ALL" | "AGE_RATING_9_PLUS" | "AGE_RATING_13_PLUS" | "AGE_RATING_17_PLUS">
 
-type Universe = {
-  displayName: string,
-  description: string,
-  visibility: "PRIVATE" | "PUBLIC" | "VISIBILITY_UNSPECIFIED",
+export type UniverseVisibility = UnionPrettify<"PRIVATE" | "PUBLIC" | "VISIBILITY_UNSPECIFIED">
+
+export type Universe<
+  DisplayName extends string = string, Description extends string = string,
+  Visibility extends UniverseVisibility = UniverseVisibility, VoiceChatEnabled extends boolean = boolean,
+  AgeRating extends UniverseAgeRating = UniverseAgeRating, DesktopEnabled extends boolean = boolean,
+  MobileEnabled extends boolean = boolean, TabletEnabled extends boolean = boolean, ConsoleEnabled extends boolean = boolean,
+  VREnabled extends boolean = boolean
+> = {
+  displayName: DisplayName,
+  description: Description,
+  visibility: Visibility,
   facebookSocialLink?: Universe_SocialLink,
   twitterSocialLink?: Universe_SocialLink,
   youtubeSocialLink?: Universe_SocialLink,
@@ -21,14 +29,14 @@ type Universe = {
   discordSocialLink?: Universe_SocialLink,
   robloxGroupSocialLink?: Universe_SocialLink,
   guildedSocialLink?: Universe_SocialLink,
-  voiceChatEnabled: boolean,
-  ageRating: Universe_AgeRating,
+  voiceChatEnabled: VoiceChatEnabled,
+  ageRating: AgeRating,
   privateServerPriceRobux?: number,
-  desktopEnabled: boolean,
-  mobileEnabled: boolean,
-  tabletEnabled: boolean,
-  consoleEnabled: boolean,
-  vrEnabled: boolean
+  desktopEnabled: DesktopEnabled,
+  mobileEnabled: MobileEnabled,
+  tabletEnabled: TabletEnabled,
+  consoleEnabled: ConsoleEnabled,
+  vrEnabled: VREnabled
 }
 
 // GET /cloud/v2/universes/{universeId} ------------------------------------------------------------------------------
@@ -46,28 +54,52 @@ export type PrettifiedUniverseInfoData<UniverseId extends Identifier> = Universe
 
 
 // PATCH /cloud/v2/universes/{universeId} ----------------------------------------------------------------------------
-export type UpdateUniverse_NewData = ObjectPrettify<Partial<Universe>>
-
-type UpdateUniverseData<UniverseId extends Identifier, NewData extends UpdateUniverse_NewData, TemporalType> = ObjectPrettify<Omit<{
+type UpdateUniverseData<
+  UniverseId extends Identifier,TemporalType,
+  DisplayName extends string, Description extends string, Visibility extends UniverseVisibility,
+  VoiceChatEnabled extends boolean, AgeRating extends UniverseAgeRating, DesktopEnabled extends boolean,
+  MobileEnabled extends boolean, TabletEnabled extends boolean, ConsoleEnabled extends boolean,
+  VREnabled extends boolean
+> = {
   path: `universes/${UniverseId}`,
   createTime: TemporalType,
   updateTime: TemporalType,
-  description: string,
+  displayName: DisplayName,
+  description: Description,
   user: `users/${Identifier}`,
-  voiceChatEnabled: boolean,
-  ageRating: Universe_AgeRating,
-  desktopEnabled: boolean,
-  mobileEnabled: boolean,
-  tabletEnabled: boolean,
-  consoleEnabled: boolean,
-  vrEnabled: boolean
-}, keyof NewData> & { -readonly[Key in keyof NewData]: NewData[Key] }>
+  visibility: Visibility,
+  voiceChatEnabled: VoiceChatEnabled,
+  ageRating: AgeRating,
+  desktopEnabled: DesktopEnabled,
+  mobileEnabled: MobileEnabled,
+  tabletEnabled: TabletEnabled,
+  consoleEnabled: ConsoleEnabled,
+  vrEnabled: VREnabled
+}
 
-export type RawUpdateUniverseData<UniverseId extends Identifier, NewData extends UpdateUniverse_NewData> =
-  UpdateUniverseData<UniverseId, NewData, ISODateTime>
+export type RawUpdateUniverseData<
+  UniverseId extends Identifier, DisplayName extends string, Description extends string, Visibility extends UniverseVisibility,
+  VoiceChatEnabled extends boolean, AgeRating extends UniverseAgeRating, DesktopEnabled extends boolean,
+  MobileEnabled extends boolean, TabletEnabled extends boolean, ConsoleEnabled extends boolean,
+  VREnabled extends boolean
+> = (
+  UpdateUniverseData<
+    UniverseId, ISODateTime, DisplayName, Description, Visibility, VoiceChatEnabled,
+    AgeRating, DesktopEnabled, MobileEnabled, TabletEnabled, ConsoleEnabled, VREnabled
+  >
+)
 
-export type PrettifiedUpdateUniverseData<UniverseId extends Identifier, NewData extends UpdateUniverse_NewData> =
-  UpdateUniverseData<UniverseId, NewData, Date>
+export type PrettifiedUpdateUniverseData<
+  UniverseId extends Identifier, DisplayName extends string, Description extends string, Visibility extends UniverseVisibility,
+  VoiceChatEnabled extends boolean, AgeRating extends UniverseAgeRating, DesktopEnabled extends boolean,
+  MobileEnabled extends boolean, TabletEnabled extends boolean, ConsoleEnabled extends boolean,
+  VREnabled extends boolean
+> = (
+  UpdateUniverseData<
+    UniverseId, Date, DisplayName, Description, Visibility, VoiceChatEnabled,
+    AgeRating, DesktopEnabled, MobileEnabled, TabletEnabled, ConsoleEnabled, VREnabled
+  >
+)
 // -------------------------------------------------------------------------------------------------------------------
 
 
@@ -94,19 +126,28 @@ export type PrettifiedPlaceInfoData<UniverseId extends Identifier, PlaceId exten
 export type UpdatePlace_NewData = ObjectPrettify<Partial<Place>>
 
 type UpdatePlaceData<
-  UniverseId extends Identifier, PlaceId extends Identifier, NewData extends UpdatePlace_NewData, TemporalType
+  UniverseId extends Identifier, PlaceId extends Identifier, TemporalType, DisplayName extends string,
+  Description extends string, ServerSize extends number
 > = ObjectPrettify<
-  Omit<{
+  {
     path: `universes/${UniverseId}/places/${PlaceId}`,
     createTime: TemporalType,
     updateTime: TemporalType,
-  } & Place, keyof NewData>
-  & { -readonly[Key in keyof NewData]: NewData[Key] }
+    displayName: DisplayName,
+    description: Description,
+    serverSize: ServerSize
+  }
 >
 
-export type RawUpdatePlaceData<UniverseId extends Identifier, PlaceId extends Identifier, NewData extends UpdatePlace_NewData> =
-  UpdatePlaceData<UniverseId, PlaceId, NewData, ISODateTime>
+export type RawUpdatePlaceData<
+  UniverseId extends Identifier, PlaceId extends Identifier, DisplayName extends string,
+  Description extends string, ServerSize extends number
+> =
+  UpdatePlaceData<UniverseId, PlaceId, ISODateTime, DisplayName, Description, ServerSize>
 
-export type PrettifiedUpdatePlaceData<UniverseId extends Identifier, PlaceId extends Identifier, NewData extends UpdatePlace_NewData> =
-  UpdatePlaceData<UniverseId, PlaceId, NewData, Date>
+export type PrettifiedUpdatePlaceData<
+  UniverseId extends Identifier, PlaceId extends Identifier, DisplayName extends string,
+  Description extends string, ServerSize extends number
+> =
+  UpdatePlaceData<UniverseId, PlaceId, ISODateTime, DisplayName, Description, ServerSize>
 // -------------------------------------------------------------------------------------------------------------------

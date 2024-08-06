@@ -77,7 +77,7 @@ export const assetInfo = addApiMethod(async <AssetId extends Identifier, Field e
   path: `/v1/assets/${assetId}`,
   searchParams: { readMask: fields || assetsDefaultFields },
   name: `assetInfo`,
-
+  
   formatRawDataFn: prettifyAssetData as any
 }))
 

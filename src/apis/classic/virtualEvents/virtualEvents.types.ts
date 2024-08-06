@@ -1,11 +1,15 @@
-import { NumberIsLiteral } from "../../../utils/utils.types"
-import { ArrayNonEmpty, ArrayRemoveTypes, Identifier, ISODateTime, IsUnion, ObjectPrettify, UnionPrettify, UnionToArray } from "typeforge"
+import type { NumberIsLiteral } from "../../../utils/utils.types"
+import type { ArrayRemoveTypes, Identifier, ISODateTime, ObjectPrettify, UnionPrettify } from "typeforge"
+
+type ObjectValues<Obj extends Record<any, any>> = UnionPrettify<Obj[keyof Obj]>
 
 export type EventCategory = "contentUpdate" | "locationUpdate" | "systemUpdate" | "activity"
 
 type EventRsvpStatus = "none" | "going" | "maybeGoing" | "notGoing"
 
 export type EventStatus = "unpublished" | "active"
+
+export type Or<T, U> = T extends false ? U extends false ? false : true : true;
 
 export type VirtualEvent<
   TemporalType, EventId extends Identifier = Identifier,
@@ -95,16 +99,6 @@ export type RawAuthenticatedUserEventsData<GroupId extends Identifier> = {
 
 
 // GET /v1/virtual-events/create -------------------------------------------------------------------------------------
-type ArrayOfIndices<X extends number, Result extends any[] = []> =
-  NumberIsLiteral<X> extends false ? [0] :
-  Result['length'] extends X ? Result
-  : ArrayOfIndices<X, [...Result, Result['length']]>;
-
-type ObjectToArray<T extends Record<string, any>> = Array<T[keyof T]>;
-
-type ObjectValues<T> = T[keyof T]
-
-
 type CreatedVirtualEvent<
   TemporalType,
   Title extends string, Description extends string,
@@ -112,9 +106,7 @@ type CreatedVirtualEvent<
   UniverseId extends Identifier, GroupId extends Identifier,
   ThumbnailIds extends Identifier[],
   PrimaryCategory extends EventCategory | undefined,
-  SecondaryCategory extends EventCategory | undefined,
-  // @ts-ignore | hush hush shawty
-  _SecondaryCategoryLength extends number = UnionToArray<SecondaryCategory>["length"]
+  SecondaryCategory extends EventCategory | undefined
 > = ObjectPrettify<{
   id: Identifier,
   title: Title,
@@ -141,23 +133,25 @@ type CreatedVirtualEvent<
 
     SecondaryCategory extends undefined
       ? null
-      // @ts-ignore | hush hush
-      : _SecondaryCategoryLength extends 1
-        ? { category: SecondaryCategory, rank: 1 }
-        : null
+      : { category: SecondaryCategory, rank: 1 }
   ], null>,
 
   thumbnails: ThumbnailIds["length"] extends 0 ? null : UnionPrettify<ObjectValues<{
-    // @ts-ignore | hush hush shawty
-    [Key in ArrayOfIndices<ThumbnailIds["length"]>[number]]: {
-      // @ts-ignore | hush hush shawty
-      mediaId: ThumbnailIds[Key],
-      rank: Key
+
+    [Idx in keyof ArrayIndicesOnly<ThumbnailIds>]: {
+      mediaId: ThumbnailIds[Idx],
+      rank: Idx
     }
   }>>[],
 
   allThumbnailsCreated: boolean
 }>
+
+
+type ArrayNonIntegerKeys =  
+"length" | "toString" | "toLocaleString" | "pop" | "push" | "concat" | "join" | "reverse" | "shift" | "slice" | "sort" | "splice" | "unshift" | "indexOf" | "lastIndexOf" | "every" | "some" | "forEach" | "map" | "filter" | "reduce" | "reduceRight" | "find" | "findIndex" | "fill" | "copyWithin" | "entries" | "keys" | "values" | "includes" | "flatMap" | "flat" | "at" | typeof Symbol.iterator | typeof Symbol.unscopables | number
+
+type ArrayIndicesOnly<Arr extends any[]> = Omit<Arr, ArrayNonIntegerKeys>
 
 export type RawCreatedVirtualEvent<
   Title extends string, Description extends string,

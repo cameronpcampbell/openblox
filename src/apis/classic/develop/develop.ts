@@ -7,7 +7,7 @@ import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware, dataIsSuccess
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
 import type { ArrayNonEmptyIfConst, Identifier, SortOrder } from "../../../utils/utils.types"
-import { PrettifiedGameTemplatesData, PrettifiedPluginsInfoData, PrettifiedTeamCreateActiveMembersData, PrettifiedTeamCreateSettingsForUniversesData, PrettifiedGroupUniversesData, PrettifiedUniverseInfo, PrettifiedUniversePlacesData, RawGameTemplatesData, RawPluginsInfoData, RawTeamCreateActiveMembersData, RawTeamCreateSettingsForUniversesData, RawGroupUniversesData, RawUniverseInfo, RawUniversePlacesData, RawUniversesInfoData, PrettifiedUniversesInfoData, RawAuthenticatedUserPermissionsForUniversesData, PrettifiedAuthenticatedUserPermissionsForUniversesData, UniverseConfigurationData_V1, UniverseAvatarType, UniverseScaleType, UniverseAnimationType, UniverseCollisionType, UniverseBodyType, UniverseJointPositioningType, UniverseGenre, UniversePlayableDevice, RawAuthenticatedUserGroupsCanManage, PrettifiedAuthenticatedUserGroupsCanManage, PrettifiedAuthenticatedUserUniversesData, RawPaginatedUniverseData, RawAuthenticatedUserUniversesData, PlaceConfigurationData, PlaceSocialSlotType, PlaceGearType, UpdatePlaceConfigurationData_V2, PrettifiedAvatarAssetOverride, AvatarScales, UniverseRegion, RawUpdateUniverseConfigurationData_V2, PrettifiedUpdateUniverseConfigurationData_V2 } from "./develop.types"
+import { PrettifiedGameTemplatesData, PrettifiedPluginsInfoData, PrettifiedTeamCreateActiveMembersData, PrettifiedTeamCreateSettingsForUniversesData, PrettifiedGroupUniversesData, PrettifiedUniverseInfo, PrettifiedUniversePlacesData, RawGameTemplatesData, RawPluginsInfoData, RawTeamCreateActiveMembersData, RawTeamCreateSettingsForUniversesData, RawGroupUniversesData, RawUniverseInfo, RawUniversePlacesData, RawUniversesInfoData, PrettifiedUniversesInfoData, RawAuthenticatedUserPermissionsForUniversesData, PrettifiedAuthenticatedUserPermissionsForUniversesData, UniverseConfigurationData_V1, UniverseAvatarType, UniverseScaleType, UniverseAnimationType, UniverseCollisionType, UniverseBodyType, UniverseJointPositioningType, UniverseGenre, UniversePlayableDevice, RawAuthenticatedUserGroupsCanManage, PrettifiedAuthenticatedUserGroupsCanManage, PrettifiedAuthenticatedUserUniversesData, RawPaginatedUniverseData, RawAuthenticatedUserUniversesData, PlaceConfigurationData, PlaceSocialSlotType, PlaceGearType, UpdatePlaceConfigurationData_V2, PrettifiedAvatarAssetOverride, AvatarScales, UniverseRegion, RawUpdateUniverseConfigurationData_V2, PrettifiedUpdateUniverseConfigurationData_V2, RawAvatarAssetOverride } from "./develop.types"
 import { ObjectEither } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -637,7 +637,7 @@ export const updatePlaceConfiguration_V2 = addApiMethod(async <
  * @param price The price of the universe.
  * 
  * @example
- * const { data, response:{body} } = await ClassicDevelopApi.updateUniverseConfiguration_V2({
+ * const { data:universe } = await ClassicDevelopApi.updateUniverseConfiguration_V2({
      universeId: 5638577595, playableDevices: [ "Computer" ], avatarType: "PlayerChoice"
    })
  * @exampleData {"allowPrivateServers":false,"privateServerPrice":null,"optInRegions":[],"isMeshTextureApiAccessAllowed":true,"id":5638577595,"name":"New name!","description":"","universeAvatarType":"PlayerChoice","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeJointPositioningType":"ArtistIntent","isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer"],"isForSale":false,"price":0,"universeAvatarMinScales":{"height":0.9,"width":0.7,"head":0.95,"depth":0,"proportion":0,"bodyType":0},"universeAvatarMaxScales":{"height":1.05,"width":1,"head":1,"depth":0,"proportion":1,"bodyType":1},"studioAccessToApisAllowed":false,"universeAvatarAssetOverrides":[],"permissions":{"isThirdPartyTeleportAllowed":false,"isThirdPartyAssetAllowed":false,"isThirdPartyPurchaseAllowed":false}} 
@@ -648,7 +648,7 @@ export const updateUniverseConfiguration_V2 = addApiMethod(async <
   Description extends string, AvatarType extends UniverseAvatarType, AnimationType extends UniverseAnimationType,
   CollisionType extends UniverseCollisionType, JointPositioningType extends UniverseJointPositioningType,
   IsArchived extends boolean, IsFriendsOnly extends boolean, Genre extends UniverseGenre,
-  PlayableDevice extends UniversePlayableDevice, const AvatarAssetOverride extends PrettifiedAvatarAssetOverride,
+  PlayableDevice extends UniversePlayableDevice, const AvatarAssetOverrides extends ArrayNonEmptyIfConst<PrettifiedAvatarAssetOverride>,
   const AvatarMinScales extends AvatarScales, const AvatarMaxScales extends AvatarScales, StudioAccessToApisAllowed extends boolean,
   IsThirdPartyTeleportAllowed extends boolean, IsThirdPartyAssetAllowed extends boolean,
   IsThirdPartyPurchaseAllowed extends boolean, OptInRegion extends UniverseRegion, OptOutRegion extends UniverseRegion,
@@ -663,7 +663,7 @@ export const updateUniverseConfiguration_V2 = addApiMethod(async <
     universeId: UniverseId, name?: Name, description?: Description, avatarType?: AvatarType,
     animationType?: AnimationType, collisionType?: CollisionType, jointPositioningType?: JointPositioningType, 
     isArchived?: IsArchived, isFriendsOnly?: IsFriendsOnly, genre?: Genre, playableDevices?: PlayableDevice[],
-    avatarAssetOverrides?: ArrayNonEmptyIfConst<AvatarAssetOverride>, avatarMinScales?: AvatarMinScales,
+    avatarAssetOverrides?: AvatarAssetOverrides, avatarMinScales?: AvatarMinScales,
     avatarMaxScales?: AvatarMaxScales, studioAccessToApisAllowed?: StudioAccessToApisAllowed,
     isThirdPartyTeleportAllowed?: IsThirdPartyTeleportAllowed, isThirdPartyAssetAllowed?: IsThirdPartyAssetAllowed,
     isThirdPartyPurchaseAllowed?: IsThirdPartyPurchaseAllowed, isMeshTextureApiAccessAllowed?: IsMeshTextureApiAccessAllowed,
@@ -673,15 +673,15 @@ export const updateUniverseConfiguration_V2 = addApiMethod(async <
 ): (ApiMethod<
   RawUpdateUniverseConfigurationData_V2<
     UniverseId, AllowPrivateServers, PrivateServerPrice, Name, Description, AvatarType, AnimationType,
-    CollisionType, JointPositioningType, IsArchived, IsFriendsOnly, Genre, PlayableDevice, AvatarAssetOverride,
+    CollisionType, JointPositioningType, IsArchived, IsFriendsOnly, Genre, PlayableDevice,
     AvatarMinScales, AvatarMaxScales, StudioAccessToApisAllowed, IsThirdPartyTeleportAllowed, IsThirdPartyAssetAllowed,
-    IsThirdPartyPurchaseAllowed, OptInRegion, OptOutRegion, IsMeshTextureApiAccessAllowed, Price, IsForSale
+    IsThirdPartyPurchaseAllowed, OptInRegion, OptOutRegion, IsMeshTextureApiAccessAllowed, Price, IsForSale, AvatarAssetOverrides
   >,
   PrettifiedUpdateUniverseConfigurationData_V2<
     UniverseId, AllowPrivateServers, PrivateServerPrice, Name, Description, AvatarType, AnimationType,
-    CollisionType, JointPositioningType, IsArchived, IsFriendsOnly, Genre, PlayableDevice, AvatarAssetOverride,
+    CollisionType, JointPositioningType, IsArchived, IsFriendsOnly, Genre, PlayableDevice,
     AvatarMinScales, AvatarMaxScales, StudioAccessToApisAllowed, IsThirdPartyTeleportAllowed, IsThirdPartyAssetAllowed,
-    IsThirdPartyPurchaseAllowed, OptInRegion, OptOutRegion, IsMeshTextureApiAccessAllowed, Price, IsForSale
+    IsThirdPartyPurchaseAllowed, OptInRegion, OptOutRegion, IsMeshTextureApiAccessAllowed, Price, IsForSale, AvatarAssetOverrides
   >
 >) => ({
   method: "PATCH",
@@ -702,7 +702,7 @@ export const updateUniverseConfiguration_V2 = addApiMethod(async <
 
   formatRawDataFn: ({ permissions, universeAvatarAssetOverrides, ...rest }) => ({
     ...rest,
-    universeAvatarAssetOverrides: universeAvatarAssetOverrides.map(({ assetID, assetTypeID, ...rest2 }) => ({
+    universeAvatarAssetOverrides: (universeAvatarAssetOverrides as any as RawAvatarAssetOverride[]).map(({ assetID, assetTypeID, ...rest2 }) => ({
       assetId: assetID, assetTypeId: assetTypeID, ...rest2
     })) as any,
     permissions: {

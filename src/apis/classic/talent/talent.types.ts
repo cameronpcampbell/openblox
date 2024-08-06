@@ -1,5 +1,5 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { Identifier, ISODateTime, ObjectPrettify, ObjectPrettifyDeep, Url } from "typeforge"
+import type { Identifier, ISODateTime, ObjectPrettify, Url } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 type JobType = "FullTime" | "PartTime" | "Commission"
@@ -8,7 +8,7 @@ type SkillType = "Graphics Design" | "Clothes Design" | "Development" | "Animati
 
 
 // GET /v1/users/{userId}/games --------------------------------------------------------------------------------------
-export type RawUsersAreIdVerifiedData<UserId extends Identifier> = ObjectPrettifyDeep<{
+export type RawUsersAreIdVerifiedData<UserId extends Identifier> = ObjectPrettify<{
   data: {
     userId: UserId,
     isVerified: boolean
@@ -72,7 +72,7 @@ type CreatorExperienceData<TimeType> = ObjectPrettify<{
   }
 )>
 
-export type RawCreatorExperiencesData = ObjectPrettifyDeep<{
+export type RawCreatorExperiencesData = ObjectPrettify<{
   data: CreatorExperienceData<ISODateTime>[]
 }>
 
@@ -128,7 +128,7 @@ type JobSearchData<JobSearchType> = ObjectPrettify<{
 
 
 type RawJobSearchResult = JobSearchResult<ISODateTime, "true" | "false">
-export type RawJobSearchData = JobSearchData<ObjectPrettifyDeep<{
+export type RawJobSearchData = JobSearchData<ObjectPrettify<{
   [Key in keyof RawJobSearchResult]: Key extends "_meta" ? RawJobSearchResult[Key] : {
     raw: RawJobSearchResult[Key]
   }

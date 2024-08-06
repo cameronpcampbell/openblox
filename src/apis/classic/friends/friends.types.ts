@@ -136,9 +136,9 @@ export type RawOnlineFriendsUserPresenceData = ObjectPrettify<{
   }[]
 }>
 
+
 type ObjectToCamelCase<Obj extends Record<string, any>> = ObjectPrettify<{
-  // @ts-ignore | hush hush shawty
-  [Key in keyof Obj as LowercaseFirstLetter<Key>]: Obj[Key]
+  [Key in keyof Obj as Key extends string ? LowercaseFirstLetter<Key> : Key]: Obj[Key]
 }>
 
 export type PrettifiedOnlineFriendsUserPresenceData = ObjectPrettify<{

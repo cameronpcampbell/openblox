@@ -7,7 +7,6 @@ import { cloneAndMutateObject } from "../../../utils/utils"
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
 import type { Identifier } from "../../../utils/utils.types"
-import { PrettifiedAuthenticatedUserCountryCodeData, RawUsernamesToUsersInfoData } from "../users/users.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 

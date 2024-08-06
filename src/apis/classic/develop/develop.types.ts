@@ -1,7 +1,7 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import { ObjectRemoveReadOnly } from "../../../apis/apis.types"
-import { KeysToCamelCase, NumberIsLiteral } from "../../../utils/utils.types"
-import { ArrayPrettify, Identifier, ISODateTime, ObjectPrettify, ObjectRemoveKeys, UnionPrettify, UnionToArray } from "typeforge"
+import { ArrayNonEmptyIfConst, KeysToCamelCase, NumberIsLiteral } from "../../../utils/utils.types"
+import { ArrayPrettify, ArrayToUnion, Identifier, ISODateTime, ObjectPrettify, ObjectRemoveKeys, UnionPrettify, UnionToArray } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -300,12 +300,18 @@ export type UpdatePlaceConfigurationData_V2<
 // [ Universe Settings ] /////////////////////////////////////////////////////////
 // PATCH /v2/universes/{universeId}/configuration --------------------------------
 
+export type RawAvatarAssetOverride = ObjectPrettify<{
+  assetID: Identifier,
+  assetTypeID: Identifier,
+  isPlayerChoice: boolean
+}>
+
 export type PrettifiedAvatarAssetOverride = ObjectPrettify<{
   assetId: Identifier,
   assetTypeId: Identifier,
   isPlayerChoice: boolean
-}
->
+}>
+
 export type AvatarScales = ObjectPrettify<{
   height: number,
   width: number,
@@ -317,19 +323,26 @@ export type AvatarScales = ObjectPrettify<{
 
 export type UniverseRegion = UnionPrettify<"Unknown" | "China">
 
+type PrettifiedAvatarAssetOverridesToRaw<
+  Overrides extends ArrayNonEmptyIfConst<PrettifiedAvatarAssetOverride>
+> = ArrayToUnion<{
+  [Key in keyof Overrides]: {
+    assetID: Overrides[Key]["assetId"],
+    assetTypeID: Overrides[Key]["assetTypeId"],
+    isPlayerChoice: Overrides[Key]["isPlayerChoice"]
+  }
+}>[]
 
-export type RawUpdateUniverseConfigurationData_V2<
+type UpdateUniverseConfigurationData_V2<
   UniverseId extends Identifier, AllowPrivateServers extends boolean, PrivateServerPrice extends number, Name extends string,
   Description extends string, AvatarType extends UniverseAvatarType, AnimationType extends UniverseAnimationType,
   CollisionType extends UniverseCollisionType, JointPositioningType extends UniverseJointPositioningType,
   IsArchived extends boolean, IsFriendsOnly extends boolean, Genre extends UniverseGenre,
-  PlayableDevice extends UniversePlayableDevice, AvatarAssetOverride extends PrettifiedAvatarAssetOverride,
-  AvatarMinScales extends AvatarScales, AvatarMaxScales extends AvatarScales, StudioAccessToApisAllowed extends boolean,
-  IsThirdPartyTeleportAllowed extends boolean, IsThirdPartyAssetAllowed extends boolean,
-  IsThirdPartyPurchaseAllowed extends boolean, OptInRegion extends UniverseRegion, OptOutRegion extends UniverseRegion,
-  IsMeshTextureApiAccessAllowed extends boolean, Price extends number, IsForSale extends boolean = false,
+  PlayableDevice extends UniversePlayableDevice, AvatarMinScales extends AvatarScales, AvatarMaxScales extends AvatarScales,
+  StudioAccessToApisAllowed extends boolean, OptInRegion extends UniverseRegion, OptOutRegion extends UniverseRegion,
+  IsMeshTextureApiAccessAllowed extends boolean, Price extends number, IsForSale extends boolean,
 
-  _AssetOverridesArr = UnionToArray<ObjectPrettify<ObjectRemoveReadOnly<AvatarAssetOverride>>>
+  AvatarAssetOverrides extends any, Permissions extends any,
 > = ObjectPrettify<{
   allowPrivateServers: AllowPrivateServers,
   privateServerPrice: PrivateServerPrice,
@@ -351,61 +364,62 @@ export type RawUpdateUniverseConfigurationData_V2<
   playableDevices: PlayableDevice[],
   isForSale: IsForSale,
   price: Price,
-  universeAvatarAssetOverrides: (ObjectValues<{
-  // @ts-ignore | hush hush shawty
-  [Idx in ArrayOfIndices<_AssetOverridesArr["length"]>[number]]: {
-     // @ts-ignore | hush hush shawty
-    assetID: _AssetOverridesArr[Idx]["assetId"],
-     // @ts-ignore | hush hush shawty
-    assetTypeID: _AssetOverridesArr[Idx]["assetTypeId"],
-     // @ts-ignore | hush hush shawty
-    isPlayerChoice: _AssetOverridesArr[Idx]["isPlayerChoice"]
-  }
-}> & {})[],
+  universeAvatarAssetOverrides: AvatarAssetOverrides,
   universeAvatarMinScales: ObjectRemoveReadOnly<AvatarMinScales>,
   universeAvatarMaxScales: ObjectRemoveReadOnly<AvatarMaxScales>,
   studioAccessToApisAllowed: StudioAccessToApisAllowed,
-  permissions: {
+  permissions: Permissions,
+}>
+
+export type RawUpdateUniverseConfigurationData_V2<
+  UniverseId extends Identifier, AllowPrivateServers extends boolean, PrivateServerPrice extends number, Name extends string,
+  Description extends string, AvatarType extends UniverseAvatarType, AnimationType extends UniverseAnimationType,
+  CollisionType extends UniverseCollisionType, JointPositioningType extends UniverseJointPositioningType,
+  IsArchived extends boolean, IsFriendsOnly extends boolean, Genre extends UniverseGenre,
+  PlayableDevice extends UniversePlayableDevice,
+  AvatarMinScales extends AvatarScales, AvatarMaxScales extends AvatarScales, StudioAccessToApisAllowed extends boolean,
+  IsThirdPartyTeleportAllowed extends boolean, IsThirdPartyAssetAllowed extends boolean,
+  IsThirdPartyPurchaseAllowed extends boolean, OptInRegion extends UniverseRegion, OptOutRegion extends UniverseRegion,
+  IsMeshTextureApiAccessAllowed extends boolean, Price extends number, IsForSale extends boolean = false,
+  AvatarAssetOverrides extends ArrayNonEmptyIfConst<PrettifiedAvatarAssetOverride> = []
+
+> = UpdateUniverseConfigurationData_V2<
+  UniverseId, AllowPrivateServers, PrivateServerPrice, Name, Description, AvatarType, AnimationType,
+  CollisionType, JointPositioningType, IsArchived, IsFriendsOnly, Genre, PlayableDevice,
+  AvatarMinScales, AvatarMaxScales, StudioAccessToApisAllowed, OptInRegion, OptOutRegion, IsMeshTextureApiAccessAllowed, Price, IsForSale,
+
+  PrettifiedAvatarAssetOverridesToRaw<AvatarAssetOverrides>,
+  {
     IsThirdPartyTeleportAllowed: IsThirdPartyTeleportAllowed,
     IsThirdPartyAssetAllowed: IsThirdPartyAssetAllowed,
     IsThirdPartyPurchaseAllowed: IsThirdPartyPurchaseAllowed,
-  },
-}>
+  }
+>
 
 export type PrettifiedUpdateUniverseConfigurationData_V2<
   UniverseId extends Identifier, AllowPrivateServers extends boolean, PrivateServerPrice extends number, Name extends string,
   Description extends string, AvatarType extends UniverseAvatarType, AnimationType extends UniverseAnimationType,
   CollisionType extends UniverseCollisionType, JointPositioningType extends UniverseJointPositioningType,
   IsArchived extends boolean, IsFriendsOnly extends boolean, Genre extends UniverseGenre,
-  PlayableDevice extends UniversePlayableDevice, AvatarAssetOverride extends PrettifiedAvatarAssetOverride,
+  PlayableDevice extends UniversePlayableDevice,
   AvatarMinScales extends AvatarScales, AvatarMaxScales extends AvatarScales, StudioAccessToApisAllowed extends boolean,
   IsThirdPartyTeleportAllowed extends boolean, IsThirdPartyAssetAllowed extends boolean,
   IsThirdPartyPurchaseAllowed extends boolean, OptInRegion extends UniverseRegion, OptOutRegion extends UniverseRegion,
-  IsMeshTextureApiAccessAllowed extends boolean, Price extends number, IsForSale extends boolean = false
-> = ObjectPrettify<ObjectRemoveKeys<
-  RawUpdateUniverseConfigurationData_V2<
-    UniverseId, AllowPrivateServers, PrivateServerPrice, Name, Description, AvatarType, AnimationType,
-    CollisionType, JointPositioningType, IsArchived, IsFriendsOnly, Genre, PlayableDevice, AvatarAssetOverride,
-    AvatarMinScales, AvatarMaxScales, StudioAccessToApisAllowed, IsThirdPartyTeleportAllowed, IsThirdPartyAssetAllowed,
-    IsThirdPartyPurchaseAllowed, OptInRegion, OptOutRegion, IsMeshTextureApiAccessAllowed, Price, IsForSale
-  >, "permissions" | "universeAvatarAssetOverrides"> & {
-    permissions: {
-      isThirdPartyTeleportAllowed: IsThirdPartyTeleportAllowed,
-      isThirdPartyAssetAllowed: IsThirdPartyAssetAllowed,
-      isThirdPartyPurchaseAllowed: IsThirdPartyPurchaseAllowed,
-    }
+  IsMeshTextureApiAccessAllowed extends boolean, Price extends number, IsForSale extends boolean = false,
+
+  AvatarAssetOverrides extends ArrayNonEmptyIfConst<PrettifiedAvatarAssetOverride> = []
+> = UpdateUniverseConfigurationData_V2<
+  UniverseId, AllowPrivateServers, PrivateServerPrice, Name, Description, AvatarType, AnimationType,
+  CollisionType, JointPositioningType, IsArchived, IsFriendsOnly, Genre, PlayableDevice,
+  AvatarMinScales, AvatarMaxScales, StudioAccessToApisAllowed, OptInRegion, OptOutRegion, IsMeshTextureApiAccessAllowed, Price, IsForSale,
+
+  ObjectRemoveReadOnly<ArrayToUnion<AvatarAssetOverrides>>[],
+  {
+    isThirdPartyTeleportAllowed: IsThirdPartyTeleportAllowed,
+    isThirdPartyAssetAllowed: IsThirdPartyAssetAllowed,
+    isThirdPartyPurchaseAllowed: IsThirdPartyPurchaseAllowed,
   }
-  & { universeAvatarAssetOverrides: ObjectRemoveReadOnly<AvatarAssetOverride>[] }
 >
 // -------------------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////////////
 
-
-type ArrayOfIndices<X extends number, Result extends any[] = []> =
-  NumberIsLiteral<X> extends false ? [0] :
-  Result['length'] extends X ? Result
-  : ArrayOfIndices<X, [...Result, Result['length']]>;
-
-type ObjectToArray<T extends Record<string, any>> = Array<T[keyof T]>;
-
-type ObjectValues<T> = T[keyof T]

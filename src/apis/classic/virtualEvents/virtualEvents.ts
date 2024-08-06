@@ -7,8 +7,8 @@ import { cloneAndMutateObject } from "../../../utils/utils"
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
 import type { Identifier } from "../../../utils/utils.types"
-import { AuthenticatedUserEventPermissionsForHostData, EventCategory, EventStatus, PrettifiedAuthenticatedUserEventsData, PrettifiedCreatedVirtualEvent, PrettifiedRsvpCountersData, PrettifiedRsvpsData, PrettifiedVirtualEventsData, RawAuthenticatedUserEventsData, RawCreatedVirtualEvent, RawRsvpCountersData, RawRsvpsData, RawVirtualEventsData, VirtualEvent } from "./virtualEvents.types"
-import { ArrayNonEmpty, ISODateTime, IsUnion, ObjectEither, UnionToArray } from "typeforge"
+import { AuthenticatedUserEventPermissionsForHostData, EventCategory, EventStatus, Or, PrettifiedAuthenticatedUserEventsData, PrettifiedCreatedVirtualEvent, PrettifiedRsvpCountersData, PrettifiedRsvpsData, PrettifiedVirtualEventsData, RawAuthenticatedUserEventsData, RawCreatedVirtualEvent, RawRsvpCountersData, RawRsvpsData, RawVirtualEventsData, VirtualEvent } from "./virtualEvents.types"
+import { ArrayNonEmpty, ISODateTime, IsUnion, ObjectEither, StringIsLiteral, UnionToArray } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -125,29 +125,18 @@ export const createEvent = addApiMethod(async <
  * @exampleData {"isUpdated":true,"thumbnailsUpdated":false,"categoriesUpdated":true}
  * @exampleRawBody {"isUpdated":true,"thumbnailsUpdated":false,"categoriesUpdated":true}
  */
+
+
+
 export const updateEvent = addApiMethod(async <
-  SecondaryCategory extends PrimaryCategory extends undefined ? EventCategory : IsUnion<PrimaryCategory> extends true ? EventCategory : Exclude<EventCategory, PrimaryCategory>,
+  SecondaryCategory extends (PrimaryCategory extends undefined
+    ? undefined
+    : Exclude<EventCategory, PrimaryCategory>
+  ),
   PrimaryCategory extends EventCategory | undefined = undefined,
   const ThumbnailIds extends Identifier[] = [],
 
-  // @ts-ignore | hush hush shawty
-  _SecondaryCategoryLength extends number = UnionToArray<SecondaryCategory>["length"],
-
-  _IsCategoriesUpdated extends boolean = [
-    PrimaryCategory extends undefined
-      ? false
-      // @ts-ignore | hush hush shawty
-      : UnionToArray<PrimaryCategory>["length"] extends 1
-        ? true
-        : false,
-
-    SecondaryCategory extends undefined
-      ? false
-      // @ts-ignore | hush hush shawty
-      : _SecondaryCategoryLength extends 1
-        ? true
-        : false
-  ] extends [ true, true ] | [ true, false ] | [ false, true ] ? true : false,
+  _IsCategoriesUpdated extends boolean = Or<PrimaryCategory extends undefined ? false : true, SecondaryCategory extends undefined ? false : true>,
 
   _ThunbnailsUpdated extends boolean = ThumbnailIds["length"] extends 0 ? false : true
 >(

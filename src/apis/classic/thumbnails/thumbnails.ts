@@ -8,7 +8,7 @@ import { createObjectMapByKeyWithMiddleware } from "../../../utils/utils"
 import type { ApiMethod } from "../../apiGroup"
 import { ArrayNonEmpty, Identifier } from "typeforge"
 
-import type { AssetAnimatedThumbnailData, AssetSize, AvatarsFullThumbnailsSize, BatchRequest, BatchResponseElement, BundleSize, DeveloperProductSize, GamesIconSize, GameThumbnailSize, GroupEmblemSize, OutfitSize, PlaceThumbnailSize, PrettifiedBatchThumbnailsData, PrettifiedGamesThumbnailsData, PrettifiedThumbnailsData, RawBatchThumbnailsData, RawThumbnailsData, ThumbnailData, ThumbnailFormat, ThumbnailReturnPolicy, ThumbnailsMetadataData } from "./thumbnails.types"
+import type { AssetAnimatedThumbnailData, AssetSize, AvatarsFullThumbnailsSize, BatchRequest, BatchResponseElement, BundleSize, DeveloperProductSize, GamesIconSize, GameThumbnailSize, GroupEmblemSize, OutfitSize, PlaceThumbnailSize, PrettifiedBatchThumbnailsData, PrettifiedGamesThumbnailsData, PrettifiedThumbnailsData, RawBatchThumbnailsData, RawGamesThumbnailsData, RawThumbnailsData, ThumbnailData, ThumbnailFormat, ThumbnailReturnPolicy, ThumbnailsMetadataData } from "./thumbnails.types"
 import { ArrayNonEmptyIfConst } from "../../../utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -37,7 +37,7 @@ const addApiMethod = createApiGroup({ name: "ClassicThumbnails", baseUrl: "https
 export const assetsThumbnails = addApiMethod(async <AssetId extends Identifier>(
   { assetIds, returnPolicy = "PlaceHolder", size, format = "WebP", isCircular }:
   { assetIds: ArrayNonEmptyIfConst<AssetId>, returnPolicy?: ThumbnailReturnPolicy, size: AssetSize, format?: ThumbnailFormat, isCircular?: boolean }
-): ApiMethod<RawThumbnailsData<AssetId>, PrettifiedThumbnailsData<AssetId>> => ({
+): ApiMethod<any, any> => ({
   path: `/v1/assets`,
   method: "GET",
   searchParams: { assetIds, returnPolicy, size, format, isCircular },
@@ -247,7 +247,7 @@ export const gameThumbnailsFromIds = addApiMethod(async <ThumbnailId extends Ide
  * @exampleData { "1685831367": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 1685831367, state: "Completed", imageUrl: "https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png" } ] }
  */
-export const gamesIcons = addApiMethod(async <UniverseId extends Identifier>(
+/*export const gamesIcons = addApiMethod(async <UniverseId extends Identifier>(
   { universeIds, returnPolicy, size = "256x256", format = "WebP", isCircular }:
   {
     universeIds: ArrayNonEmptyIfConst<UniverseId>, returnPolicy?: ThumbnailReturnPolicy, size?: GamesIconSize, format?: ThumbnailFormat, isCircular?: boolean
@@ -283,7 +283,7 @@ export const gamesThumbnails = addApiMethod(async <UniverseId extends Identifier
     universeIds: ArrayNonEmptyIfConst<UniverseId>, countPerUniverse?: number, defaults?: boolean,
     size?: GameThumbnailSize, format?: ThumbnailFormat, isCircular?: boolean
   }
-): ApiMethod<RawThumbnailsData<UniverseId>, PrettifiedGamesThumbnailsData<UniverseId>> => ({
+): ApiMethod<RawGamesThumbnailsData<UniverseId>, PrettifiedGamesThumbnailsData<UniverseId>> => ({
   path: `/v1/games/multiget/thumbnails`,
   method: "GET",
   searchParams: { universeIds, countPerUniverse, defaults, size, format, isCircular },

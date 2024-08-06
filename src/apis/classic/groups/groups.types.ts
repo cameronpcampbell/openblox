@@ -346,18 +346,18 @@ export type GroupsMetadataData = ObjectPrettify<{
 
 
 // GET /v1/groups/policies -------------------------------------------------------------------------------------------
-export type RawGroupPolicyInfoData<GroupId extends Identifier> = ObjectPrettify<{
+export type RawGroupPolicyInfoData<GroupId extends Identifier> = {
   groups: {
     canViewGroup: boolean,
     groupId: GroupId
   }[]
-}>
+}
 
-export type PrettifiedGroupPolicyInfoData<GroupId extends Identifier> = ObjectPrettify<{
+export type PrettifiedGroupPolicyInfoData<GroupId extends Identifier> = {
   [Id in GroupId]: { 
     canViewGroup: boolean,
   }
-}>
+}
 // -------------------------------------------------------------------------------------------------------------------
 
 
@@ -650,7 +650,7 @@ type AllGroupRolesForUserData_V1<TemporalType> = ObjectPrettify<{
     memberCount: number
   },
   isPrimaryGroup: boolean
-}[]>
+}>[]
 
 export type RawAllGroupRolesForUserData_V1 = ObjectPrettify<{
   data: AllGroupRolesForUserData_V1<ISODateTime>
@@ -935,22 +935,22 @@ export type PrettifiedGroupSearchMetadata = ObjectPrettify<KeysToCamelCase<RawGr
 
 // [ ROLES ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v1/roles -----------------------------------------------------------------------------------------------------
-export type RawGroupRolesFromIdsData<RoleId extends Identifier> = ObjectPrettify<{
+export type RawGroupRolesFromIdsData<RoleId extends Identifier> = {
   data: {
     groupId: number,
     id: RoleId,
     name: string,
     rank: number
   }[]
-}>
+}
 
-export type PrettifiedGroupRolesFromIdsData<RoleId extends Identifier> = ObjectPrettify<{
+export type PrettifiedGroupRolesFromIdsData<RoleId extends Identifier> = {
   [Key in RoleId]: ObjectPrettify<{
     groupId: number,
     name: string,
     rank: number
   }> | undefined
-}>
+}
 // -------------------------------------------------------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1019,7 +1019,7 @@ export type UpdateRoleSetData<NewRoleData extends UpdateRoleSetRequest> = Object
 
 // [ GROUPS V2 ] /////////////////////////////////////////////////////////////////////////////////////////////////////
 // GET /v2/groups ----------------------------------------------------------------------------------------------------
-export type RawGroupIdsToGroupsInfoData<GroupId extends Identifier>= ObjectPrettify<{
+export type RawGroupIdsToGroupsInfoData<GroupId extends Identifier>= {
   data: {
     id: GroupId,
     name: string,
@@ -1031,11 +1031,11 @@ export type RawGroupIdsToGroupsInfoData<GroupId extends Identifier>= ObjectPrett
     created: string,
     hasVerifiedBadge: boolean
   }[]
-}>
+}
 
 
 
-export type PrettifiedGroupIdsToGroupsInfoData<GroupId extends Identifier> = ObjectPrettify<{
+export type PrettifiedGroupIdsToGroupsInfoData<GroupId extends Identifier> = {
   [Key in GroupId]: {
     name: string,
     description: string,
@@ -1046,7 +1046,7 @@ export type PrettifiedGroupIdsToGroupsInfoData<GroupId extends Identifier> = Obj
     created: Date,
     hasVerifiedBadge: boolean
   } | undefined
-}>
+}
 // -------------------------------------------------------------------------------------------------------------------
 
 

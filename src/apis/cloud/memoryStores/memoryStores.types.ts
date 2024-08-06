@@ -82,20 +82,20 @@ export type PrettifiedEnqueueItemData<ItemValue> = EnqueueItemData<ItemValue, Da
 
 
 // GET /v2/universes/{universeId}/memory-store/queues/{queue}/items:read ---------------------------------------------
-type ReadQueueItemData<ItemValue> = {
+type ReadQueueItemData<ItemValue extends any> = {
   name: string,
-  value: ItemValue
+  value: Prettify<ItemValue>
 }
 
-export type RawReadQueueItemsData<ItemValue> = ObjectPrettifyDeep<{
+export type RawReadQueueItemsData<ItemValue extends any> = {
   data: ReadQueueItemData<ItemValue>[],
   id: string
-}>
+}
 
-export type PrettifiedReadQueueItemsData<ItemValue> = ObjectPrettifyDeep<{
+export type PrettifiedReadQueueItemsData<ItemValue extends any> = {
   items: ReadQueueItemData<ItemValue>[],
   readId: string
-}>
+}
 // -------------------------------------------------------------------------------------------------------------------
 
 

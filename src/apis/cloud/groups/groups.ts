@@ -80,11 +80,14 @@ export const groupMembers = addApiMethod(async <
   GroupId extends Identifier | "-",
   const Filter extends GroupId extends "-" ? ObjectPrettify<GroupMembers_WildcardFilter> : ObjectPrettify<GroupMembers_Filter>,
 
-  //@ts-ignore | hush hush shawty
+
   const UserId extends Identifier = (
-    //@ts-ignore | hush hush shawty
-    "userIds" extends keyof Filter ? Filter["userIds"] extends readonly Identifier[] ? ArrayToUnion<Filter["userIds"]> : Identifier
-    : "userId" extends keyof Filter ? Filter["userId"] : Identifier
+    "userIds" extends keyof Filter
+      ? Filter["userIds"] extends readonly Identifier[]
+        ? ArrayToUnion<Filter["userIds"]> : Identifier
+      : "userId" extends keyof Filter
+        ? Filter["userId"] extends Identifier ? Filter["userId"] : Identifier
+        : Identifier
   )
 >(
   { groupId, limit, filter, cursor }

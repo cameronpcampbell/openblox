@@ -1,4 +1,4 @@
-import { ObjectEither, ObjectPrettify } from "typeforge"
+import type { ObjectEither, ObjectPrettify, ObjectPrettifyDeep } from "typeforge"
 /*import * as _ImportedClassicApis from "./classic"
 import * as _ImportedCloudApis from "./cloud"
 
@@ -21,11 +21,25 @@ export type ObjectRemoveReadOnly<Obj extends Record<any, any>> = {
   -readonly [Key in keyof Obj]: Obj[Key]
 } & {}
 
-export type LongRunningOperation<Path extends string, Response extends Record<any, any>> = ObjectPrettify<ObjectEither<{
+export type LongRunningOperation<Path extends string, Response extends Record<any, any>> = ObjectEither<{
   path: Path,
   done: true,
-  response: ObjectPrettify<Response>
+  response: {
+    [Key in keyof Response]: Response[Key]
+  }
 }, {
   path: Path,
   done: false
-}>>
+}>
+
+
+
+type CreateFooBar<Condition extends boolean> = Condition extends true ? { hello: "world" } : { foo: "bar" }
+
+type FooBarA = CreateFooBar<true>
+
+type FooBarB = CreateFooBar<true>
+
+type Test<Condition extends boolean> = CreateFooBar<Condition> extends infer T extends Record<any, any> ? {
+  [Key in keyof T]: CreateFooBar<Condition>[Key]
+} : never

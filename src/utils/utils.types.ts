@@ -27,16 +27,18 @@ S extends `${infer First}${infer Rest}`
 ? `${Lowercase<First>}${Rest}`
 : S;
 
-export type KeysToCamelCase<Obj> = ObjectPrettify<{
-  [Key in keyof Obj as LowercaseFirstLetter<string &Key>]: (
+export type KeysToCamelCase<Obj extends Record<any, any>> = {
+  [Key in keyof Obj as Key extends string ? LowercaseFirstLetter<Key> : Key]: (
     Obj[Key] extends Array<any> ? Obj[Key]
     : Obj[Key] extends Date ? Date
-    : Obj[Key] extends Record<any, any> ? KeysToCamelCase< Obj[Key]>
+    : Obj[Key] extends Record<any, any> ? ObjectPrettify<KeysToCamelCase<Obj[Key]>>
     : Obj[Key]
   )
-} & {}>
+}
 
-export type ArrWithObjectsToCamelCase<Arr extends unknown[]> =  { [Key in keyof Arr]: ObjectPrettify<KeysToCamelCase<Arr[Key]>> }
+export type ArrWithObjectsToCamelCase<Arr extends Record<any, any>[]> = {
+ [Key in keyof Arr]: ObjectPrettify<KeysToCamelCase<Arr[Key]>>
+}
 
 
 export type IsLiteral<T extends unknown> =

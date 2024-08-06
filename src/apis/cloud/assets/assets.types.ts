@@ -1,7 +1,6 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import { LongRunningOperation, ObjectRemoveReadOnly } from "../../../apis/apis.types";
-import { NumberIsLiteral } from "../../../utils/utils.types";
-import { Identifier, ISODateTime, ObjectKeepKeys, ObjectPrettify, StringIsLiteral, UnionPrettify } from "typeforge"
+import type { Identifier, ISODateTime, ObjectKeepKeys, ObjectPrettify, StringIsLiteral, UnionPrettify } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 export type AssetField = UnionPrettify<"assetType" | "assetId" | "creationContext" | "description" | "displayName" | "path" | "revisionId" | "revisionCreateTime" | "moderationResult" | "icon" | "previews" | "state">
@@ -23,30 +22,30 @@ export type AssetPreview = {
 
 type AssetModerationState = UnionPrettify<"Approved" | "Reviewing" | "Rejected">
 
+type UserIdIsNotNever<UserId extends Identifier> = true extends (UserId extends Identifier ? true : false) ? true : false
+
 export type Asset<
   TemporalType extends Date | ISODateTime = Date | ISODateTime, AssetId extends Identifier = Identifier,
   DisplayName extends string = string, Description extends string | undefined = string,
   UserId extends Identifier = Identifier, GroupId extends Identifier = Identifier,
-  ThisAssetType extends AssetType = AssetType, Preview extends AssetPreview = AssetPreview,
-
-  _UserIdIsNotNever = true extends (UserId extends Identifier ? true : false) ? true : false,
-> = ObjectPrettify<{
+  ThisAssetType extends AssetType = AssetType, Preview extends AssetPreview = AssetPreview
+> = ({
   path: `assets/${AssetId}`,
   revisionId: `${number}`,
   revisionCreateTime: TemporalType,
   assetId: AssetId,
   displayName: DisplayName,
 } & (
-  Description extends string
-    ? StringIsLiteral<Description> extends true ? { description: Description } : { description?: Description }
-    : {}
+    Description extends undefined
+      ? {}
+      : StringIsLiteral<Description> extends true ? { description: Description } : { description?: Description }
 ) & {
   assetType: ThisAssetType,
   creationContext: {
     creator: (
-      And<_UserIdIsNotNever, true extends (GroupId extends Identifier ? true : false) ? true : false> extends true
+      And<UserIdIsNotNever<UserId>, true extends (GroupId extends Identifier ? true : false) ? true : false> extends true
         ? { userId: UserId } | { groupId: GroupId }
-        : _UserIdIsNotNever extends true ? { userId: UserId } : { groupId: GroupId }
+        : UserIdIsNotNever<UserId> extends true ? { userId: UserId } : { groupId: GroupId }
     ),
   },
   moderationResult: {
@@ -58,7 +57,7 @@ export type Asset<
     : {}
 ) & {
   state: "Active"
-}>
+})
 
 
 // GET /v1/assets/{assetId} ------------------------------------------------------
