@@ -2,7 +2,7 @@
   "name": "openblox",
   "description": "Roblox API Wrapper For Both Classic And OpenCloud APIs.",
   "type": "commonjs",
-  "version": "1.0.35",
+  "version": "1.0.36",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MightyPart/openblox/issues"
@@ -83,7 +83,8 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "parse-roblox-errors": "^1.1.10"
+    "parse-roblox-errors": "^1.1.10",
+    "typeforge": "^0.0.21"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.0",
@@ -93,7 +94,6 @@
     "tablemark": "^3.1.0",
     "ts-arithmetic": "^0.1.1",
     "ts-morph": "^22.0.0",
-    "typeforge": "^0.0.21",
     "delete-cli": "^0.1.3"
   },
   "peerDependencies": {
