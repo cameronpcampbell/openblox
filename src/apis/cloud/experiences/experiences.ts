@@ -56,11 +56,28 @@ export const universeInfo = addApiMethod(async <UniverseId extends Identifier>(
  * @endpoint PATCH /cloud/v2/universes/{universeId}
  * 
  * @param universeId The id of the universe to update.
- * @param newData the updated universe information.
+ * @param displayName The new display name for the universe.
+ * @param description The new description for the universe.
+ * @param visibility The new visibility for the universe.
+ * @param facebookSocialLink The new facebook social link for the universe.
+ * @param twitterSocialLink The new twitter social link for the universe.
+ * @param youtubeSocialLink The new youtube social link for the universe.
+ * @param twitchSocialLink The new twitch social link for the universe.
+ * @param discordSocialLink The new discord social link for the universe.
+ * @param robloxGroupSocialLink The new roblox group social link for the universe.
+ * @param guildedSocialLink The new guilded social link for the universe.
+ * @param voiceChatEnabled if voice chat will be enabled for the universe.
+ * @param ageRating The new age rating for the universe.
+ * @param privateServerPriceRobux The new private server price (in robux) for the universe.
+ * @param desktopEnabled if desktop players will be allowed to access the universe.
+ * @param mobileEnabled if mobile players will be allowed to access the universe.
+ * @param tabletEnabled if tablet players will be allowed to access the universe.
+ * @param consoleEnabled if console players will be allowed to access the universe.
+ * @param vrEnabled if vr players will be allowed to access the universe.
  * 
  * @example
  * const { data:updatedData } = await ExperiencesApi.updateUniverse({
-     universeId: 5795192361, newData: { displayName: "Lorem Ipsum", visibility: "PRIVATE" }
+     universeId: 5795192361, displayName: "Lorem Ipsum", visibility: "PRIVATE"
    })
  * @exampleData {"path":"universes/5795192361","createTime":"2024-03-25T10:42:46.360Z","updateTime":"2024-03-25T10:42:46.360Z","displayName":"MightyPart's Place Number: 201","description":"","user":"users/45348281","visibility":"PRIVATE","voiceChatEnabled":false,"ageRating":"AGE_RATING_UNSPECIFIED","desktopEnabled":true,"mobileEnabled":true,"tabletEnabled":true,"consoleEnabled":false,"vrEnabled":true}
  * @exampleRawBody {"path":"universes/5795192361","createTime":"2024-03-25T10:42:46.360Z","updateTime":"2024-03-25T10:42:46.360Z","displayName":"MightyPart's Place Number: 201","description":"","user":"users/45348281","visibility":"PRIVATE","voiceChatEnabled":false,"ageRating":"AGE_RATING_UNSPECIFIED","desktopEnabled":true,"mobileEnabled":true,"tabletEnabled":true,"consoleEnabled":false,"vrEnabled":true}
@@ -149,7 +166,9 @@ export const placeInfo = addApiMethod(async <UniverseId extends Identifier, Plac
  * 
  * @param universeId The id of the universe to update place information for.
  * @param placeId The id of the place to update.
- * @param newData the updated place information.
+ * @param displayName The new display name for the place.
+ * @param description The new description for the place.
+ * @param serverSize The new server size for the place.
  * 
  * @example
  * const { data:updatedInfo } = await ExperiencesApi.updatePlace({
