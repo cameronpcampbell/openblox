@@ -1,5 +1,4 @@
 import * as esbuild from 'esbuild';
-import esbuildPluginTsc from "esbuild-plugin-tsc"
 
 const settings = {
   entryPoints: ["src/**/*"],
@@ -8,12 +7,7 @@ const settings = {
   //keepNames: true,
   format: 'cjs',
   platform: 'node',
-  target: ['node16'], 
-  plugins: [
-    esbuildPluginTsc({
-      force: true
-    }),
-  ],
+  target: ['node18', 'node16', 'node20', 'node22']
 } satisfies esbuild.BuildOptions
 
 await esbuild.build(settings);

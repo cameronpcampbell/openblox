@@ -15,7 +15,7 @@
 
   </div>
 
-  A strictly typed Roblox API wrapper which supports both classic (BEDEV & BEDEV2) and OpenCloud endpoints.
+  A strictly typed Roblox API wrapper which supports both classic and OpenCloud endpoints.
 
   - - -
   
