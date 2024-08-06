@@ -53,9 +53,10 @@ export type PrettifiedGroupInfoData<GroupId extends Identifier> = ObjectPrettify
 
 
 // GET /v1/groups/{groupId}/audit-log --------------------------------------------------------------------------------
-export type GroupAuditLogActionType = "DeletePost" | "RemoveMember" | "AcceptJoinRequest" | "DeclineJoinRequest" | "PostStatus" | "ChangeRank" | "BuyAd" | "SendAllyRequest" | "CreateEnemy" | "AcceptAllyRequest" | "DeclineAllyRequest" | "DeleteAlly" | "DeleteEnemy" | "AddGroupPlace" | "RemoveGroupPlace" | "CreateItems" | "ConfigureItems" | "SpendGroupFunds" | "ChangeOwner" | "Delete" | "AdjustCurrencyAmounts" | "Abandon" | "Claim" | "Rename" | "ChangeDescription" | "InviteToClan" | "KickFromClan" | "CancelClanInvite" | "BuyClan" | "CreateGroupAsset" | "UpdateGroupAsset" | "ConfigureGroupAsset" | "RevertGroupAsset" | "CreateGroupDeveloperProduct" | "ConfigureGroupGame" | "CreateGroupDeveloperSubscriptionProduct" | "Lock" | "Unlock" | "CreateGamePass" | "CreateBadge" | "ConfigureBadge" | "SavePlace" | "PublishPlace" | "UpdateRolesetRank" | "UpdateRolesetData"
+export type GroupAuditLogActionType = "Delete Post" | "Remove Member" | "Accept Join Request" | "Decline Join Request" | "Post Status" | "Change Rank" | "Buy Ad" | "Send Ally Request" | "Create Enemy" | "Accept Ally Request" | "Decline Ally Request" | "Delete Ally" | "Delete Enemy" | "Add Group Place" | "Remove Group Place" | "Create Items" | "Configure Items" | "Spend Group Funds" | "Change Owner" | "Delete" | "Adjust Currency Amounts" | "Abandon" | "Claim" | "Rename" | "Change Description" | "Invite To Clan" | "Kick From Clan" | "Cancel Clan Invite" | "Buy Clan" | "Create Group Asset" | "Update Group Asset" | "Configure Group Asset" | "Revert Group Asset" | "Create Group Developer Product" | "Configure Group Game" | "Create Group Developer Subscription Product" | "Lock" | "Unlock" | "Create Game Pass" | "Create Badge" | "Configure Badge" | "Save Place" | "Publish Place" | "Update Roleset Rank" | "Update Roleset Data"
 
-type GroupAuditLogBase<actionType extends GroupAuditLogActionType, description extends Record<any, any>> = {
+type GroupAuditLogBase<ActionType extends GroupAuditLogActionType, Description extends Record<any, any>> = {
+  actionType: ActionType,
   actor: {
     user: {
       hasVerifiedBadge: boolean,
@@ -69,32 +70,23 @@ type GroupAuditLogBase<actionType extends GroupAuditLogActionType, description e
       rank: number
     }
   },
-  actionType: actionType,
-  description: description,
+  description: Description,
   created: string
 }
 
-type GroupAuditLog_DeletePost = GroupAuditLogBase<"DeletePost", {
+type GroupAuditLog_DeletePost = GroupAuditLogBase<"Delete Post", {
   PostDec: string,
   TargetId: number,
   TargetName: string
 }>
-type GroupAuditLog_RemoveMember = GroupAuditLogBase<"RemoveMember", {
+type GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest = GroupAuditLogBase<"Remove Member" | "Accept Join Request" | "Decline Join Request", {
   TargetId: number,
   TargetName: string
 }>
-type GroupAuditLog_AcceptJoinRequest = GroupAuditLogBase<"AcceptJoinRequest", {
-  TargetId: number,
-  TargetName: string
-}>
-type GroupAuditLog_DeclineJoinRequest = GroupAuditLogBase<"DeclineJoinRequest", {
-  TargetId: number,
-  TargetName: string
-}>
-type GroupAuditLog_PostStatus = GroupAuditLogBase<"PostStatus", {
+type GroupAuditLog_PostStatus = GroupAuditLogBase<"Post Status", {
   Text: string
 }>
-type GroupAuditLog_ChangeRank = GroupAuditLogBase<"ChangeRank", {
+type GroupAuditLog_ChangeRank = GroupAuditLogBase<"Change Rank", {
   TargetId: number,
   NewRoleSetId: number,
   OldRoleSetId: number,
@@ -102,110 +94,61 @@ type GroupAuditLog_ChangeRank = GroupAuditLogBase<"ChangeRank", {
   NewRoleSetName: string,
   OldRoleSetName: string
 }>
-type GroupAuditLog_BuyAd = GroupAuditLogBase<"BuyAd", {
+type GroupAuditLog_BuyAd = GroupAuditLogBase<"Buy Ad", {
   AdName: string,
   Bid: number,
   CurrencyTypeId: number,
   CurrencyTypeName: string
 }>
-type GroupAuditLog_SendAllyRequest = GroupAuditLogBase<"SendAllyRequest", {
-  TargetGroupId: number,
-  TargetGroupName: string
-}>
-type GroupAuditLog_CreateEnemy = GroupAuditLogBase<"CreateEnemy", { //
-  TargetGroupId: number,
-  TargetGroupName: string
-}>
-type GroupAuditLog_AcceptAllyRequest = GroupAuditLogBase<"AcceptAllyRequest", {
-  TargetGroupId: number,
-  TargetGroupName: string
-}>
-type GroupAuditLog_DeclineAllyRequest = GroupAuditLogBase<"DeclineAllyRequest", {
-  TargetGroupId: number,
-  TargetGroupName: string
-}>
-type GroupAuditLog_DeleteAlly = GroupAuditLogBase<"DeleteAlly", {
-  TargetGroupId: number,
-  TargetGroupName: string
-}>
-type GroupAuditLog_DeleteEnemy = GroupAuditLogBase<"DeleteEnemy", { //
-  TargetGroupId: number,
-  TargetGroupName: string
-}>
-type GroupAuditLog_AddGroupPlace = GroupAuditLogBase<"AddGroupPlace", { //
-  // possibly broken, cant get description for it :(.
-}>
-type GroupAuditLog_RemoveGroupPlace = GroupAuditLogBase<"RemoveGroupPlace", { //
-  // possibly broken, cant get description for it :(.
-}>
-type GroupAuditLog_CreateItems = GroupAuditLogBase<"CreateItems", { //
+type GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy = GroupAuditLogBase<
+  "Send Ally Request" | "Create Enemy" | "Accept Ally Request" | "Decline Ally Request" | "Delete Ally" | "Delete Enemy", {
+    TargetGroupId: number,
+    TargetGroupName: string
+  }
+>
+type GroupAuditLog_CreateItems_CreateGroupDeveloperProduct = GroupAuditLogBase<"Create Items" | "Create Group Developer Product", { //
   AssetId: number,
   AssetName: string
 }>
-type GroupAuditLog_ConfigureItems = GroupAuditLogBase<"ConfigureItems", { //
-  // possibly broken, cant get description for it :(.
-}>
-type GroupAuditLog_SpendGroupFunds = GroupAuditLogBase<"SpendGroupFunds", { //
+type GroupAuditLog_SpendGroupFunds = GroupAuditLogBase<"Spend Group Funds", { //
   Amount: number,
   CurrencyTypeId: number,
   ItemDescription: string,
   CurrencyTypeName: string
 }>
-type GroupAuditLog_ChangeOwner = GroupAuditLogBase<"ChangeOwner", {
+type GroupAuditLog_ChangeOwner = GroupAuditLogBase<"Change Owner", {
   IsRoblox: boolean,
   NewOwnerId: number,
   NewOwnerName: string,
   OldOwnerId: number,
   OldOwnerName: string
 }>
-type GroupAuditLog_AdjustCurrencyAmounts = GroupAuditLogBase<"AdjustCurrencyAmounts", {
-  // legacy action used for adding tickets to group funds, cant get description for it :(.
-}>
+
 type GroupAuditLog_Abandon = GroupAuditLogBase<"Abandon", {}> // Yes, this is supposed to be empty.
 type GroupAuditLog_Claim = GroupAuditLogBase<"Claim", {}> // Yes, this is supposed to be empty.
 type GroupAuditLog_Rename = GroupAuditLogBase<"Rename", {
   NewName: string
 }>
-type GroupAuditLog_ChangeDescription = GroupAuditLogBase<"ChangeDescription", {
+type GroupAuditLog_ChangeDescription = GroupAuditLogBase<"Change Description", {
   NewDescription: string
 }>
-type GroupAuditLog_InviteToClan = GroupAuditLogBase<"InviteToClan", {
-  // legacy action used for adding user to clan, cant get description for it :(.
-}>
-type GroupAuditLog_KickFromClan = GroupAuditLogBase<"KickFromClan", {
-  // legacy action used for kicking user from clan, cant get description for it :(.
-}>
-type GroupAuditLog_CancelClanInvite = GroupAuditLogBase<"CancelClanInvite", {
-  // legacy action used for cancelling clan invitation, cant get description for it :(.
-}>
-type GroupAuditLog_BuyClan = GroupAuditLogBase<"BuyClan", {
-  // legacy action used for buying a clan, cant get description for it :(.
-}>
-type GroupAuditLog_CreateGroupAsset = GroupAuditLogBase<"CreateGroupAsset", {
+type GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems = (
+  GroupAuditLogBase<"Invite To Clan" | "Kick From Clan" | "Cancel Clan Invite" | "Buy Clan" | "Adjust Currency Amounts" | "Revert Group Asset" | "Create Group Developer Subscription Product" | "Lock" | "Unlock" | "Configure Badge" | "Publish Place" | "Add Group Place" | "Remove Group Place" | "Configure Items" | "Delete", {
+    // legacy action used for adding user to clan, cant get description for it :(.
+  }>
+)
+type GroupAuditLog_CreateGroupAsset_UpdateGroupAsset = GroupAuditLogBase<"Create Group Asset" | "Update Group Asset", {
   AssetId: number,
   AssetName: string,
   VersionNumber: number,
   RevertVersionNumber: number | null
 }>
-type GroupAuditLog_UpdateGroupAsset = GroupAuditLogBase<"UpdateGroupAsset", {
-  AssetId: number,
-  AssetName: string,
-  VersionNumber: number,
-  RevertVersionNumber: number | null
-}>
-type GroupAuditLog_ConfigureGroupAsset = GroupAuditLogBase<"ConfigureGroupAsset", {
+type GroupAuditLog_ConfigureGroupAsset = GroupAuditLogBase<"Configure Group Asset", {
   AssetId: number,
   AssetName: string,
   Actions: number[] | null
 }>
-type GroupAuditLog_RevertGroupAsset = GroupAuditLogBase<"RevertGroupAsset", {
-  // possibly broken, cant get description for it :(.
-}>
-type GroupAuditLog_CreateGroupDeveloperProduct = GroupAuditLogBase<"CreateGroupDeveloperProduct", {
-  AssetId: number,
-  AssetName: string
-}>
-type GroupAuditLog_ConfigureGroupGame = GroupAuditLogBase<"ConfigureGroupGame", {
+type GroupAuditLog_ConfigureGroupGame = GroupAuditLogBase<"Configure Group Game", {
   Actions: number[],
   Type: number,
   TargetId: number,
@@ -213,44 +156,30 @@ type GroupAuditLog_ConfigureGroupGame = GroupAuditLogBase<"ConfigureGroupGame", 
   UniverseId: number | null,
   UniverseName: string
 }>
-type GroupAuditLog_CreateGroupDeveloperSubscriptionProduct = GroupAuditLogBase<"CreateGroupDeveloperSubscriptionProduct", {
-  // possibly for an unreleased feature, cant get description for it :(.
-}>
-type GroupAuditLog_Lock = GroupAuditLogBase<"Lock", {
-  // possibly broken, cant get description for it :(.
-}>
-type GroupAuditLog_Unlock = GroupAuditLogBase<"Unlock", {
-  // possibly broken, cant get description for it :(.
-}>
-type GroupAuditLog_CreateGamePass = GroupAuditLogBase<"CreateGamePass", {
+type GroupAuditLog_CreateGamePass = GroupAuditLogBase<"Create Game Pass", {
   GamePassId: number,
   PlaceId: number,
   GamePassName: string,
   PlaceName: string
 }>
-type GroupAuditLog_CreateBadge = GroupAuditLogBase<"CreateBadge", {
+type GroupAuditLog_CreateBadge = GroupAuditLogBase<"Create Badge", {
   BadgeId: number,
   BadgeName: string,
   Type: null
 }>
-type GroupAuditLog_ConfigureBadge = GroupAuditLogBase<"ConfigureBadge", {
-  // possibly broken, cant get description for it :(.
-}>
-type GroupAuditLog_SavePlace = GroupAuditLogBase<"SavePlace", {
+type GroupAuditLog_SavePlace = GroupAuditLogBase<"Save Place", {
   AssetId: number,
   AssetName: string,
   VersionNumber: number
 }>
-type GroupAuditLog_PublishPlace = GroupAuditLogBase<"PublishPlace", {
-  // possibly broken, cant get description for it :(.
-}>
-type GroupAuditLog_UpdateRolesetRank = GroupAuditLogBase<"UpdateRolesetRank", {
+
+type GroupAuditLog_UpdateRolesetRank = GroupAuditLogBase<"Update Roleset Rank", {
   NewRank: number,
   OldRank: number,
   RoleSetId: number,
   RoleSetName: string
 }>
-type GroupAuditLog_UpdateRolesetData = GroupAuditLogBase<"UpdateRolesetData", {
+type GroupAuditLog_UpdateRolesetData = GroupAuditLogBase<"Update Roleset Data", {
   NewDescription: string,
   NewName: string,
   OldDescription: string,
@@ -259,16 +188,125 @@ type GroupAuditLog_UpdateRolesetData = GroupAuditLogBase<"UpdateRolesetData", {
   RoleSetName: string
 }>
 
+type RawGroupAuditLogs_NameToType = {
+  "Delete Post": GroupAuditLog_DeletePost,
+  "Remove Member": GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest,
+  "Accept Join Request": GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest,
+  "Decline Join Request": GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest,
+  "Post Status": GroupAuditLog_PostStatus,
+  "Change Rank": GroupAuditLog_ChangeRank,
+  "Buy Ad": GroupAuditLog_BuyAd,
+  "Send Ally Request": GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy,
+  "Create Enemy": GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy,
+  "Accept Ally Request": GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy,
+  "Decline Ally Request": GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy,
+  "Delete Ally": GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy,
+  "Delete Enemy": GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy,
+  "Add Group Place": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Remove Group Place": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Create Items": GroupAuditLog_CreateItems_CreateGroupDeveloperProduct,
+  "Configure Items": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Spend Group Funds": GroupAuditLog_SpendGroupFunds,
+  "Change Owner": GroupAuditLog_ChangeOwner,
+  "Delete": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Adjust Currency Amounts": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Abandon": GroupAuditLog_Abandon,
+  "Claim": GroupAuditLog_Claim,
+  "Rename": GroupAuditLog_Rename,
+  "Change Description": GroupAuditLog_ChangeDescription,
+  "Invite To Clan": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Kick From Clan": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Cancel Clan Invite": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Buy Clan": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Create Group Asset": GroupAuditLog_CreateGroupAsset_UpdateGroupAsset,
+  "Update Group Asset": GroupAuditLog_CreateGroupAsset_UpdateGroupAsset,
+  "Configure Group Asset": GroupAuditLog_ConfigureGroupAsset,
+  "Revert Group Asset": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Create Group Developer Product": GroupAuditLog_CreateItems_CreateGroupDeveloperProduct,
+  "Configure Group Game": GroupAuditLog_ConfigureGroupGame,
+  "Create Group Developer Subscription Product": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Lock": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Unlock": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Create Game Pass": GroupAuditLog_CreateGamePass,
+  "Create Badge": GroupAuditLog_CreateBadge,
+  "Configure Badge": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Save Place": GroupAuditLog_SavePlace,
+  "Publish Place": GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems,
+  "Update Roleset Rank": GroupAuditLog_UpdateRolesetRank,
+  "Update Roleset Data": GroupAuditLog_UpdateRolesetData
+}
 
-type AllGroupAuditLogs = GroupAuditLog_DeletePost | GroupAuditLog_RemoveMember | GroupAuditLog_AcceptJoinRequest | GroupAuditLog_DeclineJoinRequest | GroupAuditLog_PostStatus | GroupAuditLog_ChangeRank | GroupAuditLog_BuyAd | GroupAuditLog_SendAllyRequest | GroupAuditLog_CreateEnemy | GroupAuditLog_AcceptAllyRequest | GroupAuditLog_DeclineAllyRequest | GroupAuditLog_DeleteAlly | GroupAuditLog_DeleteEnemy | GroupAuditLog_AddGroupPlace | GroupAuditLog_RemoveGroupPlace | GroupAuditLog_CreateItems | GroupAuditLog_ConfigureItems | GroupAuditLog_SpendGroupFunds | GroupAuditLog_ChangeOwner | GroupAuditLog_AdjustCurrencyAmounts | GroupAuditLog_Abandon | GroupAuditLog_Claim | GroupAuditLog_Rename | GroupAuditLog_ChangeDescription | GroupAuditLog_InviteToClan | GroupAuditLog_KickFromClan | GroupAuditLog_CancelClanInvite | GroupAuditLog_BuyClan | GroupAuditLog_CreateGroupAsset | GroupAuditLog_UpdateGroupAsset | GroupAuditLog_ConfigureGroupAsset | GroupAuditLog_RevertGroupAsset | GroupAuditLog_CreateGroupDeveloperProduct | GroupAuditLog_ConfigureGroupGame | GroupAuditLog_CreateGroupDeveloperSubscriptionProduct | GroupAuditLog_Lock | GroupAuditLog_Unlock | GroupAuditLog_CreateGamePass | GroupAuditLog_CreateBadge | GroupAuditLog_ConfigureBadge | GroupAuditLog_SavePlace | GroupAuditLog_PublishPlace | GroupAuditLog_UpdateRolesetRank | GroupAuditLog_UpdateRolesetData
- 
-export type RawGroupAuditLogData = ObjectPrettify<{
+type PrettifiedGroupAuditLogs_NameToType = {
+  "Delete Post": KeysToCamelCase<GroupAuditLog_DeletePost>,
+  "Remove Member": KeysToCamelCase<GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest>,
+  "Accept Join Request": KeysToCamelCase<GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest>,
+  "Decline Join Request": KeysToCamelCase<GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest>,
+  "Post Status": KeysToCamelCase<GroupAuditLog_PostStatus>,
+  "Change Rank": KeysToCamelCase<GroupAuditLog_ChangeRank>,
+  "Buy Ad": KeysToCamelCase<GroupAuditLog_BuyAd>,
+  "Send Ally Request": KeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
+  "Create Enemy": KeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
+  "Accept Ally Request": KeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
+  "Decline Ally Request": KeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
+  "Delete Ally": KeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
+  "Delete Enemy": KeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
+  "Add Group Place": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Remove Group Place": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Create Items": KeysToCamelCase<GroupAuditLog_CreateItems_CreateGroupDeveloperProduct>,
+  "Configure Items": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Spend Group Funds": KeysToCamelCase<GroupAuditLog_SpendGroupFunds>,
+  "Change Owner": KeysToCamelCase<GroupAuditLog_ChangeOwner>,
+  "Delete": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Adjust Currency Amounts": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Abandon": KeysToCamelCase<GroupAuditLog_Abandon>,
+  "Claim": KeysToCamelCase<GroupAuditLog_Claim>,
+  "Rename": KeysToCamelCase<GroupAuditLog_Rename>,
+  "Change Description": KeysToCamelCase<GroupAuditLog_ChangeDescription>,
+  "Invite To Clan": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Kick From Clan": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Cancel Clan Invite": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Buy Clan": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Create Group Asset": KeysToCamelCase<GroupAuditLog_CreateGroupAsset_UpdateGroupAsset>,
+  "Update Group Asset": KeysToCamelCase<GroupAuditLog_CreateGroupAsset_UpdateGroupAsset>,
+  "Configure Group Asset": KeysToCamelCase<GroupAuditLog_ConfigureGroupAsset>,
+  "Revert Group Asset": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Create Group Developer Product": KeysToCamelCase<GroupAuditLog_CreateItems_CreateGroupDeveloperProduct>,
+  "Configure Group Game": KeysToCamelCase<GroupAuditLog_ConfigureGroupGame>,
+  "Create Group Developer Subscription Product": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Lock": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Unlock": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Create Game Pass": KeysToCamelCase<GroupAuditLog_CreateGamePass>,
+  "Create Badge": KeysToCamelCase<GroupAuditLog_CreateBadge>,
+  "Configure Badge": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Save Place": KeysToCamelCase<GroupAuditLog_SavePlace>,
+  "Publish Place": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Update Roleset Rank": KeysToCamelCase<GroupAuditLog_UpdateRolesetRank>,
+  "Update Roleset Data": KeysToCamelCase<GroupAuditLog_UpdateRolesetData>
+}
+
+type AllGroupAuditLogs = GroupAuditLog_DeletePost | GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest | GroupAuditLog_PostStatus | GroupAuditLog_ChangeRank | GroupAuditLog_BuyAd | GroupAuditLog_SpendGroupFunds | GroupAuditLog_ChangeOwner | GroupAuditLog_Abandon | GroupAuditLog_Claim | GroupAuditLog_Rename | GroupAuditLog_ChangeDescription | GroupAuditLog_CreateGroupAsset_UpdateGroupAsset | GroupAuditLog_ConfigureGroupAsset | GroupAuditLog_ConfigureGroupGame | GroupAuditLog_CreateGamePass | GroupAuditLog_CreateBadge | GroupAuditLog_SavePlace | GroupAuditLog_UpdateRolesetRank | GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy | GroupAuditLog_UpdateRolesetData | GroupAuditLog_CreateItems_CreateGroupDeveloperProduct |GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems
+
+type RawGroupAuditLogsData_Data<LogType extends GroupAuditLogActionType | undefined = undefined> = (
+  LogType extends keyof RawGroupAuditLogs_NameToType
+    ? ObjectPrettify<({ actionType: LogType } & Omit<RawGroupAuditLogs_NameToType[LogType], "actionType">)>
+    : AllGroupAuditLogs
+)
+
+type FormattedGroupAuditLogDatas_Data<LogType extends GroupAuditLogActionType | undefined> = (
+  LogType extends GroupAuditLogActionType
+    ? ObjectPrettify<({ actionType: LogType } & Omit<PrettifiedGroupAuditLogs_NameToType[LogType], "actionType">)>
+    : AllGroupAuditLogs
+)
+
+export type RawGroupAuditLogsData<LogType extends GroupAuditLogActionType | undefined = undefined> = ObjectPrettify<{
   previousPageCursor?: string,
   nextPageCursor?: string,
-  data: AllGroupAuditLogs[]
+  data: RawGroupAuditLogsData_Data<LogType>[]
 }>
 
-export type PrettifiedGroupAuditLogData = ObjectPrettify<ArrWithObjectsToCamelCase<RawGroupAuditLogData["data"]>>
+export type PrettifiedGroupAuditLogsData<Type extends GroupAuditLogActionType | undefined = undefined> = (
+  FormattedGroupAuditLogDatas_Data<Type>[]
+)
 // -------------------------------------------------------------------------------------------------------------------
 
 

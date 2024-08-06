@@ -2,7 +2,7 @@
   "name": "openblox",
   "description": "Roblox API Wrapper For Both Classic And OpenCloud APIs.",
   "type": "commonjs",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MightyPart/openblox/issues"
@@ -33,10 +33,7 @@
     "./http": "./src/http/http.utils.ts",
     "./types": "./src/types.ts",
 
-    "./queries/cloud": "./src/queries/cloud/index.ts",
-    "./queries/classic": "./src/queries/classic/index.ts",
-
-    "./helpers": "./src/helpers/index.ts"
+    "./queries/cloud": "./src/queries/cloud/index.ts"
   },
   "exports": {
     ".": {
@@ -82,15 +79,6 @@
     "./queries/cloud": {
       "types": "./dist/queries/cloud/index.d.ts",
       "default": "./dist/queries/cloud/index.js"
-    },
-    "./queries/classic": {
-      "types": "./dist/queries/classic/index.d.ts",
-      "default": "./dist/queries/classic/index.js"
-    },
-
-    "./helpers": {
-      "types": "./dist/helpers/index.d.ts",
-      "default": "./dist/helpers/index.js"
     }
   },
   "dependencies": {
