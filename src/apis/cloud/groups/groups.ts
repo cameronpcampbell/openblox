@@ -25,11 +25,11 @@ const formatGroupMembersFilters = (groupId: Identifier | "-", filter: GroupMembe
     formattedFilter = `user in [${(filter as unknown as GroupMembers_WildcardFilter).userIds.map(userId => `'users/${userId}'`).join(", ")}]`
   
   else {
-    const userIdFilter = (filter as unknown as GroupMembers_Filter).userId
+    const userIdFilter = (filter as unknown as GroupMembers_Filter)?.userId
     if (userIdFilter) formattedFilter = `user == 'users/${userIdFilter}'`
 
     else {
-      const roleIdFilter = (filter as unknown as GroupMembers_Filter).roleId
+      const roleIdFilter = (filter as unknown as GroupMembers_Filter)?.roleId
       if (roleIdFilter) formattedFilter = `group == 'groups/${groupId}/roles/${roleIdFilter}'`
     }
   }
@@ -64,7 +64,7 @@ export const groupInfo = addApiMethod(async <GroupId extends Identifier>(
 
 
 /**
- * Gets join requests for a group.
+ * Gets members for a group.
  * @endpoint GET /v2/groups/{groupId}/memberships
  * 
  * @param groupId The id of the group to get join requests for.

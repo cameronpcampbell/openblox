@@ -1,2 +1,2 @@
 export { Users } from "./usersQuery"
-//export { Group } from "./groupQuery"
+//export { Groups } from "./groupsQuery"
