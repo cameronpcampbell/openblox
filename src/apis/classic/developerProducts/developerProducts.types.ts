@@ -1,5 +1,4 @@
-import { Identifier, ISODateTime, ObjectPrettify } from "typeforge"
-import { KeysToCamelCase } from "../../../utils/utils.types"
+import type { Identifier, ISODateTime, ObjectPrettify, ObjectKeysToCamelCase } from "typeforge"
 
 
 // GET /v1/developer-products/{developerProductId} -------------------------------------------------------------------
@@ -38,7 +37,7 @@ export type RawMinimalDeveloperProductData = {
   iconImageAssetId: Identifier,
 }
 
-export type PrettifiedMinimalDeveloperProductData = KeysToCamelCase<RawMinimalDeveloperProductData>
+export type PrettifiedMinimalDeveloperProductData = ObjectKeysToCamelCase<RawMinimalDeveloperProductData>
 // -------------------------------------------------------------------------------------------------------------------
 
 
@@ -80,6 +79,6 @@ export type RawDeveloperProductCreatorDetails = {
   MinimumMembershipLevel: number,
 }
 
-export type PrettifiedDeveloperProductCreatorDetails = KeysToCamelCase<RawDeveloperProductCreatorDetails>
+export type PrettifiedDeveloperProductCreatorDetails = ObjectKeysToCamelCase<RawDeveloperProductCreatorDetails>
 // -------------------------------------------------------------------------------------------------------------------
 

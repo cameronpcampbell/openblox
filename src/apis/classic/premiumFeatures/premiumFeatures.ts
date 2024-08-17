@@ -5,9 +5,10 @@ import { cloneAndMutateObject } from "../../../utils/utils"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import type { Identifier } from "typeforge"
+
 import type { ApiMethod } from "../../apiGroup"
-import type { Identifier } from "../../../utils/utils.types"
-import { PrettifiedUserSubscriptionsData, RawUserSubscriptionsData } from "./premiumFeatures.types"
+import type { PrettifiedUserSubscriptionsData, RawUserSubscriptionsData } from "./premiumFeatures.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 

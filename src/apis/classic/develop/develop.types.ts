@@ -1,8 +1,5 @@
-// [ Types ] /////////////////////////////////////////////////////////////////////
-import { ObjectRemoveReadOnly } from "../../../apis/apis.types"
-import { ArrayNonEmptyIfConst, KeysToCamelCase, NumberIsLiteral } from "../../../utils/utils.types"
-import { ArrayPrettify, ArrayToUnion, Identifier, ISODateTime, ObjectPrettify, ObjectRemoveKeys, UnionPrettify, UnionToArray } from "typeforge"
-//////////////////////////////////////////////////////////////////////////////////
+import type { ArrayToUnion, Identifier, ISODateTime, ObjectPrettify, ObjectRemoveKeys, UnionPrettify, ArrayNonEmptyIfConst } from "typeforge"
+import type { ObjectRemoveReadOnly } from "../../../apis/apis.types"
 
 
 

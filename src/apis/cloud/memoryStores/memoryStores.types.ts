@@ -1,5 +1,4 @@
-import { ArrayPrettify, ISODateTime, ObjectPrettify, ObjectPrettifyDeep, Prettify } from "typeforge"
-import { Identifier } from "../../../utils/utils.types"
+import type { Identifier, ArrayPrettify, ISODateTime, ObjectPrettify, Prettify } from "typeforge"
 
 type ConstructItemConfig<ItemValue> = {
   value: ItemValue,

@@ -1,15 +1,15 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
-import { cloneAndMutateObject, dataIsSuccess } from "../../../utils/utils"
+import { cloneAndMutateObject } from "../../../utils/utils"
+import { md5Checksum } from "../../../crypto"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import type { Identifier, ISODateTime, Prettify } from "typeforge"
+
 import type { ApiMethod } from "../../apiGroup"
-import type { Identifier } from "../../../utils/utils.types"
 import type { PrettifiedListStandardDatastoreData, PrettifiedListStandardDatastoreEntryVersionsData, PrettifiedSetStandardDatastoreEntryData, PrettifiedStandardDatastoreEntryData, PrettifiedStandardDatastoreKeysData, RawListStandardDatastoreData, RawListStandardDatastoreEntryVersionsData, RawSetStandardDatastoreEntryData, RawStandardDatastoreKeysData } from "./standardDataStores_V1.types"
-import { ISODateTime, ObjectPrettify, Prettify, UnionToArray } from "typeforge"
-import { md5Checksum } from "../../../crypto"
 //////////////////////////////////////////////////////////////////////////////////
 
 

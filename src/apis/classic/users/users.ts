@@ -5,10 +5,10 @@ import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware, dataIsSuccess
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import { ArrayNonEmpty, ISODateTime } from "typeforge"
+import type { Identifier, ISODateTime, ArrayNonEmptyIfConst } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
-import type { ArrayNonEmptyIfConst, Identifier, SortOrder } from "../../../utils/utils.types"
+import type { SortOrder } from "../../../utils/utils.types"
 import type { AuthenticatedUserInfoData, PrettifiedAuthenticatedUserAgeBracketData, PrettifiedAuthenticatedUserCountryCodeData, PrettifiedAuthenticatedUserGenderData, PrettifiedUserSearchData, PrettifiedUserIdsToUsersInfoData, PrettifiedUserInfoData, PrettifiedUsernamesToUsersInfoData, RawAuthenticatedUserAgeBracketData, RawAuthenticatedUserBirthdateData, RawAuthenticatedUserCountryCodeData, RawAuthenticatedUserDescriptionData, RawAuthenticatedUserGenderData, RawAuthenticatedUserRolesData, RawUserSearchData, RawUserIdsToUsersInfoData, RawUserInfoData, RawUsernameHistoryData, RawUsernamesToUsersInfoData } from "./users.types"
 //////////////////////////////////////////////////////////////////////////////////
 

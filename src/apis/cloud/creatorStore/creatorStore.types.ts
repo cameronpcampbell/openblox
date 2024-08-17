@@ -1,8 +1,5 @@
-// [ Types ] /////////////////////////////////////////////////////////////////////
-import { ArrayPrettify, ObjectPrettify, UnionPrettify, ObjectEither, Identifier, StringSplitAll, Falsey } from "typeforge"
-//////////////////////////////////////////////////////////////////////////////////
+import type { ObjectPrettify, UnionPrettify, ObjectEither, Identifier, Falsey } from "typeforge"
 
-type CreatorStoreProduct_Namespace = UnionPrettify<"PRODUCT_NAMESPACE_INVALID" | "PRODUCT_NAMESPACE_CREATOR_MARKETPLACE_ASSET" | "PRODUCT_NAMESPACE_BC" | "CreatorMarketplaceAsset">
 
 export type CreatorStoreProduct_Type = UnionPrettify<"PRODUCT_TYPE_INVALID" | "PRODUCT_TYPE_AUDIO" | "PRODUCT_TYPE_MODEL" | "PRODUCT_TYPE_DECAL" | "PRODUCT_TYPE_PLUGIN" | "PRODUCT_TYPE_MESH_PART" | "PRODUCT_TYPE_VIDEO" | "PRODUCT_TYPE_FONT_FAMILY" | "Audio" | "Model" | "Decal" | "Plugin" | "MeshPart" | "Video" | "FontFamily">
 

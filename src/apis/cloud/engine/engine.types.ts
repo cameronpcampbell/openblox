@@ -1,8 +1,5 @@
-// [ Types ] /////////////////////////////////////////////////////////////////////
-import { LongRunningOperation } from "../../../apis/apis.types";
-import type { KeysToCamelCase } from "../../../utils/utils.types";
-import type { Identifier, ObjectEither, ObjectPrettify } from "typeforge"
-//////////////////////////////////////////////////////////////////////////////////
+import type { Identifier, ObjectEither, ObjectPrettify, ObjectKeysToCamelCase } from "typeforge"
+import type { LongRunningOperation } from "../../../apis/apis.types";
 
 
 type InstanceDetails = ObjectEither<
@@ -57,7 +54,7 @@ type PrettifiedInstance<UniverseId extends Identifier, PlaceId extends Identifie
     id: "root" extends InstanceId ? string : InstanceId,
     parent: string,
     name: string,
-    details: KeysToCamelCase<InstanceDetails>
+    details: ObjectKeysToCamelCase<InstanceDetails>
   }
 }>
 

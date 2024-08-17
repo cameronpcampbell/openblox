@@ -1,5 +1,4 @@
-import type { Identifier, ISODateTime, ObjectPrettify } from "typeforge"
-import type { KeysToCamelCase } from "../../../utils/utils.types"
+import type { Identifier, ISODateTime, ObjectPrettify, ObjectKeysToCamelCase } from "typeforge"
 
 
 // GET /v1/game-passes/{gamePassId}/product-info ---------------------------------------------------------------------
@@ -34,7 +33,7 @@ type GamePassInfo<TemporalType extends ISODateTime | Date, GamePassId extends Id
 
 export type RawGamePassInfo<GamePassId extends Identifier> = GamePassInfo<ISODateTime, GamePassId>
 
-export type PrettifiedGamePassInfo<GamePassId extends Identifier> = ObjectPrettify<KeysToCamelCase<GamePassInfo<Date, GamePassId>> & {}>
+export type PrettifiedGamePassInfo<GamePassId extends Identifier> = ObjectPrettify<ObjectKeysToCamelCase<GamePassInfo<Date, GamePassId>> & {}>
 // -------------------------------------------------------------------------------------------------------------------
 
 

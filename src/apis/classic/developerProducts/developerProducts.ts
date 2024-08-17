@@ -1,14 +1,15 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
-import { toCamel, cloneAndMutateObject, removeNullUndefined, dataIsSuccess, formDataBuilder } from "../../../utils/utils"
+import { toCamel, dataIsSuccess, formDataBuilder } from "../../../utils/utils"
+import { readFile } from "../../../file"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import type { Identifier } from "typeforge"
+
 import type { ApiMethod } from "../../apiGroup"
-import { PrettifiedDeveloperProductCreatorDetails, PrettifiedDeveloperProductInfoData, PrettifiedMinimalDeveloperProductData, RawDeveloperProductCreatorDetails, RawDeveloperProductInfoData, RawMinimalDeveloperProductData } from "./developerProducts.types"
-import { Identifier } from "typeforge"
-import { readFile } from "../../../file"
+import type { PrettifiedDeveloperProductCreatorDetails, PrettifiedDeveloperProductInfoData, PrettifiedMinimalDeveloperProductData, RawDeveloperProductCreatorDetails, RawDeveloperProductInfoData, RawMinimalDeveloperProductData } from "./developerProducts.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -35,7 +36,7 @@ const prettifyMinimalDeveloperProduct = (
  * @exampleData {"productId":995087849,"productTypeId":4,"isPublicDomain":false,"isForSale":true,"priceInRobux":95,"premiumPriceInRobux":null,"robloxProductId":null,"targetId":3848620,"assetTypeId":null,"creatorId":1536374574,"assetGenres":0,"assetCategories":0,"affiliateFeePercentage":null,"isNew":false,"created":"2020-05-29T11:49:09.08Z","updated":"2024-07-22T05:33:16.827Z"} 
  * @exampleRawBody {"id":995087849,"productTypeId":4,"isPublicDomain":false,"isForSale":true,"priceInRobux":95,"premiumPriceInRobux":null,"robloxProductId":null,"targetId":3848620,"assetTypeId":null,"creatorId":1536374574,"assetGenres":0,"assetCategories":0,"affiliateFeePercentage":null,"isNew":false,"created":"2020-05-29T11:49:09.08Z","updated":"2024-07-22T05:33:16.827Z"}
  */
-/*export const developerProductInfo = addApiMethod(async <DeveloperProductId extends Identifier>(
+export const developerProductInfo = addApiMethod(async <DeveloperProductId extends Identifier>(
   { developerProductId }: { developerProductId: DeveloperProductId }
 ): ApiMethod<RawDeveloperProductInfoData<DeveloperProductId>, PrettifiedDeveloperProductInfoData<DeveloperProductId>> => ({
   method: "GET",
@@ -43,7 +44,7 @@ const prettifyMinimalDeveloperProduct = (
   name: `developerProductInfo`,
 
   formatRawDataFn: ({ id, ...rest }) => ({ productId: id, ...rest })
-}))*/
+}))
 
 
 /**
@@ -59,7 +60,7 @@ const prettifyMinimalDeveloperProduct = (
  * @exampleData [{"id":3616380,"name":"Buy $100 CamperCoins","description":null,"shopId":1685930453,"iconImageAssetId":4922956503},{"id":3616418,"name":"Buy $1000 CamperCoins","description":null,"shopId":1685930453,"iconImageAssetId":4922970743},{"id":3616413,"name":"Buy $500 CamperCoins","description":null,"shopId":1685930453,"iconImageAssetId":4922969199},{"id":3616425,"name":"CamperCoins","description":null,"shopId":1685930453,"iconImageAssetId":18760547825},{"id":3848620,"name":"Starterpackk","description":null,"shopId":1685930453,"iconImageAssetId":5106354357}]  
  * @exampleRawBody [{"id":3616380,"name":"Buy $100 CamperCoins","Description":null,"shopId":1685930453,"iconImageAssetId":4922956503},{"id":3616418,"name":"Buy $1000 CamperCoins","Description":null,"shopId":1685930453,"iconImageAssetId":4922970743},{"id":3616413,"name":"Buy $500 CamperCoins","Description":null,"shopId":1685930453,"iconImageAssetId":4922969199},{"id":3616425,"name":"CamperCoins","Description":null,"shopId":1685930453,"iconImageAssetId":18760547825},{"id":3848620,"name":"Starterpackk","Description":null,"shopId":1685930453,"iconImageAssetId":5106354357}]
  */
-/*export const developerProductsForUniverse = addApiMethod(async (
+export const developerProductsForUniverse = addApiMethod(async (
   { universeId, limit = 50, pageNumber = 1 }: { universeId: Identifier, limit?: number, pageNumber?: number }
 ): ApiMethod<RawMinimalDeveloperProductData[], PrettifiedMinimalDeveloperProductData[]> => ({
   method: "GET",
@@ -70,7 +71,7 @@ const prettifyMinimalDeveloperProduct = (
   formatRawDataFn: rawData => rawData.map(prettifyMinimalDeveloperProduct),
 
   getCursorsFn: () => [ pageNumber && pageNumber !== 1 ? pageNumber - 1 : null, pageNumber ? pageNumber + 1 : 1 ]
-}))*/
+}))
 
 
 /**
@@ -90,7 +91,7 @@ const prettifyMinimalDeveloperProduct = (
  * @exampleData true
  * @exampleRawBody {}
  */
-/*export const updateDeveloperProduct = addApiMethod(async (
+export const updateDeveloperProduct = addApiMethod(async (
   { universeId, developerProductId, name, description, priceInRobux }:
   { universeId: Identifier, developerProductId: Identifier, name?: string, description?: string, priceInRobux?: number }
 ): ApiMethod<{}, boolean> => ({
@@ -100,7 +101,7 @@ const prettifyMinimalDeveloperProduct = (
   name: `updateDeveloperProduct`,
 
   formatRawDataFn: dataIsSuccess
-}))*/
+}))
 
 
 /**
@@ -117,7 +118,7 @@ const prettifyMinimalDeveloperProduct = (
  * @exampleData 18760547825
  * @exampleRawBody {"imageAssetId":18760547825}
  */
-/*export const updateDeveloperProductIcon = addApiMethod(async (
+export const updateDeveloperProductIcon = addApiMethod(async (
   { developerProductId, icon }: { developerProductId: Identifier, icon: string | File }
 ): ApiMethod<{ imageAssetId: 18760543954 }, Identifier> => ({
   method: "POST",
@@ -127,7 +128,7 @@ const prettifyMinimalDeveloperProduct = (
   name: `updateDeveloperProductIcon`,
 
   formatRawDataFn: ({ imageAssetId }) => imageAssetId
-}))*/
+}))
 
 
 /**
@@ -146,7 +147,7 @@ const prettifyMinimalDeveloperProduct = (
  * @exampleData {"id":60558911,"name":"50 Coins","description":"Lorem Ipsum","shopId":1685930453,"iconImageAssetId":null}
  * @exampleRawBody {"id":60558911,"name":"50 Coins","Description":"Lorem Ipsum","shopId":1685930453,"iconImageAssetId":null}
  */ 
-/*export const createDeveloperProduct = addApiMethod(async (
+export const createDeveloperProduct = addApiMethod(async (
   { universeId, name, description, priceInRobux }: { universeId: Identifier, name: string, description: string, priceInRobux: number }
 ): ApiMethod<RawMinimalDeveloperProductData, PrettifiedMinimalDeveloperProductData> => ({
   method: "POST",
@@ -155,7 +156,7 @@ const prettifyMinimalDeveloperProduct = (
   name: `createDeveloperProduct`,
 
   formatRawDataFn: prettifyMinimalDeveloperProduct
-}))*/
+}))
 
 
 /**
@@ -171,7 +172,7 @@ const prettifyMinimalDeveloperProduct = (
  * @exampleData {"displayName":"Starterpackk","displayDescription":null,"displayIconImageAssetId":5106354357,"priceInformation":{"defaultPriceInRobux":95,"isInActivePriceOptimizationExperiment":false},"targetId":3848620,"productType":"Developer Product","assetId":0,"productId":995087849,"name":"Starterpackk","description":null,"assetTypeId":0,"creator":{"id":0,"name":null,"creatorType":null,"creatorTargetId":0},"iconImageAssetId":5106354357,"created":"2020-05-29T11:49:09.08Z","updated":"2024-07-22T05:33:16.827Z","priceInRobux":null,"premiumPriceInRobux":null,"priceInTickets":null,"isNew":false,"isForSale":true,"isPublicDomain":false,"isLimited":false,"isLimitedUnique":false,"remaining":null,"sales":null,"minimumMembershipLevel":0} 
  * @exampleRawBody {"DisplayName":"Starterpackk","DisplayDescription":null,"DisplayIconImageAssetId":5106354357,"PriceInformation":{"defaultPriceInRobux":95,"isInActivePriceOptimizationExperiment":false},"TargetId":3848620,"ProductType":"Developer Product","AssetId":0,"ProductId":995087849,"Name":"Starterpackk","Description":null,"AssetTypeId":0,"Creator":{"Id":0,"Name":null,"CreatorType":null,"CreatorTargetId":0},"IconImageAssetId":5106354357,"Created":"2020-05-29T11:49:09.08Z","Updated":"2024-07-22T05:33:16.827Z","PriceInRobux":null,"PremiumPriceInRobux":null,"PriceInTickets":null,"IsNew":false,"IsForSale":true,"IsPublicDomain":false,"IsLimited":false,"IsLimitedUnique":false,"Remaining":null,"Sales":null,"MinimumMembershipLevel":0}
  */
-/*export const developerProductCreatorDetails = addApiMethod(async (
+export const developerProductCreatorDetails = addApiMethod(async (
   { developerProductProductId }: { developerProductProductId: Identifier }
 ): ApiMethod<RawDeveloperProductCreatorDetails, PrettifiedDeveloperProductCreatorDetails> => ({
   method: "GET",
@@ -179,4 +180,4 @@ const prettifyMinimalDeveloperProduct = (
   name: `developerProductCreatorDetails`,
 
   formatRawDataFn: toCamel
-}))*/
+}))

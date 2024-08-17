@@ -4,9 +4,8 @@ import { UsersApi } from "../../apis/cloud"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import { ArrayNonEmpty, ArrayToUnion, Identifier, ObjectKeepKeys, ObjectPrettify, ObjectPrettifyDeep, UnionPrettify, UnionToArray } from "typeforge"
-import { PrettifiedUserInfoData, UserThumbnailSize } from "../../apis/cloud/users/users.types"
-import { ArrayNonEmptyIfConst, SecureUrl } from "../../utils/utils.types"
+import type { ArrayNonEmptyIfConst, UrlSecure, ArrayToUnion, Identifier, ObjectKeepKeys, ObjectPrettify, ObjectPrettifyDeep, UnionPrettify, UnionToArray } from "typeforge"
+import type { PrettifiedUserInfoData, UserThumbnailSize } from "../../apis/cloud/users/users.types"
 
 
 type UnionKeepTypes<U, ToKeep> = U extends ToKeep ? U : never
@@ -55,19 +54,19 @@ function uniq_fast(a: any[]) {
 
 
 // Users Info --------------------------------------------------------------------
-const getUserInfoSingle_forId = async (userId: Identifier, data: any, fields: ArrayNonEmpty<UserInfoField>) => {
+const getUserInfoSingle_forId = async (userId: Identifier, data: any, fields: ArrayNonEmptyIfConst<UserInfoField>) => {
   const { data:userInfo } = await UsersApi_userInfo({ userId })
   data[userId] = userInfo[fields[0]]
 }
 
-const getUserInfoMulti_forId = async (userId: Identifier, data: any, fields: ArrayNonEmpty<UserInfoField>) => {
+const getUserInfoMulti_forId = async (userId: Identifier, data: any, fields: ArrayNonEmptyIfConst<UserInfoField>) => {
   const data_userId = data[userId]
   const { data:userInfo } = await UsersApi_userInfo({ userId });
-  (fields as ArrayNonEmpty<UserInfoField>).forEach(field => data_userId[field] = userInfo[field])
+  (fields as ArrayNonEmptyIfConst<UserInfoField>).forEach(field => data_userId[field] = userInfo[field])
 }
 
 const getUsersInfo_forIds = (
-  fields: ArrayNonEmpty<UserInfoField>, getUserInfo_forId: typeof getUserInfoSingle_forId | typeof getUserInfoMulti_forId
+  fields: ArrayNonEmptyIfConst<UserInfoField>, getUserInfo_forId: typeof getUserInfoSingle_forId | typeof getUserInfoMulti_forId
 ) => (
   async (userIds: ArrayNonEmptyIfConst<Identifier>, data: any) => {
     await Promise.all(userIds.map(userId => getUserInfo_forId(userId, data, fields)))
@@ -122,7 +121,7 @@ export const Users = {
     const isSingleField = (fields as Field[]).length == 1
 
     const usersInfoFields =
-      (fields as Field[]).filter(field => userInfoFields.includes(field as UserInfoField)) as any as ArrayNonEmpty<UserInfoField>
+      (fields as Field[]).filter(field => userInfoFields.includes(field as UserInfoField)) as any as ArrayNonEmptyIfConst<UserInfoField>
     const thisGetUsersInfo_forIds = usersInfoFields.length
       ? getUsersInfo_forIds(usersInfoFields, isSingleField ? getUserInfoSingle_forId : getUserInfoMulti_forId) : shellFn
 
@@ -139,7 +138,7 @@ export const Users = {
         data: ObjectPrettifyDeep<{
           [Id in UserId]: CleanObject<
             PrettifiedUserInfoData<Id> &
-            { [Key in UnionKeepTypes<Field, `thumbnail${string}`>]: SecureUrl },
+            { [Key in UnionKeepTypes<Field, `thumbnail${string}`>]: UrlSecure },
             Field
           >
         }>

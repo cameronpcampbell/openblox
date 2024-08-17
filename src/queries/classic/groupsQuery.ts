@@ -5,10 +5,9 @@ import { addObjectToFunction, pollForLatest } from "../queries.utils"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { PollConfig } from "../../helpers"
 import type { Identifier, ObjectPrettify } from "typeforge"
+import type { PollConfig } from "../../helpers"
 import type { GroupAuditLogActionType, PrettifiedGroupAuditLogsData, PrettifiedGroupJoinRequests, PrettifiedGroupWallPostsData_V2 } from "../../apis/classic/groups/groups.types"
-import type { ArrayNonEmptyIfConst } from "../../utils/utils.types"
 
 export type ClassicGroups_Events = {
   "auditLog": PrettifiedGroupAuditLogsData<GroupAuditLogActionType>[number],

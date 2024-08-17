@@ -6,8 +6,9 @@ import { readFile } from "../../../file"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import type { Identifier } from "typeforge"
+
 import type { ApiMethod } from "../../apiGroup"
-import type { Identifier } from "../../../utils/utils.types"
 import type { AuthenticatedUserSubscriptionsPermissionsForUniverseData, PrettifiedCreateSubscriptionData, PrettifiedSubscriptionInfoData, PrettifiedSubscriptionsForUniverseData, PrettifiedSubscriptionsPriceTiersForUniverseData, RawCreateSubscriptionData, RawSubscriptionInfoData, RawSubscriptionsForUniverseData, RawSubscriptionsPriceTiersForUniverseData, SubscriptionBasePriceId, SubscriptionType, SubsriptionPrice } from "./subscriptions.types"
 //////////////////////////////////////////////////////////////////////////////////
 

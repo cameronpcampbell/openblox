@@ -1,13 +1,14 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
+import { cloneAndMutateObject } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import type { Identifier } from "typeforge"
+
 import type { ApiMethod } from "../../apiGroup"
-import type { Identifier } from "../../../utils/utils.types"
-import { PrettifiedSubscriptionInfoData, RawSubscriptionInfoData } from "./subscriptions.types"
-import { cloneAndMutateObject } from "../../../utils/utils"
+import type { PrettifiedSubscriptionInfoData, RawSubscriptionInfoData } from "./subscriptions.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 

@@ -1,7 +1,5 @@
-// [ Types ] /////////////////////////////////////////////////////////////////////
-import { LowercaseFirstLetter } from "../../../utils/utils.types"
-import { Identifier, ISODateTime, ObjectPrettify } from "typeforge"
-//////////////////////////////////////////////////////////////////////////////////
+import type { Identifier, ISODateTime, ObjectKeysToCamelCase, ObjectPrettify } from "typeforge"
+
 
 export type FriendsUserSort = "Alphabetical" | "StatusAlphabetical" | "StatusFrequents"
 
@@ -136,13 +134,8 @@ export type RawOnlineFriendsUserPresenceData = ObjectPrettify<{
   }[]
 }>
 
-
-type ObjectToCamelCase<Obj extends Record<string, any>> = ObjectPrettify<{
-  [Key in keyof Obj as Key extends string ? LowercaseFirstLetter<Key> : Key]: Obj[Key]
-}>
-
 export type PrettifiedOnlineFriendsUserPresenceData = ObjectPrettify<{
-  userPresence: ObjectToCamelCase<OnlineFriends_UserPresence<Date>>,
+  userPresence: ObjectKeysToCamelCase<OnlineFriends_UserPresence<Date>>,
   id: Identifier,
   name: string,
   displayName: string

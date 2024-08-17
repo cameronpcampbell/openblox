@@ -1,4 +1,3 @@
-import type { NumberIsLiteral } from "../../../utils/utils.types"
 import type { ArrayRemoveTypes, Identifier, ISODateTime, ObjectPrettify, UnionPrettify } from "typeforge"
 
 type ObjectValues<Obj extends Record<any, any>> = UnionPrettify<Obj[keyof Obj]>

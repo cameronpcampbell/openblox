@@ -4,10 +4,11 @@ import { createApiGroup } from "../../apiGroup"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import type { Identifier } from "typeforge"
+
 import type { ApiMethod } from "../../apiGroup"
-import type { Identifier } from "../../../utils/utils.types"
-import { InventoryItemsForUser_Filter, PrettifiedInventoryItemsForUserData, RawInventoryItemsForUserData } from "./inventory.types"
-import { UnionPrettify } from "typeforge"
+import type { InventoryItemsForUser_Filter, PrettifiedInventoryItemsForUserData, RawInventoryItemsForUserData } from "./inventory.types"
+import type { UnionPrettify } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 

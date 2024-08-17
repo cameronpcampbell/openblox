@@ -6,7 +6,7 @@ import { createApiGroup } from "../../apiGroup"
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ApiMethod } from "../../apiGroup"
-import { CreatorStoreProduct_NewProductData, CreatorStoreProduct_OnlyOneId, CreatorStoreProduct_Type, CreatorStoreProductInfo } from "./creatorStore.types"
+import type { CreatorStoreProduct_NewProductData, CreatorStoreProduct_OnlyOneId, CreatorStoreProduct_Type, CreatorStoreProductInfo } from "./creatorStore.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 

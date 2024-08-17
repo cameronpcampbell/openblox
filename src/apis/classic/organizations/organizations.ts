@@ -1,5 +1,6 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
+import { cloneAndMutateObject } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -8,7 +9,6 @@ import type { Identifier } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
 import type { OrgInfoForGroupData, OrgMemberPermissionsData, OrgRoleColor, OverwriteOrgRolePermissions_NewPermissions, PrettifiedCreateOrgInvitationData, PrettifiedCreateOrgRoleData, PrettifiedOrgInvitations, PrettifiedOrgMembersData, PrettifiedOrgRoleMetadataData, PrettifiedOrgRolePermissionsData, PrettifiedOrgRolesData, PrettifiedUpdateOrgRoleData, RawCreateOrgInvitationData, RawCreateOrgRoleData, RawOrgInvitations, RawOrgMembersData, RawOrgRoleMetadataData, RawOrgRolePermissionsData, RawOrgRolesData, RawUpdateOrgRoleData } from "./organizations.types"
-import { cloneAndMutateObject } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 

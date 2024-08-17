@@ -1,4 +1,4 @@
-import { Identifier, ISODateTime, ObjectPrettify } from "typeforge"
+import type { Identifier, ISODateTime, ObjectPrettify } from "typeforge"
 
 
 type BadgeInfo<TemporalType, BadgeId extends Identifier = Identifier, UniverseId extends Identifier = Identifier> = ObjectPrettify<{

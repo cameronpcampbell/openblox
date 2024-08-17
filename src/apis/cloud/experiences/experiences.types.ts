@@ -1,6 +1,4 @@
-// [ Types ] /////////////////////////////////////////////////////////////////////
-import { Identifier, ISODateTime, ObjectPrettify, UnionPrettify, UrlSecure } from "typeforge"
-//////////////////////////////////////////////////////////////////////////////////
+import type { Identifier, ISODateTime, ObjectPrettify, UnionPrettify, UrlSecure } from "typeforge"
 
 
 type Universe_SocialLink = ObjectPrettify<{
@@ -123,8 +121,6 @@ export type PrettifiedPlaceInfoData<UniverseId extends Identifier, PlaceId exten
 
 
 // PATCH /cloud//v2/universes/${universeId}/places/${PlaceId} --------------------------------------------------------
-export type UpdatePlace_NewData = ObjectPrettify<Partial<Place>>
-
 type UpdatePlaceData<
   UniverseId extends Identifier, PlaceId extends Identifier, TemporalType, DisplayName extends string,
   Description extends string, ServerSize extends number

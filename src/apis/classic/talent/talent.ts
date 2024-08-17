@@ -1,14 +1,15 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
-import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware } from "../../../utils/utils"
+import { cloneAndMutateObject } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import type { Identifier } from "typeforge"
+
 import type { ApiMethod } from "../../apiGroup"
-import type { ArrayNonEmpty, Identifier, ObjectPrettify, UnionPrettify } from "typeforge"
-import { JobSearchFilter, PrettifiedCreatorExperiencesData, PrettifiedCreatorProfileData, PrettifiedJobSearchData, RawCreatorExperiencesData, RawCreatorProfileData, RawJobSearchData, RawUsersAreIdVerifiedData } from "./talent.types"
-import { SortOrder } from "../../../utils/utils.types"
+import type { JobSearchFilter, PrettifiedCreatorExperiencesData, PrettifiedCreatorProfileData, PrettifiedJobSearchData, RawCreatorExperiencesData, RawCreatorProfileData, RawJobSearchData, RawUsersAreIdVerifiedData } from "./talent.types"
+import type { SortOrder } from "../../../utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 

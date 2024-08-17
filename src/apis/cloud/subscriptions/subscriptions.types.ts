@@ -1,6 +1,4 @@
-// [ Types ] /////////////////////////////////////////////////////////////////////
-import { ObjectPrettify, ObjectEither, Identifier, ISODateTime } from "typeforge"
-//////////////////////////////////////////////////////////////////////////////////
+import type { ObjectPrettify, ObjectEither, Identifier, ISODateTime } from "typeforge"
 
 
 // GET /v2/universes/{universeId}/subscription-products/{subscriptionProductId}/subscriptions/{subscriptionId} -------

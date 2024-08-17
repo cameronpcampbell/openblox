@@ -1,5 +1,6 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
+import { dataIsSuccess } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -9,7 +10,6 @@ import type { Identifier } from "typeforge"
 import type { MinimalOrderedDataStoreEntry, PrettifiedListOrderedDatastoreEntries, RawListOrderedDatastoreEntries } from "./orderedDataStores_V2.types"
 import type { ApiMethod } from "../../apiGroup"
 import type { SortOrder } from "../../../utils/utils.types"
-import { dataIsSuccess } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 

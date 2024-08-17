@@ -1,4 +1,5 @@
-import { Identifier, ISODateTime, ObjectPrettify } from "typeforge";
+import type { Identifier, ISODateTime, ObjectPrettify } from "typeforge";
+
 
 type UserRestrictionsData<
   TemporalType,

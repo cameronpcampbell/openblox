@@ -1,7 +1,4 @@
-// [ Types ] /////////////////////////////////////////////////////////////////////
-import { ArrWithObjectsToCamelCase, KeysToCamelCase } from "../../../utils/utils.types";
-import type { Identifier, ISODateTime, ObjectPrettify, UnionPrettify, UnionToArray, Url } from "typeforge"
-//////////////////////////////////////////////////////////////////////////////////
+import type { Identifier, ISODateTime, ObjectPrettify, UnionPrettify, ObjectKeysToCamelCase } from "typeforge"
 
 
 type UrlProtocol = `http${"s" | ""}://`;
@@ -237,51 +234,51 @@ type RawGroupAuditLogs_NameToType = {
 }
 
 type PrettifiedGroupAuditLogs_NameToType = {
-  "Delete Post": KeysToCamelCase<GroupAuditLog_DeletePost>,
-  "Remove Member": KeysToCamelCase<GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest>,
-  "Accept Join Request": KeysToCamelCase<GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest>,
-  "Decline Join Request": KeysToCamelCase<GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest>,
-  "Post Status": KeysToCamelCase<GroupAuditLog_PostStatus>,
-  "Change Rank": KeysToCamelCase<GroupAuditLog_ChangeRank>,
-  "Buy Ad": KeysToCamelCase<GroupAuditLog_BuyAd>,
-  "Send Ally Request": KeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
-  "Create Enemy": KeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
-  "Accept Ally Request": KeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
-  "Decline Ally Request": KeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
-  "Delete Ally": KeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
-  "Delete Enemy": KeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
-  "Add Group Place": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Remove Group Place": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Create Items": KeysToCamelCase<GroupAuditLog_CreateItems_CreateGroupDeveloperProduct>,
-  "Configure Items": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Spend Group Funds": KeysToCamelCase<GroupAuditLog_SpendGroupFunds>,
-  "Change Owner": KeysToCamelCase<GroupAuditLog_ChangeOwner>,
-  "Delete": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Adjust Currency Amounts": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Abandon": KeysToCamelCase<GroupAuditLog_Abandon>,
-  "Claim": KeysToCamelCase<GroupAuditLog_Claim>,
-  "Rename": KeysToCamelCase<GroupAuditLog_Rename>,
-  "Change Description": KeysToCamelCase<GroupAuditLog_ChangeDescription>,
-  "Invite To Clan": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Kick From Clan": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Cancel Clan Invite": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Buy Clan": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Create Group Asset": KeysToCamelCase<GroupAuditLog_CreateGroupAsset_UpdateGroupAsset>,
-  "Update Group Asset": KeysToCamelCase<GroupAuditLog_CreateGroupAsset_UpdateGroupAsset>,
-  "Configure Group Asset": KeysToCamelCase<GroupAuditLog_ConfigureGroupAsset>,
-  "Revert Group Asset": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Create Group Developer Product": KeysToCamelCase<GroupAuditLog_CreateItems_CreateGroupDeveloperProduct>,
-  "Configure Group Game": KeysToCamelCase<GroupAuditLog_ConfigureGroupGame>,
-  "Create Group Developer Subscription Product": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Lock": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Unlock": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Create Game Pass": KeysToCamelCase<GroupAuditLog_CreateGamePass>,
-  "Create Badge": KeysToCamelCase<GroupAuditLog_CreateBadge>,
-  "Configure Badge": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Save Place": KeysToCamelCase<GroupAuditLog_SavePlace>,
-  "Publish Place": KeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
-  "Update Roleset Rank": KeysToCamelCase<GroupAuditLog_UpdateRolesetRank>,
-  "Update Roleset Data": KeysToCamelCase<GroupAuditLog_UpdateRolesetData>
+  "Delete Post": ObjectKeysToCamelCase<GroupAuditLog_DeletePost>,
+  "Remove Member": ObjectKeysToCamelCase<GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest>,
+  "Accept Join Request": ObjectKeysToCamelCase<GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest>,
+  "Decline Join Request": ObjectKeysToCamelCase<GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest>,
+  "Post Status": ObjectKeysToCamelCase<GroupAuditLog_PostStatus>,
+  "Change Rank": ObjectKeysToCamelCase<GroupAuditLog_ChangeRank>,
+  "Buy Ad": ObjectKeysToCamelCase<GroupAuditLog_BuyAd>,
+  "Send Ally Request": ObjectKeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
+  "Create Enemy": ObjectKeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
+  "Accept Ally Request": ObjectKeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
+  "Decline Ally Request": ObjectKeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
+  "Delete Ally": ObjectKeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
+  "Delete Enemy": ObjectKeysToCamelCase<GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy>,
+  "Add Group Place": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Remove Group Place": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Create Items": ObjectKeysToCamelCase<GroupAuditLog_CreateItems_CreateGroupDeveloperProduct>,
+  "Configure Items": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Spend Group Funds": ObjectKeysToCamelCase<GroupAuditLog_SpendGroupFunds>,
+  "Change Owner": ObjectKeysToCamelCase<GroupAuditLog_ChangeOwner>,
+  "Delete": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Adjust Currency Amounts": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Abandon": ObjectKeysToCamelCase<GroupAuditLog_Abandon>,
+  "Claim": ObjectKeysToCamelCase<GroupAuditLog_Claim>,
+  "Rename": ObjectKeysToCamelCase<GroupAuditLog_Rename>,
+  "Change Description": ObjectKeysToCamelCase<GroupAuditLog_ChangeDescription>,
+  "Invite To Clan": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Kick From Clan": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Cancel Clan Invite": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Buy Clan": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Create Group Asset": ObjectKeysToCamelCase<GroupAuditLog_CreateGroupAsset_UpdateGroupAsset>,
+  "Update Group Asset": ObjectKeysToCamelCase<GroupAuditLog_CreateGroupAsset_UpdateGroupAsset>,
+  "Configure Group Asset": ObjectKeysToCamelCase<GroupAuditLog_ConfigureGroupAsset>,
+  "Revert Group Asset": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Create Group Developer Product": ObjectKeysToCamelCase<GroupAuditLog_CreateItems_CreateGroupDeveloperProduct>,
+  "Configure Group Game": ObjectKeysToCamelCase<GroupAuditLog_ConfigureGroupGame>,
+  "Create Group Developer Subscription Product": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Lock": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Unlock": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Create Game Pass": ObjectKeysToCamelCase<GroupAuditLog_CreateGamePass>,
+  "Create Badge": ObjectKeysToCamelCase<GroupAuditLog_CreateBadge>,
+  "Configure Badge": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Save Place": ObjectKeysToCamelCase<GroupAuditLog_SavePlace>,
+  "Publish Place": ObjectKeysToCamelCase<GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems>,
+  "Update Roleset Rank": ObjectKeysToCamelCase<GroupAuditLog_UpdateRolesetRank>,
+  "Update Roleset Data": ObjectKeysToCamelCase<GroupAuditLog_UpdateRolesetData>
 }
 
 type AllGroupAuditLogs = GroupAuditLog_DeletePost | GroupAuditLog_RemoveMember_AcceptJoinRequest_DeclineJoinRequest | GroupAuditLog_PostStatus | GroupAuditLog_ChangeRank | GroupAuditLog_BuyAd | GroupAuditLog_SpendGroupFunds | GroupAuditLog_ChangeOwner | GroupAuditLog_Abandon | GroupAuditLog_Claim | GroupAuditLog_Rename | GroupAuditLog_ChangeDescription | GroupAuditLog_CreateGroupAsset_UpdateGroupAsset | GroupAuditLog_ConfigureGroupAsset | GroupAuditLog_ConfigureGroupGame | GroupAuditLog_CreateGamePass | GroupAuditLog_CreateBadge | GroupAuditLog_SavePlace | GroupAuditLog_UpdateRolesetRank | GroupAuditLog_SendAllyRequest_CreateEnemy_AcceptAllyRequest_DeclineAllyRequest_DeleteAlly_DeleteEnemy | GroupAuditLog_UpdateRolesetData | GroupAuditLog_CreateItems_CreateGroupDeveloperProduct |GroupAuditLog_InviteToClan_KickFromClan_CancelClanInvite_BuyClan_AdjustCurrencyAmounts_RevertGroupAsset_CreateGroupDeveloperSubscriptionProduct_Lock_Unlock_ConfigureBadge_PublishPlace_AddGroupPlace_RemoveGroupPlace_ConfigureItems
@@ -818,7 +815,7 @@ export type GroupRolePermissionsData<
 
 
 // PATCH /v1/groups/{groupId}/roles/{roleSetId}/permissions ----------------------------------------------------------
-export type GroupRolePermissions = KeysToCamelCase<{
+export type GroupRolePermissions = ObjectKeysToCamelCase<{
   DeleteFromWall?: boolean,
   PostToWall?: boolean,
   InviteMembers?: boolean,
@@ -966,7 +963,7 @@ export type RawGroupSearchMetadata = ObjectPrettify<{
   ShowFriendsGroupsSort: boolean
 }>
 
-export type PrettifiedGroupSearchMetadata = ObjectPrettify<KeysToCamelCase<RawGroupSearchMetadata>>
+export type PrettifiedGroupSearchMetadata = ObjectPrettify<ObjectKeysToCamelCase<RawGroupSearchMetadata>>
 // -------------------------------------------------------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -1,6 +1,4 @@
-// [ Types ] /////////////////////////////////////////////////////////////////////
-import { ObjectPrettify, ObjectEither, Identifier, ISODateTime, UrlSecure } from "typeforge"
-//////////////////////////////////////////////////////////////////////////////////
+import type { Identifier, UrlSecure } from "typeforge"
 
 
 // GET /v1/userinfo --------------------------------------------------------------------------------------------------

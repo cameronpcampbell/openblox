@@ -1,5 +1,5 @@
-import { ObjectPrettify, UnionPrettify } from "typeforge"
-import { Identifier } from "../../../utils/utils.types"
+import type { Identifier, ObjectPrettify, UnionPrettify } from "typeforge"
+
 
 export type SubscriptionType = UnionPrettify<"Durable" | "Consumable" | "Currency">
 export type SubsriptionPrice = UnionPrettify<"$2.99" | "$4.99" | "$7.99" | "$9.99" | "$14.99">

@@ -1,6 +1,5 @@
-// [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ArrayPrettify, Identifier, ISODateTime, ObjectPrettify, UnionPrettify } from "typeforge"
-//////////////////////////////////////////////////////////////////////////////////
+
 
 export type OrgRoleColor = UnionPrettify<"Blue" | "Green" | "Purple" | "Yellow" | "Orange"  | "Red"  | "LightOrange" | "Pink" | "Teal">
 

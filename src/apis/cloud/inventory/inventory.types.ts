@@ -1,6 +1,4 @@
-// [ Types ] /////////////////////////////////////////////////////////////////////
-import { ArrayPrettify, ObjectPrettify, UnionPrettify, ObjectEither } from "typeforge"
-//////////////////////////////////////////////////////////////////////////////////
+import type { ObjectPrettify, UnionPrettify, ObjectEither } from "typeforge"
 
 
 // GET /v2/users/{userId}/inventory-items ----------------------------------------

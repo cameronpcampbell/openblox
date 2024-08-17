@@ -1,14 +1,14 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
-import { Identifier, ISODateTime } from "typeforge"
 import { createApiGroup } from "../../apiGroup"
+import { cloneAndMutateObject } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import type { Identifier, ISODateTime } from "typeforge"
+
 import type { ApiMethod } from "../../apiGroup"
-import { PrettifiedListRestrictionLogsData, PrettifiedUserRestrictionsData, RawListRestrictionLogsData, RawUserRestrictionsData, UpdateUserRestrictionsData } from "./userRestrictions.types"
-import { cloneAndMutateObject } from "../../../utils/utils"
-import { filter } from "lodash"
+import type { PrettifiedListRestrictionLogsData, PrettifiedUserRestrictionsData, RawListRestrictionLogsData, RawUserRestrictionsData, UpdateUserRestrictionsData } from "./userRestrictions.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 

@@ -1,4 +1,4 @@
-import { Identifier, ObjectPrettify } from "typeforge"
+import type { Identifier, ObjectPrettify } from "typeforge"
 
 export type OrderedDatastoreEntry<
   UniverseId extends Identifier, OrderedDataStore extends string, Scope extends string,

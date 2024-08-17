@@ -1,5 +1,4 @@
-import type { Identifier, ObjectPrettify } from "typeforge";
-import { KeysToCamelCase } from "../../../utils/utils.types";
+import type { Identifier, ObjectPrettify, ObjectKeysToCamelCase } from "typeforge";
 
 
 // [ Users ] /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,7 +21,7 @@ export type RawUniverseFollowingStatusForUserData<UniverseId extends Identifier,
 }
 
 export type PrettifiedUniverseFollowingStatusForUserData<UniverseId extends Identifier, UserId extends Identifier> = ObjectPrettify<
-  KeysToCamelCase<RawUniverseFollowingStatusForUserData<UniverseId, UserId>>
+  ObjectKeysToCamelCase<RawUniverseFollowingStatusForUserData<UniverseId, UserId>>
 >
 // -------------------------------------------------------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

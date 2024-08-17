@@ -2,13 +2,14 @@
 import { config } from "../../config";
 import { HttpHandler, isOpenCloudUrl } from "../../http/httpHandler";
 import { isObject, objectToFieldMask } from "../../utils/utils";
-import { ApiMethodDataFormatRawData, ApiMethodResponse, CallApiMethod, CreateApiGroupFn, Cursor } from "./apiGroup.types";
 import { HttpResponse } from "../../http/http.utils";
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { SecureUrl } from "../../utils/utils.types";
+import type { UrlSecure } from "typeforge";
+
+import type { ApiMethodDataFormatRawData, ApiMethodResponse, CallApiMethod, CreateApiGroupFn, Cursor } from "./apiGroup.types";
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -122,7 +123,7 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
       let formattedSearchParams = formatSearchParams(searchParams)
       if (applyFieldMask && body && isObject(body)) formattedSearchParams += `&updateMask=${objectToFieldMask(body as Record<any, any>)}`
 
-      const url: SecureUrl = `${baseUrl}${path}${formattedSearchParams ? `?${new URLSearchParams(formattedSearchParams).toString()}` : ""}`
+      const url: UrlSecure = `${baseUrl}${path}${formattedSearchParams ? `?${new URLSearchParams(formattedSearchParams).toString()}` : ""}`
 
       // Adds credentials to headers.
       if (cookie || cloudKey || oauthToken) {
@@ -145,9 +146,9 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
         if (pathToPoll) opPath = pathToPoll(rawData)
 
         const operationPrefix = opPath.match(/^(\/?)cloud\/v[1-9]+(\/?)/)
-          ? operationPrefixRegexWithoutVersion.exec(url)?.[1] as SecureUrl
-          : operationPrefixRegexWithVersion.exec(url)?.[1] as SecureUrl
-        const opUrl = `${operationPrefix}${opPath}` as SecureUrl
+          ? operationPrefixRegexWithoutVersion.exec(url)?.[1] as UrlSecure
+          : operationPrefixRegexWithVersion.exec(url)?.[1] as UrlSecure
+        const opUrl = `${operationPrefix}${opPath}` as UrlSecure
 
         const headers = { "x-api-key": cloudKey }
 

@@ -4,9 +4,10 @@ import { createApiGroup } from "../../apiGroup"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import type { ISODateTime, Identifier } from "typeforge"
+
 import type { ApiMethod } from "../../apiGroup"
 import type { AssetResaleData, AssetResellerData, AuthedUserDevExCashOutInfoData, AuthedUserEconomyMetadataData, GroupRevenueSummaryData, GroupTransactionType, PrettifiedGroupTransactionHistoryData, RawAssetResellersData, RawGroupTransactionHistoryData } from "./economy.types"
-import { ISODateTime, Identifier } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 

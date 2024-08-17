@@ -1,4 +1,4 @@
-import type { Identifier, ObjectPrettify, UnionPrettify, UnionToArray, Url } from "typeforge"
+import type { Identifier, ObjectPrettify, UnionPrettify, Url } from "typeforge"
 
 export type ThumbnailFormat = "Png" | "WebP"
 

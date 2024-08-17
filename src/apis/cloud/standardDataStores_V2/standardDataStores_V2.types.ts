@@ -1,6 +1,5 @@
-// [ Types ] /////////////////////////////////////////////////////////////////////
-import { Identifier, ISODateTime, ObjectEither, ObjectPrettify, ObjectRemoveKeys, PrettifyDeep, StringIsLiteral, StringReplaceAll, UnionPrettify } from "typeforge"
-//////////////////////////////////////////////////////////////////////////////////
+import type { Identifier, ISODateTime, ObjectEither, ObjectPrettify, PrettifyDeep, StringIsLiteral, StringReplaceAll, UnionPrettify } from "typeforge"
+
 
 type DataStoreEntryState = UnionPrettify<"STATE_UNSPECIFIED" | "ACTIVE" | "DELETED">
 

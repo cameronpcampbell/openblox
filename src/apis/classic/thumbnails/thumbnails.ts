@@ -5,11 +5,10 @@ import { createObjectMapByKeyWithMiddleware } from "../../../utils/utils"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { ApiMethod } from "../../apiGroup"
-import { ArrayNonEmpty, Identifier } from "typeforge"
+import type { Identifier, ArrayNonEmptyIfConst } from "typeforge"
 
+import type { ApiMethod } from "../../apiGroup"
 import type { AssetAnimatedThumbnailData, AssetSize, AvatarsFullThumbnailsSize, BatchRequest, BatchResponseElement, BundleSize, DeveloperProductSize, GamesIconSize, GameThumbnailSize, GroupEmblemSize, OutfitSize, PlaceThumbnailSize, PrettifiedBatchThumbnailsData, PrettifiedGamesThumbnailsData, PrettifiedThumbnailsData, RawBatchThumbnailsData, RawGamesThumbnailsData, RawThumbnailsData, ThumbnailData, ThumbnailFormat, ThumbnailReturnPolicy, ThumbnailsMetadataData } from "./thumbnails.types"
-import { ArrayNonEmptyIfConst } from "../../../utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -363,7 +362,7 @@ export const thumbnailsMetadata = addApiMethod(async (
  */
 export const placesIcons = addApiMethod(async <PlaceId extends Identifier>(
   { placeIds, returnPolicy, size = "256x256", format = "WebP", isCircular }:
-  { placeIds: ArrayNonEmptyIfConst<PlaceId>, returnPolicy?: ThumbnailReturnPolicy, size?: PlaceThumbnailSize, format?: ThumbnailFormat, isCircular?: boolean }
+  { placeIds: ArrayNonEmptyIfConst<PlaceId>, returnPolicy?: ThumbnailReturnPolicy, size?: GamesIconSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<PlaceId>, PrettifiedThumbnailsData<PlaceId>> => ({
   method: "GET",
   path: `/v1/places/gameicons`,

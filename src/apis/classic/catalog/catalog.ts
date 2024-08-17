@@ -1,14 +1,15 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
-import { cloneAndMutateObject, createObjectMapByKeyWithMiddleware, dataIsSuccess } from "../../../utils/utils"
+import { cloneAndMutateObject, dataIsSuccess } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import type { ArrayNonEmptyIfConst, Identifier, Falsey, ObjectEither, ObjectPrettify } from "typeforge"
+
 import type { ApiMethod } from "../../apiGroup"
-import type { ArrayNonEmptyIfConst, Identifier, SortOrder } from "../../../utils/utils.types"
+import type { SortOrder } from "../../../utils/utils.types"
 import type { BundleType, MinimalBundle, PrettifiedAssetFavoritesCountData, PrettifiedBundle, PrettifiedBundleFavoritesCountData, PrettifiedCatalogBatchInfoData, RawAssetFavoritesCountData, RawAuthedUserFavoritedBundlesOfTypeData, RawBundle, RawBundleFavoritesCountData, RawCatalogBatchInfoData, RawPaginatedBundlesData, RawPaginatedMinimalBundleData } from "./catalog.types"
-import { Falsey, ObjectEither, ObjectPrettify } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 

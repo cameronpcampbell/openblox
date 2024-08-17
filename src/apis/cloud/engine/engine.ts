@@ -5,9 +5,10 @@ import { toCamel, toPascal } from "../../../utils/utils"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { ApiMethod } from "../../apiGroup"
-import { PrettifiedInstanceChildrenData, PrettifiedInstanceData, RawInstanceChildrenData, RawInstanceData, UpdateInstance_NewData } from "./engine.types"
 import type { Identifier } from "typeforge"
+
+import type { ApiMethod } from "../../apiGroup"
+import type { PrettifiedInstanceChildrenData, PrettifiedInstanceData, RawInstanceChildrenData, RawInstanceData, UpdateInstance_NewData } from "./engine.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 

@@ -4,9 +4,10 @@ import { createApiGroup } from "../../apiGroup"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import type { Identifier } from "typeforge"
+
 import type { ApiMethod } from "../../apiGroup"
-import type { Identifier } from "../../../utils/utils.types"
-import { UserInfoData } from "./oauth.types"
+import type { UserInfoData } from "./oauth.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 

@@ -1,13 +1,14 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
+import { cloneAndMutateObject } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import type { Identifier } from "typeforge"
+
 import type { ApiMethod } from "../../apiGroup"
-import type { Identifier } from "../../../utils/utils.types"
-import { NotificationData, PrettifiedUserInfoData, RawUserInfoData, SendNotificationToUser_NotificationData, UserThumbnailData, UserThumbnailSize } from "./users.types"
-import { cloneAndMutateObject } from "../../../utils/utils"
+import type { NotificationData, PrettifiedUserInfoData, RawUserInfoData, SendNotificationToUser_NotificationData, UserThumbnailData, UserThumbnailSize } from "./users.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 

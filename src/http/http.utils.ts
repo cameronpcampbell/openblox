@@ -1,14 +1,14 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { ObjectPrettify, Prettify } from "typeforge"
+import type { ObjectPrettify, Prettify, UrlSecure } from "typeforge"
 import type { AnyError as AnyRobloxError } from "parse-roblox-errors"
 
-import type { RestMethod, SecureUrl } from "../utils/utils.types"
+import type { RestMethod } from "../utils/utils.types"
 
 export type RobloxCookie = `_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|${string}`
 
 
 export type HttpHandlerProps = {
-  url: SecureUrl,
+  url: UrlSecure,
   method: RestMethod,
   headers?: Record<string, any>,
   body?: any,
@@ -26,7 +26,7 @@ export type HttpResponseProps<
   Body extends any = any,
 > = ObjectPrettify<{
   fullResponse: any,
-  url: SecureUrl,
+  url: UrlSecure,
   method: RestMethod,
   success: boolean,
   statusCode: number,
@@ -38,7 +38,7 @@ export type HttpResponseProps<
 
 export class HttpResponse<Body extends any = any> {
   fullResponse: unknown
-  url: SecureUrl
+  url: UrlSecure
   method: RestMethod
   success: boolean
   statusCode: number

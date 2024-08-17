@@ -1,5 +1,5 @@
-import { ISODate, ISODateTime, ObjectPrettify, Prettify, UnionPrettify } from "typeforge"
-import type { Identifier, SecureUrl } from "../../../utils/utils.types"
+import type { Identifier, UrlSecure, ISODateTime, ObjectPrettify, UnionPrettify } from "typeforge"
+
 
 // GET https://apis.roblox.com/cloud/v2/users/${userId}
 type UserInfoData_Locale = "sq_al" | "ar_001" | "bn_bd" | "nb_no" | "bs_ba" | "bg_bg" | "my_mm" | "zh_cn" | "zh_tw" | "hr_hr" | "cs_cz" | "da_dk" | "nl_nl" | "en_us" | "et_ee" | "fil_ph" | "fi_fi" | "fr_fr" | "ka_ge" | "de_de" | "el_gr" | "hi_in" | "hu_hu" | "id_id" | "it_it" | "ja_jp" | "kk_kz" | "km_kh" | "ko_kr" | "lv_lv" | "lt_lt" | "ms_my" | "pl_pl" | "pt_br" | "ro_ro" | "ru_ru" | "sr_rs" | "si_lk" | "sk_sk" | "sl_sl" | "es_es" | "sv_se" | "th_th" | "tr_tr" | "uk_ua" | "vi_vn"
@@ -44,7 +44,7 @@ export type UserThumbnailData<UserId extends Identifier> = (
     path: `users/${UserId}/operations/${string}`,
     response: {
       "@type": "apis.roblox.com/roblox.open_cloud.cloud.v2.GenerateUserThumbnailResponse",
-      imageUri: SecureUrl
+      imageUri: UrlSecure
     }
   } |
   {

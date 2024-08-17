@@ -1,4 +1,4 @@
-import { ISODateTime, ObjectPrettify, Prettify } from "typeforge"
+import type { ISODateTime, ObjectPrettify, Prettify } from "typeforge"
 
 type Prefixify<P extends string|undefined> = P extends string ? `${P}${string}` : string
 

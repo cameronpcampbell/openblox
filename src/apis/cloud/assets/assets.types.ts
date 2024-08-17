@@ -1,7 +1,6 @@
-// [ Types ] /////////////////////////////////////////////////////////////////////
-import { LongRunningOperation, ObjectRemoveReadOnly } from "../../../apis/apis.types";
 import type { Identifier, ISODateTime, ObjectKeepKeys, ObjectPrettify, StringIsLiteral, UnionPrettify } from "typeforge"
-//////////////////////////////////////////////////////////////////////////////////
+import type { LongRunningOperation, ObjectRemoveReadOnly } from "../../../apis/apis.types";
+
 
 export type AssetField = UnionPrettify<"assetType" | "assetId" | "creationContext" | "description" | "displayName" | "path" | "revisionId" | "revisionCreateTime" | "moderationResult" | "icon" | "previews" | "state">
 

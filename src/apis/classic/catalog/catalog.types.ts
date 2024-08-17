@@ -1,6 +1,5 @@
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { ArrayRemoveTypes, ISODateTime, Identifier, ObjectPrettify, ObjectPrettifyDeep, UnionPrettify } from "typeforge"
-import { IsLiteral } from "../../../utils/utils.types";
+import type { ISODateTime, Identifier, ObjectPrettify, UnionPrettify, IsLiteral } from "typeforge"
 //////////////////////////////////////////////////////////////////////////////////
 
 export type BundleType = UnionPrettify<"BodyParts" | "Animations" | "Shoes" | "DynamicHead" | "DynamicHeadAvatar">

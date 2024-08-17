@@ -1,4 +1,4 @@
-import { ISODateTime, UnionPrettify } from "typeforge"
+import type { ISODateTime, UnionPrettify } from "typeforge"
 
 type ObjectValues<Obj extends Record<any, any>> = UnionPrettify<Obj[keyof Obj]>
 

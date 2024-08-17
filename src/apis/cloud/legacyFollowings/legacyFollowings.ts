@@ -1,13 +1,14 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
-import { dataIsSuccess, toCamel } from "../../../utils/utils"
+import { toCamel } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
+import type { Identifier } from "typeforge"
+
 import type { ApiMethod } from "../../apiGroup"
-import type { Identifier } from "../../../utils/utils.types"
-import { PrettifiedUniverseFollowingStatusForUserData, RawUniverseFollowingsForUserData, RawUniverseFollowingStatusForUserData } from "./legacyFollowings.types"
+import type { PrettifiedUniverseFollowingStatusForUserData, RawUniverseFollowingsForUserData, RawUniverseFollowingStatusForUserData } from "./legacyFollowings.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
