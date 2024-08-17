@@ -394,20 +394,105 @@
         "description": "Updates a universes information.",
         "tags": {
           "endpoint": "PATCH /cloud/v2/universes/{universeId}",
-          "example": "const { data: updatedData } = await ExperiencesApi.updateUniverse({\n  universeId: 5795192361,\n  newData: { displayName: \"Lorem Ipsum\", visibility: \"PRIVATE\" },\n});",
+          "example": "const { data: updatedData } = await ExperiencesApi.updateUniverse({\n  universeId: 5795192361,\n  displayName: \"Lorem Ipsum\",\n  visibility: \"PRIVATE\",\n});",
           "exampleData": "{\n  path: \"universes/5795192361\",\n  createTime: \"2024-03-25T10:42:46.360Z\",\n  updateTime: \"2024-03-25T10:42:46.360Z\",\n  displayName: \"MightyPart's Place Number: 201\",\n  description: \"\",\n  user: \"users/45348281\",\n  visibility: \"PRIVATE\",\n  voiceChatEnabled: false,\n  ageRating: \"AGE_RATING_UNSPECIFIED\",\n  desktopEnabled: true,\n  mobileEnabled: true,\n  tabletEnabled: true,\n  consoleEnabled: false,\n  vrEnabled: true,\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5795192361\",\n  createTime: \"2024-03-25T10:42:46.360Z\",\n  updateTime: \"2024-03-25T10:42:46.360Z\",\n  displayName: \"MightyPart's Place Number: 201\",\n  description: \"\",\n  user: \"users/45348281\",\n  visibility: \"PRIVATE\",\n  voiceChatEnabled: false,\n  ageRating: \"AGE_RATING_UNSPECIFIED\",\n  desktopEnabled: true,\n  mobileEnabled: true,\n  tabletEnabled: true,\n  consoleEnabled: false,\n  vrEnabled: true,\n}\n"
         },
         "params": [
           {
             "name": "universeId",
-            "type": "UniverseId",
+            "type": "🤷",
             "description": "The id of the universe to update."
           },
           {
-            "name": "newData",
-            "type": "NewData",
-            "description": "the updated universe information."
+            "name": "displayName",
+            "type": "🤷",
+            "description": "The new display name for the universe."
+          },
+          {
+            "name": "description",
+            "type": "🤷",
+            "description": "The new description for the universe."
+          },
+          {
+            "name": "visibility",
+            "type": "🤷",
+            "description": "The new visibility for the universe."
+          },
+          {
+            "name": "facebookSocialLink",
+            "type": "🤷",
+            "description": "The new facebook social link for the universe."
+          },
+          {
+            "name": "twitterSocialLink",
+            "type": "🤷",
+            "description": "The new twitter social link for the universe."
+          },
+          {
+            "name": "youtubeSocialLink",
+            "type": "🤷",
+            "description": "The new youtube social link for the universe."
+          },
+          {
+            "name": "twitchSocialLink",
+            "type": "🤷",
+            "description": "The new twitch social link for the universe."
+          },
+          {
+            "name": "discordSocialLink",
+            "type": "🤷",
+            "description": "The new discord social link for the universe."
+          },
+          {
+            "name": "robloxGroupSocialLink",
+            "type": "🤷",
+            "description": "The new roblox group social link for the universe."
+          },
+          {
+            "name": "guildedSocialLink",
+            "type": "🤷",
+            "description": "The new guilded social link for the universe."
+          },
+          {
+            "name": "voiceChatEnabled",
+            "type": "🤷",
+            "description": "if voice chat will be enabled for the universe."
+          },
+          {
+            "name": "ageRating",
+            "type": "🤷",
+            "description": "The new age rating for the universe."
+          },
+          {
+            "name": "privateServerPriceRobux",
+            "type": "🤷",
+            "description": "The new private server price (in robux) for the universe."
+          },
+          {
+            "name": "desktopEnabled",
+            "type": "🤷",
+            "description": "if desktop players will be allowed to access the universe."
+          },
+          {
+            "name": "mobileEnabled",
+            "type": "🤷",
+            "description": "if mobile players will be allowed to access the universe."
+          },
+          {
+            "name": "tabletEnabled",
+            "type": "🤷",
+            "description": "if tablet players will be allowed to access the universe."
+          },
+          {
+            "name": "consoleEnabled",
+            "type": "🤷",
+            "description": "if console players will be allowed to access the universe."
+          },
+          {
+            "name": "vrEnabled",
+            "type": "🤷",
+            "description": "if vr players will be allowed to access the universe."
           }
         ]
       },
@@ -453,7 +538,7 @@
         "description": "Updates a places information.",
         "tags": {
           "endpoint": "PATCH /cloud/v2/universes/{universeId}/places/{PlaceId}",
-          "example": "const { data: updatedInfo } = await ExperiencesApi.updatePlace({\n  universeId: 5795192361,\n  placeId: 16866553538,\n  newData: { displayName: \"Hello World\" },\n});",
+          "example": "const { data: updatedInfo } = await ExperiencesApi.updatePlace({\n  universeId: 5795192361,\n  placeId: 16866553538,\n  displayName: \"Hello World\",\n});",
           "exampleData": "{\n  path: \"universes/5795192361/places/16866553538\",\n  createTime: \"2024-03-25T10:42:46.297Z\",\n  updateTime: \"2024-05-13T10:21:20.247Z\",\n  displayName: \"Hello World\",\n  description: \"\",\n  serverSize: 50,\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5795192361/places/16866553538\",\n  createTime: \"2024-03-25T10:42:46.297Z\",\n  updateTime: \"2024-05-13T10:21:20.247157600Z\",\n  displayName: \"Hello World\",\n  description: \"\",\n  serverSize: 50,\n}\n"
         },
@@ -469,9 +554,19 @@
             "description": "The id of the place to update."
           },
           {
-            "name": "newData",
-            "type": "NewData",
-            "description": "the updated place information."
+            "name": "displayName?",
+            "type": "DisplayName",
+            "description": "The new display name for the place."
+          },
+          {
+            "name": "description?",
+            "type": "Description",
+            "description": "The new description for the place."
+          },
+          {
+            "name": "serverSize?",
+            "type": "ServerSize",
+            "description": "The new server size for the place."
           }
         ]
       },
@@ -525,7 +620,7 @@
         ]
       },
       "groupMembers": {
-        "description": "Gets join requests for a group.",
+        "description": "Gets members for a group.",
         "tags": {
           "endpoint": "GET /v2/groups/{groupId}/memberships",
           "example": "const { data: members } = await GroupsApi.groupMembers({ groupId: 5850082, filter: { userId: 45348281 } });",
@@ -711,6 +806,120 @@
             "name": "cursor?",
             "type": "string",
             "description": "A paging cursor for a specified page."
+          }
+        ]
+      }
+    },
+    "legacyBadges": {
+      "updateBadge": {
+        "description": "Updates a badge.",
+        "tags": {
+          "endpoint": "PATCH /v1/badges/{badgeId}",
+          "example": "const { data: success } = await LegacyBadgesApi.updateBadge({ badgeId: 2124533401, description: \"hello\" });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "badgeId",
+            "type": "Identifier",
+            "description": "The ID of the badge to update."
+          },
+          {
+            "name": "name?",
+            "type": "string",
+            "description": "The new name for the badge."
+          },
+          {
+            "name": "description?",
+            "type": "string",
+            "description": "The new description for the badge."
+          },
+          {
+            "name": "enabled?",
+            "type": "boolean",
+            "description": "If the badge is to enabled."
+          }
+        ]
+      }
+    },
+    "legacyFollowings": {
+      "universeFollowingsForUser": {
+        "description": "Gets all universes that a user is following.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/universes",
+          "example": "const { data: followings } = await LegacyFollowingsApi.universeFollowingsForUser({ userId: 45348281 });",
+          "exampleData": "[\n  1040909955, 1055503474, 1127443799, 1165192137, 1200754375, 1236793313,\n  1272809249, 1291219836, 1325075446, 1333987814, 1455656959, 1459495916,\n  1475796875, 1566033, 1619449303, 1638574655, 1642810480, 1652474931,\n  1658520392, 1684207825, 1685831367, 1756953036, 1778285344, 245662005,\n  2471084, 37146255, 3837270861, 38625144, 4459945221, 4571818074,\n  478688139, 495693931, 498490399, 518243913, 5693752693, 602133888,\n  6102030522, 6211067578, 777854650, 878103525, 88070565, 904999465,\n  953412571, 99361251,\n]\n",
+          "exampleRawBody": "[\n  { universeId: 1040909955, userId: 45348281 },\n  { universeId: 1055503474, userId: 45348281 },\n  { universeId: 1127443799, userId: 45348281 },\n  { universeId: 1165192137, userId: 45348281 },\n  { universeId: 1200754375, userId: 45348281 },\n  { universeId: 1236793313, userId: 45348281 },\n  { universeId: 1272809249, userId: 45348281 },\n  { universeId: 1291219836, userId: 45348281 },\n  { universeId: 1325075446, userId: 45348281 },\n  { universeId: 1333987814, userId: 45348281 },\n  { universeId: 1455656959, userId: 45348281 },\n  { universeId: 1459495916, userId: 45348281 },\n  { universeId: 1475796875, userId: 45348281 },\n  { universeId: 1566033, userId: 45348281 },\n  { universeId: 1619449303, userId: 45348281 },\n  { universeId: 1638574655, userId: 45348281 },\n  { universeId: 1642810480, userId: 45348281 },\n  { universeId: 1652474931, userId: 45348281 },\n  { universeId: 1658520392, userId: 45348281 },\n  { universeId: 1684207825, userId: 45348281 },\n  { universeId: 1685831367, userId: 45348281 },\n  { universeId: 1756953036, userId: 45348281 },\n  { universeId: 1778285344, userId: 45348281 },\n  { universeId: 245662005, userId: 45348281 },\n  { universeId: 2471084, userId: 45348281 },\n  { universeId: 37146255, userId: 45348281 },\n  { universeId: 3837270861, userId: 45348281 },\n  { universeId: 38625144, userId: 45348281 },\n  { universeId: 4459945221, userId: 45348281 },\n  { universeId: 4571818074, userId: 45348281 },\n  { universeId: 478688139, userId: 45348281 },\n  { universeId: 495693931, userId: 45348281 },\n  { universeId: 498490399, userId: 45348281 },\n  { universeId: 518243913, userId: 45348281 },\n  { universeId: 5693752693, userId: 45348281 },\n  { universeId: 602133888, userId: 45348281 },\n  { universeId: 6102030522, userId: 45348281 },\n  { universeId: 6211067578, userId: 45348281 },\n  { universeId: 777854650, userId: 45348281 },\n  { universeId: 878103525, userId: 45348281 },\n  { universeId: 88070565, userId: 45348281 },\n  { universeId: 904999465, userId: 45348281 },\n  { universeId: 953412571, userId: 45348281 },\n  { universeId: 99361251, userId: 45348281 },\n]\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the user to get universe followings for."
+          }
+        ]
+      },
+      "universeFollowingStatusForUser": {
+        "description": "Gets the following status between a user and a universe.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/universes/{universeId}/status",
+          "example": "const { data: status } = await LegacyFollowingsApi.universeFollowingStatusForUser({\n  universeId: 4922741943,\n  userId: 45348281,\n});",
+          "exampleData": "{\n  universeId: 4922741943,\n  userId: 45348281,\n  canFollow: true,\n  isFollowing: false,\n  followingCountByType: 44,\n  followingLimitByType: 200,\n}\n",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to get following status for."
+          },
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The ID of the user to get following status for."
+          }
+        ]
+      },
+      "authedUserUnfollowUniverse": {
+        "description": "Unfollows a particular universe as the authenticated user.",
+        "tags": {
+          "endpoint": "DELETE /v1/users/{userId}/universes/{universeId}",
+          "example": "const { data: ids } = await LegacyFollowingsApi.authedUserUnfollowUniverse({\n  universeId: 4922741943,\n  userId: 45348281,\n});",
+          "exampleData": "{ universeId: 4922741943, userId: 45348281 }\n",
+          "exampleRawBody": "{ universeId: 4922741943, userId: 45348281 }\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to unfollow."
+          },
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The ID of the authenticated user."
+          }
+        ]
+      },
+      "authedUserFollowUniverse": {
+        "description": "Follows a particular universe as the authenticated user.",
+        "tags": {
+          "endpoint": "POST /v1/users/{userId}/universes/{universeId}",
+          "example": "const { data: ids } = await LegacyFollowingsApi.authedUserFollowUniverse({ universeId: 4922741943, userId: 45348281 });",
+          "exampleData": "{ universeId: 4922741943, userId: 45348281 }\n",
+          "exampleRawBody": "{ universeId: 4922741943, userId: 45348281 }\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to follow."
+          },
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The ID of the authenticated user."
           }
         ]
       }
@@ -906,7 +1115,7 @@
         "description": "Reads queue items.",
         "tags": {
           "endpoint": "GET /v2/universes/{universeId}/memory-store/queues/{queue}/items:read",
-          "example": "type Item = { isReal: boolean };\nconst {\n  data: queueItems,\n  response: { body },\n} = await MemoryStoresApi.readQueueItems<Item>({ universeId: 5243626809, queue: \"MyQueue\", limit: 2 });",
+          "example": "type Item = { isReal: boolean };\nconst { data: queueItems } = await MemoryStoresApi.readQueueItems<Item>({\n  universeId: 5243626809,\n  queue: \"MyQueue\",\n  limit: 2,\n});",
           "exampleData": "{\n  items: [\n    { name: \"Testing123\", value: { isReal: true } },\n    { name: \"Testing1234\", value: { isReal: true } },\n  ],\n  id: \"48e44da3c8754a4ab7ed728d07ac9526\",\n}\n",
           "exampleRawBody": "{\n  data: [\n    { name: \"Testing123\", value: { isReal: true } },\n    { name: \"Testing1234\", value: { isReal: true } },\n  ],\n  id: \"5cfc27af46da4cf08b41aa9a3d78a75e\",\n}\n"
         },
@@ -1236,6 +1445,204 @@
             "name": "createIfNoEntryExists?",
             "type": "boolean",
             "description": "The flag to allow the creation of an entry if the entry doesn't exist. (allow_missing)"
+          }
+        ]
+      }
+    },
+    "orderedDataStores_V2": {
+      "listOrderedDatastoreEntries": {
+        "description": "Lists entries in an ordered data store.",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universeId}/ordered-data-stores/{dataStoreId}/scopes/{scope}/entries",
+          "example": "const { data: entries } = await OrderedDatastoresApi_V2.listOrderedDatastoreEntries({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  sortOrder: \"Desc\",\n  lessThanOrEq: 80,\n  moreThanOrEq: 70,\n});",
+          "exampleData": "[\n  {\n    path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n    value: 78,\n    id: \"45348281\",\n  },\n]\n",
+          "exampleRawBody": "{\n  orderedDataStoreEntries: [\n    {\n      path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n      value: 78,\n      id: \"45348281\",\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to get ordered data store entries from."
+          },
+          {
+            "name": "dataStoreId",
+            "type": "DataStoreId",
+            "description": "The ID (name) of the data store to get entries from."
+          },
+          {
+            "name": "scope",
+            "type": "Scope",
+            "description": "The scope to get entries from."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "SortOrder",
+            "description": "Whether to return the results from biggest to smallest (Desc) or smallest to biggest (Asc)."
+          },
+          {
+            "name": "lessThanOrEq?",
+            "type": "number",
+            "description": "Filters the results to include those less than or equal to a specific number (can be used in tangent with `moreThabOrEq`)."
+          },
+          {
+            "name": "moreThanOrEq?",
+            "type": "number",
+            "description": "Filters the results to include those more than or equal to a specific number (can be used in tangent with `lessThabOrEq`)."
+          }
+        ]
+      },
+      "createOrderedDataStoreEntry": {
+        "description": "Creates a new entry in an ordered data store.",
+        "tags": {
+          "endpoint": "POST /v2/universes/{universeId}/ordered-data-stores/{dataStoreId}/scopes/{scope}/entries",
+          "example": "const { data: entry } = await OrderedDatastoresApi_V2.createOrderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"453482811\",\n  entryValue: 15,\n});",
+          "exampleData": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 15,\n  id: \"45348281\",\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 15,\n  id: \"45348281\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to create the entry in."
+          },
+          {
+            "name": "dataStoreId",
+            "type": "DataStoreId",
+            "description": "The ID (name) of the data store to create the entry in."
+          },
+          {
+            "name": "scope",
+            "type": "Scope",
+            "description": "The scope for the data store entry."
+          },
+          {
+            "name": "entryId",
+            "type": "EntryId",
+            "description": "the ID (name) for the entry."
+          }
+        ]
+      },
+      "orderedDataStoreEntry": {
+        "description": "Gets an new entry in an ordered data store.",
+        "tags": {
+          "endpoint": "GET /v2/universes/{universeId}/ordered-data-stores/{dataStoreId}/scopes/{scope}/entries",
+          "example": "const { data: entry } = await OrderedDatastoresApi_V2.orderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"45348281\",\n});",
+          "exampleData": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 78,\n  id: \"45348281\",\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 78,\n  id: \"45348281\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to get the entry from."
+          },
+          {
+            "name": "dataStoreId",
+            "type": "DataStoreId",
+            "description": "The ID (name) of the data store to get the entry from."
+          },
+          {
+            "name": "scope",
+            "type": "Scope",
+            "description": "The scope of the data store entry."
+          },
+          {
+            "name": "entryId",
+            "type": "EntryId",
+            "description": "the ID (name) of the entry."
+          }
+        ]
+      },
+      "deleteOrderedDataStoreEntry": {
+        "description": "Deletes an entry from an ordered data store.",
+        "tags": {
+          "endpoint": "DELETE /v2/universes/{universeId}/ordered-data-stores/{dataStoreId}/scopes/{scope}/entries",
+          "example": "const { data: success } = await OrderedDatastoresApi_V2.deleteOrderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"45348281\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to delete the entry from."
+          },
+          {
+            "name": "dataStoreId",
+            "type": "DataStoreId",
+            "description": "The ID (name) of the data store to delete the entry from."
+          },
+          {
+            "name": "scope",
+            "type": "Scope",
+            "description": "The scope of the data store entry to delete."
+          },
+          {
+            "name": "entryId",
+            "type": "EntryId",
+            "description": "the ID (name) of the entry to delete."
+          }
+        ]
+      },
+      "updateOrderedDataStoreEntry": {
+        "description": "Updates an entry in an ordered data store.",
+        "tags": {
+          "endpoint": "PATCH /v2/universes/{universeId}/ordered-data-stores/{dataStoreId}/scopes/{scope}/entries/{entryId}",
+          "example": "const { data: entry } = await OrderedDatastoresApi_V2.updateOrderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"45348281\",\n  newEntryValue: 45,\n});",
+          "exampleData": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 45,\n  id: \"45348281\",\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 45,\n  id: \"45348281\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to update the entry in."
+          },
+          {
+            "name": "dataStoreId",
+            "type": "DataStoreId",
+            "description": "The ID (name) of the data store to update the entry in."
+          },
+          {
+            "name": "scope",
+            "type": "Scope",
+            "description": "The scope of the data store entry to update."
+          },
+          {
+            "name": "entryId",
+            "type": "EntryId",
+            "description": "the ID (name) of the entry to update."
+          }
+        ]
+      },
+      "incrementOrderedDataStoreEntry": {
+        "description": "Updates an entry in an ordered data store.",
+        "tags": {
+          "endpoint": "PATCH /v2/universes/{universeId}/ordered-data-stores/{dataStoreId}/scopes/{scope}/entries/{entryId}:increment",
+          "example": "const { data: entry } = await OrderedDatastoresApi_V2.incrementOrderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"45348281\",\n  incrementBy: 42,\n});",
+          "exampleData": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 42,\n  id: \"45348281\",\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 42,\n  id: \"45348281\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to update the entry in."
+          },
+          {
+            "name": "dataStoreId",
+            "type": "DataStoreId",
+            "description": "The ID (name) of the data store to update the entry in."
+          },
+          {
+            "name": "scope",
+            "type": "Scope",
+            "description": "The scope of the data store entry to update."
+          },
+          {
+            "name": "entryId",
+            "type": "EntryId",
+            "description": "the ID (name) of the entry to update."
           }
         ]
       }
@@ -1607,6 +2014,22 @@
             "name": "cursor?",
             "type": "string",
             "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "createStandardDataStoreSnapshot": {
+        "description": "Creates a snapshot of standard datastores for a universe.",
+        "tags": {
+          "endpoint": "POST /cloud/v2/universes/{universeId}/data-stores:snapshot",
+          "example": "const { data: snapshot } = await StandardDataStoresApi_V2.createStandardDataStoreSnapshot({ universeId: 5097539509 });",
+          "exampleData": "{ newSnapshotTaken: false, latestSnapshotTime: \"2024-07-29T22:08:49.588Z\" }\n",
+          "exampleRawBody": "{ newSnapshotTaken: false, latestSnapshotTime: \"2024-07-29T22:08:49.588Z\" }\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to create a snapshot for."
           }
         ]
       },
@@ -2319,6 +2742,404 @@
         ]
       }
     },
+    "catalog": {
+      "assetIdsToCatalogCategoryIds": {
+        "description": "Lists asset IDs and their corresponding catalog category ID.",
+        "tags": {
+          "endpoint": "GET /v1/asset-to-category",
+          "example": "const { data: ids } = await ClassicCatalogApi.assetIdsToCatalogCategoryIds();",
+          "exampleData": "{\n  \"2\": 3,\n  \"3\": 9,\n  \"8\": 11,\n  \"10\": 6,\n  \"11\": 3,\n  \"12\": 3,\n  \"13\": 8,\n  \"17\": 4,\n  \"18\": 4,\n  \"19\": 11,\n  \"38\": 7,\n  \"40\": 10,\n  \"41\": 11,\n  \"42\": 11,\n  \"43\": 11,\n  \"44\": 11,\n  \"45\": 11,\n  \"46\": 11,\n  \"47\": 11,\n  \"48\": 12,\n  \"50\": 12,\n  \"51\": 12,\n  \"52\": 12,\n  \"53\": 12,\n  \"54\": 12,\n  \"55\": 12,\n  \"61\": 12,\n  \"62\": 14,\n  \"64\": 3,\n  \"65\": 3,\n  \"66\": 3,\n  \"67\": 3,\n  \"68\": 3,\n  \"69\": 3,\n  \"70\": 3,\n  \"71\": 3,\n  \"72\": 3,\n}\n",
+          "exampleRawBody": "{\n  \"2\": 3,\n  \"3\": 9,\n  \"8\": 11,\n  \"10\": 6,\n  \"11\": 3,\n  \"12\": 3,\n  \"13\": 8,\n  \"17\": 4,\n  \"18\": 4,\n  \"19\": 11,\n  \"38\": 7,\n  \"40\": 10,\n  \"41\": 11,\n  \"42\": 11,\n  \"43\": 11,\n  \"44\": 11,\n  \"45\": 11,\n  \"46\": 11,\n  \"47\": 11,\n  \"48\": 12,\n  \"50\": 12,\n  \"51\": 12,\n  \"52\": 12,\n  \"53\": 12,\n  \"54\": 12,\n  \"55\": 12,\n  \"61\": 12,\n  \"62\": 14,\n  \"64\": 3,\n  \"65\": 3,\n  \"66\": 3,\n  \"67\": 3,\n  \"68\": 3,\n  \"69\": 3,\n  \"70\": 3,\n  \"71\": 3,\n  \"72\": 3,\n}\n"
+        },
+        "params": []
+      },
+      "assetIdsToCatalogSubCategoryIds": {
+        "description": "Lists asset IDs and their corresponding catalog sub category ID.",
+        "tags": {
+          "endpoint": "GET /v1/asset-to-category",
+          "example": "const { data: ids } = await ClassicCatalogApi.assetIdsToCatalogSubCategoryIds();",
+          "exampleData": "{\n  \"2\": 55,\n  \"3\": 16,\n  \"8\": 54,\n  \"10\": 6,\n  \"11\": 56,\n  \"12\": 57,\n  \"13\": 8,\n  \"17\": 15,\n  \"18\": 10,\n  \"19\": 5,\n  \"38\": 7,\n  \"40\": 18,\n  \"41\": 20,\n  \"42\": 21,\n  \"43\": 22,\n  \"44\": 23,\n  \"45\": 24,\n  \"46\": 25,\n  \"47\": 26,\n  \"48\": 28,\n  \"50\": 30,\n  \"51\": 31,\n  \"52\": 32,\n  \"53\": 33,\n  \"54\": 34,\n  \"55\": 35,\n  \"61\": 39,\n  \"62\": 41,\n  \"64\": 58,\n  \"65\": 59,\n  \"66\": 60,\n  \"67\": 61,\n  \"68\": 62,\n  \"69\": 63,\n  \"70\": 64,\n  \"71\": 64,\n  \"72\": 65,\n}\n",
+          "exampleRawBody": "{\n  \"2\": 55,\n  \"3\": 16,\n  \"8\": 54,\n  \"10\": 6,\n  \"11\": 56,\n  \"12\": 57,\n  \"13\": 8,\n  \"17\": 15,\n  \"18\": 10,\n  \"19\": 5,\n  \"38\": 7,\n  \"40\": 18,\n  \"41\": 20,\n  \"42\": 21,\n  \"43\": 22,\n  \"44\": 23,\n  \"45\": 24,\n  \"46\": 25,\n  \"47\": 26,\n  \"48\": 28,\n  \"50\": 30,\n  \"51\": 31,\n  \"52\": 32,\n  \"53\": 33,\n  \"54\": 34,\n  \"55\": 35,\n  \"61\": 39,\n  \"62\": 41,\n  \"64\": 58,\n  \"65\": 59,\n  \"66\": 60,\n  \"67\": 61,\n  \"68\": 62,\n  \"69\": 63,\n  \"70\": 64,\n  \"71\": 64,\n  \"72\": 65,\n}\n"
+        },
+        "params": []
+      },
+      "catalogCategories": {
+        "description": "Lists catalog categories and their corresponding ID.",
+        "tags": {
+          "endpoint": "GET /v1/asset-to-category",
+          "example": "const { data: categories } = await ClassicCatalogApi.catalogCategories();",
+          "exampleData": "{\n  Featured: 0,\n  All: 1,\n  Collectibles: 2,\n  Clothing: 3,\n  BodyParts: 4,\n  Gear: 5,\n  Models: 6,\n  Plugins: 7,\n  Decals: 8,\n  Audio: 9,\n  Meshes: 10,\n  Accessories: 11,\n  AvatarAnimations: 12,\n  CommunityCreations: 13,\n  Video: 14,\n  Recommended: 15,\n  LayeredClothing: 16,\n  Characters: 17,\n}\n",
+          "exampleRawBody": "{\n  Featured: 0,\n  All: 1,\n  Collectibles: 2,\n  Clothing: 3,\n  BodyParts: 4,\n  Gear: 5,\n  Models: 6,\n  Plugins: 7,\n  Decals: 8,\n  Audio: 9,\n  Meshes: 10,\n  Accessories: 11,\n  AvatarAnimations: 12,\n  CommunityCreations: 13,\n  Video: 14,\n  Recommended: 15,\n  LayeredClothing: 16,\n  Characters: 17,\n}\n"
+        },
+        "params": []
+      },
+      "catalogSubCategories": {
+        "description": "Lists catalog sub categories and their corresponding ID.",
+        "tags": {
+          "endpoint": "GET /v1/asset-to-category",
+          "example": "const { data: categories } = await ClassicCatalogApi.catalogCategories();",
+          "exampleData": "{\n  Featured: 0,\n  All: 1,\n  Collectibles: 2,\n  Clothing: 3,\n  BodyParts: 4,\n  Gear: 5,\n  Models: 6,\n  Plugins: 7,\n  Decals: 8,\n  Hats: 9,\n  Faces: 10,\n  Packages: 11,\n  Shirts: 12,\n  Tshirts: 13,\n  Pants: 14,\n  Heads: 15,\n  Audio: 16,\n  RobloxCreated: 17,\n  Meshes: 18,\n  Accessories: 19,\n  HairAccessories: 20,\n  FaceAccessories: 21,\n  NeckAccessories: 22,\n  ShoulderAccessories: 23,\n  FrontAccessories: 24,\n  BackAccessories: 25,\n  WaistAccessories: 26,\n  AvatarAnimations: 27,\n  ClimbAnimations: 28,\n  FallAnimations: 30,\n  IdleAnimations: 31,\n  JumpAnimations: 32,\n  RunAnimations: 33,\n  SwimAnimations: 34,\n  WalkAnimations: 35,\n  AnimationPackage: 36,\n  BodyPartsBundles: 37,\n  AnimationBundles: 38,\n  EmoteAnimations: 39,\n  CommunityCreations: 40,\n  Video: 41,\n  Recommended: 51,\n  LayeredClothing: 52,\n  AllBundles: 53,\n  HeadAccessories: 54,\n  ClassicTShirts: 55,\n  ClassicShirts: 56,\n  ClassicPants: 57,\n  TShirtAccessories: 58,\n  ShirtAccessories: 59,\n  PantsAccessories: 60,\n  JacketAccessories: 61,\n  SweaterAccessories: 62,\n  ShortsAccessories: 63,\n  ShoesBundles: 64,\n  DressSkirtAccessories: 65,\n  DynamicHeads: 66,\n}\n",
+          "exampleRawBody": "{\n  Featured: 0,\n  All: 1,\n  Collectibles: 2,\n  Clothing: 3,\n  BodyParts: 4,\n  Gear: 5,\n  Models: 6,\n  Plugins: 7,\n  Decals: 8,\n  Hats: 9,\n  Faces: 10,\n  Packages: 11,\n  Shirts: 12,\n  Tshirts: 13,\n  Pants: 14,\n  Heads: 15,\n  Audio: 16,\n  RobloxCreated: 17,\n  Meshes: 18,\n  Accessories: 19,\n  HairAccessories: 20,\n  FaceAccessories: 21,\n  NeckAccessories: 22,\n  ShoulderAccessories: 23,\n  FrontAccessories: 24,\n  BackAccessories: 25,\n  WaistAccessories: 26,\n  AvatarAnimations: 27,\n  ClimbAnimations: 28,\n  FallAnimations: 30,\n  IdleAnimations: 31,\n  JumpAnimations: 32,\n  RunAnimations: 33,\n  SwimAnimations: 34,\n  WalkAnimations: 35,\n  AnimationPackage: 36,\n  BodyPartsBundles: 37,\n  AnimationBundles: 38,\n  EmoteAnimations: 39,\n  CommunityCreations: 40,\n  Video: 41,\n  Recommended: 51,\n  LayeredClothing: 52,\n  AllBundles: 53,\n  HeadAccessories: 54,\n  ClassicTShirts: 55,\n  ClassicShirts: 56,\n  ClassicPants: 57,\n  TShirtAccessories: 58,\n  ShirtAccessories: 59,\n  PantsAccessories: 60,\n  JacketAccessories: 61,\n  SweaterAccessories: 62,\n  ShortsAccessories: 63,\n  ShoesBundles: 64,\n  DressSkirtAccessories: 65,\n  DynamicHeads: 66,\n}\n"
+        },
+        "params": []
+      },
+      "bundlesAssetIsIn": {
+        "description": "Lists bundles a particular asset belongs to.",
+        "tags": {
+          "endpoint": "GET /v1/assets/{assetId}/bundles",
+          "example": "const { data: bundles } = await ClassicCatalogApi.bundlesAssetIsIn({ assetId: 2608539495 });",
+          "exampleData": "[\n  {\n    id: 429,\n    name: \"Magma Fiend\",\n    description: \"He's got hot blood, with a temperature of nine hundred and three.\",\n    bundleType: \"BodyParts\",\n    items: [\n      { id: 2608534881, name: \"Magma Fiend - Left Arm\", type: \"Asset\" },\n      { id: 2608536258, name: \"Magma Fiend - Left Leg\", type: \"Asset\" },\n      { id: 2608537440, name: \"Magma Fiend - Right Arm\", type: \"Asset\" },\n      { id: 2608538559, name: \"Magma Fiend - Right Leg\", type: \"Asset\" },\n      { id: 2608539495, name: \"Magma Fiend - Torso\", type: \"Asset\" },\n      { id: 2510230574, name: \"Rthro Climb\", type: \"Asset\" },\n      { id: 2510233257, name: \"Rthro Fall\", type: \"Asset\" },\n      { id: 2510235063, name: \"Rthro Idle\", type: \"Asset\" },\n      { id: 2510236649, name: \"Rthro Jump\", type: \"Asset\" },\n      { id: 2510238627, name: \"Rthro Run\", type: \"Asset\" },\n      { id: 2510240941, name: \"Rthro Swim\", type: \"Asset\" },\n      { id: 2510242378, name: \"Rthro Walk\", type: \"Asset\" },\n      { id: 474312030, name: \"Magma Fiend\", type: \"UserOutfit\" },\n      { id: 12726967427, name: \"Magma Fiend - Head\", type: \"Asset\" },\n      { id: 11573370910, name: \"Anime - Mood\", type: \"Asset\" },\n      { id: 23452425262, name: \"Magma Fiend Head\", type: \"UserOutfit\" },\n    ],\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n    product: {\n      id: 7219806593957530,\n      type: \"productType\",\n      isPublicDomain: false,\n      isForSale: true,\n      priceInRobux: 300,\n      isFree: false,\n      noPriceText: null,\n    },\n    collectibleItemDetail: {\n      collectibleItemId: \"e036077b-ed8d-4bf1-9193-4e64bbc86978\",\n      collectibleProductId: null,\n      price: 300,\n      lowestPrice: 300,\n      lowestResalePrice: 0,\n      totalQuantity: 0,\n      unitsAvailable: 0,\n      saleLocation: {\n        saleLocationType: \"ShopAndAllExperiences\",\n        saleLocationTypeId: 5,\n        universeIds: [],\n        enabledUniverseIds: [],\n      },\n      hasResellers: false,\n      saleStatus: \"OnSale\",\n      quantityLimitPerUser: null,\n      offSaleDeadline: null,\n      collectibleItemType: \"NonLimited\",\n      lowestAvailableResaleProductId: null,\n      lowestAvailableResaleItemInstanceId: null,\n      resaleRestriction: \"Disabled\",\n    },\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: null,\n  data: [\n    {\n      id: 429,\n      name: \"Magma Fiend\",\n      description: \"He's got hot blood, with a temperature of nine hundred and three.\",\n      bundleType: \"BodyParts\",\n      items: [\n        { id: 2608534881, name: \"Magma Fiend - Left Arm\", type: \"Asset\" },\n        { id: 2608536258, name: \"Magma Fiend - Left Leg\", type: \"Asset\" },\n        { id: 2608537440, name: \"Magma Fiend - Right Arm\", type: \"Asset\" },\n        { id: 2608538559, name: \"Magma Fiend - Right Leg\", type: \"Asset\" },\n        { id: 2608539495, name: \"Magma Fiend - Torso\", type: \"Asset\" },\n        { id: 2510230574, name: \"Rthro Climb\", type: \"Asset\" },\n        { id: 2510233257, name: \"Rthro Fall\", type: \"Asset\" },\n        { id: 2510235063, name: \"Rthro Idle\", type: \"Asset\" },\n        { id: 2510236649, name: \"Rthro Jump\", type: \"Asset\" },\n        { id: 2510238627, name: \"Rthro Run\", type: \"Asset\" },\n        { id: 2510240941, name: \"Rthro Swim\", type: \"Asset\" },\n        { id: 2510242378, name: \"Rthro Walk\", type: \"Asset\" },\n        { id: 474312030, name: \"Magma Fiend\", type: \"UserOutfit\" },\n        { id: 12726967427, name: \"Magma Fiend - Head\", type: \"Asset\" },\n        { id: 11573370910, name: \"Anime - Mood\", type: \"Asset\" },\n        { id: 23452425262, name: \"Magma Fiend Head\", type: \"UserOutfit\" },\n      ],\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n      product: {\n        id: 7219806593957530,\n        type: \"productType\",\n        isPublicDomain: false,\n        isForSale: true,\n        priceInRobux: 300,\n        isFree: false,\n        noPriceText: null,\n      },\n      collectibleItemDetail: {\n        collectibleItemId: \"e036077b-ed8d-4bf1-9193-4e64bbc86978\",\n        collectibleProductId: \"85283800-cf57-4870-9a02-141945b9cbfd\",\n        price: 300,\n        lowestPrice: 300,\n        lowestResalePrice: 0,\n        totalQuantity: 0,\n        unitsAvailable: 0,\n        saleLocation: {\n          saleLocationType: \"ShopAndAllExperiences\",\n          saleLocationTypeId: 5,\n          universeIds: [],\n          enabledUniverseIds: [],\n        },\n        hasResellers: false,\n        saleStatus: \"OnSale\",\n        quantityLimitPerUser: null,\n        offSaleDeadline: null,\n        collectibleItemType: \"NonLimited\",\n        lowestAvailableResaleProductId: null,\n        lowestAvailableResaleItemInstanceId: null,\n        resaleRestriction: \"Disabled\",\n      },\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "assetId",
+            "type": "Identifier",
+            "description": "The ID of the asset to get bundles for."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
+            "description": "The number of results to be returned per request."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "SortOrder",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "bundleInfo": {
+        "description": "Gets information about a bundle.",
+        "tags": {
+          "endpoint": "GET /v1/bundles/{bundleId}/details",
+          "example": "const { data: bundle } = await ClassicCatalogApi.bundleInfo({ bundleId: 429 });",
+          "exampleData": "{\n  id: 429,\n  name: \"Magma Fiend\",\n  description: \"He's got hot blood, with a temperature of nine hundred and three.\",\n  bundleType: \"BodyParts\",\n  items: [\n    { id: 2608534881, name: \"Magma Fiend - Left Arm\", type: \"Asset\" },\n    { id: 2608536258, name: \"Magma Fiend - Left Leg\", type: \"Asset\" },\n    { id: 2608537440, name: \"Magma Fiend - Right Arm\", type: \"Asset\" },\n    { id: 2608538559, name: \"Magma Fiend - Right Leg\", type: \"Asset\" },\n    { id: 2608539495, name: \"Magma Fiend - Torso\", type: \"Asset\" },\n    { id: 2510230574, name: \"Rthro Climb\", type: \"Asset\" },\n    { id: 2510233257, name: \"Rthro Fall\", type: \"Asset\" },\n    { id: 2510235063, name: \"Rthro Idle\", type: \"Asset\" },\n    { id: 2510236649, name: \"Rthro Jump\", type: \"Asset\" },\n    { id: 2510238627, name: \"Rthro Run\", type: \"Asset\" },\n    { id: 2510240941, name: \"Rthro Swim\", type: \"Asset\" },\n    { id: 2510242378, name: \"Rthro Walk\", type: \"Asset\" },\n    { id: 474312030, name: \"Magma Fiend\", type: \"UserOutfit\" },\n    { id: 12726967427, name: \"Magma Fiend - Head\", type: \"Asset\" },\n    { id: 11573370910, name: \"Anime - Mood\", type: \"Asset\" },\n    { id: 23452425262, name: \"Magma Fiend Head\", type: \"UserOutfit\" },\n  ],\n  creator: { id: 1, name: \"Roblox\", type: \"User\", hasVerifiedBadge: true },\n  product: {\n    id: 7219806593957530,\n    type: \"productType\",\n    isPublicDomain: false,\n    isForSale: true,\n    priceInRobux: 300,\n    isFree: false,\n    noPriceText: null,\n  },\n  collectibleItemDetail: {\n    collectibleItemId: \"e036077b-ed8d-4bf1-9193-4e64bbc86978\",\n    collectibleProductId: null,\n    price: 300,\n    lowestPrice: 300,\n    lowestResalePrice: 0,\n    totalQuantity: 0,\n    unitsAvailable: 0,\n    saleLocation: {\n      saleLocationType: \"ShopAndAllExperiences\",\n      saleLocationTypeId: 5,\n      universeIds: [],\n      enabledUniverseIds: [],\n    },\n    hasResellers: false,\n    saleStatus: \"OnSale\",\n    quantityLimitPerUser: null,\n    offSaleDeadline: null,\n    collectibleItemType: \"NonLimited\",\n    lowestAvailableResaleProductId: null,\n    lowestAvailableResaleItemInstanceId: null,\n    resaleRestriction: \"Disabled\",\n  },\n}\n",
+          "exampleRawBody": "{\n  id: 429,\n  name: \"Magma Fiend\",\n  description: \"He's got hot blood, with a temperature of nine hundred and three.\",\n  bundleType: \"BodyParts\",\n  items: [\n    { id: 2608534881, name: \"Magma Fiend - Left Arm\", type: \"Asset\" },\n    { id: 2608536258, name: \"Magma Fiend - Left Leg\", type: \"Asset\" },\n    { id: 2608537440, name: \"Magma Fiend - Right Arm\", type: \"Asset\" },\n    { id: 2608538559, name: \"Magma Fiend - Right Leg\", type: \"Asset\" },\n    { id: 2608539495, name: \"Magma Fiend - Torso\", type: \"Asset\" },\n    { id: 2510230574, name: \"Rthro Climb\", type: \"Asset\" },\n    { id: 2510233257, name: \"Rthro Fall\", type: \"Asset\" },\n    { id: 2510235063, name: \"Rthro Idle\", type: \"Asset\" },\n    { id: 2510236649, name: \"Rthro Jump\", type: \"Asset\" },\n    { id: 2510238627, name: \"Rthro Run\", type: \"Asset\" },\n    { id: 2510240941, name: \"Rthro Swim\", type: \"Asset\" },\n    { id: 2510242378, name: \"Rthro Walk\", type: \"Asset\" },\n    { id: 474312030, name: \"Magma Fiend\", type: \"UserOutfit\" },\n    { id: 12726967427, name: \"Magma Fiend - Head\", type: \"Asset\" },\n    { id: 11573370910, name: \"Anime - Mood\", type: \"Asset\" },\n    { id: 23452425262, name: \"Magma Fiend Head\", type: \"UserOutfit\" },\n  ],\n  creator: { id: 1, name: \"Roblox\", type: \"User\", hasVerifiedBadge: true },\n  product: {\n    id: 7219806593957530,\n    type: \"productType\",\n    isPublicDomain: false,\n    isForSale: true,\n    priceInRobux: 300,\n    isFree: false,\n    noPriceText: null,\n  },\n  collectibleItemDetail: {\n    collectibleItemId: \"e036077b-ed8d-4bf1-9193-4e64bbc86978\",\n    collectibleProductId: \"85283800-cf57-4870-9a02-141945b9cbfd\",\n    price: 300,\n    lowestPrice: 300,\n    lowestResalePrice: 0,\n    totalQuantity: 0,\n    unitsAvailable: 0,\n    saleLocation: {\n      saleLocationType: \"ShopAndAllExperiences\",\n      saleLocationTypeId: 5,\n      universeIds: [],\n      enabledUniverseIds: [],\n    },\n    hasResellers: false,\n    saleStatus: \"OnSale\",\n    quantityLimitPerUser: null,\n    offSaleDeadline: null,\n    collectibleItemType: \"NonLimited\",\n    lowestAvailableResaleProductId: null,\n    lowestAvailableResaleItemInstanceId: null,\n    resaleRestriction: \"Disabled\",\n  },\n}\n"
+        },
+        "params": [
+          {
+            "name": "bundleId",
+            "type": "BundleId",
+            "description": "The ID of the bundle to get information about."
+          }
+        ]
+      },
+      "recommendationsForBundle": {
+        "description": "Gets recommendations for a specific bundle.",
+        "tags": {
+          "endpoint": "GET /v1/bundles/{bundleId}/recommendations",
+          "example": "const { data: bundles } = await ClassicCatalogApi.recommendationsForBundle({ bundleId: 429, amount: 1 });",
+          "exampleData": "[\n  {\n    id: 598,\n    name: \"Elemental Crystal Golem\",\n    description: \"The light of an Elemental is controlled by its summoner, so its pretty much like a giant glowing mood ring. \",\n    bundleType: \"BodyParts\",\n    items: [\n      {\n        id: 4504227797,\n        name: \"Elemental Crystal Golem - Left Arm\",\n        type: \"Asset\",\n      },\n      {\n        id: 4504228958,\n        name: \"Elemental Crystal Golem - Left Leg\",\n        type: \"Asset\",\n      },\n      {\n        id: 4504228453,\n        name: \"Elemental Crystal Golem - Right Arm\",\n        type: \"Asset\",\n      },\n      {\n        id: 4504229658,\n        name: \"Elemental Crystal Golem - Right Leg\",\n        type: \"Asset\",\n      },\n      {\n        id: 4504230246,\n        name: \"Elemental Crystal Golem - Torso\",\n        type: \"Asset\",\n      },\n      {\n        id: 4504231783,\n        name: \"Elemental Crystal Golem - Shoulder Rock\",\n        type: \"Asset\",\n      },\n      { id: 2510235063, name: \"Rthro Idle\", type: \"Asset\" },\n      { id: 2510230574, name: \"Rthro Climb\", type: \"Asset\" },\n      { id: 2510233257, name: \"Rthro Fall\", type: \"Asset\" },\n      { id: 2510236649, name: \"Rthro Jump\", type: \"Asset\" },\n      { id: 2510238627, name: \"Rthro Run\", type: \"Asset\" },\n      { id: 2510240941, name: \"Rthro Swim\", type: \"Asset\" },\n      { id: 2510242378, name: \"Rthro Walk\", type: \"Asset\" },\n      {\n        id: 1791810588,\n        name: \"Elemental Crystal Golem\",\n        type: \"UserOutfit\",\n      },\n      {\n        id: 15057738572,\n        name: \"Elemental Crystal Golem - Head\",\n        type: \"Asset\",\n      },\n      { id: 11573370910, name: \"Anime - Mood\", type: \"Asset\" },\n      {\n        id: 23452708388,\n        name: \"Elemental Crystal Golem - Head\",\n        type: \"UserOutfit\",\n      },\n    ],\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n    product: {\n      id: 1066235020906534,\n      type: \"productType\",\n      isPublicDomain: false,\n      isForSale: true,\n      priceInRobux: 400,\n      isFree: false,\n      noPriceText: null,\n    },\n    collectibleItemDetail: {\n      collectibleItemId: \"5529c928-ca35-4fba-91d8-9b63f81a1ae2\",\n      collectibleProductId: null,\n      price: 400,\n      lowestPrice: 400,\n      lowestResalePrice: 0,\n      totalQuantity: 0,\n      unitsAvailable: 0,\n      saleLocation: {\n        saleLocationType: \"ShopAndAllExperiences\",\n        saleLocationTypeId: 5,\n        universeIds: [],\n        enabledUniverseIds: [],\n      },\n      hasResellers: false,\n      saleStatus: \"OnSale\",\n      quantityLimitPerUser: null,\n      offSaleDeadline: null,\n      collectibleItemType: \"NonLimited\",\n      lowestAvailableResaleProductId: null,\n      lowestAvailableResaleItemInstanceId: null,\n      resaleRestriction: \"Disabled\",\n    },\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      id: 598,\n      name: \"Elemental Crystal Golem\",\n      description: \"The light of an Elemental is controlled by its summoner, so its pretty much like a giant glowing mood ring. \",\n      bundleType: \"BodyParts\",\n      items: [\n        {\n          id: 4504227797,\n          name: \"Elemental Crystal Golem - Left Arm\",\n          type: \"Asset\",\n        },\n        {\n          id: 4504228958,\n          name: \"Elemental Crystal Golem - Left Leg\",\n          type: \"Asset\",\n        },\n        {\n          id: 4504228453,\n          name: \"Elemental Crystal Golem - Right Arm\",\n          type: \"Asset\",\n        },\n        {\n          id: 4504229658,\n          name: \"Elemental Crystal Golem - Right Leg\",\n          type: \"Asset\",\n        },\n        {\n          id: 4504230246,\n          name: \"Elemental Crystal Golem - Torso\",\n          type: \"Asset\",\n        },\n        {\n          id: 4504231783,\n          name: \"Elemental Crystal Golem - Shoulder Rock\",\n          type: \"Asset\",\n        },\n        { id: 2510235063, name: \"Rthro Idle\", type: \"Asset\" },\n        { id: 2510230574, name: \"Rthro Climb\", type: \"Asset\" },\n        { id: 2510233257, name: \"Rthro Fall\", type: \"Asset\" },\n        { id: 2510236649, name: \"Rthro Jump\", type: \"Asset\" },\n        { id: 2510238627, name: \"Rthro Run\", type: \"Asset\" },\n        { id: 2510240941, name: \"Rthro Swim\", type: \"Asset\" },\n        { id: 2510242378, name: \"Rthro Walk\", type: \"Asset\" },\n        {\n          id: 1791810588,\n          name: \"Elemental Crystal Golem\",\n          type: \"UserOutfit\",\n        },\n        {\n          id: 15057738572,\n          name: \"Elemental Crystal Golem - Head\",\n          type: \"Asset\",\n        },\n        { id: 11573370910, name: \"Anime - Mood\", type: \"Asset\" },\n        {\n          id: 23452708388,\n          name: \"Elemental Crystal Golem - Head\",\n          type: \"UserOutfit\",\n        },\n      ],\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n      product: {\n        id: 1066235020906534,\n        type: \"productType\",\n        isPublicDomain: false,\n        isForSale: true,\n        priceInRobux: 400,\n        isFree: false,\n        noPriceText: null,\n      },\n      collectibleItemDetail: {\n        collectibleItemId: \"5529c928-ca35-4fba-91d8-9b63f81a1ae2\",\n        collectibleProductId: \"b503d9a7-c446-4e16-90ab-644c272e8543\",\n        price: 400,\n        lowestPrice: 400,\n        lowestResalePrice: 0,\n        totalQuantity: 0,\n        unitsAvailable: 0,\n        saleLocation: {\n          saleLocationType: \"ShopAndAllExperiences\",\n          saleLocationTypeId: 5,\n          universeIds: [],\n          enabledUniverseIds: [],\n        },\n        hasResellers: false,\n        saleStatus: \"OnSale\",\n        quantityLimitPerUser: null,\n        offSaleDeadline: null,\n        collectibleItemType: \"NonLimited\",\n        lowestAvailableResaleProductId: null,\n        lowestAvailableResaleItemInstanceId: null,\n        resaleRestriction: \"Disabled\",\n      },\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "bundleId",
+            "type": "Identifier",
+            "description": "The ID of the bundle to get recommendations for."
+          },
+          {
+            "name": "amount?",
+            "type": "number",
+            "description": "The amount of recommendations to return. Can't exceed 50."
+          }
+        ]
+      },
+      "bundlesInfo": {
+        "description": "Gets information about multiple bundles.",
+        "tags": {
+          "endpoint": "GET /v1/bundles/details",
+          "example": "const { data: bundles } = await ClassicCatalogApi.bundlesInfo({ bundleIds: [429] });",
+          "exampleData": "[\n  {\n    id: 429,\n    name: \"Magma Fiend\",\n    description: \"He's got hot blood, with a temperature of nine hundred and three.\",\n    bundleType: \"BodyParts\",\n    items: [\n      { id: 2608534881, name: \"Magma Fiend - Left Arm\", type: \"Asset\" },\n      { id: 2608536258, name: \"Magma Fiend - Left Leg\", type: \"Asset\" },\n      { id: 2608537440, name: \"Magma Fiend - Right Arm\", type: \"Asset\" },\n      { id: 2608538559, name: \"Magma Fiend - Right Leg\", type: \"Asset\" },\n      { id: 2608539495, name: \"Magma Fiend - Torso\", type: \"Asset\" },\n      { id: 2510230574, name: \"Rthro Climb\", type: \"Asset\" },\n      { id: 2510233257, name: \"Rthro Fall\", type: \"Asset\" },\n      { id: 2510235063, name: \"Rthro Idle\", type: \"Asset\" },\n      { id: 2510236649, name: \"Rthro Jump\", type: \"Asset\" },\n      { id: 2510238627, name: \"Rthro Run\", type: \"Asset\" },\n      { id: 2510240941, name: \"Rthro Swim\", type: \"Asset\" },\n      { id: 2510242378, name: \"Rthro Walk\", type: \"Asset\" },\n      { id: 474312030, name: \"Magma Fiend\", type: \"UserOutfit\" },\n      { id: 12726967427, name: \"Magma Fiend - Head\", type: \"Asset\" },\n      { id: 11573370910, name: \"Anime - Mood\", type: \"Asset\" },\n      { id: 23452425262, name: \"Magma Fiend Head\", type: \"UserOutfit\" },\n    ],\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n    product: {\n      id: 7219806593957530,\n      type: \"productType\",\n      isPublicDomain: false,\n      isForSale: true,\n      priceInRobux: 300,\n      isFree: false,\n      noPriceText: null,\n    },\n    collectibleItemDetail: {\n      collectibleItemId: \"e036077b-ed8d-4bf1-9193-4e64bbc86978\",\n      collectibleProductId: null,\n      price: 300,\n      lowestPrice: 300,\n      lowestResalePrice: 0,\n      totalQuantity: 0,\n      unitsAvailable: 0,\n      saleLocation: {\n        saleLocationType: \"ShopAndAllExperiences\",\n        saleLocationTypeId: 5,\n        universeIds: [],\n        enabledUniverseIds: [],\n      },\n      hasResellers: false,\n      saleStatus: \"OnSale\",\n      quantityLimitPerUser: null,\n      offSaleDeadline: null,\n      collectibleItemType: \"NonLimited\",\n      lowestAvailableResaleProductId: null,\n      lowestAvailableResaleItemInstanceId: null,\n      resaleRestriction: \"Disabled\",\n    },\n  },\n]\n",
+          "exampleRawBody": "[\n  {\n    id: 429,\n    name: \"Magma Fiend\",\n    description: \"He's got hot blood, with a temperature of nine hundred and three.\",\n    bundleType: \"BodyParts\",\n    items: [\n      { id: 2608534881, name: \"Magma Fiend - Left Arm\", type: \"Asset\" },\n      { id: 2608536258, name: \"Magma Fiend - Left Leg\", type: \"Asset\" },\n      { id: 2608537440, name: \"Magma Fiend - Right Arm\", type: \"Asset\" },\n      { id: 2608538559, name: \"Magma Fiend - Right Leg\", type: \"Asset\" },\n      { id: 2608539495, name: \"Magma Fiend - Torso\", type: \"Asset\" },\n      { id: 2510230574, name: \"Rthro Climb\", type: \"Asset\" },\n      { id: 2510233257, name: \"Rthro Fall\", type: \"Asset\" },\n      { id: 2510235063, name: \"Rthro Idle\", type: \"Asset\" },\n      { id: 2510236649, name: \"Rthro Jump\", type: \"Asset\" },\n      { id: 2510238627, name: \"Rthro Run\", type: \"Asset\" },\n      { id: 2510240941, name: \"Rthro Swim\", type: \"Asset\" },\n      { id: 2510242378, name: \"Rthro Walk\", type: \"Asset\" },\n      { id: 474312030, name: \"Magma Fiend\", type: \"UserOutfit\" },\n      { id: 12726967427, name: \"Magma Fiend - Head\", type: \"Asset\" },\n      { id: 11573370910, name: \"Anime - Mood\", type: \"Asset\" },\n      { id: 23452425262, name: \"Magma Fiend Head\", type: \"UserOutfit\" },\n    ],\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n    product: {\n      id: 7219806593957530,\n      type: \"productType\",\n      isPublicDomain: false,\n      isForSale: true,\n      priceInRobux: 300,\n      isFree: false,\n      noPriceText: null,\n    },\n    collectibleItemDetail: {\n      collectibleItemId: \"e036077b-ed8d-4bf1-9193-4e64bbc86978\",\n      collectibleProductId: \"85283800-cf57-4870-9a02-141945b9cbfd\",\n      price: 300,\n      lowestPrice: 300,\n      lowestResalePrice: 0,\n      totalQuantity: 0,\n      unitsAvailable: 0,\n      saleLocation: {\n        saleLocationType: \"ShopAndAllExperiences\",\n        saleLocationTypeId: 5,\n        universeIds: [],\n        enabledUniverseIds: [],\n      },\n      hasResellers: false,\n      saleStatus: \"OnSale\",\n      quantityLimitPerUser: null,\n      offSaleDeadline: null,\n      collectibleItemType: \"NonLimited\",\n      lowestAvailableResaleProductId: null,\n      lowestAvailableResaleItemInstanceId: null,\n      resaleRestriction: \"Disabled\",\n    },\n  },\n]\n"
+        },
+        "params": [
+          {
+            "name": "bundleIds",
+            "type": "ArrayNonEmptyIfConst<BundleId>",
+            "description": "The IDs of the bundles to get information about."
+          }
+        ]
+      },
+      "bundlesOwnedByUser": {
+        "description": "Gets bundles owned by a specific user.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/bundles",
+          "example": "const { data: bundles } = await ClassicCatalogApi.bundlesOwnedByUser({ userId: 45348281 });",
+          "exampleData": "[\n  {\n    id: 290,\n    name: \"Football Player\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 71,\n    name: \"Wild Starr\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 238,\n    name: \"Man \",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 81,\n    name: \"Superhero Animation Pack\",\n    bundleType: \"AvatarAnimations\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 109,\n    name: \"ROBLOX Boy\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 338,\n    name: \"Knights of Redcliff: Paladin\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 321,\n    name: \"City Life Man\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 337,\n    name: \"City Life Woman\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 339,\n    name: \"The High Seas: Beatrix The Pirate Queen\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 350,\n    name: \"Dark Age Apprentice\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: \"191961467_1_6d4452377c2b2297df45ff633660d10b\",\n  data: [\n    {\n      id: 290,\n      name: \"Football Player\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 71,\n      name: \"Wild Starr\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 238,\n      name: \"Man \",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 81,\n      name: \"Superhero Animation Pack\",\n      bundleType: \"AvatarAnimations\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 109,\n      name: \"ROBLOX Boy\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 338,\n      name: \"Knights of Redcliff: Paladin\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 321,\n      name: \"City Life Man\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 337,\n      name: \"City Life Woman\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 339,\n      name: \"The High Seas: Beatrix The Pirate Queen\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 350,\n      name: \"Dark Age Apprentice\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the user to get owned bundles for."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
+            "description": "The number of results to be returned per request."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "SortOrder",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "bundlesOfTypeOwnedByUser": {
+        "description": "Gets bundles of a specific type owned by a specified user.",
+        "tags": {
+          "endpoint": "GET /v1/users/{userId}/bundles/{bundleType}",
+          "example": "const { data: bundles } = await ClassicCatalogApi.bundlesOfTypeOwnedByUser({\n  userId: 45348281,\n  bundleType: \"BodyParts\",\n});",
+          "exampleData": "[\n  {\n    id: 2043,\n    name: \"Billy\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1755732316,\n      name: \"mPhase\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 942,\n    name: \"Gil by Guilded\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 573,\n    name: \"Oliver\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 572,\n    name: \"Summer\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 239,\n    name: \"Woman\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 510,\n    name: \"Eleven’s Mall Outfit\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 502,\n    name: \"FC Barcelona: Elite Playmaker\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 504,\n    name: \"FC Barcelona: Elite Striker\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 364,\n    name: \"NFL Super Bowl LIII – Los Angeles Rams\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n  {\n    id: 394,\n    name: \"Simple Robo\",\n    bundleType: \"BodyParts\",\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: \"eyJrZXkiOjIzNTUwNjI0NSwic29ydE9yZGVyIjoiRGVzYyIsInBhZ2luZ0RpcmVjdGlvbiI6IkZvcndhcmQiLCJwYWdlTnVtYmVyIjoyLCJkaXNjcmltaW5hdG9yIjoidXNlcklkOjQ1MzQ4MjgxYnVuZGxlVHlwZTpCb2R5UGFydHMiLCJjb3VudCI6MTB9CmExMTc4NzRhNTM0ZWVhNWY3NzM1OTdjOGVjZGU4NjczMDVhMGJhYTVhMjQ5NTk4OGQyZjc4NmU1NzM3NTVhMzk=\",\n  data: [\n    {\n      id: 2043,\n      name: \"Billy\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1755732316,\n        name: \"mPhase\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 942,\n      name: \"Gil by Guilded\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 573,\n      name: \"Oliver\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 572,\n      name: \"Summer\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 239,\n      name: \"Woman\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 510,\n      name: \"Eleven’s Mall Outfit\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 502,\n      name: \"FC Barcelona: Elite Playmaker\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 504,\n      name: \"FC Barcelona: Elite Striker\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 364,\n      name: \"NFL Super Bowl LIII – Los Angeles Rams\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n    {\n      id: 394,\n      name: \"Simple Robo\",\n      bundleType: \"BodyParts\",\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the user to get owned bundles for."
+          },
+          {
+            "name": "bundleType",
+            "type": "Type",
+            "description": "The type of bundles to return."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
+            "description": "The number of results to be returned per request."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "SortOrder",
+            "description": "The order that the results are sorted in."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "assetFavoritesCount": {
+        "description": "Gets favorites count for an asset.",
+        "tags": {
+          "endpoint": "GET /v1/favorites/assets/{assetId}/count",
+          "example": "const { data: favoritesCount } = await ClassicCatalogApi.assetFavoritesCount({ assetId: 2608539495 });",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "assetId",
+            "type": "Identifier",
+            "description": "The ID of the asset to get favorites count for."
+          }
+        ]
+      },
+      "bundleFavoritesCount": {
+        "description": "Gets favorites count for a bundle.",
+        "tags": {
+          "endpoint": "GET /v1/favorites/bundles/{bundleId}/count",
+          "example": "const { data: favoritesCount } = await ClassicCatalogApi.bundleFavoritesCount({ bundleId: 429 });",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "bundleId",
+            "type": "Identifier",
+            "description": "The ID of the bundle to get favorites count for."
+          }
+        ]
+      },
+      "authedUserRemoveAssetFavorite": {
+        "description": "Removes the authenticated users favorite for a specific asset.",
+        "tags": {
+          "endpoint": "DELETE /v1/favorites/users/{userId}/assets/{assetId}/favorite",
+          "example": "const { data: success } = await ClassicCatalogApi.authedUserRemoveAssetFavorite({\n  userId: 45348281,\n  assetId: 2608539495,\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the authenticated user."
+          },
+          {
+            "name": "assetId",
+            "type": "Identifier",
+            "description": "The ID of the asset to unfavorite."
+          }
+        ]
+      },
+      "authedUserGetAssetFavorite": {
+        "description": "Gets the authenticated users favorite for a specific asset.",
+        "tags": {
+          "endpoint": "GET /v1/favorites/users/{userId}/assets/{assetId}/favorite",
+          "example": "const { data: favorite } = await ClassicCatalogApi.authedUserGetAssetFavorite({\n  userId: 45348281,\n  assetId: 2608539495,\n});",
+          "exampleData": "{\n  assetId: 2608539495,\n  userId: 45348281,\n  created: \"2024-07-30T15:00:39.540Z\",\n}\n",
+          "exampleRawBody": "{\n  assetId: 2608539495,\n  userId: 45348281,\n  created: \"2024-07-30T15:00:39.540Z\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The ID of the authenticated user."
+          },
+          {
+            "name": "assetId",
+            "type": "AssetId",
+            "description": "The ID of the asset to get favorite for."
+          }
+        ]
+      },
+      "authedUserCreateAssetFavorite": {
+        "description": "Favorites a specific asset for the authenticated user.",
+        "tags": {
+          "endpoint": "POST /v1/favorites/users/{userId}/assets/{assetId}/favorite",
+          "example": "const { data: favorite } = await ClassicCatalogApi.authedUserCreateAssetFavorite({\n  userId: 45348281,\n  assetId: 2608539495,\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The ID of the authenticated user."
+          },
+          {
+            "name": "assetId",
+            "type": "AssetId",
+            "description": "The ID of the asset to create favorite for."
+          }
+        ]
+      },
+      "authedUserRemoveBundleFavorite": {
+        "description": "Removes the authenticated users favorite for a specific asset.",
+        "tags": {
+          "endpoint": "DELETE /v1/favorites/users/{userId}/bundles/{bundleId}/favorite",
+          "example": "const { data: success } = await ClassicCatalogApi.authedUserRemoveBundleFavorite({ userId: 45348281, bundleId: 429 });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the authenticated user."
+          },
+          {
+            "name": "assetId",
+            "type": "🤷",
+            "description": "The ID of the bundle to unfavorite."
+          }
+        ]
+      },
+      "authedUserGetBundleFavorite": {
+        "description": "Gets the authenticated users favorite for a specific bundle.",
+        "tags": {
+          "endpoint": "GET /v1/favorites/users/{userId}/bundles/{bundleId}/favorite",
+          "example": "const { data: favorite } = await ClassicCatalogApi.authedUserGetBundleFavorite({ userId: 45348281, bundleId: 429 });",
+          "exampleData": "{ bundleId: 429, userId: 45348281, created: \"2024-07-30T23:23:36.501Z\" }\n",
+          "exampleRawBody": "{ bundleId: 429, userId: 45348281, created: \"2024-07-30T23:23:36.501Z\" }\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The ID of the authenticated user."
+          },
+          {
+            "name": "bundleId",
+            "type": "BundleId",
+            "description": "The ID of the bundle to get favorite for."
+          }
+        ]
+      },
+      "authedUserCreateBundleFavorite": {
+        "description": "Favorites a specific bundle for the authenticated user.",
+        "tags": {
+          "endpoint": "POST /v1/favorites/users/{userId}/bundles/{bundleId}/favorite",
+          "example": "const { data: favorite } = await ClassicCatalogApi.authedUserCreateBundleFavorite({ userId: 45348281, bundleId: 429 });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "UserId",
+            "description": "The ID of the authenticated user."
+          },
+          {
+            "name": "bundleId",
+            "type": "AssetId",
+            "description": "The ID of the bundle to create favorite for."
+          }
+        ]
+      },
+      "authedUserFavoritedBundlesOfType": {
+        "description": "Gets bundles of a specific type that the authenticated user has favorited.",
+        "tags": {
+          "endpoint": "GET /v1/favorites/users/{userId}/favorites/{bundleType}/bundles",
+          "example": "const { data: bundles } = await ClassicCatalogApi.authedUserFavoritedBundlesOfType({\n  userId: 45348281,\n  bundleType: \"BodyParts\",\n});",
+          "exampleData": "[\n  {\n    id: 429,\n    name: \"Magma Fiend\",\n    description: \"He's got hot blood, with a temperature of nine hundred and three.\",\n    bundleType: \"BodyParts\",\n    items: [\n      { id: 2608534881, name: \"Magma Fiend - Left Arm\", type: \"Asset\" },\n      { id: 2608536258, name: \"Magma Fiend - Left Leg\", type: \"Asset\" },\n      { id: 2608537440, name: \"Magma Fiend - Right Arm\", type: \"Asset\" },\n      { id: 2608538559, name: \"Magma Fiend - Right Leg\", type: \"Asset\" },\n      { id: 2608539495, name: \"Magma Fiend - Torso\", type: \"Asset\" },\n      { id: 2510230574, name: \"Rthro Climb\", type: \"Asset\" },\n      { id: 2510233257, name: \"Rthro Fall\", type: \"Asset\" },\n      { id: 2510235063, name: \"Rthro Idle\", type: \"Asset\" },\n      { id: 2510236649, name: \"Rthro Jump\", type: \"Asset\" },\n      { id: 2510238627, name: \"Rthro Run\", type: \"Asset\" },\n      { id: 2510240941, name: \"Rthro Swim\", type: \"Asset\" },\n      { id: 2510242378, name: \"Rthro Walk\", type: \"Asset\" },\n      { id: 474312030, name: \"Magma Fiend\", type: \"UserOutfit\" },\n      { id: 12726967427, name: \"Magma Fiend - Head\", type: \"Asset\" },\n      { id: 11573370910, name: \"Anime - Mood\", type: \"Asset\" },\n      { id: 23452425262, name: \"Magma Fiend Head\", type: \"UserOutfit\" },\n    ],\n    creator: {\n      id: 1,\n      name: \"Roblox\",\n      type: \"User\",\n      hasVerifiedBadge: true,\n    },\n    product: {\n      id: 7219806593957530,\n      type: \"productType\",\n      isPublicDomain: false,\n      isForSale: true,\n      priceInRobux: 300,\n      isFree: false,\n      noPriceText: null,\n    },\n    collectibleItemDetail: {\n      collectibleItemId: \"e036077b-ed8d-4bf1-9193-4e64bbc86978\",\n      collectibleProductId: null,\n      price: 300,\n      lowestPrice: 300,\n      lowestResalePrice: 0,\n      totalQuantity: 0,\n      unitsAvailable: 0,\n      saleLocation: {\n        saleLocationType: \"ShopAndAllExperiences\",\n        saleLocationTypeId: 5,\n        universeIds: [],\n        enabledUniverseIds: [],\n      },\n      hasResellers: false,\n      saleStatus: \"OnSale\",\n      quantityLimitPerUser: null,\n      offSaleDeadline: null,\n      collectibleItemType: \"NonLimited\",\n      lowestAvailableResaleProductId: null,\n      lowestAvailableResaleItemInstanceId: null,\n      resaleRestriction: \"Disabled\",\n    },\n  },\n]\n",
+          "exampleRawBody": "{\n  favorites: [\n    {\n      id: 429,\n      name: \"Magma Fiend\",\n      description: \"He's got hot blood, with a temperature of nine hundred and three.\",\n      bundleType: \"BodyParts\",\n      items: [\n        { id: 2608534881, name: \"Magma Fiend - Left Arm\", type: \"Asset\" },\n        { id: 2608536258, name: \"Magma Fiend - Left Leg\", type: \"Asset\" },\n        { id: 2608537440, name: \"Magma Fiend - Right Arm\", type: \"Asset\" },\n        { id: 2608538559, name: \"Magma Fiend - Right Leg\", type: \"Asset\" },\n        { id: 2608539495, name: \"Magma Fiend - Torso\", type: \"Asset\" },\n        { id: 2510230574, name: \"Rthro Climb\", type: \"Asset\" },\n        { id: 2510233257, name: \"Rthro Fall\", type: \"Asset\" },\n        { id: 2510235063, name: \"Rthro Idle\", type: \"Asset\" },\n        { id: 2510236649, name: \"Rthro Jump\", type: \"Asset\" },\n        { id: 2510238627, name: \"Rthro Run\", type: \"Asset\" },\n        { id: 2510240941, name: \"Rthro Swim\", type: \"Asset\" },\n        { id: 2510242378, name: \"Rthro Walk\", type: \"Asset\" },\n        { id: 474312030, name: \"Magma Fiend\", type: \"UserOutfit\" },\n        { id: 12726967427, name: \"Magma Fiend - Head\", type: \"Asset\" },\n        { id: 11573370910, name: \"Anime - Mood\", type: \"Asset\" },\n        { id: 23452425262, name: \"Magma Fiend Head\", type: \"UserOutfit\" },\n      ],\n      creator: {\n        id: 1,\n        name: \"Roblox\",\n        type: \"User\",\n        hasVerifiedBadge: true,\n      },\n      product: {\n        id: 7219806593957530,\n        type: \"productType\",\n        isPublicDomain: false,\n        isForSale: true,\n        priceInRobux: 300,\n        isFree: false,\n        noPriceText: null,\n      },\n      collectibleItemDetail: {\n        collectibleItemId: \"e036077b-ed8d-4bf1-9193-4e64bbc86978\",\n        collectibleProductId: \"85283800-cf57-4870-9a02-141945b9cbfd\",\n        price: 300,\n        lowestPrice: 300,\n        lowestResalePrice: 0,\n        totalQuantity: 0,\n        unitsAvailable: 0,\n        saleLocation: {\n          saleLocationType: \"ShopAndAllExperiences\",\n          saleLocationTypeId: 5,\n          universeIds: [],\n          enabledUniverseIds: [],\n        },\n        hasResellers: false,\n        saleStatus: \"OnSale\",\n        quantityLimitPerUser: null,\n        offSaleDeadline: null,\n        collectibleItemType: \"NonLimited\",\n        lowestAvailableResaleProductId: null,\n        lowestAvailableResaleItemInstanceId: null,\n        resaleRestriction: \"Disabled\",\n      },\n    },\n  ],\n  moreFavorites: false,\n  nextCursor: null,\n  previousCursor: null,\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "🤷",
+            "description": "The ID of the authenticated user."
+          },
+          {
+            "name": "bundleType",
+            "type": "🤷",
+            "description": "The type of bundle sub type to get."
+          },
+          {
+            "name": "cursor",
+            "type": "🤷",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "catalogBatchInfo": {
+        "description": "Gets batch information about specific assets and bundles.",
+        "tags": {
+          "endpoint": "GET /v1/catalog/items/details",
+          "example": "const { data: items } = await ClassicCatalogApi.catalogBatchInfo({ assetIds: [2608538559], bundleIds: [429] });",
+          "exampleData": "[\n  {\n    id: 429,\n    itemType: \"Bundle\",\n    bundleType: 1,\n    name: \"Magma Fiend\",\n    description: \"He's got hot blood, with a temperature of nine hundred and three.\",\n    productId: 7219806593957530,\n    itemStatus: [],\n    itemRestrictions: [],\n    creatorHasVerifiedBadge: true,\n    creatorType: \"User\",\n    creatorTargetId: 1,\n    creatorName: \"Roblox\",\n    price: 300,\n    lowestPrice: 300,\n    lowestResalePrice: 0,\n    unitsAvailableForConsumption: 0,\n    purchaseCount: 0,\n    favoriteCount: 520324,\n    offSaleDeadline: null,\n    collectibleItemId: \"e036077b-ed8d-4bf1-9193-4e64bbc86978\",\n    totalQuantity: 0,\n    saleLocationType: \"ShopAndAllExperiences\",\n    hasResellers: false,\n  },\n  {\n    id: 2608538559,\n    itemType: \"Asset\",\n    assetType: 31,\n    name: \"Magma Fiend - Right Leg\",\n    description: \"He's got hot blood, with a temperature of nine hundred and three.\",\n    productId: 427839098,\n    itemStatus: [],\n    itemRestrictions: [],\n    creatorHasVerifiedBadge: true,\n    creatorType: \"User\",\n    creatorTargetId: 1,\n    creatorName: \"Roblox\",\n    priceStatus: \"Off Sale\",\n    purchaseCount: 0,\n    favoriteCount: 9887,\n    offSaleDeadline: null,\n    saleLocationType: \"NotApplicable\",\n    isOffSale: true,\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      id: 429,\n      itemType: \"Bundle\",\n      bundleType: 1,\n      name: \"Magma Fiend\",\n      description: \"He's got hot blood, with a temperature of nine hundred and three.\",\n      productId: 7219806593957530,\n      itemStatus: [],\n      itemRestrictions: [],\n      creatorHasVerifiedBadge: true,\n      creatorType: \"User\",\n      creatorTargetId: 1,\n      creatorName: \"Roblox\",\n      price: 300,\n      lowestPrice: 300,\n      lowestResalePrice: 0,\n      unitsAvailableForConsumption: 0,\n      purchaseCount: 0,\n      favoriteCount: 520324,\n      offSaleDeadline: null,\n      collectibleItemId: \"e036077b-ed8d-4bf1-9193-4e64bbc86978\",\n      totalQuantity: 0,\n      saleLocationType: \"ShopAndAllExperiences\",\n      hasResellers: false,\n    },\n    {\n      id: 2608538559,\n      itemType: \"Asset\",\n      assetType: 31,\n      name: \"Magma Fiend - Right Leg\",\n      description: \"He's got hot blood, with a temperature of nine hundred and three.\",\n      productId: 427839098,\n      itemStatus: [],\n      itemRestrictions: [],\n      creatorHasVerifiedBadge: true,\n      creatorType: \"User\",\n      creatorTargetId: 1,\n      creatorName: \"Roblox\",\n      priceStatus: \"Off Sale\",\n      purchaseCount: 0,\n      favoriteCount: 9887,\n      offSaleDeadline: null,\n      saleLocationType: \"NotApplicable\",\n      isOffSale: true,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "assetIds",
+            "type": "🤷",
+            "description": "The IDs of the assets to get info about."
+          },
+          {
+            "name": "bundleIds",
+            "type": "🤷",
+            "description": "The IDs of the bundles to get info about."
+          }
+        ]
+      }
+    },
     "develop": {
       "gameTemplates": {
         "description": "Gets a page of templates that can be used to start off making games",
@@ -2355,14 +3176,14 @@
             "description": "The number of results per request."
           },
           {
-            "name": "cursor?",
-            "type": "string",
-            "description": "The paging cursor for the previous or next page."
-          },
-          {
             "name": "sortOrder?",
             "type": "SortOrder",
             "description": "The order to sort the results in. Sorted by universeId."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
           }
         ]
       },
@@ -2854,7 +3675,7 @@
         "description": "Updates the configuration for a universe owned by the authenticated user.",
         "tags": {
           "endpoint": "PATCH /v2/universes/${universeId}/configuration",
-          "example": "const {\n  data,\n  response: { body },\n} = await ClassicDevelopApi.updateUniverseConfiguration_V2({\n  universeId: 5638577595,\n  playableDevices: [\"Computer\"],\n  avatarType: \"PlayerChoice\",\n});",
+          "example": "const { data: universe } = await ClassicDevelopApi.updateUniverseConfiguration_V2({\n  universeId: 5638577595,\n  playableDevices: [\"Computer\"],\n  avatarType: \"PlayerChoice\",\n});",
           "exampleData": "{\n  allowPrivateServers: false,\n  privateServerPrice: null,\n  optInRegions: [],\n  isMeshTextureApiAccessAllowed: true,\n  id: 5638577595,\n  name: \"New name!\",\n  description: \"\",\n  universeAvatarType: \"PlayerChoice\",\n  universeAnimationType: \"PlayerChoice\",\n  universeCollisionType: \"OuterBox\",\n  universeJointPositioningType: \"ArtistIntent\",\n  isArchived: false,\n  isFriendsOnly: false,\n  genre: \"All\",\n  playableDevices: [\"Computer\"],\n  isForSale: false,\n  price: 0,\n  universeAvatarMinScales: {\n    height: 0.9,\n    width: 0.7,\n    head: 0.95,\n    depth: 0,\n    proportion: 0,\n    bodyType: 0,\n  },\n  universeAvatarMaxScales: {\n    height: 1.05,\n    width: 1,\n    head: 1,\n    depth: 0,\n    proportion: 1,\n    bodyType: 1,\n  },\n  studioAccessToApisAllowed: false,\n  universeAvatarAssetOverrides: [],\n  permissions: {\n    isThirdPartyTeleportAllowed: false,\n    isThirdPartyAssetAllowed: false,\n    isThirdPartyPurchaseAllowed: false,\n  },\n}\n",
           "exampleRawBody": "{\n  allowPrivateServers: false,\n  privateServerPrice: null,\n  optInRegions: [],\n  isMeshTextureApiAccessAllowed: true,\n  id: 5638577595,\n  name: \"New name!\",\n  description: \"\",\n  universeAvatarType: \"PlayerChoice\",\n  universeAnimationType: \"PlayerChoice\",\n  universeCollisionType: \"OuterBox\",\n  universeJointPositioningType: \"ArtistIntent\",\n  isArchived: false,\n  isFriendsOnly: false,\n  genre: \"All\",\n  playableDevices: [\"Computer\"],\n  isForSale: false,\n  price: 0,\n  universeAvatarAssetOverrides: [],\n  universeAvatarMinScales: {\n    height: 0.9,\n    width: 0.7,\n    head: 0.95,\n    depth: 0,\n    proportion: 0,\n    bodyType: 0,\n  },\n  universeAvatarMaxScales: {\n    height: 1.05,\n    width: 1,\n    head: 1,\n    depth: 0,\n    proportion: 1,\n    bodyType: 1,\n  },\n  studioAccessToApisAllowed: false,\n  permissions: {\n    IsThirdPartyTeleportAllowed: false,\n    IsThirdPartyAssetAllowed: false,\n    IsThirdPartyPurchaseAllowed: false,\n  },\n}\n"
         },
@@ -3001,6 +3822,359 @@
             "description": "The ID of the game instance to close."
           }
         ]
+      }
+    },
+    "developerProducts": {
+      "developerProductInfo": {
+        "description": "Gets information about a particular developer product.",
+        "tags": {
+          "endpoint": "GET /v1/developer-products/{developerProductId}",
+          "example": "const { data: product } = await ClassicDeveloperProductsApi.developerProductInfo({ developerProductId: 3848620 });",
+          "exampleData": "{\n  productId: 995087849,\n  productTypeId: 4,\n  isPublicDomain: false,\n  isForSale: true,\n  priceInRobux: 95,\n  premiumPriceInRobux: null,\n  robloxProductId: null,\n  targetId: 3848620,\n  assetTypeId: null,\n  creatorId: 1536374574,\n  assetGenres: 0,\n  assetCategories: 0,\n  affiliateFeePercentage: null,\n  isNew: false,\n  created: \"2020-05-29T11:49:09.08Z\",\n  updated: \"2024-07-22T05:33:16.827Z\",\n}\n",
+          "exampleRawBody": "{\n  id: 995087849,\n  productTypeId: 4,\n  isPublicDomain: false,\n  isForSale: true,\n  priceInRobux: 95,\n  premiumPriceInRobux: null,\n  robloxProductId: null,\n  targetId: 3848620,\n  assetTypeId: null,\n  creatorId: 1536374574,\n  assetGenres: 0,\n  assetCategories: 0,\n  affiliateFeePercentage: null,\n  isNew: false,\n  created: \"2020-05-29T11:49:09.08Z\",\n  updated: \"2024-07-22T05:33:16.827Z\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "developerProductId",
+            "type": "DeveloperProductId",
+            "description": "The ID (not product ID) of the developer product."
+          }
+        ]
+      },
+      "developerProductsForUniverse": {
+        "description": "Gets developer products for a particular universe.",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/developerproducts",
+          "example": "const { data: products } = await ClassicDeveloperProductsApi.developerProductsForUniverse({ universeId: 1685831367 });",
+          "exampleData": "[\n  {\n    id: 3616380,\n    name: \"Buy $100 CamperCoins\",\n    description: null,\n    shopId: 1685930453,\n    iconImageAssetId: 4922956503,\n  },\n  {\n    id: 3616418,\n    name: \"Buy $1000 CamperCoins\",\n    description: null,\n    shopId: 1685930453,\n    iconImageAssetId: 4922970743,\n  },\n  {\n    id: 3616413,\n    name: \"Buy $500 CamperCoins\",\n    description: null,\n    shopId: 1685930453,\n    iconImageAssetId: 4922969199,\n  },\n  {\n    id: 3616425,\n    name: \"CamperCoins\",\n    description: null,\n    shopId: 1685930453,\n    iconImageAssetId: 18760547825,\n  },\n  {\n    id: 3848620,\n    name: \"Starterpackk\",\n    description: null,\n    shopId: 1685930453,\n    iconImageAssetId: 5106354357,\n  },\n]\n",
+          "exampleRawBody": "[\n  {\n    id: 3616380,\n    name: \"Buy $100 CamperCoins\",\n    Description: null,\n    shopId: 1685930453,\n    iconImageAssetId: 4922956503,\n  },\n  {\n    id: 3616418,\n    name: \"Buy $1000 CamperCoins\",\n    Description: null,\n    shopId: 1685930453,\n    iconImageAssetId: 4922970743,\n  },\n  {\n    id: 3616413,\n    name: \"Buy $500 CamperCoins\",\n    Description: null,\n    shopId: 1685930453,\n    iconImageAssetId: 4922969199,\n  },\n  {\n    id: 3616425,\n    name: \"CamperCoins\",\n    Description: null,\n    shopId: 1685930453,\n    iconImageAssetId: 18760547825,\n  },\n  {\n    id: 3848620,\n    name: \"Starterpackk\",\n    Description: null,\n    shopId: 1685930453,\n    iconImageAssetId: 5106354357,\n  },\n]\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get developer products from."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "pageNumber?",
+            "type": "number",
+            "description": "The number for the previous or next page."
+          }
+        ]
+      },
+      "updateDeveloperProduct": {
+        "description": "Updates a developer product",
+        "tags": {
+          "endpoint": "GET /v1/universes/{universeId}/developerproducts/{developerProductId}/update",
+          "example": "const { data: success } = await ClassicDeveloperProductsApi.updateDeveloperProduct({\n  universeId: 1685831367,\n  developerProductId: 975462435,\n  name: \"CamperCoins\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to update a developer product in."
+          },
+          {
+            "name": "developerProductId",
+            "type": "Identifier",
+            "description": "The ID of the developer product to update."
+          },
+          {
+            "name": "name?",
+            "type": "string",
+            "description": "The new name for the developer product."
+          },
+          {
+            "name": "description?",
+            "type": "string",
+            "description": "The new description for the developer product."
+          },
+          {
+            "name": "priceInRobux?",
+            "type": "number",
+            "description": "The new price in robux for the developer product."
+          }
+        ]
+      },
+      "updateDeveloperProductIcon": {
+        "description": "Updates a developer product's icon.",
+        "tags": {
+          "endpoint": "POST /v1/developer-products/{developerProductId}/image",
+          "example": "const {\n  data,\n  response: { body },\n} = await ClassicDeveloperProductsApi.updateDeveloperProductIcon({\n  developerProductId: 975462435,\n  icon: \"./developerProductIcon.png\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{ imageAssetId: 18760547825 }\n"
+        },
+        "params": [
+          {
+            "name": "developerProductId",
+            "type": "Identifier",
+            "description": "The ID of the developer product to update icon for."
+          },
+          {
+            "name": "icon",
+            "type": "string | File",
+            "description": "The new icon for the developer product."
+          }
+        ]
+      },
+      "createDeveloperProduct": {
+        "description": "Creates a developer product.",
+        "tags": {
+          "endpoint": "POST /v1/universes/{universeId}/developerproducts",
+          "example": "const { data: product } = await ClassicDeveloperProductsApi.createDeveloperProduct({\n  universeId: 1685831367,\n  name: \"50 Coins\",\n  description: \"Lorem Ipsum\",\n  priceInRobux: 50,\n});",
+          "exampleData": "{\n  id: 60558911,\n  name: \"50 Coins\",\n  description: \"Lorem Ipsum\",\n  shopId: 1685930453,\n  iconImageAssetId: null,\n}\n",
+          "exampleRawBody": "{\n  id: 60558911,\n  name: \"50 Coins\",\n  Description: \"Lorem Ipsum\",\n  shopId: 1685930453,\n  iconImageAssetId: null,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to create a developer product in."
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "The name for the developer product."
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "description": "The description for the developer product."
+          },
+          {
+            "name": "priceInRobux",
+            "type": "number",
+            "description": "The price in robux for the developer product."
+          }
+        ]
+      },
+      "developerProductCreatorDetails": {
+        "description": "Gets details for the creator about a developer product.",
+        "tags": {
+          "endpoint": "GET /v1/developer-products/{developerProductId}/creator-details",
+          "example": "const { data: productCreatorDetails } = await ClassicDeveloperProductsApi.developerProductCreatorDetails({\n  developerProductProductId: 995087849,\n});",
+          "exampleData": "{\n  displayName: \"Starterpackk\",\n  displayDescription: null,\n  displayIconImageAssetId: 5106354357,\n  priceInformation: {\n    defaultPriceInRobux: 95,\n    isInActivePriceOptimizationExperiment: false,\n  },\n  targetId: 3848620,\n  productType: \"Developer Product\",\n  assetId: 0,\n  productId: 995087849,\n  name: \"Starterpackk\",\n  description: null,\n  assetTypeId: 0,\n  creator: { id: 0, name: null, creatorType: null, creatorTargetId: 0 },\n  iconImageAssetId: 5106354357,\n  created: \"2020-05-29T11:49:09.08Z\",\n  updated: \"2024-07-22T05:33:16.827Z\",\n  priceInRobux: null,\n  premiumPriceInRobux: null,\n  priceInTickets: null,\n  isNew: false,\n  isForSale: true,\n  isPublicDomain: false,\n  isLimited: false,\n  isLimitedUnique: false,\n  remaining: null,\n  sales: null,\n  minimumMembershipLevel: 0,\n}\n",
+          "exampleRawBody": "{\n  DisplayName: \"Starterpackk\",\n  DisplayDescription: null,\n  DisplayIconImageAssetId: 5106354357,\n  PriceInformation: {\n    defaultPriceInRobux: 95,\n    isInActivePriceOptimizationExperiment: false,\n  },\n  TargetId: 3848620,\n  ProductType: \"Developer Product\",\n  AssetId: 0,\n  ProductId: 995087849,\n  Name: \"Starterpackk\",\n  Description: null,\n  AssetTypeId: 0,\n  Creator: { Id: 0, Name: null, CreatorType: null, CreatorTargetId: 0 },\n  IconImageAssetId: 5106354357,\n  Created: \"2020-05-29T11:49:09.08Z\",\n  Updated: \"2024-07-22T05:33:16.827Z\",\n  PriceInRobux: null,\n  PremiumPriceInRobux: null,\n  PriceInTickets: null,\n  IsNew: false,\n  IsForSale: true,\n  IsPublicDomain: false,\n  IsLimited: false,\n  IsLimitedUnique: false,\n  Remaining: null,\n  Sales: null,\n  MinimumMembershipLevel: 0,\n}\n"
+        },
+        "params": [
+          {
+            "name": "developerProductId",
+            "type": "🤷",
+            "description": "The Product-ID (not ID) of the develoepr product to get creator details for."
+          }
+        ]
+      }
+    },
+    "economy": {
+      "assetResaleData": {
+        "description": "Gets resale data for a particular asset.",
+        "tags": {
+          "endpoint": "GET /v1/assets/{assetId}/resale-data",
+          "example": "const { data: resaleData } = await ClassicEconomyApi.assetResaleData({ assetId: 1365767 });",
+          "exampleData": "{\n  assetStock: null,\n  sales: 11412,\n  numberRemaining: null,\n  recentAveragePrice: 261565,\n  originalPrice: null,\n  priceDataPoints: [{ value: 271997, date: \"2024-07-30T00:00:00Z\" }],\n  volumeDataPoints: [{ value: 2, date: \"2024-07-30T00:00:00Z\" }],\n}\n",
+          "exampleRawBody": "{\n  assetStock: null,\n  sales: 11412,\n  numberRemaining: null,\n  recentAveragePrice: 261565,\n  originalPrice: null,\n  priceDataPoints: [{ value: 271997, date: \"2024-07-30T00:00:00Z\" }],\n  volumeDataPoints: [{ value: 2, date: \"2024-07-30T00:00:00Z\" }],\n}\n"
+        },
+        "params": [
+          {
+            "name": "assetId",
+            "type": "Identifier",
+            "description": "The ID of the asset to get resale data for."
+          }
+        ]
+      },
+      "assetResellers": {
+        "description": "Gets resellers for a particular asset.",
+        "tags": {
+          "endpoint": "GET /v1/assets/{assetId}/resellers",
+          "example": "const { data: resellers } = await ClassicEconomyApi.assetResellers({ assetId: 1365767 });",
+          "exampleData": "[\n  {\n    userAssetId: 482809968,\n    seller: {\n      hasVerifiedBadge: false,\n      id: 4159620298,\n      type: \"User\",\n      name: \"AnimatedObjects\",\n    },\n    price: 280000,\n    serialNumber: null,\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: \"eyJzdGFydEluZGV4IjoxMCwiZGlzY3JpbWluYXRvciI6ImFzc2V0SWQ6MTM2NTc2NyIsImNvdW50IjoxMH0KYTlmMDVlNGMxZGYwMDMwMjAwOWQ5ODFjMzk5MTY2OWJmNDU1MTljNDQ2OWEzZTZmMGI2NzE0NTgwOWE4NWQzZQ==\",\n  data: [\n    {\n      userAssetId: 482809968,\n      seller: {\n        hasVerifiedBadge: false,\n        id: 4159620298,\n        type: \"User\",\n        name: \"AnimatedObjects\",\n      },\n      price: 280000,\n      serialNumber: null,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "assetId",
+            "type": "Identifier",
+            "description": "The ID of the asset to get resellers for."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "authedUserAssetResellableCopies": {
+        "description": "Gets resellable copies of an asset that the authenticated user owns.",
+        "tags": {
+          "endpoint": "GET /v1/assets/{assetId}/users/{userId}/resellable-copies",
+          "example": "const { data: resellableCopies } = await ClassicEconomyApi.authedUserAssetResellableCopies({\n  userId: 45348281,\n  assetId: 3798248888,\n});",
+          "exampleData": "[\n  {\n    userAssetId: 45867931761,\n    seller: {\n      hasVerifiedBadge: false,\n      id: 45348281,\n      type: \"User\",\n      name: \"MightyPart\",\n    },\n    price: null,\n    serialNumber: null,\n    isOnHold: false,\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      userAssetId: 45867931761,\n      seller: {\n        hasVerifiedBadge: false,\n        id: 45348281,\n        type: \"User\",\n        name: \"MightyPart\",\n      },\n      price: null,\n      serialNumber: null,\n      isOnHold: false,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the authenticated user."
+          },
+          {
+            "name": "assetId",
+            "type": "Identifier",
+            "description": "The ID of the asset to get resellable copies for."
+          }
+        ]
+      },
+      "assetResaleTaxRate": {
+        "description": "Gets asset resale related metadata",
+        "tags": {
+          "endpoint": "GET /v1/resale-tax-rate",
+          "example": "const { data: taxRate } = await ClassicEconomyApi.assetResaleTaxRate();",
+          "exampleData": "{ taxRate: 0.3, minimumFee: 1 }\n",
+          "exampleRawBody": "{ taxRate: 0.3, minimumFee: 1 }\n"
+        },
+        "params": []
+      },
+      "authedUserDevExCashOutInfo": {
+        "description": "Gets info data about whether the authenticated user can make a developer exchange cashout request.",
+        "tags": {
+          "endpoint": "GET /v1/developer-exchange/info",
+          "example": "const { data: cashOutInfo } = await ClassicEconomyApi.authedUserDevExCashOutInfo();",
+          "exampleData": "{\n  hasCurrencyOperationError: false,\n  currencyOperationErrorMessage: \"\",\n  showOnlyExchangeRates: true,\n  emailIsVerified: true,\n  isImbursementBlacklistUser: false,\n  canProceedToCashout: false,\n  showProgressBar: false,\n  percentRobux: 1,\n  minRobuxToCashOut: 30000,\n  maxRobuxCanCashOut: 20000000000,\n  lastImbursementStatus: null,\n  lastImbursementSubmissionDate: null,\n  conversionPercent: 0.0035,\n}\n",
+          "exampleRawBody": "{\n  hasCurrencyOperationError: false,\n  currencyOperationErrorMessage: \"\",\n  showOnlyExchangeRates: true,\n  emailIsVerified: true,\n  isImbursementBlacklistUser: false,\n  canProceedToCashout: false,\n  showProgressBar: false,\n  percentRobux: 1,\n  minRobuxToCashOut: 30000,\n  maxRobuxCanCashOut: 20000000000,\n  lastImbursementStatus: null,\n  lastImbursementSubmissionDate: null,\n  conversionPercent: 0.0035,\n}\n"
+        },
+        "params": []
+      },
+      "groupCanAddFunds": {
+        "description": "Checks if a group can have funds added to it.",
+        "tags": {
+          "endpoint": "GET /v1/groups/${groupId}/addfunds/allowed",
+          "example": "const { data: canAddFunds } = await ClassicEconomyApi.groupCanAddFunds({ groupId: 5850082 });",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The ID of the group to check if funds can be added to."
+          }
+        ]
+      },
+      "groupLatestAddedFundsData": {
+        "description": "Checks if a group can have funds added to it.",
+        "tags": {
+          "endpoint": "GET /v1/groups/${groupId}/addfunds/allowed",
+          "example": "const { data: fundsData } = await ClassicEconomyApi.groupLatestAddedFundsData({ groupId: 5850082 });",
+          "exampleData": "{ transactionDate: null, rateLimitInDays: 30 }\n",
+          "exampleRawBody": "{ transactionDate: null, rateLimitInDays: 30 }\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The ID of the group to check if funds can be added to."
+          }
+        ]
+      },
+      "groupCurrency": {
+        "description": "Gets currency for a particular group.",
+        "tags": {
+          "endpoint": "GET /v1/groups/{groupId}/currency",
+          "example": "const { data: currency } = await ClassicEconomyApi.groupCurrency({ groupId: 5850082 });",
+          "exampleData": "{ robux: 0 }\n",
+          "exampleRawBody": "{ robux: 0 }\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The ID of the group to get currency for."
+          }
+        ]
+      },
+      "authedUserCurrency": {
+        "description": "Gets currency for the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v1/user/currency",
+          "example": "const { data: currency } = await ClassicEconomyApi.authedUserCurrency();",
+          "exampleData": "{ robux: 0 }\n",
+          "exampleRawBody": "{ robux: 0 }\n"
+        },
+        "params": []
+      },
+      "groupRevenueSummary": {
+        "description": "Gets the revenue summary for a particular group.",
+        "tags": {
+          "endpoint": "GET /v1/groups/{groupId}/revenue/summary/{timeFrame}",
+          "example": "const { data: summary } = await ClassicEconomyApi.groupRevenueSummary({ groupId: 5850082, timeFrame: \"Day\" });",
+          "exampleData": "{\n  recurringRobuxStipend: 0,\n  itemSaleRobux: 0,\n  purchasedRobux: 0,\n  tradeSystemRobux: 0,\n  pendingRobux: 0,\n  groupPayoutRobux: 0,\n  individualToGroupRobux: 0,\n  premiumPayouts: 0,\n  groupPremiumPayouts: 0,\n  adjustmentRobux: 0,\n  immersiveAdPayouts: 0,\n  subscriptionPayouts: 0,\n  subscriptionClawbacks: 0,\n  isShowImmersiveAdPayoutSummaryOnZeroEnabled: false,\n  commissionRobux: 0,\n  publishingAdvanceRebates: 0,\n}\n",
+          "exampleRawBody": "{\n  recurringRobuxStipend: 0,\n  itemSaleRobux: 0,\n  purchasedRobux: 0,\n  tradeSystemRobux: 0,\n  pendingRobux: 0,\n  groupPayoutRobux: 0,\n  individualToGroupRobux: 0,\n  premiumPayouts: 0,\n  groupPremiumPayouts: 0,\n  adjustmentRobux: 0,\n  immersiveAdPayouts: 0,\n  subscriptionPayouts: 0,\n  subscriptionClawbacks: 0,\n  isShowImmersiveAdPayoutSummaryOnZeroEnabled: false,\n  commissionRobux: 0,\n  publishingAdvanceRebates: 0,\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The ID of the group to get the revenue summary for."
+          },
+          {
+            "name": "timeFrame",
+            "type": "\"Day\" | \"Week\" | \"Month\" | \"Year\"",
+            "description": "The timeframe of the summary to get."
+          }
+        ]
+      },
+      "groupTransactionHistory": {
+        "description": "Gets transaction history for a particular group.",
+        "tags": {
+          "endpoint": "GET /v1/group/${groupId}/transactions",
+          "example": "const { data: transactions } = await ClassicEconomyApi.groupTransactionHistory({\n  groupId: 5850082,\n  transactionType: \"Sale\",\n});",
+          "exampleData": "[\n  {\n    id: 14289110391,\n    idHash: \"L1HiwSO1f1e68Xh1d50b91\",\n    created: \"2022-07-09T21:35:43.013Z\",\n    isPending: false,\n    agent: { id: 473747714, type: \"User\", name: \"LoremIpsum\" },\n    details: {\n      id: 1116381,\n      name: \"Buy 100 Coins\",\n      type: \"DeveloperProduct\",\n      place: {\n        placeId: 1121711941,\n        universeId: 8681831361,\n        name: \"LoremIpsumGame\",\n      },\n    },\n    currency: { amount: 0, type: \"Robux\" },\n    purchaseToken: null,\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: \"eyJrZXkiOjEwLCJzb3J0T3JkZXIiOiJBc2MiLCJwYWdpbmdEaXJlY3Rpb24iOiJGb3J3YXJkIiwicGFnZU51bWJlciI6MiwiZGlzY3JpbWluYXRvciI6Imdyb3VwSWQ6NTg1MDA4MnRyYW5zYWN0aW9uVHlwZTpTYWxlIiwiY291bnQiOjEwfQpiYzljYmU0OTFiNjlmNTBmZDBiMGM3YzJmZTVlN2RkMGNlZjY5ZTQ4ZTRiODViZDNiMzBlZGM0NDNiZDMxMmU0\",\n  data: [\n    {\n      id: 14289110391,\n      idHash: \"L1HiwSO1f1e68Xh1d50b91\",\n      created: \"2022-07-09T21:35:43.013Z\",\n      isPending: false,\n      agent: { id: 473747714, type: \"User\", name: \"LoremIpsum\" },\n      details: {\n        id: 1116381,\n        name: \"Buy 100 Coins\",\n        type: \"DeveloperProduct\",\n        place: {\n          placeId: 1121711941,\n          universeId: 8681831361,\n          name: \"LoremIpsumGame\",\n        },\n      },\n      currency: { amount: 0, type: \"Robux\" },\n      purchaseToken: null,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The ID of the group to get transaction history for."
+          },
+          {
+            "name": "transactionType",
+            "type": "Type",
+            "description": "The transaction type to get."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "authedUserEconomyMetadata": {
+        "description": "Gets economy metadata for the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v2/metadata",
+          "example": "const { data: metadata } = await ClassicEconomyApi.authedUserEconomyMetadata();",
+          "exampleData": "{\n  isMarketPlaceEnabled: true,\n  isItemsXchangeEnabled: true,\n  isGroupSalesAmountTooltipEnabled: true,\n  isTransactionsRecordsDownloadEnabled: true,\n  transactionRecordsDownloadEarliestYearDiff: 2,\n  isCommissionRecordsDownloadEnabled: false,\n  isGroupCommissionsPageEnabled: true,\n  isPublishingAdvanceRebatePageEnabled: true,\n}\n",
+          "exampleRawBody": "{\n  isMarketPlaceEnabled: true,\n  isItemsXchangeEnabled: true,\n  isGroupSalesAmountTooltipEnabled: true,\n  isTransactionsRecordsDownloadEnabled: true,\n  transactionRecordsDownloadEarliestYearDiff: 0,\n  isCommissionRecordsDownloadEnabled: true,\n  isGroupCommissionsPageEnabled: true,\n  isPublishingAdvanceRebatePageEnabled: true,\n}\n"
+        },
+        "params": []
       }
     },
     "friends": {
@@ -3419,7 +4593,7 @@
           "endpoint": "GET /v1/game-passes/{gamePassId}/product-info",
           "example": "const { data: gamePassInfo } = await ClassicGamePassesApi.gamePassInfo({ gamePassId: 9260480 });",
           "exampleData": "",
-          "exampleRawBody": ""
+          "exampleRawBody": "{\n  TargetId: 9260480,\n  ProductType: \"Game Pass\",\n  AssetId: 0,\n  ProductId: 979386303,\n  Name: \"Donate\",\n  Description: \"null\",\n  AssetTypeId: 0,\n  Creator: {\n    Id: 1536374574,\n    Name: \"MightyPart Games\",\n    CreatorType: \"Group\",\n    CreatorTargetId: 5850082,\n  },\n  IconImageAssetId: 5316458121,\n  Created: \"2020-05-01T15:05:21.543Z\",\n  Updated: \"2020-07-09T13:08:21.133Z\",\n  PriceInRobux: 15,\n  PriceInTickets: null,\n  Sales: 6,\n  IsNew: false,\n  IsForSale: true,\n  IsPublicDomain: false,\n  IsLimited: false,\n  IsLimitedUnique: false,\n  Remaining: null,\n  MinimumMembershipLevel: 0,\n}\n"
         },
         "params": [
           {
@@ -3428,37 +4602,560 @@
             "description": "The ID of the game pass to get information about."
           }
         ]
-      }
-    },
-    "games": {
-      "gamesInfo": {
-        "description": "Gets a list of games info from universe ids.",
+      },
+      "gamePassesForUniverse": {
+        "description": "Gets game passes for a particular universe.",
         "tags": {
-          "endpoint": "GET /v1/games",
-          "example": "",
+          "endpoint": "GET /v1/game-passes/universes/{universeId}/creator",
+          "example": "const { data: gamePasses } = await ClassicGamePassesApi.gamePassesForUniverse({ universeId: 1685831367, limit: 1 });",
+          "exampleData": "[\n  {\n    gamePassId: 11546631,\n    name: \"Donate Pluss\",\n    description: \"nulll\",\n    isForSale: true,\n    iconAssetId: 18759297002,\n    placeId: 4922741943,\n    createdTimestamp: \"2020-09-01T00:15:17.79Z\",\n    updatedTimestamp: \"2024-08-02T00:43:10.541Z\",\n    priceInformation: {\n      defaultPriceInRobux: 250,\n      isInActivePriceOptimizationExperiment: false,\n      isInActiveDiscountCampaign: false,\n      discountPercentage: 0,\n    },\n    productId: 1084063256,\n  },\n]\n",
+          "exampleRawBody": "{\n  gamePasses: [\n    {\n      gamePassId: 11546631,\n      name: \"Donate Pluss\",\n      description: \"nulll\",\n      isForSale: true,\n      iconAssetId: 18759297002,\n      placeId: 4922741943,\n      createdTimestamp: \"2020-09-01T00:15:17.79Z\",\n      updatedTimestamp: \"2024-08-02T00:43:10.541Z\",\n      priceInformation: {\n        defaultPriceInRobux: 250,\n        isInActivePriceOptimizationExperiment: false,\n        isInActiveDiscountCampaign: false,\n        discountPercentage: 0,\n      },\n      productId: 1084063256,\n    },\n  ],\n  cursor: \"id_2zwAAAXRHBJkezgCwMAc\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get game passes for."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "updateGamePass": {
+        "description": "Updates a game pass.",
+        "tags": {
+          "endpoint": "POST /v1/game-passes/{gamePassId}/details",
+          "example": "const { data: success } = await ClassicGamePassesApi.updateGamePass({\n  gamePassId: 9260480,\n  name: \"Donate\",\n  icon: \"./gamePassIcon.png\",\n});",
           "exampleData": "",
           "exampleRawBody": ""
         },
         "params": [
           {
+            "name": "gamePassId",
+            "type": "Identifier",
+            "description": "The ID of the game pass to update."
+          },
+          {
+            "name": "name?",
+            "type": "string",
+            "description": "The new name for the game pass."
+          },
+          {
+            "name": "description?",
+            "type": "string",
+            "description": "The new description for the game pass."
+          },
+          {
+            "name": "icon?",
+            "type": "string | File",
+            "description": "The new icon for the game pass."
+          }
+        ]
+      },
+      "createGamePass": {
+        "description": "Creates a game pass.",
+        "tags": {
+          "endpoint": "POST /v1/game-passes",
+          "example": "const { data: gamePassId } = await ClassicGamePassesApi.createGamePass({\n  universeId: 1685831367,\n  name: \"My Pass\",\n  description: \"Lorem Ipsum...\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{ gamePassId: 810182288 }\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get a game pass in."
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "The name for the game pass."
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "description": "The description for the game pass."
+          },
+          {
+            "name": "icon?",
+            "type": "string | File",
+            "description": "The icon for the game pass."
+          }
+        ]
+      }
+    },
+    "games": {
+      "universesInfo": {
+        "description": "Gets a list of games info from universe ids.",
+        "tags": {
+          "endpoint": "GET /v1/games",
+          "example": "const { data: games } = await ClassicGamesApi.universesInfo({ universeIds: [1685831367] });",
+          "exampleData": "{\n  \"1685831367\": {\n    rootPlaceId: 4922741943,\n    name: \"RoCamping\",\n    description: \"RoCamping is a fun adventure game where the end-goal is to create the best camp ever. Gather resources, chop down trees, go down caves and much more! Start your journey today!\\r\\n\\r\\nNOTE: RoCamping is still in BETA so expect there to be glitches, if you find a glitch then don't hesitate to join our group and report it there.\\r\\n\\r\\nCurrent Version: BETA v3,0\\r\\n\\r\\nalvinblox\",\n    sourceName: \"RoCamping\",\n    sourceDescription: \"RoCamping is a fun adventure game where the end-goal is to create the best camp ever. Gather resources, chop down trees, go down caves and much more! Start your journey today!\\r\\n\\r\\nNOTE: RoCamping is still in BETA so expect there to be glitches, if you find a glitch then don't hesitate to join our group and report it there.\\r\\n\\r\\nCurrent Version: BETA v3,0\\r\\n\\r\\nalvinblox\",\n    creator: {\n      id: 5850082,\n      name: \"MightyPart Games\",\n      type: \"Group\",\n      isRNVAccount: false,\n      hasVerifiedBadge: false,\n    },\n    price: null,\n    allowedGearGenres: [\"Adventure\"],\n    allowedGearCategories: [],\n    isGenreEnforced: true,\n    copyingAllowed: false,\n    playing: 0,\n    visits: 2718,\n    maxPlayers: 4,\n    created: \"2020-04-20T15:36:20.927Z\",\n    updated: \"2024-05-23T20:51:29.867Z\",\n    studioAccessToApisAllowed: false,\n    createVipServersAllowed: false,\n    universeAvatarType: \"MorphToR15\",\n    genre: \"Adventure\",\n    isAllGenre: false,\n    isFavoritedByUser: true,\n    favoritedCount: 97,\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      id: 1685831367,\n      rootPlaceId: 4922741943,\n      name: \"RoCamping\",\n      description: \"RoCamping is a fun adventure game where the end-goal is to create the best camp ever. Gather resources, chop down trees, go down caves and much more! Start your journey today!\\r\\n\\r\\nNOTE: RoCamping is still in BETA so expect there to be glitches, if you find a glitch then don't hesitate to join our group and report it there.\\r\\n\\r\\nCurrent Version: BETA v3,0\\r\\n\\r\\nalvinblox\",\n      sourceName: \"RoCamping\",\n      sourceDescription: \"RoCamping is a fun adventure game where the end-goal is to create the best camp ever. Gather resources, chop down trees, go down caves and much more! Start your journey today!\\r\\n\\r\\nNOTE: RoCamping is still in BETA so expect there to be glitches, if you find a glitch then don't hesitate to join our group and report it there.\\r\\n\\r\\nCurrent Version: BETA v3,0\\r\\n\\r\\nalvinblox\",\n      creator: {\n        id: 5850082,\n        name: \"MightyPart Games\",\n        type: \"Group\",\n        isRNVAccount: false,\n        hasVerifiedBadge: false,\n      },\n      price: null,\n      allowedGearGenres: [\"Adventure\"],\n      allowedGearCategories: [],\n      isGenreEnforced: true,\n      copyingAllowed: false,\n      playing: 0,\n      visits: 2718,\n      maxPlayers: 4,\n      created: \"2020-04-20T15:36:20.927Z\",\n      updated: \"2024-05-23T20:51:29.867Z\",\n      studioAccessToApisAllowed: false,\n      createVipServersAllowed: false,\n      universeAvatarType: \"MorphToR15\",\n      genre: \"Adventure\",\n      isAllGenre: false,\n      isFavoritedByUser: true,\n      favoritedCount: 97,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeIds",
+            "type": "ArrayNonEmptyIfConst<UniverseId>",
+            "description": "The IDs of the games to get information for."
+          }
+        ]
+      },
+      "universesProductInfo": {
+        "description": "Gets product information for multiple games.",
+        "tags": {
+          "endpoint": "GET /v1/games/games-product-info",
+          "example": "const { data: products } = await ClassicGamesApi.universesProductInfo({ universeIds: [1685831367] });",
+          "exampleData": "{\n  \"1685831367\": {\n    isForSale: false,\n    productId: 0,\n    price: null,\n    sellerId: 1536374574,\n  },\n}\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      universeId: 1685831367,\n      isForSale: false,\n      productId: 0,\n      price: null,\n      sellerId: 1536374574,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeIds",
+            "type": "ArrayNonEmptyIfConst<UniverseId>",
+            "description": "The IDs of the games to get product information for."
+          }
+        ]
+      },
+      "authedUserSpotlightedGames": {
+        "description": "Gets games that should be spotlighted by the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v1/games/list-spotlight",
+          "example": "const { data: spotlightedGames } = await ClassicGamesApi.authedUserSpotlightedGames();",
+          "exampleData": "[\n  {\n    spotlightType: \"RecommendedForYou\",\n    spotlightActionText: \"Recommended For You\",\n    spotlightTypeData: null,\n    gameInfo: {\n      creatorId: 61596111,\n      creatorName: \"LoremIpsum\",\n      creatorType: \"User\",\n      creatorHasVerifiedBadge: true,\n      totalUpVotes: 1128381,\n      totalDownVotes: 102161,\n      universeId: 1116885111,\n      name: \"Simulator Simulator\",\n      placeId: 1924121221,\n      playerCount: 161616,\n      imageToken: \"T_4921112121_61da\",\n      isSponsored: false,\n      nativeAdData: \"\",\n      isShowSponsoredLabel: false,\n      price: null,\n      analyticsIdentifier: null,\n      gameDescription: \"\",\n      genre: \"\",\n      minimumAge: 0,\n      ageRecommendationDisplayName: \"\",\n    },\n  },\n]\n",
+          "exampleRawBody": "[\n  {\n    spotlightType: \"RecommendedForYou\",\n    spotlightActionText: \"Recommended For You\",\n    spotlightTypeData: null,\n    gameInfo: {\n      creatorId: 61596111,\n      creatorName: \"LoremIpsum\",\n      creatorType: \"User\",\n      creatorHasVerifiedBadge: true,\n      totalUpVotes: 1128381,\n      totalDownVotes: 102161,\n      universeId: 1116885111,\n      name: \"Simulator Simulator\",\n      placeId: 1924121221,\n      playerCount: 161616,\n      imageToken: \"T_4921112121_61da\",\n      isSponsored: false,\n      nativeAdData: \"\",\n      isShowSponsoredLabel: false,\n      price: null,\n      analyticsIdentifier: null,\n      gameDescription: \"\",\n      genre: \"\",\n      minimumAge: 0,\n      ageRecommendationDisplayName: \"\",\n    },\n  },\n]\n"
+        },
+        "params": []
+      },
+      "placesInfo": {
+        "description": "Gets information for multiple places.",
+        "tags": {
+          "endpoint": "GET /v1/games/multiget-place-details",
+          "example": "const { data: places } = await ClassicGamesApi.placesInfo({ placeIds: [4922741943] });",
+          "exampleData": "{\n  \"4922741943\": {\n    name: \"RoCamping\",\n    description: \"RoCamping is a fun adventure game where the end-goal is to create the best camp ever. Gather resources, chop down trees, go down caves and much more! Start your journey today!\\r\\n\\r\\nNOTE: RoCamping is still in BETA so expect there to be glitches, if you find a glitch then don't hesitate to join our group and report it there.\\r\\n\\r\\nCurrent Version: BETA v3,0\\r\\n\\r\\nalvinblox\",\n    sourceName: \"RoCamping\",\n    sourceDescription: \"RoCamping is a fun adventure game where the end-goal is to create the best camp ever. Gather resources, chop down trees, go down caves and much more! Start your journey today!\\r\\n\\r\\nNOTE: RoCamping is still in BETA so expect there to be glitches, if you find a glitch then don't hesitate to join our group and report it there.\\r\\n\\r\\nCurrent Version: BETA v3,0\",\n    url: \"https://www.roblox.com/games/4922741943/RoCamping\",\n    builder: \"MightyPart Games\",\n    builderId: 5850082,\n    hasVerifiedBadge: false,\n    isPlayable: true,\n    reasonProhibited: \"None\",\n    universeId: 1685831367,\n    universeRootPlaceId: 4922741943,\n    price: 0,\n    imageToken: \"T_4922741943_678b\",\n  },\n}\n",
+          "exampleRawBody": "[\n  {\n    placeId: 4922741943,\n    name: \"RoCamping\",\n    description: \"RoCamping is a fun adventure game where the end-goal is to create the best camp ever. Gather resources, chop down trees, go down caves and much more! Start your journey today!\\r\\n\\r\\nNOTE: RoCamping is still in BETA so expect there to be glitches, if you find a glitch then don't hesitate to join our group and report it there.\\r\\n\\r\\nCurrent Version: BETA v3,0\\r\\n\\r\\nalvinblox\",\n    sourceName: \"RoCamping\",\n    sourceDescription: \"RoCamping is a fun adventure game where the end-goal is to create the best camp ever. Gather resources, chop down trees, go down caves and much more! Start your journey today!\\r\\n\\r\\nNOTE: RoCamping is still in BETA so expect there to be glitches, if you find a glitch then don't hesitate to join our group and report it there.\\r\\n\\r\\nCurrent Version: BETA v3,0\",\n    url: \"https://www.roblox.com/games/4922741943/RoCamping\",\n    builder: \"MightyPart Games\",\n    builderId: 5850082,\n    hasVerifiedBadge: false,\n    isPlayable: true,\n    reasonProhibited: \"None\",\n    universeId: 1685831367,\n    universeRootPlaceId: 4922741943,\n    price: 0,\n    imageToken: \"T_4922741943_678b\",\n  },\n]\n"
+        },
+        "params": [
+          {
+            "name": "placeIds",
+            "type": "ArrayNonEmptyIfConst<PlaceId>",
+            "description": "The IDs of the places to get information for."
+          }
+        ]
+      },
+      "authedUserGamesPlayabilityStatuses": {
+        "description": "Gets universes playability statuses for the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v1/games/multiget-playability-status",
+          "example": "const { data: playabilityStatuses } = await ClassicGamesApi.authedUserGamesPlayabilityStatuses({\n  universeIds: [1685831367],\n});",
+          "exampleData": "{ \"1685831367\": { playabilityStatus: \"Playable\", isPlayable: true } }\n",
+          "exampleRawBody": "[\n  {\n    playabilityStatus: \"Playable\",\n    isPlayable: true,\n    universeId: 1685831367,\n  },\n]\n"
+        },
+        "params": [
+          {
+            "name": "universeIds",
+            "type": "ArrayNonEmptyIfConst<UniverseId>",
+            "description": "The IDs of the universes to get playability statuses for."
+          }
+        ]
+      },
+      "recommendationsFromUniverse": {
+        "description": "Get game recommendations based on a particular universe.",
+        "tags": {
+          "endpoint": "GET /v1/games/recommendations/game/{universeId}",
+          "example": "const { data: recommendations } = await ClassicGamesApi.recommendationsFromUniverse({ universeId: 1685831367 });",
+          "exampleData": "[\n  {\n    creatorId: 61648063,\n    creatorName: \"ItsMuneeeb\",\n    creatorType: \"User\",\n    creatorHasVerifiedBadge: true,\n    totalUpVotes: 1257869,\n    totalDownVotes: 116797,\n    universeId: 2711375305,\n    name: \"Catalog Avatar Creator\",\n    placeId: 7041939546,\n    playerCount: 25621,\n    imageToken: \"T_7041939546_4ca1\",\n    isSponsored: false,\n    nativeAdData: \"\",\n    isShowSponsoredLabel: false,\n    price: null,\n    analyticsIdentifier: null,\n    gameDescription: \"\",\n    genre: \"\",\n    minimumAge: 0,\n    ageRecommendationDisplayName: \"\",\n  },\n  {\n    creatorId: 15022320,\n    creatorName: \"Telanthric Development\",\n    creatorType: \"Group\",\n    creatorHasVerifiedBadge: true,\n    totalUpVotes: 1048903,\n    totalDownVotes: 143468,\n    universeId: 4778845442,\n    name: \"[🔥ABYSMAL MODE] Toilet Tower Defense\",\n    placeId: 13775256536,\n    playerCount: 43710,\n    imageToken: \"T_13775256536_16f1\",\n    isSponsored: false,\n    nativeAdData: \"\",\n    isShowSponsoredLabel: false,\n    price: null,\n    analyticsIdentifier: null,\n    gameDescription: \"\",\n    genre: \"\",\n    minimumAge: 0,\n    ageRecommendationDisplayName: \"\",\n  },\n  {\n    creatorId: 12836673,\n    creatorName: \"Wiggity.\",\n    creatorType: \"Group\",\n    creatorHasVerifiedBadge: true,\n    totalUpVotes: 6142327,\n    totalDownVotes: 419260,\n    universeId: 4777817887,\n    name: \"[TRADE] Blade Ball\",\n    placeId: 13772394625,\n    playerCount: 51902,\n    imageToken: \"T_13772394625_9ccc\",\n    isSponsored: false,\n    nativeAdData: \"\",\n    isShowSponsoredLabel: false,\n    price: null,\n    analyticsIdentifier: null,\n    gameDescription: \"\",\n    genre: \"\",\n    minimumAge: 0,\n    ageRecommendationDisplayName: \"\",\n  },\n  {\n    creatorId: 60596019,\n    creatorName: \"Wolfpaq\",\n    creatorType: \"User\",\n    creatorHasVerifiedBadge: true,\n    totalUpVotes: 5829113,\n    totalDownVotes: 902982,\n    universeId: 1686885941,\n    name: \"Brookhaven 🏡RP\",\n    placeId: 4924922222,\n    playerCount: 415192,\n    imageToken: \"T_4924922222_6555\",\n    isSponsored: false,\n    nativeAdData: \"\",\n    isShowSponsoredLabel: false,\n    price: null,\n    analyticsIdentifier: null,\n    gameDescription: \"\",\n    genre: \"\",\n    minimumAge: 0,\n    ageRecommendationDisplayName: \"\",\n  },\n  {\n    creatorId: 3959677,\n    creatorName: \"BIG Games Pets\",\n    creatorType: \"Group\",\n    creatorHasVerifiedBadge: true,\n    totalUpVotes: 2426474,\n    totalDownVotes: 92767,\n    universeId: 3317771874,\n    name: \"Pet Simulator 99! 🎲 RNG\",\n    placeId: 8737899170,\n    playerCount: 229718,\n    imageToken: \"T_8737899170_539c\",\n    isSponsored: false,\n    nativeAdData: \"\",\n    isShowSponsoredLabel: false,\n    price: null,\n    analyticsIdentifier: null,\n    gameDescription: \"\",\n    genre: \"\",\n    minimumAge: 0,\n    ageRecommendationDisplayName: \"\",\n  },\n  {\n    creatorId: 12013007,\n    creatorName: \"Yielding Arts\",\n    creatorType: \"Group\",\n    creatorHasVerifiedBadge: true,\n    totalUpVotes: 2469880,\n    totalDownVotes: 470017,\n    universeId: 3808081382,\n    name: \"[BOSS] The Strongest Battlegrounds\",\n    placeId: 10449761463,\n    playerCount: 172610,\n    imageToken: \"T_10449761463_f88a\",\n    isSponsored: false,\n    nativeAdData: \"\",\n    isShowSponsoredLabel: false,\n    price: null,\n    analyticsIdentifier: null,\n    gameDescription: \"\",\n    genre: \"\",\n    minimumAge: 0,\n    ageRecommendationDisplayName: \"\",\n  },\n]\n",
+          "exampleRawBody": "{\n  games: [\n    {\n      creatorId: 61648063,\n      creatorName: \"ItsMuneeeb\",\n      creatorType: \"User\",\n      creatorHasVerifiedBadge: true,\n      totalUpVotes: 1257869,\n      totalDownVotes: 116797,\n      universeId: 2711375305,\n      name: \"Catalog Avatar Creator\",\n      placeId: 7041939546,\n      playerCount: 25621,\n      imageToken: \"T_7041939546_4ca1\",\n      isSponsored: false,\n      nativeAdData: \"\",\n      isShowSponsoredLabel: false,\n      price: null,\n      analyticsIdentifier: null,\n      gameDescription: \"\",\n      genre: \"\",\n      minimumAge: 0,\n      ageRecommendationDisplayName: \"\",\n    },\n    {\n      creatorId: 15022320,\n      creatorName: \"Telanthric Development\",\n      creatorType: \"Group\",\n      creatorHasVerifiedBadge: true,\n      totalUpVotes: 1048903,\n      totalDownVotes: 143468,\n      universeId: 4778845442,\n      name: \"[🔥ABYSMAL MODE] Toilet Tower Defense\",\n      placeId: 13775256536,\n      playerCount: 43710,\n      imageToken: \"T_13775256536_16f1\",\n      isSponsored: false,\n      nativeAdData: \"\",\n      isShowSponsoredLabel: false,\n      price: null,\n      analyticsIdentifier: null,\n      gameDescription: \"\",\n      genre: \"\",\n      minimumAge: 0,\n      ageRecommendationDisplayName: \"\",\n    },\n    {\n      creatorId: 12836673,\n      creatorName: \"Wiggity.\",\n      creatorType: \"Group\",\n      creatorHasVerifiedBadge: true,\n      totalUpVotes: 6142327,\n      totalDownVotes: 419260,\n      universeId: 4777817887,\n      name: \"[TRADE] Blade Ball\",\n      placeId: 13772394625,\n      playerCount: 51902,\n      imageToken: \"T_13772394625_9ccc\",\n      isSponsored: false,\n      nativeAdData: \"\",\n      isShowSponsoredLabel: false,\n      price: null,\n      analyticsIdentifier: null,\n      gameDescription: \"\",\n      genre: \"\",\n      minimumAge: 0,\n      ageRecommendationDisplayName: \"\",\n    },\n    {\n      creatorId: 60596019,\n      creatorName: \"Wolfpaq\",\n      creatorType: \"User\",\n      creatorHasVerifiedBadge: true,\n      totalUpVotes: 5829113,\n      totalDownVotes: 902982,\n      universeId: 1686885941,\n      name: \"Brookhaven 🏡RP\",\n      placeId: 4924922222,\n      playerCount: 415192,\n      imageToken: \"T_4924922222_6555\",\n      isSponsored: false,\n      nativeAdData: \"\",\n      isShowSponsoredLabel: false,\n      price: null,\n      analyticsIdentifier: null,\n      gameDescription: \"\",\n      genre: \"\",\n      minimumAge: 0,\n      ageRecommendationDisplayName: \"\",\n    },\n    {\n      creatorId: 3959677,\n      creatorName: \"BIG Games Pets\",\n      creatorType: \"Group\",\n      creatorHasVerifiedBadge: true,\n      totalUpVotes: 2426474,\n      totalDownVotes: 92767,\n      universeId: 3317771874,\n      name: \"Pet Simulator 99! 🎲 RNG\",\n      placeId: 8737899170,\n      playerCount: 229718,\n      imageToken: \"T_8737899170_539c\",\n      isSponsored: false,\n      nativeAdData: \"\",\n      isShowSponsoredLabel: false,\n      price: null,\n      analyticsIdentifier: null,\n      gameDescription: \"\",\n      genre: \"\",\n      minimumAge: 0,\n      ageRecommendationDisplayName: \"\",\n    },\n    {\n      creatorId: 12013007,\n      creatorName: \"Yielding Arts\",\n      creatorType: \"Group\",\n      creatorHasVerifiedBadge: true,\n      totalUpVotes: 2469880,\n      totalDownVotes: 470017,\n      universeId: 3808081382,\n      name: \"[BOSS] The Strongest Battlegrounds\",\n      placeId: 10449761463,\n      playerCount: 172610,\n      imageToken: \"T_10449761463_f88a\",\n      isSponsored: false,\n      nativeAdData: \"\",\n      isShowSponsoredLabel: false,\n      price: null,\n      analyticsIdentifier: null,\n      gameDescription: \"\",\n      genre: \"\",\n      minimumAge: 0,\n      ageRecommendationDisplayName: \"\",\n    },\n  ],\n  nextPaginationKey: \"startRowIndex_20,version_\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get recommendations for."
+          },
+          {
+            "name": "truncatedResults?",
+            "type": "boolean",
+            "description": "Return truncated results."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "authedUserPrivateServersForPlace": {
+        "description": "Gets a list of private server for a particular universe that the authenticated user can access.",
+        "tags": {
+          "endpoint": "GET /v1/games/{placeId}/private-servers",
+          "example": "const { data: privateServers } = await ClassicGamesApi.authedUserPrivateServersForPlace({ placeId: 26838733 });",
+          "exampleData": "[\n  {\n    maxPlayers: 10,\n    playerTokens: [],\n    players: [],\n    name: \"TAG GANG\",\n    vipServerId: 10262938,\n    owner: {\n      hasVerifiedBadge: false,\n      id: 45348281,\n      name: \"MightyPart\",\n      displayName: \"Mighty\",\n    },\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: null,\n  data: [\n    {\n      maxPlayers: 10,\n      playerTokens: [],\n      players: [],\n      name: \"TAG GANG\",\n      vipServerId: 10262938,\n      owner: {\n        hasVerifiedBadge: false,\n        id: 45348281,\n        name: \"MightyPart\",\n        displayName: \"Mighty\",\n      },\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "placeId",
+            "type": "Identifier",
+            "description": "The ID of the place to get private servers for."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "SortOrder",
+            "description": "The order the results are sorted in."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "placeServerList": {
+        "description": "Gets the server list for a place.",
+        "tags": {
+          "endpoint": "GET /v1/games/{placeId}/servers/{serverType}",
+          "example": "const { data: servers } = await ClassicGamesApi.placeServerList({ placeId: 26838733, serverType: \"Public\" });",
+          "exampleData": "[\n  {\n    id: \"1cf0594e-196a-469d-a9f8-ac0c7a1a0c89\",\n    maxPlayers: 10,\n    playing: 6,\n    playerTokens: [\n      \"7532A11338571C5B914711CECB920A9C\",\n      \"576940A121EC4A28EDF1A984FB4D40BA\",\n      \"4AC528DB8689F636EE495A31219B4156\",\n      \"DC41B4724EC46B0D561458B378C52A25\",\n      \"FB9F483ACD1B0C22A916F12F2B8C5EE5\",\n    ],\n    players: [],\n    fps: 59.942818,\n    ping: 82,\n  },\n  {\n    id: \"3a492d51-1b28-4f5b-92f5-ea7f8eb81a05\",\n    maxPlayers: 10,\n    playing: 4,\n    playerTokens: [\n      \"4FA1CB5B5D01574AB7E1A1AEFA683894\",\n      \"DE71FC497ACEA320A57B2E168AF851ED\",\n      \"0B9CB48166467EE29E89564A7A9CCB68\",\n      \"13FCCCF441B16EFF86C938D8440FB9F0\",\n    ],\n    players: [],\n    fps: 59.995846,\n    ping: 216,\n  },\n  {\n    id: \"3333da7e-8a94-464a-b749-9162404c3f71\",\n    maxPlayers: 10,\n    playing: 3,\n    playerTokens: [\n      \"D98666B566AD7834D20A02A7C4554E22\",\n      \"EB2D522809D8F87E41778ABEF349F305\",\n      \"97A0BA814C637D44F2A3E1A8AD190837\",\n    ],\n    players: [],\n    fps: 59.955658,\n    ping: 138,\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: null,\n  data: [\n    {\n      id: \"1cf0594e-196a-469d-a9f8-ac0c7a1a0c89\",\n      maxPlayers: 10,\n      playing: 6,\n      playerTokens: [\n        \"7532A11338571C5B914711CECB920A9C\",\n        \"576940A121EC4A28EDF1A984FB4D40BA\",\n        \"4AC528DB8689F636EE495A31219B4156\",\n        \"DC41B4724EC46B0D561458B378C52A25\",\n        \"FB9F483ACD1B0C22A916F12F2B8C5EE5\",\n      ],\n      players: [],\n      fps: 59.942818,\n      ping: 82,\n    },\n    {\n      id: \"3a492d51-1b28-4f5b-92f5-ea7f8eb81a05\",\n      maxPlayers: 10,\n      playing: 4,\n      playerTokens: [\n        \"4FA1CB5B5D01574AB7E1A1AEFA683894\",\n        \"DE71FC497ACEA320A57B2E168AF851ED\",\n        \"0B9CB48166467EE29E89564A7A9CCB68\",\n        \"13FCCCF441B16EFF86C938D8440FB9F0\",\n      ],\n      players: [],\n      fps: 59.995846,\n      ping: 216,\n    },\n    {\n      id: \"3333da7e-8a94-464a-b749-9162404c3f71\",\n      maxPlayers: 10,\n      playing: 3,\n      playerTokens: [\n        \"D98666B566AD7834D20A02A7C4554E22\",\n        \"EB2D522809D8F87E41778ABEF349F305\",\n        \"97A0BA814C637D44F2A3E1A8AD190837\",\n      ],\n      players: [],\n      fps: 59.955658,\n      ping: 138,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "placeId",
+            "type": "Identifier",
+            "description": "The ID of the place to get private servers for."
+          },
+          {
+            "name": "serverType",
+            "type": "\"Friends\" | \"Public\"",
+            "description": "The type of servers to return."
+          },
+          {
+            "name": "excludeFullGames?",
+            "type": "boolean",
+            "description": "If full games should be omitted from the response."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "SortOrder",
+            "description": "The order the results are sorted in."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "authedUserUniverseIsFavorited": {
+        "description": "Gets the favorited status between the authenticated user and a particular universe",
+        "tags": {
+          "endpoint": "GET /v1/games/{universeId}/favorites",
+          "example": "const { data: favoritedStatus } = await ClassicGamesApi.authedUserUniverseIsFavorited({ universeId: 1685831367 });",
+          "exampleData": "",
+          "exampleRawBody": "{ isFavorited: true }\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get favorited status for."
+          }
+        ]
+      },
+      "authedUserUniverseSetFavorite": {
+        "description": "Sets the favorited status for a particular universe for the authenticated user.",
+        "tags": {
+          "endpoint": "POST /v1/games/{universeId}/favorites",
+          "example": "const { data: newStatus } = await ClassicGamesApi.authedUserUniverseSetFavorite({\n  universeId: 1685831367,\n  status: true,\n});",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to set favorited status for."
+          },
+          {
+            "name": "status",
+            "type": "boolean",
+            "description": "The new status for the favorite."
+          }
+        ]
+      },
+      "universeFavoritesCount": {
+        "description": "Gets favorites count for a particular universe.",
+        "tags": {
+          "endpoint": "GET /v1/games/{universeId}/favorites/count",
+          "example": "const { data: favoritesCount } = await ClassicGamesApi.universeFavoritesCount({ universeId: 1685831367 });",
+          "exampleData": "",
+          "exampleRawBody": "{ favoritesCount: 0 }\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get favorites count for."
+          }
+        ]
+      },
+      "universeGamePasses": {
+        "description": "Gets game passes for a particular universe.",
+        "tags": {
+          "endpoint": "GET /v1/games/{universeId}/game-passes",
+          "example": "const { data: gamePasses } = await ClassicGamesApi.universeGamePasses({ universeId: 1685831367 });",
+          "exampleData": "[\n  {\n    id: 9063647,\n    name: \"Campers Club\",\n    displayName: \"Campers Club\",\n    productId: 975542678,\n    price: 350,\n    sellerName: \"MightyPart Games\",\n    sellerId: 1536374574,\n    isOwned: true,\n  },\n  {\n    id: 9260419,\n    name: \"Support Us\",\n    displayName: \"Support Us\",\n    productId: null,\n    price: null,\n    sellerName: \"MightyPart Games\",\n    sellerId: null,\n    isOwned: false,\n  },\n  {\n    id: 9260480,\n    name: \"Donate\",\n    displayName: \"Donate\",\n    productId: 979386303,\n    price: 15,\n    sellerName: \"MightyPart Games\",\n    sellerId: 1536374574,\n    isOwned: true,\n  },\n  {\n    id: 9820606,\n    name: \"Starterpack\",\n    displayName: \"Starterpack\",\n    productId: 995094227,\n    price: 100,\n    sellerName: \"MightyPart Games\",\n    sellerId: 1536374574,\n    isOwned: true,\n  },\n  {\n    id: 11546631,\n    name: \"Donate Plusss\",\n    displayName: \"Donate Plusss\",\n    productId: 1084063256,\n    price: 250,\n    sellerName: \"MightyPart Games\",\n    sellerId: 1536374574,\n    isOwned: false,\n  },\n  {\n    id: 880904271,\n    name: \"Name!!!\",\n    displayName: \"Name!!!\",\n    productId: null,\n    price: null,\n    sellerName: \"MightyPart Games\",\n    sellerId: null,\n    isOwned: true,\n  },\n  {\n    id: 880843288,\n    name: \"Name!!!1\",\n    displayName: \"Name!!!1\",\n    productId: null,\n    price: null,\n    sellerName: \"MightyPart Games\",\n    sellerId: null,\n    isOwned: true,\n  },\n  {\n    id: 880933261,\n    name: \"name!\",\n    displayName: \"name!\",\n    productId: null,\n    price: null,\n    sellerName: \"MightyPart Games\",\n    sellerId: null,\n    isOwned: true,\n  },\n  {\n    id: 880882288,\n    name: \"My Pass\",\n    displayName: \"My Pass\",\n    productId: null,\n    price: null,\n    sellerName: \"MightyPart Games\",\n    sellerId: null,\n    isOwned: true,\n  },\n  {\n    id: 880670566,\n    name: \"My Pass\",\n    displayName: \"My Pass\",\n    productId: null,\n    price: null,\n    sellerName: \"MightyPart Games\",\n    sellerId: null,\n    isOwned: true,\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: \"id_2zwAAAXGZdoHHzgCKTN8\",\n  nextPageCursor: null,\n  data: [\n    {\n      id: 9063647,\n      name: \"Campers Club\",\n      displayName: \"Campers Club\",\n      productId: 975542678,\n      price: 350,\n      sellerName: \"MightyPart Games\",\n      sellerId: 1536374574,\n      isOwned: true,\n    },\n    {\n      id: 9260419,\n      name: \"Support Us\",\n      displayName: \"Support Us\",\n      productId: null,\n      price: null,\n      sellerName: \"MightyPart Games\",\n      sellerId: null,\n      isOwned: false,\n    },\n    {\n      id: 9260480,\n      name: \"Donate\",\n      displayName: \"Donate\",\n      productId: 979386303,\n      price: 15,\n      sellerName: \"MightyPart Games\",\n      sellerId: 1536374574,\n      isOwned: true,\n    },\n    {\n      id: 9820606,\n      name: \"Starterpack\",\n      displayName: \"Starterpack\",\n      productId: 995094227,\n      price: 100,\n      sellerName: \"MightyPart Games\",\n      sellerId: 1536374574,\n      isOwned: true,\n    },\n    {\n      id: 11546631,\n      name: \"Donate Plusss\",\n      displayName: \"Donate Plusss\",\n      productId: 1084063256,\n      price: 250,\n      sellerName: \"MightyPart Games\",\n      sellerId: 1536374574,\n      isOwned: false,\n    },\n    {\n      id: 880904271,\n      name: \"Name!!!\",\n      displayName: \"Name!!!\",\n      productId: null,\n      price: null,\n      sellerName: \"MightyPart Games\",\n      sellerId: null,\n      isOwned: true,\n    },\n    {\n      id: 880843288,\n      name: \"Name!!!1\",\n      displayName: \"Name!!!1\",\n      productId: null,\n      price: null,\n      sellerName: \"MightyPart Games\",\n      sellerId: null,\n      isOwned: true,\n    },\n    {\n      id: 880933261,\n      name: \"name!\",\n      displayName: \"name!\",\n      productId: null,\n      price: null,\n      sellerName: \"MightyPart Games\",\n      sellerId: null,\n      isOwned: true,\n    },\n    {\n      id: 880882288,\n      name: \"My Pass\",\n      displayName: \"My Pass\",\n      productId: null,\n      price: null,\n      sellerName: \"MightyPart Games\",\n      sellerId: null,\n      isOwned: true,\n    },\n    {\n      id: 880670566,\n      name: \"My Pass\",\n      displayName: \"My Pass\",\n      productId: null,\n      price: null,\n      sellerName: \"MightyPart Games\",\n      sellerId: null,\n      isOwned: true,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get game passes for."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "SortOrder",
+            "description": "The order the results are sorted in."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
+          }
+        ]
+      },
+      "authedUserUniverseVoteStatus": {
+        "description": "Gets the authenticated users vote status for a particular universe.",
+        "tags": {
+          "endpoint": "GET /v1/games/{universeId}/votes/user",
+          "example": "const { data: voteStatus } = await ClassicGamesApi.authedUserUniverseVoteStatus({ universeId: 1685831367 });",
+          "exampleData": "{ canVote: false, userVote: true, reasonForNotVoteable: \"PlayGame\" }\n",
+          "exampleRawBody": "{ canVote: false, userVote: true, reasonForNotVoteable: \"PlayGame\" }\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get vote status for."
+          }
+        ]
+      },
+      "universesVoteStatus": {
+        "description": "Gets a list of vote statuses for multiple universes.",
+        "tags": {
+          "endpoint": "GET /v1/games/votes",
+          "example": "const { data: voteStatuses } = await ClassicGamesApi.universesVoteStatus({ universeIds: [1685831367] });",
+          "exampleData": "{ \"1685831367\": { upVotes: 78, downVotes: 14 } }\n",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "universeIds",
+            "type": "ArrayNonEmptyIfConst<UniverseId>",
+            "description": "The IDs of the universes to get vote statuses for. Cannot exceed a maximum of 100 IDs."
+          }
+        ]
+      },
+      "authedUserSetUniverseUpvote": {
+        "description": "Sets the upvote status for a particular universe for the authenticated user.",
+        "tags": {
+          "endpoint": "PATCH /v1/games/${universeId}/user-votes",
+          "example": "const { data: success } = await ClassicGamesApi.authedUserSetUniverseUpvote({ universeId: 1685831367, upvote: true });",
+          "exampleData": "",
+          "exampleRawBody": "{}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to upvote."
+          },
+          {
+            "name": "upvote",
+            "type": "boolean",
+            "description": "If the universe is to be upvoted."
+          }
+        ]
+      },
+      "vipServersAllowedForUniverse": {
+        "description": "Gets information about particular private servers.",
+        "tags": {
+          "endpoint": "GET /v1/private-servers",
+          "example": "const { data: vipServersAllowed } = await ClassicGamesApi.vipServersAllowedForUniverse({ universeId: 1685831367 });",
+          "exampleData": "",
+          "exampleRawBody": "{ privateServersEnabled: true }\n"
+        },
+        "params": [
+          {
+            "name": "privateServerIds",
+            "type": "🤷",
+            "description": "The IDs of the private servers to get info for."
+          }
+        ]
+      },
+      "authedUserCanUserBeInvitedToVipServer": {
+        "description": "Sees if a particular user can be invited to a vip server by the authenticated user.",
+        "tags": {
+          "endpoint": "GET /v1/vip-server/can-invite/{userId}",
+          "example": "const { data: canInviteData } = await ClassicGamesApi.authedUserCanUserBeInvitedToVipServer({ userId: 12345 });",
+          "exampleData": "{\n  canInvite: false,\n  doesOwnerPrivacyRestrictJoins: false,\n  inviteResponseType: 4,\n}\n",
+          "exampleRawBody": "{\n  canInvite: false,\n  doesOwnerPrivacyRestrictJoins: false,\n  inviteResponseType: 4,\n}\n"
+        },
+        "params": [
+          {
             "name": "userId",
-            "type": "🤷",
-            "description": "The id of the user to get games for."
+            "type": "Identifier",
+            "description": "The ID of the user to see if they are allowed to recieve an invite to a vip server."
+          }
+        ]
+      },
+      "vipServerInfo": {
+        "description": "Gets information about a particular vip server.",
+        "tags": {
+          "endpoint": "GET /v1/vip-servers/{vipServerId}",
+          "example": "const { data: serverInfo } = await ClassicGamesApi.vipServerInfo({ vipServerId: 1630945839 });",
+          "exampleData": "{\n  id: 1630945839,\n  name: \"Testing\",\n  game: {\n    id: 6430220996,\n    name: \"Get Id\",\n    rootPlace: { id: 18980972074, name: \"Get Id\" },\n  },\n  joinCode: \"70420354791950165689950670608627\",\n  active: true,\n  subscription: {\n    active: false,\n    expired: false,\n    expirationDate: \"2024-09-17T15:49:02.8879762Z\",\n    price: null,\n    canRenew: false,\n    hasInsufficientFunds: false,\n    hasRecurringProfile: true,\n    hasPriceChanged: true,\n  },\n  permissions: {\n    clanAllowed: false,\n    enemyClanId: null,\n    friendsAllowed: false,\n    users: [],\n  },\n  voiceSettings: { enabled: false },\n  link: \"https://www.roblox.com/games/18980972074?privateServerLinkCode=70420354791950165689950670608627\",\n}\n",
+          "exampleRawBody": "{\n  id: 1630945839,\n  name: \"Testing\",\n  game: {\n    id: 6430220996,\n    name: \"Get Id\",\n    rootPlace: { id: 18980972074, name: \"Get Id\" },\n  },\n  joinCode: \"70420354791950165689950670608627\",\n  active: true,\n  subscription: {\n    active: false,\n    expired: false,\n    expirationDate: \"2024-09-17T15:49:02.8879762Z\",\n    price: null,\n    canRenew: false,\n    hasInsufficientFunds: false,\n    hasRecurringProfile: true,\n    hasPriceChanged: true,\n  },\n  permissions: {\n    clanAllowed: false,\n    enemyClanId: null,\n    friendsAllowed: false,\n    users: [],\n  },\n  voiceSettings: { enabled: false },\n  link: \"https://www.roblox.com/games/18980972074?privateServerLinkCode=70420354791950165689950670608627\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "vipServerId",
+            "type": "VipServerId",
+            "description": "The ID of the vip server to get info for."
+          }
+        ]
+      },
+      "updateVipServer": {
+        "description": "Updates a vip server.",
+        "tags": {
+          "endpoint": "PATCH /v1/vip-servers/{vipServerId}",
+          "example": "const { data: serverInfo } = await ClassicGamesApi.updateVipServer({ vipServerId: 1630945839, name: \"New Name\" });",
+          "exampleData": "{\n  id: 1630945839,\n  name: \"New Name\",\n  game: {\n    id: 6430220996,\n    name: \"Get Id\",\n    rootPlace: { id: 18980972074, name: \"Get Id\" },\n  },\n  joinCode: \"70420354791950165689950670608627\",\n  active: true,\n  subscription: {\n    active: false,\n    expired: false,\n    expirationDate: \"2024-09-17T15:49:02.8879762Z\",\n    price: null,\n    canRenew: false,\n    hasInsufficientFunds: false,\n    hasRecurringProfile: true,\n    hasPriceChanged: true,\n  },\n  permissions: {\n    clanAllowed: false,\n    enemyClanId: null,\n    friendsAllowed: false,\n    users: [],\n  },\n  voiceSettings: { enabled: false },\n  link: \"https://www.roblox.com/games/18980972074?privateServerLinkCode=70420354791950165689950670608627\",\n}\n",
+          "exampleRawBody": "{\n  id: 1630945839,\n  name: \"New Name\",\n  game: {\n    id: 6430220996,\n    name: \"Get Id\",\n    rootPlace: { id: 18980972074, name: \"Get Id\" },\n  },\n  joinCode: \"70420354791950165689950670608627\",\n  active: true,\n  subscription: {\n    active: false,\n    expired: false,\n    expirationDate: \"2024-09-17T15:49:02.8879762Z\",\n    price: null,\n    canRenew: false,\n    hasInsufficientFunds: false,\n    hasRecurringProfile: true,\n    hasPriceChanged: true,\n  },\n  permissions: {\n    clanAllowed: false,\n    enemyClanId: null,\n    friendsAllowed: false,\n    users: [],\n  },\n  voiceSettings: { enabled: false },\n  link: \"https://www.roblox.com/games/18980972074?privateServerLinkCode=70420354791950165689950670608627\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "vipServerId",
+            "type": "VipServerId",
+            "description": "The ID of the vip server to update."
           },
           {
-            "name": "limit",
-            "type": "🤷",
-            "description": "The maximum amount of games to return."
+            "name": "name?",
+            "type": "Name",
+            "description": "The new name for the vip server."
           },
           {
-            "name": "sortOrder",
-            "type": "🤷",
-            "description": "The order the results are sorted it."
+            "name": "newJoinCode?",
+            "type": "boolean",
+            "description": "If the join code should be regenerated."
           },
           {
-            "name": "cursor",
-            "type": "🤷",
-            "description": "the paging cursor for the previous or next page."
+            "name": "active?",
+            "type": "Active",
+            "description": "If the vip server should be active."
+          }
+        ]
+      },
+      "updateVipServerVoiceSettings": {
+        "description": "Updates voice settings for a vip server.",
+        "tags": {
+          "endpoint": "PATCH /v1/vip-servers/{vipServerId}/voicesettings",
+          "example": "const { data: serverInfo } = await ClassicGamesApi.updateVipServerVoiceSettings({\n  vipServerId: 1630945839,\n  enabled: true,\n});",
+          "exampleData": "{ enabled: true }\n",
+          "exampleRawBody": "{ enabled: true }\n"
+        },
+        "params": [
+          {
+            "name": "vipServerId",
+            "type": "Identifier",
+            "description": "The ID of the vip server to update voice settings for."
+          },
+          {
+            "name": "enabled",
+            "type": "boolean",
+            "description": "If voice settings should be enabled."
+          }
+        ]
+      },
+      "universeMedia": {
+        "description": "Gets media for a particular universe.",
+        "tags": {
+          "endpoint": "GET /v2/games/{universeId}/media",
+          "example": "const { data: media } = await ClassicGamesApi.universeMedia({ universeId: 1685831367 });",
+          "exampleData": "[\n  {\n    assetTypeId: 1,\n    assetType: \"Image\",\n    imageId: 5130624799,\n    videoHash: null,\n    videoTitle: null,\n    approved: true,\n    altText: null,\n  },\n  {\n    assetTypeId: 1,\n    assetType: \"Image\",\n    imageId: 5030792576,\n    videoHash: null,\n    videoTitle: null,\n    approved: true,\n    altText: null,\n  },\n  {\n    assetTypeId: 1,\n    assetType: \"Image\",\n    imageId: 5030792559,\n    videoHash: null,\n    videoTitle: null,\n    approved: true,\n    altText: null,\n  },\n  {\n    assetTypeId: 1,\n    assetType: \"Image\",\n    imageId: 5055393500,\n    videoHash: null,\n    videoTitle: null,\n    approved: true,\n    altText: null,\n  },\n]\n",
+          "exampleRawBody": "{\n  data: [\n    {\n      assetTypeId: 1,\n      assetType: \"Image\",\n      imageId: 5130624799,\n      videoHash: null,\n      videoTitle: null,\n      approved: true,\n      altText: null,\n    },\n    {\n      assetTypeId: 1,\n      assetType: \"Image\",\n      imageId: 5030792576,\n      videoHash: null,\n      videoTitle: null,\n      approved: true,\n      altText: null,\n    },\n    {\n      assetTypeId: 1,\n      assetType: \"Image\",\n      imageId: 5030792559,\n      videoHash: null,\n      videoTitle: null,\n      approved: true,\n      altText: null,\n    },\n    {\n      assetTypeId: 1,\n      assetType: \"Image\",\n      imageId: 5055393500,\n      videoHash: null,\n      videoTitle: null,\n      approved: true,\n      altText: null,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get media for."
+          }
+        ]
+      },
+      "groupGames": {
+        "description": "Gets games made by a particular group.",
+        "tags": {
+          "endpoint": "GET /v2/groups/{groupId}/games",
+          "example": "const { data: games } = await ClassicGamesApi.groupGames({ groupId: 5850082 });",
+          "exampleData": "[\n  {\n    id: 2721703342,\n    name: \"RoCamping 2\",\n    description: null,\n    creator: { id: 5850082, type: \"Group\" },\n    rootPlace: { id: 7061026197, type: \"Place\" },\n    created: \"2021-07-07T18:50:52.77Z\",\n    updated: \"2021-10-09T15:01:02.147Z\",\n    placeVisits: 189,\n  },\n  {\n    id: 2148864919,\n    name: \"Nomadic\",\n    description: null,\n    creator: { id: 5850082, type: \"Group\" },\n    rootPlace: { id: 5967892302, type: \"Place\" },\n    created: \"2020-11-17T18:17:58.37Z\",\n    updated: \"2020-11-17T18:18:01.38Z\",\n    placeVisits: 0,\n  },\n  {\n    id: 1864457335,\n    name: \"RoCamping but it's 100 players\",\n    description: \"NOTE: This is a meme game, we don't really update this game\\r\\n\\r\\nALSO NOTE: I sure it'll be chaotic if you play in a full server.\\r\\n\\r\\nRoCamping is a fun adventure game where the end-goal is to create the best camp ever. Gather resources, chop down trees, go down caves and much more! Start your journey today!\",\n    creator: { id: 5850082, type: \"Group\" },\n    rootPlace: { id: 5323662969, type: \"Place\" },\n    created: \"2020-07-10T14:59:42.607Z\",\n    updated: \"2020-07-11T01:02:53.91Z\",\n    placeVisits: 1,\n  },\n  {\n    id: 1840468091,\n    name: \"RO-FACTOR\",\n    description: null,\n    creator: { id: 5850082, type: \"Group\" },\n    rootPlace: { id: 5255036322, type: \"Place\" },\n    created: \"2020-06-29T16:57:48.19Z\",\n    updated: \"2021-10-09T15:00:45.08Z\",\n    placeVisits: 109,\n  },\n  {\n    id: 1685831367,\n    name: \"RoCamping\",\n    description: \"RoCamping is a fun adventure game where the end-goal is to create the best camp ever. Gather resources, chop down trees, go down caves and much more! Start your journey today!\\r\\n\\r\\nNOTE: RoCamping is still in BETA so expect there to be glitches, if you find a glitch then don't hesitate to join our group and report it there.\\r\\n\\r\\nCurrent Version: BETA v3,0\\r\\n\\r\\nalvinblox\",\n    creator: { id: 5850082, type: \"Group\" },\n    rootPlace: { id: 4922741943, type: \"Place\" },\n    created: \"2020-04-20T20:36:21.117Z\",\n    updated: \"2022-05-27T16:36:40.1Z\",\n    placeVisits: 2721,\n  },\n  {\n    id: 1651554338,\n    name: \"Ninjas Unleashed: Legion\",\n    description: \"No secret projects here\\r\\nScriptor/Game Designer - NamelessGuy2005\\r\\nBuilder/Animator - Flaroh\\r\\n\",\n    creator: { id: 5850082, type: \"Group\" },\n    rootPlace: { id: 4857762148, type: \"Place\" },\n    created: \"2020-04-04T13:17:08.12Z\",\n    updated: \"2020-04-20T15:37:55.803Z\",\n    placeVisits: 16,\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: \"0_2_f7e8a87d65742375fdea66bbd6c77728\",\n  nextPageCursor: null,\n  data: [\n    {\n      id: 2721703342,\n      name: \"RoCamping 2\",\n      description: null,\n      creator: { id: 5850082, type: \"Group\" },\n      rootPlace: { id: 7061026197, type: \"Place\" },\n      created: \"2021-07-07T18:50:52.77Z\",\n      updated: \"2021-10-09T15:01:02.147Z\",\n      placeVisits: 189,\n    },\n    {\n      id: 2148864919,\n      name: \"Nomadic\",\n      description: null,\n      creator: { id: 5850082, type: \"Group\" },\n      rootPlace: { id: 5967892302, type: \"Place\" },\n      created: \"2020-11-17T18:17:58.37Z\",\n      updated: \"2020-11-17T18:18:01.38Z\",\n      placeVisits: 0,\n    },\n    {\n      id: 1864457335,\n      name: \"RoCamping but it's 100 players\",\n      description: \"NOTE: This is a meme game, we don't really update this game\\r\\n\\r\\nALSO NOTE: I sure it'll be chaotic if you play in a full server.\\r\\n\\r\\nRoCamping is a fun adventure game where the end-goal is to create the best camp ever. Gather resources, chop down trees, go down caves and much more! Start your journey today!\",\n      creator: { id: 5850082, type: \"Group\" },\n      rootPlace: { id: 5323662969, type: \"Place\" },\n      created: \"2020-07-10T14:59:42.607Z\",\n      updated: \"2020-07-11T01:02:53.91Z\",\n      placeVisits: 1,\n    },\n    {\n      id: 1840468091,\n      name: \"RO-FACTOR\",\n      description: null,\n      creator: { id: 5850082, type: \"Group\" },\n      rootPlace: { id: 5255036322, type: \"Place\" },\n      created: \"2020-06-29T16:57:48.19Z\",\n      updated: \"2021-10-09T15:00:45.08Z\",\n      placeVisits: 109,\n    },\n    {\n      id: 1685831367,\n      name: \"RoCamping\",\n      description: \"RoCamping is a fun adventure game where the end-goal is to create the best camp ever. Gather resources, chop down trees, go down caves and much more! Start your journey today!\\r\\n\\r\\nNOTE: RoCamping is still in BETA so expect there to be glitches, if you find a glitch then don't hesitate to join our group and report it there.\\r\\n\\r\\nCurrent Version: BETA v3,0\\r\\n\\r\\nalvinblox\",\n      creator: { id: 5850082, type: \"Group\" },\n      rootPlace: { id: 4922741943, type: \"Place\" },\n      created: \"2020-04-20T20:36:21.117Z\",\n      updated: \"2022-05-27T16:36:40.1Z\",\n      placeVisits: 2721,\n    },\n    {\n      id: 1651554338,\n      name: \"Ninjas Unleashed: Legion\",\n      description: \"No secret projects here\\r\\nScriptor/Game Designer - NamelessGuy2005\\r\\nBuilder/Animator - Flaroh\\r\\n\",\n      creator: { id: 5850082, type: \"Group\" },\n      rootPlace: { id: 4857762148, type: \"Place\" },\n      created: \"2020-04-04T13:17:08.12Z\",\n      updated: \"2020-04-20T15:37:55.803Z\",\n      placeVisits: 16,\n    },\n  ],\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "GroupId",
+            "description": "The ID of the group to get games for."
+          },
+          {
+            "name": "accessFilter?",
+            "type": "1 | 2 | 4",
+            "description": "Filters the returned games by an access filter."
+          },
+          {
+            "name": "limit?",
+            "type": "10 | 25 | 50 | 100",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "sortOrder?",
+            "type": "SortOrder",
+            "description": "The order the results are sorted in."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
           }
         ]
       },
@@ -3466,9 +5163,9 @@
         "description": "Gets a list of games made by a specific user.",
         "tags": {
           "endpoint": "GET /v2/users/{userId}/games",
-          "example": "",
-          "exampleData": "",
-          "exampleRawBody": ""
+          "example": "const { data: games } = await ClassicGamesApi.userGames({ userId: 45348281 });",
+          "exampleData": "[\n  {\n    id: 6430220996,\n    name: \"Get Id\",\n    description: \"\",\n    creator: { id: 45348281, type: \"User\" },\n    rootPlace: { id: 18980972074, type: \"Place\" },\n    created: \"2024-08-17T12:47:01.458Z\",\n    updated: \"2024-08-17T12:48:42.181Z\",\n    placeVisits: 0,\n  },\n  {\n    id: 6041794959,\n    name: \"Octree Terrain\",\n    description: null,\n    creator: { id: 45348281, type: \"User\" },\n    rootPlace: { id: 17642363611, type: \"Place\" },\n    created: \"2024-05-28T03:10:40.847Z\",\n    updated: \"2024-08-14T09:24:03.800Z\",\n    placeVisits: 0,\n  },\n  {\n    id: 5638577595,\n    name: \"New name!\",\n    description: null,\n    creator: { id: 45348281, type: \"User\" },\n    rootPlace: { id: 16349154726, type: \"Place\" },\n    created: \"2024-02-13T02:39:58.590Z\",\n    updated: \"2024-07-17T23:48:51.577Z\",\n    placeVisits: 7,\n  },\n  {\n    id: 5587129688,\n    name: \"InventorySystem\",\n    description: null,\n    creator: { id: 45348281, type: \"User\" },\n    rootPlace: { id: 16175332793, type: \"Place\" },\n    created: \"2024-01-30T14:49:01.037Z\",\n    updated: \"2024-01-30T14:58:18.877Z\",\n    placeVisits: 0,\n  },\n  {\n    id: 5529979812,\n    name: \"ChunkLoader\",\n    description: null,\n    creator: { id: 45348281, type: \"User\" },\n    rootPlace: { id: 15995287896, type: \"Place\" },\n    created: \"2024-01-15T16:42:51.047Z\",\n    updated: \"2024-01-16T17:27:36.540Z\",\n    placeVisits: 0,\n  },\n  {\n    id: 5411380627,\n    name: \"Tiny Glade Recreation\",\n    description: null,\n    creator: { id: 45348281, type: \"User\" },\n    rootPlace: { id: 15666536580, type: \"Place\" },\n    created: \"2023-12-17T19:16:33.380Z\",\n    updated: \"2023-12-19T19:00:58.817Z\",\n    placeVisits: 6,\n  },\n  {\n    id: 5243131845,\n    name: \"Test Game\",\n    description: null,\n    creator: { id: 45348281, type: \"User\" },\n    rootPlace: { id: 15208361152, type: \"Place\" },\n    created: \"2023-10-29T16:03:43.603Z\",\n    updated: \"2023-10-29T16:04:15.920Z\",\n    placeVisits: 0,\n  },\n  {\n    id: 5097539509,\n    name: \"DatastoreTest1\",\n    description: null,\n    creator: { id: 45348281, type: \"User\" },\n    rootPlace: { id: 14790444893, type: \"Place\" },\n    created: \"2023-09-16T10:55:13.767Z\",\n    updated: \"2023-09-19T09:51:54.117Z\",\n    placeVisits: 0,\n  },\n  {\n    id: 5076006380,\n    name: \"DynamicTerrain\",\n    description: null,\n    creator: { id: 45348281, type: \"User\" },\n    rootPlace: { id: 14724555168, type: \"Place\" },\n    created: \"2023-09-09T06:54:43.173Z\",\n    updated: \"2023-09-20T19:28:02.660Z\",\n    placeVisits: 0,\n  },\n  {\n    id: 4621449053,\n    name: \"TerrainGen15\",\n    description: null,\n    creator: { id: 45348281, type: \"User\" },\n    rootPlace: { id: 13257759048, type: \"Place\" },\n    created: \"2023-04-26T12:48:16.137Z\",\n    updated: \"2023-05-20T21:33:10.770Z\",\n    placeVisits: 0,\n  },\n]\n",
+          "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: \"10_1_7a425d1039a04d17a68f267f83ee3d41\",\n  data: [\n    {\n      id: 6430220996,\n      name: \"Get Id\",\n      description: \"\",\n      creator: { id: 45348281, type: \"User\" },\n      rootPlace: { id: 18980972074, type: \"Place\" },\n      created: \"2024-08-17T12:47:01.4582503Z\",\n      updated: \"2024-08-17T12:48:42.1812674Z\",\n      placeVisits: 0,\n    },\n    {\n      id: 6041794959,\n      name: \"Octree Terrain\",\n      description: null,\n      creator: { id: 45348281, type: \"User\" },\n      rootPlace: { id: 17642363611, type: \"Place\" },\n      created: \"2024-05-28T03:10:40.847Z\",\n      updated: \"2024-08-14T09:24:03.8Z\",\n      placeVisits: 0,\n    },\n    {\n      id: 5638577595,\n      name: \"New name!\",\n      description: null,\n      creator: { id: 45348281, type: \"User\" },\n      rootPlace: { id: 16349154726, type: \"Place\" },\n      created: \"2024-02-13T02:39:58.59Z\",\n      updated: \"2024-07-17T23:48:51.577Z\",\n      placeVisits: 7,\n    },\n    {\n      id: 5587129688,\n      name: \"InventorySystem\",\n      description: null,\n      creator: { id: 45348281, type: \"User\" },\n      rootPlace: { id: 16175332793, type: \"Place\" },\n      created: \"2024-01-30T14:49:01.037Z\",\n      updated: \"2024-01-30T14:58:18.877Z\",\n      placeVisits: 0,\n    },\n    {\n      id: 5529979812,\n      name: \"ChunkLoader\",\n      description: null,\n      creator: { id: 45348281, type: \"User\" },\n      rootPlace: { id: 15995287896, type: \"Place\" },\n      created: \"2024-01-15T16:42:51.047Z\",\n      updated: \"2024-01-16T17:27:36.54Z\",\n      placeVisits: 0,\n    },\n    {\n      id: 5411380627,\n      name: \"Tiny Glade Recreation\",\n      description: null,\n      creator: { id: 45348281, type: \"User\" },\n      rootPlace: { id: 15666536580, type: \"Place\" },\n      created: \"2023-12-17T19:16:33.38Z\",\n      updated: \"2023-12-19T19:00:58.817Z\",\n      placeVisits: 6,\n    },\n    {\n      id: 5243131845,\n      name: \"Test Game\",\n      description: null,\n      creator: { id: 45348281, type: \"User\" },\n      rootPlace: { id: 15208361152, type: \"Place\" },\n      created: \"2023-10-29T16:03:43.603Z\",\n      updated: \"2023-10-29T16:04:15.92Z\",\n      placeVisits: 0,\n    },\n    {\n      id: 5097539509,\n      name: \"DatastoreTest1\",\n      description: null,\n      creator: { id: 45348281, type: \"User\" },\n      rootPlace: { id: 14790444893, type: \"Place\" },\n      created: \"2023-09-16T10:55:13.767Z\",\n      updated: \"2023-09-19T09:51:54.117Z\",\n      placeVisits: 0,\n    },\n    {\n      id: 5076006380,\n      name: \"DynamicTerrain\",\n      description: null,\n      creator: { id: 45348281, type: \"User\" },\n      rootPlace: { id: 14724555168, type: \"Place\" },\n      created: \"2023-09-09T06:54:43.173Z\",\n      updated: \"2023-09-20T19:28:02.66Z\",\n      placeVisits: 0,\n    },\n    {\n      id: 4621449053,\n      name: \"TerrainGen15\",\n      description: null,\n      creator: { id: 45348281, type: \"User\" },\n      rootPlace: { id: 13257759048, type: \"Place\" },\n      created: \"2023-04-26T12:48:16.137Z\",\n      updated: \"2023-05-20T21:33:10.77Z\",\n      placeVisits: 0,\n    },\n  ],\n}\n"
         },
         "params": [
           {
@@ -3512,14 +5209,46 @@
         ]
       },
       "setFeaturedEvent": {
-        "description": "Sets the featured event for a group.",
+        "description": "Sets a featured event for a group.",
         "tags": {
-          "endpoint": "REST /...",
-          "example": "",
+          "endpoint": "POST /v1/featured-content/event",
+          "example": "const { data: eventId } = await ClassicGroupsApi.setFeaturedEvent({\n  groupId: 15842838,\n  eventId: \"5904751593700196492\",\n});",
+          "exampleData": "",
+          "exampleRawBody": "{\n  groupId: 15842838,\n  contentType: \"event\",\n  contentId: \"6533473338141704368\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The ID of the group to set the event for."
+          },
+          {
+            "name": "eventId",
+            "type": "EventId",
+            "description": "The ID of the event to set."
+          }
+        ]
+      },
+      "removeFeaturedEvent": {
+        "description": "Removes a featured event for a group.",
+        "tags": {
+          "endpoint": "POST /v1/featured-content/event",
+          "example": "const { data: success } = await ClassicGroupsApi.removeFeaturedEvent({\n  groupId: 15842838,\n  eventId: \"5904751593700196492\",\n});",
           "exampleData": "",
           "exampleRawBody": ""
         },
-        "params": []
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The ID of the group to remove the event from."
+          },
+          {
+            "name": "eventId",
+            "type": "EventId",
+            "description": "The ID of the event to remove."
+          }
+        ]
       },
       "groupInfo": {
         "description": "Gets information about a group.",
@@ -3539,13 +5268,13 @@
           }
         ]
       },
-      "groupAuditLog": {
+      "groupAuditLogs": {
         "description": "Gets audit log entries for a group.",
         "tags": {
           "category": "Groups",
           "endpoint": "GET /v1/groups/{groupId}/audit-log",
           "tags": "[ \"Cookie\" ]",
-          "example": "const { data: auditLog } = await ClassicGroupsApi.groupAuditLog({ groupId: 5850082 });",
+          "example": "const { data: auditLog } = await ClassicGroupsApi.groupAuditLogs({ groupId: 5850082 });",
           "exampleData": "{\n  previousPageCursor: null,\n  nextPageCursor: null,\n  data: [\n    {\n      actor: {\n        user: {\n          hasVerifiedBadge: false,\n          userId: 45348281,\n          username: \"MightyPart\",\n          displayName: \"MightyPart\",\n        },\n        role: {\n          id: 38353811,\n          name: \"NamelessGuy2005 - Scriptor\",\n          rank: 255,\n        },\n      },\n      actionType: \"Accept Ally Request\",\n      description: {\n        TargetGroupId: 6333562,\n        TargetGroupName: \"Mine Ways Talk Show\",\n      },\n      created: \"2020-05-18T12:06:34Z\",\n    },\n    {\n      actor: {\n        user: {\n          hasVerifiedBadge: false,\n          userId: 45348281,\n          username: \"MightyPart\",\n          displayName: \"MightyPart\",\n        },\n        role: {\n          id: 38353811,\n          name: \"NamelessGuy2005 - Scriptor\",\n          rank: 255,\n        },\n      },\n      actionType: \"Accept Ally Request\",\n      description: {\n        TargetGroupId: 5257567,\n        TargetGroupName: \"The X1 Team\",\n      },\n      created: \"2020-05-13T13:52:57Z\",\n    },\n    {\n      actor: {\n        user: {\n          hasVerifiedBadge: false,\n          userId: 45348281,\n          username: \"MightyPart\",\n          displayName: \"MightyPart\",\n        },\n        role: {\n          id: 38353811,\n          name: \"NamelessGuy2005 - Scriptor\",\n          rank: 255,\n        },\n      },\n      actionType: \"Accept Ally Request\",\n      description: {\n        TargetGroupId: 5894486,\n        TargetGroupName: \"Sky-Blox Studio\",\n      },\n      created: \"2020-05-13T13:52:56Z\",\n    },\n  ],\n}\n",
           "exampleRawBody": "[\n  {\n    actor: {\n      user: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      role: {\n        id: 38353811,\n        name: \"NamelessGuy2005 - Scriptor\",\n        rank: 255,\n      },\n    },\n    actionType: \"AcceptAllyRequest\",\n    description: {\n      targetGroupId: 6333562,\n      targetGroupName: \"Mine Ways Talk Show\",\n    },\n    created: \"2020-05-18T12:06:34Z\",\n  },\n  {\n    actor: {\n      user: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      role: {\n        id: 38353811,\n        name: \"NamelessGuy2005 - Scriptor\",\n        rank: 255,\n      },\n    },\n    actionType: \"AcceptAllyRequest\",\n    description: {\n      targetGroupId: 5257567,\n      targetGroupName: \"The X1 Team\",\n    },\n    created: \"2020-05-13T13:52:57Z\",\n  },\n  {\n    actor: {\n      user: {\n        hasVerifiedBadge: false,\n        userId: 45348281,\n        username: \"MightyPart\",\n        displayName: \"MightyPart\",\n      },\n      role: {\n        id: 38353811,\n        name: \"NamelessGuy2005 - Scriptor\",\n        rank: 255,\n      },\n    },\n    actionType: \"AcceptAllyRequest\",\n    description: {\n      targetGroupId: 5894486,\n      targetGroupName: \"Sky-Blox Studio\",\n    },\n    created: \"2020-05-13T13:52:56Z\",\n  },\n]\n"
         },
@@ -4719,7 +6448,7 @@
         "tags": {
           "category": "Roles",
           "endpoint": "GET /v1/roles",
-          "example": "const { data: roles } = await ClassicGroupsApi.groupRolesFromIds([38353811]);",
+          "example": "const { data: roles } = await ClassicGroupsApi.groupRolesFromIds({ roleIds: [38353811] });",
           "exampleData": "{\n  \"38353811\": {\n    groupId: 5850082,\n    name: \"NamelessGuy2005 - Scriptor\",\n    rank: 255,\n  },\n}\n",
           "exampleRawBody": "{\n  data: [\n    {\n      groupId: 5850082,\n      id: 38353811,\n      name: \"NamelessGuy2005 - Scriptor\",\n      rank: 255,\n    },\n  ],\n}\n"
         },
@@ -4803,12 +6532,12 @@
           }
         ]
       },
-      "groupIdsToGroupsInfo": {
+      "groupsInfo": {
         "description": "Gets information about multiple groups.",
         "tags": {
           "category": "Groups",
           "endpoint": "GET /v2/groups",
-          "example": "const { data: groupsInfo } = await ClassicGroupsApi.groupIdsToGroupsInfo({ groupIds: [5850082] });",
+          "example": "const { data: groupsInfo } = await ClassicGroupsApi.groupsInfo({ groupIds: [5850082] });",
           "exampleData": "{\n  \"5850082\": {\n    name: \"MightyPart Games\",\n    description: \"Welcome to my amazing group\",\n    owner: { id: 45348281, type: \"User\" },\n    created: \"2020-03-29T18:15:20.100Z\",\n    hasVerifiedBadge: false,\n  },\n}\n",
           "exampleRawBody": "{\n  data: [\n    {\n      id: 5850082,\n      name: \"MightyPart Games\",\n      description: \"Welcome to my amazing group\",\n      owner: { id: 45348281, type: \"User\" },\n      created: \"2020-03-29T18:15:20.1Z\",\n      hasVerifiedBadge: false,\n    },\n  ],\n}\n"
         },
@@ -5745,8 +7474,7 @@
           }
         ]
       },
-      "gamesIcons": {
-        "description": "Gets thumbnail icon for multiple games.",
+      "gamesThumbnails": {
         "tags": {
           "category": "Games",
           "endpoint": "GET /v1/games/icons",
@@ -5761,13 +7489,13 @@
             "description": "The ids of the universes to get the thumbnail icons from."
           },
           {
-            "name": "returnPolicy?",
-            "type": "ThumbnailReturnPolicy",
+            "name": "returnPolicy",
+            "type": "🤷",
             "description": "The policy to use in selecting the thumbnail icons to return."
           },
           {
             "name": "size?",
-            "type": "GamesIconSize",
+            "type": "GameThumbnailSize",
             "description": "The thumbnail icons size (formatted as {width}x{height})."
           },
           {
@@ -5779,48 +7507,6 @@
             "name": "isCircular?",
             "type": "boolean",
             "description": "Dictates if the thumbnail icons should be masked by a circle."
-          }
-        ]
-      },
-      "gamesThumbnails": {
-        "description": "Gets thumbnail(s) for multiple games.",
-        "tags": {
-          "category": "Games",
-          "endpoint": "GET /v1/games/multiget/thumbnails",
-          "example": "const { data: gamesThumbnails } = await ClassicThumbnailsApi.gamesThumbnails({ universeIds: [1685831367] });",
-          "exampleData": "{\n  \"1685831367\": {\n    error: null,\n    thumbnails: [\n      {\n        targetId: 5130624799,\n        state: \"Completed\",\n        imageUrl: \"https://tr.rbxcdn.com/611f558eaab21d31a688b0523cb12433/480/270/Image/Webp\",\n        version: \"TN2\",\n      },\n    ],\n  },\n}\n",
-          "exampleRawBody": "{\n  data: [\n    {\n      error: null,\n      thumbnails: [\n        {\n          targetId: 5130624799,\n          state: \"Completed\",\n          imageUrl: \"https://tr.rbxcdn.com/611f558eaab21d31a688b0523cb12433/480/270/Image/Webp\",\n          version: \"TN2\",\n        },\n      ],\n    },\n  ],\n}\n"
-        },
-        "params": [
-          {
-            "name": "universeIds",
-            "type": "ArrayNonEmptyIfConst<UniverseId>",
-            "description": "The ids of the universe to get thumbnails for."
-          },
-          {
-            "name": "countPerUniverse?",
-            "type": "number",
-            "description": "The amount of thumbnails to return for each universe"
-          },
-          {
-            "name": "defaults?",
-            "type": "boolean",
-            "description": "True if defaults (if any) should be returned if no media exists."
-          },
-          {
-            "name": "size?",
-            "type": "GameThumbnailSize",
-            "description": "The thumbnails size (formatted as {width}x{height})."
-          },
-          {
-            "name": "format?",
-            "type": "ThumbnailFormat",
-            "description": "Specifies the format of the thumbnails."
-          },
-          {
-            "name": "isCircular?",
-            "type": "boolean",
-            "description": "Dictates if the thumbnails should be masked by a circle."
           }
         ]
       },
@@ -5889,7 +7575,7 @@
           },
           {
             "name": "size?",
-            "type": "PlaceThumbnailSize",
+            "type": "GamesIconSize",
             "description": "The thumbnails size (formatted as {width}x{height})."
           },
           {

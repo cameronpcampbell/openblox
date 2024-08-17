@@ -439,7 +439,7 @@ export const vipServerInfo = addApiMethod(async <VipServerId extends Identifier>
  * @param newJoinCode If the join code should be regenerated.
  * @param active If the vip server should be active.
  * 
- * @example const { data:serverInfo } = await ClassicGamesApi.updateVipServer({ vipServerId: , name: "New Name" })
+ * @example const { data:serverInfo } = await ClassicGamesApi.updateVipServer({ vipServerId: 1630945839, name: "New Name" })
  * @exampleData {"id":1630945839,"name":"New Name","game":{"id":6430220996,"name":"Get Id","rootPlace":{"id":18980972074,"name":"Get Id"}},"joinCode":"70420354791950165689950670608627","active":true,"subscription":{"active":false,"expired":false,"expirationDate":"2024-09-17T15:49:02.8879762Z","price":null,"canRenew":false,"hasInsufficientFunds":false,"hasRecurringProfile":true,"hasPriceChanged":true},"permissions":{"clanAllowed":false,"enemyClanId":null,"friendsAllowed":false,"users":[]},"voiceSettings":{"enabled":false},"link":"https://www.roblox.com/games/18980972074?privateServerLinkCode=70420354791950165689950670608627"} 
  * @exampleRawBody {"id":1630945839,"name":"New Name","game":{"id":6430220996,"name":"Get Id","rootPlace":{"id":18980972074,"name":"Get Id"}},"joinCode":"70420354791950165689950670608627","active":true,"subscription":{"active":false,"expired":false,"expirationDate":"2024-09-17T15:49:02.8879762Z","price":null,"canRenew":false,"hasInsufficientFunds":false,"hasRecurringProfile":true,"hasPriceChanged":true},"permissions":{"clanAllowed":false,"enemyClanId":null,"friendsAllowed":false,"users":[]},"voiceSettings":{"enabled":false},"link":"https://www.roblox.com/games/18980972074?privateServerLinkCode=70420354791950165689950670608627"} 
  */
@@ -463,7 +463,7 @@ export const updateVipServer = addApiMethod(async <
  * @param vipServerId The ID of the vip server to update voice settings for.
  * @param enabled If voice settings should be enabled.
  * 
- * @example
+ * @example const { data:serverInfo } = await ClassicGamesApi.updateVipServerVoiceSettings({ vipServerId: 1630945839, enabled: true })
  * @exampleData { "enabled": true }
  * @exampleRawBody { "enabled": true }
  */
