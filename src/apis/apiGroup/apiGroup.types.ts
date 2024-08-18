@@ -20,7 +20,7 @@ type ApiMethodCursorKeys = "cursor" | "startRowIndex" | "pageNumber"
 type ApiMethodResponseFromMethod<
   MethodData extends ApiMethodData, ArgsContainCursor extends boolean
 > = ApiMethodResponse<
-  Exclude<MethodData["_$PRIVATE_RAW_DATA"], undefined>, Exclude<MethodData["_$PRIVATE_FORMATTED_DATA"], undefined>, ArgsContainCursor
+  Exclude<MethodData["🔒__PRIVATE_RAW_DATA"], undefined>, Exclude<MethodData["🔒__PRIVATE_FORMATTED_DATA"], undefined>, ArgsContainCursor
 >
 
 type AddApiMethodFn = <Args extends Record<any, any>, MethodData extends ApiMethodData>(handlerFn: AddApiMethodHandlerFn<Args, MethodData>) => (
@@ -82,8 +82,8 @@ type ApiMethodData<
 
   getCursorsFn?: (rawData: _PrettifiedRawData) => ([ previous: Cursor, next: Cursor ]),
 
-  "_$PRIVATE_RAW_DATA"?: _PrettifiedRawData,
-  "_$PRIVATE_FORMATTED_DATA"?: _PrettifiedFormattedData,
+  "🔒__PRIVATE_RAW_DATA"?: _PrettifiedRawData,
+  "🔒__PRIVATE_FORMATTED_DATA"?: _PrettifiedFormattedData,
 } & (
   FormattedData extends undefined ? {}
   : ApiMethodDataFormatRawData<RawData, _FormattedData>

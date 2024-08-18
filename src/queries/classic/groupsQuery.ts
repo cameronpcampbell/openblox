@@ -1,13 +1,14 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
-import { ClassicGroupsApi } from "../../apis/classic"
+import { ClassicEconomyApi, ClassicGroupsApi } from "../../apis/classic"
 import { addObjectToFunction, pollForLatest } from "../queries.utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { Identifier, ObjectPrettify } from "typeforge"
-import type { PollConfig } from "../../helpers"
+import { poll, type PollConfig } from "../../helpers"
 import type { GroupAuditLogActionType, PrettifiedGroupAuditLogsData, PrettifiedGroupJoinRequests, PrettifiedGroupWallPostsData_V2 } from "../../apis/classic/groups/groups.types"
+import { PrettifiedGroupTransactionHistoryData } from "../../apis/classic/economy/economy.types"
 
 export type ClassicGroups_Events = {
   "auditLog": PrettifiedGroupAuditLogsData<GroupAuditLogActionType>[number],
@@ -23,7 +24,11 @@ export type ClassicGroups_Events = {
     PrettifiedGroupWallPostsData_V2[number] & {
       remove: VoidFunction
     }
-  >
+  >,
+
+  "transaction:sale": ObjectPrettify<PrettifiedGroupTransactionHistoryData<"Sale">>,
+
+  "transaction:advanceRebate": ObjectPrettify<PrettifiedGroupTransactionHistoryData<"PublishingAdvanceRebates">>,
 }
 
 type EventType = keyof ClassicGroups_Events
@@ -117,6 +122,18 @@ export const ClassicGroups = addObjectToFunction(
           ClassicGroupsApi.groupWallPosts_V2, { groupId, limit: 25, sortOrder: "Desc" }, "created",
           { iterations: config?.iterations ?? 2, multiplyer: config?.multiplyer ?? 5000, retryOffset: config?.retryOffset ?? 1, debug: config?.debug },
           async wallPosts => await prepareAndSubmitWallPostsPage(wallPosts, handlerFn as any, groupId)
+        ) as Name extends EventType ? Promise<void> : never
+
+        case "transaction:sale": return pollForLatest(
+          ClassicEconomyApi.groupTransactionHistory, { groupId, limit: 25, transactionType: "Sale" }, "created",
+          { iterations: config?.iterations ?? 2, multiplyer: config?.multiplyer ?? 5000, retryOffset: config?.retryOffset ?? 1, debug: config?.debug },
+          async newResults => await Promise.allSettled(newResults.map(result => handlerFn(result as any)))
+        ) as Name extends EventType ? Promise<void> : never
+
+        case "transaction:advanceRebate": return pollForLatest(
+          ClassicEconomyApi.groupTransactionHistory, { groupId, limit: 25, transactionType: "PublishingAdvanceRebates" }, "created",
+          { iterations: config?.iterations ?? 2, multiplyer: config?.multiplyer ?? 5000, retryOffset: config?.retryOffset ?? 1, debug: config?.debug },
+          async newResults => await Promise.allSettled(newResults.map(result => handlerFn(result as any)))
         ) as Name extends EventType ? Promise<void> : never
       }
 

@@ -29,7 +29,7 @@ export type OpenbloxConfig = {
 const initialCookie = process.env.ROBLOX_COOKIE
 
 export const config: OpenbloxConfig = {
-  cookie: (initialCookie && `.ROBLOSECURITY=${initialCookie}`) as any as RobloxCookie | undefined,
+  cookie: (initialCookie && `.ROBLOSECURITY=${initialCookie}; RBXEventTrackerV2=CreateDate=1/1/1 1:1:1 PM&rbxid=1&browserid=1;`) as any as RobloxCookie | undefined,
   cloudKey: process.env.ROBLOX_CLOUD_KEY,
 
   cache: { default: TtlCacheAdapter({ included: { lifetime: 300 } }) }
@@ -69,7 +69,7 @@ function mergeDeepConfigs(target: Record<any, any>, ...sources: Record<any, any>
 
 export const setConfig = (newConfig: OpenbloxConfig) => {
   const newConfigCookie = newConfig?.cookie
-  if (newConfigCookie) newConfig.cookie = `.ROBLOSECURITY=${newConfigCookie}` as any
+  if (newConfigCookie) newConfig.cookie = `.ROBLOSECURITY=${newConfigCookie}; RBXEventTrackerV2=CreateDate=1/1/1 1:1:1 PM&rbxid=1&browserid=1;` as any
 
   Object.keys(config).forEach(key => delete config[key as keyof OpenbloxConfig])
   Object.assign(config, newConfig)
@@ -77,7 +77,7 @@ export const setConfig = (newConfig: OpenbloxConfig) => {
 
 export const updateConfig = (updateConfigWith: OpenbloxConfig) => {
   const updateConfigWithCookie = updateConfigWith?.cookie
-  if (updateConfigWithCookie) updateConfigWith.cookie = `.ROBLOSECURITY=${updateConfigWithCookie}` as any
+  if (updateConfigWithCookie) updateConfigWith.cookie = `.ROBLOSECURITY=${updateConfigWithCookie}; RBXEventTrackerV2=CreateDate=1/1/1 1:1:1 PM&rbxid=1&browserid=1;` as any
 
   mergeDeepConfigs(config, updateConfigWith)
 }
