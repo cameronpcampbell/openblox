@@ -43,15 +43,21 @@ type DeepLinkParseReturns<DeepLink extends any, PlaceId, LaunchData extends bool
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
+const base64Regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/
+
 const placeIdsRegex = /placeId=([0-9]+)(?:.*placeId=([0-9]+))?/
 const launchDataRegex = /launchData=([^&]+)(?:.*launchData=([^&]+))?/
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Private Functions ] /////////////////////////////////////////////////////////
-const parseLaunchData = (launchData: string | null | undefined) => {
+const parseLaunchData = (launchData: string | null | undefined, decodeBase64?: boolean) => {
   if (!launchData) return null
   launchData = decodeURIComponent(launchData)
+
+  if (decodeBase64 === undefined || decodeBase64 === true) {
+    if (base64Regex.test(launchData)) launchData = atob(launchData)
+  }
 
   try { return JSON.parse(launchData) }
   catch { return launchData }
@@ -67,7 +73,7 @@ export const deepLinkParse = <
   > : never),
   PlaceIds extends (ExtractedData extends [ infer PlaceIds, boolean[] ] ? PlaceIds : never),
   LaunchData extends (ExtractedData extends [ string[], infer HasLaunchData ] ? HasLaunchData : never)
->(deepLink: DeepLink): DeepLinkParseReturns<DeepLink, PlaceIds, LaunchData> => {
+>(deepLink: DeepLink, decodeBase64?: boolean): DeepLinkParseReturns<DeepLink, PlaceIds, LaunchData> => {
   const decodedDeepLink = deepLink.replaceAll("%3D", "=")
 
   const placeIdsExec = placeIdsRegex.exec(decodedDeepLink)
@@ -78,5 +84,5 @@ export const deepLinkParse = <
   const firstLaunchData = launchDataExec?.[1], secondLaunchData = launchDataExec?.[2]
   const launchData = [ typeof firstLaunchData === "string" ? firstLaunchData : null, typeof secondLaunchData === "string" ? secondLaunchData : null ]
 
-  return placeIds.map((placeId, idx) => ({ placeId, launchData: parseLaunchData(launchData[idx]) })) as DeepLinkParseReturns<DeepLink, PlaceIds, LaunchData>
+  return placeIds.map((placeId, idx) => ({ placeId, launchData: parseLaunchData(launchData[idx], decodeBase64) })) as DeepLinkParseReturns<DeepLink, PlaceIds, LaunchData>
 }

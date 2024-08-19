@@ -46,44 +46,42 @@ type DeepLinkMethods<
 //////////////////////////////////////////////////////////////////////////////////
 
 
-// [ Variables ] /////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
-
-
 // [ Private Functions ] /////////////////////////////////////////////////////////
-const toAppsFlyerFormat = (placeId: Identifier, launchDataStr: string | undefined) => (
+const toAppsFlyerFormat = (placeId: Identifier, launchDataStr: string | null) => (
   new DeepLinkString(
     `ro.blox.com/Ebh5?af_dp=roblox%3A%2F%2FplaceId%3D${placeId}${launchDataStr ? `%26launchData%3D${launchDataStr}` : ""}&af_web_dp=https%3A%2F%2Fwww.roblox.com%2Fgames%2Fstart%3FplaceId%3D${placeId}${launchDataStr ? `%26launchData%3D${launchDataStr}` : ""}`,
     placeId, launchDataStr, toAppsFlyerFormat
   )
 )
 
-const toRobloxProtocolFormat = (placeId: Identifier, launchDataStr: string | undefined) => (
+const toRobloxProtocolFormat = (placeId: Identifier, launchDataStr: string | null) => (
   new DeepLinkString(`roblox://placeId=${placeId}${launchDataStr ? `&launchData=${launchDataStr}` : ""}`, placeId, launchDataStr, toRobloxProtocolFormat)
 )
 
-const toRobloxUrlFormat = (placeId: Identifier, launchDataStr: string | undefined) => (
+const toRobloxUrlFormat = (placeId: Identifier, launchDataStr: string | null) => (
   new DeepLinkString(
     `https://www.roblox.com/games/start?placeId=${placeId}${launchDataStr ? `&launchData=${launchDataStr}` : ""}`,
     placeId, launchDataStr, toRobloxUrlFormat
   )
 )
 
-const stringifyLaunchData = (launchData: string | Record<any, any> | undefined) => (
-  typeof launchData === "string" ? launchData.length == 0 ? undefined : encodeURIComponent(launchData) :
-  launchData?.constructor === Object ? encodeURIComponent(JSON.stringify(launchData)) :
-  undefined
-) as string | undefined
+const stringifyLaunchData = (launchData: string | Record<any, any> | undefined | null): string | null => {
+  if (!launchData) return null
+  
+  if (typeof launchData === "string") return launchData.length == 0 ? null : encodeURIComponent(btoa(launchData))
+  if (launchData?.constructor === Object) return encodeURIComponent(btoa(JSON.stringify(launchData)))
+  return null
+}
 //////////////////////////////////////////////////////////////////////////////////
 
 
 class DeepLinkString extends String {
   str: string
   placeId: Identifier
-  launchData: string | undefined
-  reFormat: (placeId: Identifier, launchData: string | undefined) => any
+  launchData: string | null
+  reFormat: (placeId: Identifier, launchData: string | null) => any
   
-  constructor(str: string, placeId: Identifier, launchData: string | undefined, reFormat: (placeId: Identifier, launchData: string | undefined) => any) {
+  constructor(str: string, placeId: Identifier, launchData: string | null, reFormat: (placeId: Identifier, launchData: string | null) => any) {
     super(str);
     this.str = str;
 
