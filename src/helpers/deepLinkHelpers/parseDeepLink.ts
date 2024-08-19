@@ -55,8 +55,8 @@ const parseLaunchData = (launchData: string | null | undefined, decodeBase64?: b
   if (!launchData) return null
   launchData = decodeURIComponent(launchData)
 
-  if (decodeBase64 === undefined || decodeBase64 === true) {
-    if (base64Regex.test(launchData)) launchData = atob(launchData)
+  if (decodeBase64 === undefined || decodeBase64) {
+    if (decodeBase64 || base64Regex.test(launchData)) launchData = atob(launchData)
   }
 
   try { return JSON.parse(launchData) }

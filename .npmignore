@@ -4,7 +4,7 @@ buildDocs/
 docs/
 docs_site/
 node_modules/
-assets/
+./assets/
 bun.lockb
 tsconfig.tsbuildinfo
 ./build.ts
