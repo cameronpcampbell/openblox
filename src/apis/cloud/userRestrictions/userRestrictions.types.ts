@@ -1,41 +1,24 @@
-import type { Identifier, ISODateTime, ObjectPrettify } from "typeforge";
+import type { Identifier, ObjectPrettify, StringIsLiteral } from "typeforge";
 
 
-type UserRestrictionsData<
-  TemporalType,
-  UniverseId extends Identifier, UserId extends Identifier, PlaceId extends Identifier | undefined = undefined,
-
-  UpdatedData extends UpdateUserRestrictionsData = UpdateUserRestrictionsData,
-  _GameJoinRestriction extends UpdatedData["gameJoinRestriction"] = UpdatedData["gameJoinRestriction"]
+export type UserRestrictionsData<
+  UniverseId extends Identifier, UserId extends Identifier, PlaceId extends Identifier | undefined = undefined
 > = {
   path: (
     PlaceId extends Identifier ? `universes/${UniverseId}/places/${PlaceId}/user-restrictions/${UserId}`
     : `universes/${UniverseId}/user-restrictions/${UserId}`
   ),
   user: `users/${UserId}`,
-
   gameJoinRestriction: {
-    active: _GameJoinRestriction["active"],
-    startTime: TemporalType,
-    duration: _GameJoinRestriction["duration"],
-    privateReason: _GameJoinRestriction["privateReason"],
-    displayReason: _GameJoinRestriction["displayReason"],
-    excludeAltAccounts: _GameJoinRestriction["excludeAltAccounts"],
+    active: boolean,
+    startTime: string,
+    duration?: `${number}s`,
+    privateReason: string,
+    displayReason: string,
+    excludeAltAccounts: boolean,
     inherited: boolean
   }
 }
-
-export type RawUserRestrictionsData<
-  UniverseId extends Identifier, UserId extends Identifier,
-  PlaceId extends Identifier | undefined = undefined,
-  UpdatedData extends UpdateUserRestrictionsData = UpdateUserRestrictionsData,
-> = UserRestrictionsData<ISODateTime, UniverseId, UserId, PlaceId, UpdatedData>
-
-export type PrettifiedUserRestrictionsData<
-  UniverseId extends Identifier, UserId extends Identifier,
-  PlaceId extends Identifier | undefined = undefined,
-  UpdatedData extends UpdateUserRestrictionsData = UpdateUserRestrictionsData,
-> = UserRestrictionsData<Date, UniverseId, UserId, PlaceId, UpdatedData>
 
 
 /* PATCH /v2/universes/{universe}/user-restrictions/{user-restriction}
@@ -46,8 +29,45 @@ export type UpdateUserRestrictionsData = {
     duration?: `${number}s`,
     privateReason: string,
     displayReason: string,
-    excludeAltAccounts?: boolean,
+    excludeAltAccounts: boolean,
   }
+}
+
+
+
+export type UpdateRestrictionsForUserData<
+   UniverseId extends Identifier, UserId extends Identifier, PlaceId extends Identifier | undefined = undefined,
+ 
+   UpdatedData extends UpdateUserRestrictionsData = UpdateUserRestrictionsData,
+
+   _GameJoinRestriction extends UpdatedData["gameJoinRestriction"] = UpdatedData["gameJoinRestriction"],
+   _Active = _GameJoinRestriction["active"], _Duration = _GameJoinRestriction["duration"]
+ > = {
+   path: (
+     PlaceId extends Identifier ? `universes/${UniverseId}/places/${PlaceId}/user-restrictions/${UserId}`
+     : `universes/${UniverseId}/user-restrictions/${UserId}`
+   ),
+   user: `users/${UserId}`,
+ 
+   gameJoinRestriction: {
+    [Key in keyof Omit<{
+      active: _Active,
+      startTime: string,
+      duration: _Duration,
+      privateReason: _GameJoinRestriction["privateReason"],
+      displayReason: _GameJoinRestriction["displayReason"],
+      excludeAltAccounts: _GameJoinRestriction["excludeAltAccounts"],
+      inherited: boolean
+    }, StringIsLiteral<_Duration> extends true ? "" : "duration">]: Omit<{
+      active: _Active,
+      startTime: string,
+      duration: _Duration,
+      privateReason: _GameJoinRestriction["privateReason"],
+      displayReason: _GameJoinRestriction["displayReason"],
+      excludeAltAccounts: _GameJoinRestriction["excludeAltAccounts"],
+      inherited: boolean
+    }, StringIsLiteral<_Duration> extends true ? "" : "duration">[Key]
+   }
 }
 // -------------------------------------------------------------------------------------------------------------------
 
@@ -69,7 +89,7 @@ type RestrictionLogEntry<TemporalType, UserId extends Identifier = Identifier, P
 }>
 
 export type RawListRestrictionLogsData<UserId extends Identifier = Identifier, PlaceId extends Identifier = Identifier> = {
-  logs: RestrictionLogEntry<ISODateTime, UserId, PlaceId>[],
+  logs: RestrictionLogEntry<string, UserId, PlaceId>[],
   nextPageToken: string
 }
 

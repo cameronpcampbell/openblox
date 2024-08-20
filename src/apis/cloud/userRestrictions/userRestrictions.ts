@@ -5,10 +5,10 @@ import { cloneAndMutateObject } from "../../../utils/utils"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { Identifier, ISODateTime } from "typeforge"
+import type { Identifier, ISODateTime, StringIsLiteral } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
-import type { PrettifiedListRestrictionLogsData, PrettifiedUserRestrictionsData, RawListRestrictionLogsData, RawUserRestrictionsData, UpdateUserRestrictionsData } from "./userRestrictions.types"
+import type { PrettifiedListRestrictionLogsData, RawListRestrictionLogsData, UpdateRestrictionsForUserData, UpdateUserRestrictionsData, UserRestrictionsData } from "./userRestrictions.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -33,31 +33,48 @@ const addApiMethod = createApiGroup({ name: "UserRestrictions", baseUrl: "https:
  * @param userId The ID of the uset to get restrictions to get.
  * 
  * @example
- * const { data:restrictions } = await UserRestrictionsApi.restrictions({
+ * const { data:restrictions } = await UserRestrictionsApi.listRestrictions({
      universeId: 5795192361, placeId: 18210254887, userId: 6193495014
    })
  * @exampleData {"path":"universes/5795192361/places/18210254887/user-restrictions/6193495014","user":"users/6193495014","gameJoinRestriction":{"active":true,"startTime":"2024-06-25T22:56:58.873Z","duration":"31540000s","privateReason":"Being a meanie :/","displayReason":"Annoying other players.","excludeAltAccounts":false,"inherited":false}}
  * @exampleRawBody {"path":"universes/5795192361/places/18210254887/user-restrictions/6193495014","user":"users/6193495014","gameJoinRestriction":{"active":true,"startTime":"2024-06-25T22:56:58.873Z","duration":"31540000s","privateReason":"Being a meanie :/","displayReason":"Annoying other players.","excludeAltAccounts":false,"inherited":false}}
  */
-export const restrictions = addApiMethod(async <
+export const listRestrictions = addApiMethod(async <
   UniverseId extends Identifier, UserId extends Identifier, PlaceId extends Identifier | undefined = undefined
 >(
   { universeId, placeId, userId }:
   { universeId: UniverseId, placeId?: PlaceId, userId: UserId }
-): ApiMethod<RawUserRestrictionsData<UniverseId, UserId, PlaceId>, PrettifiedUserRestrictionsData<UniverseId, UserId, PlaceId>> =>  ({
+): ApiMethod<UserRestrictionsData<UniverseId, UserId, PlaceId>> =>  ({
   method: "GET",
   path: (
     placeId ? `/v2/universes/${universeId}/places/${placeId}/user-restrictions/${userId}`
     : `/v2/universes/${universeId}/user-restrictions/${userId}`
   ),
-  name: `restrictions`,
-
-  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, ({ gameJoinRestriction }) => {
-    gameJoinRestriction.startTime = new Date(gameJoinRestriction.startTime)
-  })
+  name: `listRestrictions`
 }))
 
 
+/**
+ * Gets the active restriction for a user in a given universe.
+ * @endpoint GET /cloud/v2/universes/{universeId}/user-restrictions/{userId}
+ * 
+ * @param universeId The ID of the universe to get restriction from.
+ * @param userId The ID of the user to get restriction for.
+ * 
+ * @example
+ * @exampleData
+ * @exampleRawBody
+ */
+export const restrictionForUser = addApiMethod(async <UniverseId extends Identifier, UserId extends Identifier, PlaceId extends Identifier>(
+  { universeId, placeId, userId }: { universeId: Identifier, placeId?: Identifier, userId: Identifier }
+): ApiMethod<UserRestrictionsData<UniverseId, UserId, PlaceId>> => ({
+  method: "GET",
+  path: (
+    placeId ? `/v2/universes/${universeId}/places/${placeId}/user-restrictions/${userId}`
+    : `/v2/universes/${universeId}/places/${placeId}/user-restrictions/${userId}`
+  ),
+  name: `restrictionForUser`,
+}))
 
 
 /**
@@ -84,8 +101,7 @@ export const restrictions = addApiMethod(async <
          duration: "31540000s", // 1 year.
          privateReason: "Being a meanie :/",
          displayReason: "Annoying other players.",
-         excludeAltAccounts: false,
-         inherited: true
+         excludeAltAccounts: false
        }
      }
    })
@@ -102,9 +118,8 @@ export const updateRestrictionsForUser = addApiMethod(async <
     updatedData: UpdatedData, idempotencyKey?: string, firstSent?: Date | ISODateTime
   }
 ): ApiMethod<
-    RawUserRestrictionsData<UniverseId, UserId, PlaceId, UpdatedData>,
-    PrettifiedUserRestrictionsData<UniverseId, UserId, PlaceId, UpdatedData>
-  > =>  ({
+  UpdateRestrictionsForUserData<UniverseId, UserId, PlaceId, UpdatedData>
+> =>  ({
   method: "PATCH",
   path: (
     placeId ? `/v2/universes/${universeId}/places/${placeId}/user-restrictions/${userId}`
@@ -112,11 +127,7 @@ export const updateRestrictionsForUser = addApiMethod(async <
   ),
   searchParams: { "idempotencyKey.key": idempotencyKey, "idempotencyKey.firstSent": firstSent },
   body: updatedData,
-  name: `updateRestrictionsForUser`,
-
-  formatRawDataFn: (rawData) => cloneAndMutateObject(rawData, ({ gameJoinRestriction }) => {
-    gameJoinRestriction.startTime = new Date(gameJoinRestriction.startTime)
-  })
+  name: `updateRestrictionsForUser`
 }))
 
 
