@@ -43,10 +43,10 @@ export type PrettifiedUserRestrictionsData<
 export type UpdateUserRestrictionsData = {
   gameJoinRestriction: {
     active: boolean,
-    duration: `${number}s`,
+    duration?: `${number}s`,
     privateReason: string,
     displayReason: string,
-    excludeAltAccounts: boolean,
+    excludeAltAccounts?: boolean,
   }
 }
 // -------------------------------------------------------------------------------------------------------------------
