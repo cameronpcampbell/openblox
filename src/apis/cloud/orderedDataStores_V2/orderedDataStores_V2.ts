@@ -39,6 +39,8 @@ const formatEntryFilter = (lessThanOrEq?: number, moreThanOrEq?: number) => {
  * @param sortOrder Whether to return the results from biggest to smallest (Desc) or smallest to biggest (Asc).
  * @param lessThanOrEq Filters the results to include those less than or equal to a specific number (can be used in tangent with `moreThabOrEq`).
  * @param moreThanOrEq Filters the results to include those more than or equal to a specific number (can be used in tangent with `lessThabOrEq`).
+ * @param limit The number of results per request.
+ * @param cursor The paging cursor for the previous or next page.
  * 
  * @example
  * const { data:entries } = await OrderedDatastoresApi_V2.listOrderedDatastoreEntries({
@@ -48,17 +50,21 @@ const formatEntryFilter = (lessThanOrEq?: number, moreThanOrEq?: number) => {
  * @exampleRawBody {"orderedDataStoreEntries":[{"path":"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281","value":78,"id":"45348281"}]}
  */
 export const listOrderedDatastoreEntries = addApiMethod(async <UniverseId extends Identifier, DataStoreId extends string, Scope extends string>(
-  { universeId, dataStoreId, scope, sortOrder, lessThanOrEq, moreThanOrEq }:
+  { universeId, dataStoreId, scope, sortOrder, lessThanOrEq, moreThanOrEq, limit, cursor }:
   {
     universeId: UniverseId, dataStoreId: DataStoreId, scope: Scope,
-    sortOrder?: SortOrder, lessThanOrEq?: number, moreThanOrEq?: number
+    sortOrder?: SortOrder, lessThanOrEq?: number, moreThanOrEq?: number,
+    limit?: number, cursor?: string
   }
 ): ApiMethod<
   RawListOrderedDatastoreEntries<UniverseId, DataStoreId, Scope>, PrettifiedListOrderedDatastoreEntries<UniverseId, DataStoreId, Scope>
 > => ({
   method: "GET",
   path: `/v2/universes/${universeId}/ordered-data-stores/${dataStoreId}/scopes/${scope}/entries`,
-  searchParams: { orderBy: sortOrder == "Desc" ? "value desc" : "", filter: formatEntryFilter(lessThanOrEq, moreThanOrEq) },
+  searchParams: {
+    orderBy: sortOrder == "Desc" ? "value desc" : "", filter: formatEntryFilter(lessThanOrEq, moreThanOrEq),
+    maxPageSize: limit, pageToken: cursor,
+  },
   name: `listOrderedDatastoreEntries`,
 
   formatRawDataFn: ({ orderedDataStoreEntries }) => orderedDataStoreEntries

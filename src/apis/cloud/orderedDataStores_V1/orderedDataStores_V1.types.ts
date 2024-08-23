@@ -14,11 +14,11 @@ export type OrderedDatastoreEntry<
 export type RawListOrderedDatastoreEntriesData<
 UniverseId extends Identifier, OrderedDataStore extends string, Scope extends string
 > = ObjectPrettify<{
-  entries: OrderedDatastoreEntry<UniverseId, OrderedDataStore, Scope, `${number}`, true>,
+  entries: OrderedDatastoreEntry<UniverseId, OrderedDataStore, Scope, `${number}`, true>[],
   nextPageToken: string
 }>
 
 export type PrettifiedListOrderedDatastoreEntriesData<
   UniverseId extends Identifier, OrderedDataStore extends string, Scope extends string
-> =  OrderedDatastoreEntry<UniverseId, OrderedDataStore, Scope, `${number}`, true>
+> =  OrderedDatastoreEntry<UniverseId, OrderedDataStore, Scope, `${number}`, true>[]
 // -------------------------------------------------------------------------------------------------------------------

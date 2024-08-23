@@ -1,4 +1,4 @@
-import type { Identifier, ISODateTime, ObjectPrettify, UnionPrettify, UrlSecure } from "typeforge"
+import type { Identifier, ISODateTime, ObjectEither, ObjectPrettify, UnionPrettify, UrlSecure } from "typeforge"
 
 
 type Universe_SocialLink = ObjectPrettify<{
@@ -42,8 +42,7 @@ type UniverseInfoData<UniverseId extends Identifier, TimeType> = {
   path: `universes/${UniverseId}`,
   createTime: TimeType,
   updateTime: TimeType,
-  user: `users/${Identifier}`,
-} & Universe
+} & ObjectEither<{ user: `users/${Identifier}` }, { group: `groups/${Identifier}` }> & Universe
 
 export type RawUniverseInfoData<UniverseId extends Identifier> = UniverseInfoData<UniverseId, ISODateTime>
 
