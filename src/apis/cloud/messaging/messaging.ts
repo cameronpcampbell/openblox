@@ -11,7 +11,7 @@ import type { ApiMethod } from "../../apiGroup"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "Messaging", baseUrl: "https://apis.roblox.com/cloud" })
+const addApiMethod = createApiGroup({ name: "Messaging", baseUrl: "https://apis.roblox.com/messaging-service" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
