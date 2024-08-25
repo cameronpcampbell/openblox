@@ -47,7 +47,7 @@ const addApiMethod = createApiGroup({ name: "Messaging", baseUrl: "https://apis.
 export const publishMessage = addApiMethod(async <Message extends string | Record<any, any>>(
   { universeId, topic, message }: { universeId: Identifier, topic: string, message: Message }
 ): ApiMethod<"", true> => ({
-  path: `/v2/universes/${universeId}/topics/${topic}`,
+  path: `/v1/universes/${universeId}/topics/${topic}`,
   method: "POST",
   body: { message: JSON.stringify(message) },
   name: "publishMessage",
