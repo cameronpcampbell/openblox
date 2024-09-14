@@ -79,19 +79,24 @@ export const gamePassesForUniverse = addApiMethod(async (
  * @param name The new name for the game pass.
  * @param description The new description for the game pass.
  * @param icon The new icon for the game pass.
+ * @param price The new price for the game pass.
+ * @param isForSale If the game pass should be for sale.
  * 
  * @example const { data:success } = await ClassicGamePassesApi.updateGamePass({ gamePassId: 9260480, name: "Donate", icon: "./gamePassIcon.png" })
  * @exampleData true
  * @exampleRawBody ""
  */
 export const updateGamePass = addApiMethod(async (
-  { gamePassId, name, description, icon }: { gamePassId: Identifier, name?: string, description?: string, icon?: string | File }
+  { gamePassId, name, description, icon, price, isForSale }:
+  { gamePassId: Identifier, name?: string, description?: string, icon?: string | File, price?: number, isForSale?: boolean }
 ): ApiMethod<"", boolean> => ({
   method: "POST",
   path: `/v1/game-passes/${gamePassId}/details`,
   formData: formDataBuilder()
     .append("Name", name)
     .append("Description", description)
+    .append("Price", price?.toString())
+    .append("IsForSale", isForSale ? "true" : "false")
     .append("File", typeof icon == "string" ? new File([ new Blob([ await readFile(icon) ]) ], "File") : icon),
   name: `updateGamePass`,
 
