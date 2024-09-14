@@ -117,15 +117,17 @@ export const updateGamePass = addApiMethod(async (
  */
 export const createGamePass = addApiMethod(async (
   { universeId, name, description, icon }: { universeId: Identifier, name: string, description: string, icon?: string | File }
-): ApiMethod<{ gamePassId: Identifier }, Identifier> => ({
-  method: "POST",
-  path: `/v1/game-passes`,
-  formData: formDataBuilder()
-    .append("UniverseId", universeId.toString())
-    .append("Name", name)
-    .append("Description", description)
-    .append("File", typeof icon == "string" ? new File([ new Blob([ await readFile(icon) ]) ], "File") : icon),
-  name: `createGamePass`,
-
-  formatRawDataFn: ({ gamePassId }) => gamePassId
-}))
+): ApiMethod<{ gamePassId: Identifier }, Identifier> => {
+  return ({
+    method: "POST",
+    path: `/v1/game-passes`,
+    formData: formDataBuilder()
+      .append("UniverseId", universeId.toString())
+      .append("Name", name)
+      .append("Description", description)
+      .append("File", typeof icon == "string" ? new File([ new Blob([ await readFile(icon) ]) ], "File") : icon),
+    name: `createGamePass`,
+  
+    formatRawDataFn: ({ gamePassId }) => gamePassId
+  })
+})

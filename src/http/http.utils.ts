@@ -12,8 +12,7 @@ export type HttpHandlerProps = {
   method: RestMethod,
   headers?: Record<string, any>,
   body?: any,
-  formData?: Record<string, any>,
-  rawFormData?: FormData
+  formData?: Record<string, any>
 }
 
 export type Credentials = {

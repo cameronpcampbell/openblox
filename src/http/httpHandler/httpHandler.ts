@@ -91,7 +91,7 @@ const importHbaKeys = async (keys: { private: string, public: string }): Promise
 
 
 export const HttpHandler = async <RawData extends any = any>(
-  { url, method, headers, body, formData, rawFormData }: HttpHandlerProps
+  { url, method, headers, body, formData }: HttpHandlerProps
 ) => {
   const headerCookie = headers?.Cookie as string | undefined
 
@@ -101,16 +101,15 @@ export const HttpHandler = async <RawData extends any = any>(
   const maxCsrfAttempts = configHttp?.csrfMaxAttempts || 2
   let currentCsrfAttempt = 1
 
-  const parsedFormData = objectToFormData(formData, rawFormData)
-
   const requestData = {
     url, method,
     body: (body?.constructor == Object || Array.isArray(body)) ? JSON.stringify(body) : body,
-    formData: parsedFormData,
+    formData,
   }
   
+
   const requestDataHeaders = removeNullUndefined({
-    "Content-Type": headers?.["Content-Type"] || (!((formData && Object.keys(formData)?.length) || rawFormData) && "application/json" || null),
+    "Content-Type": headers?.["Content-Type"] || ((!formData) && "application/json" || null),
     ...headers,
   })
 
