@@ -92,7 +92,7 @@ const {
 - - -
 
 <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/MightyPart/openblox/blob/main/assets/metrik_white.svg" width="auto" height="35px">
-      <source media="(prefers-color-scheme: light)" srcset="https://github.com/MightyPart/openblox/blob/main/assets/metrik_black.svg" width="auto" height="35px">
-      <img alt="Sponsored by Metrik" src="https://github.com/MightyPart/openblox/blob/main/assets/metrik_black.svg" width="auto" height="35px">
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/MightyPart/openblox/blob/main/assets/metrik_white.svg" width="auto" height="35px" />
+      <source media="(prefers-color-scheme: light)" srcset="https://github.com/MightyPart/openblox/blob/main/assets/metrik_black.svg" width="auto" height="35px" />
+      <img alt="Sponsored by Metrik" src="https://github.com/MightyPart/openblox/blob/main/assets/metrik_black.svg" width="auto" height="35px" />
     </picture>
