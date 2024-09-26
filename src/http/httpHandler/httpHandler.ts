@@ -19,15 +19,6 @@ let savedCsrfToken = ""
 
 
 // [ Private Functions ] /////////////////////////////////////////////////////////
-const objectToFormData = (formDataObject?: Record<string, any>, rawFormData?: FormData) => {
-  if (!formDataObject) return
-  const formData = rawFormData || new FormData()
-
-  Object.entries(formDataObject).forEach(([key, value]) => formData.append(key, value?.constructor == Object ? JSON.stringify(value) : value))
-
-  return formData
-}
-
 export const isOpenCloudUrl = (url: string): boolean =>
   url.startsWith("https://apis.roblox.com/cloud") ||
   url.startsWith("https://apis.roblox.com/datastore") ||
@@ -107,7 +98,6 @@ export const HttpHandler = async <RawData extends any = any>(
     formData,
   }
   
-
   const requestDataHeaders = removeNullUndefined({
     "Content-Type": headers?.["Content-Type"] || ((!formData) && "application/json" || null),
     ...headers,
