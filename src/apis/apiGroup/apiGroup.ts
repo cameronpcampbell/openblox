@@ -3,6 +3,7 @@ import { config } from "../../config";
 import { HttpHandler, isOpenCloudUrl } from "../../http/httpHandler";
 import { isObject, objectToFieldMask } from "../../utils/utils";
 import { HttpResponse } from "../../http/http.utils";
+import { pollHttp } from "../../helpers"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -95,6 +96,25 @@ const sleep = async (s: number) => new Promise(resolve => setTimeout(resolve, s 
 const expBackoff = (delay: number, lastIter: number) => {
   return delay + (5 * lastIter)
 }
+
+const pollForResponse = async (url: string, operationPath: string, cloudKey: string) => {
+  const operationPrefix = operationPath.match(/^(\/?)cloud\/v[1-9]+(\/?)/)
+    ? operationPrefixRegexWithoutVersion.exec(url)?.[1] as UrlSecure
+    : operationPrefixRegexWithVersion.exec(url)?.[1] as UrlSecure
+  
+  const operationUrl = `${operationPrefix}${operationPath}` as UrlSecure
+
+  const headers = { "x-api-key": cloudKey }
+
+  let response: any
+  await pollHttp<{ done?: boolean }>({ method: "GET", url: operationUrl, headers }, async (response, stopPolling) => {
+    if (!response.body.done) return
+    response = response
+    stopPolling()
+  })
+
+  return response
+}
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -133,26 +153,27 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
         if (oauthToken) headers["Authorization"] = `Bearer ${oauthToken}`
       }
 
-      let response = await HttpHandler({ method, url, body, formData, headers })
+      let response: HttpResponse = await HttpHandler({ method, url, body, formData, headers }) as any // TODO
 
       if (!(response instanceof HttpResponse)) throw response
       let rawData = response.body
 
       // Uncompleted long running operation.
       let opPath = rawData?.path
-      if (isOpenCloudUrl(url) && opPath && rawData?.done === false) {
+      if (opPath && rawData?.done === false && isOpenCloudUrl(url)) {
         console.warn(`Polling '${groupName}.${name}' (Please be patient)...`)
+        response = await pollForResponse(url, pathToPoll ? pathToPoll(rawData) : opPath, cloudKey)
 
-        if (pathToPoll) opPath = pathToPoll(rawData)
+        //if (pathToPoll) opPath = pathToPoll(rawData)
 
-        const operationPrefix = opPath.match(/^(\/?)cloud\/v[1-9]+(\/?)/)
+        /*const operationPrefix = opPath.match(/^(\/?)cloud\/v[1-9]+(\/?)/)
           ? operationPrefixRegexWithoutVersion.exec(url)?.[1] as UrlSecure
           : operationPrefixRegexWithVersion.exec(url)?.[1] as UrlSecure
         const opUrl = `${operationPrefix}${opPath}` as UrlSecure
 
-        const headers = { "x-api-key": cloudKey }
+        const headers = { "x-api-key": cloudKey }*/
 
-        let delay = 0
+        /*let delay = 0
         for (let iter = 0; iter > -1; iter++) {
           response = await HttpHandler({ method: "GET", url: opUrl, headers })
           if (!(response instanceof HttpResponse)) throw response
@@ -162,7 +183,7 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
 
           await sleep(delay)
           delay = expBackoff(delay, iter)
-        }
+        }*/
       }
 
       let apiMethodResult: ApiMethodResponse<any, any>
