@@ -21,6 +21,7 @@ const addApiMethod = createApiGroup({ name: "OrderedDatastores_V1", baseUrl: "ht
  * Returns a list of entries from an ordered data store.
  * @endpoint GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries
  * @tags [ "Cloud Key" ]
+ * @deprecated Please use `OrderedDataStoresApi_V2` for new work.
  * 
  * @param universeId The identifier of the experience with ordered data stores that you want to access.
  * @param orderedDataStore The name of the target ordered data store.
@@ -31,7 +32,7 @@ const addApiMethod = createApiGroup({ name: "OrderedDatastores_V1", baseUrl: "ht
  * @param cursor A page token received from a previous List call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to List must match the call providing the page token.
  * 
  * @example
- * const { data:entries } = await OrderedDatastoresApi_V1.listOrderedDatastoreEntries({
+ * const { data:entries } = await OrderedDataStoresApi_V1.listOrderedDatastoreEntries({
      universeId: 5097539509, orderedDataStore: "PointsStore", scope: "global"
    })
  * @exampleData [ { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 54, id: "45348281" } ]
@@ -62,6 +63,7 @@ export const listOrderedDatastoreEntries = addApiMethod(async <UniverseId extend
  * Creates a new entry with the content value provided.
  * @endpoint POST /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries
  * @tags [ "Cloud Key" ]
+ * @deprecated Please use `OrderedDataStoresApi_V2` for new work.
  * 
  * @param universeId The identifier of the experience with ordered data stores that you want to access.
  * @param orderedDataStore The name of the target ordered data store.
@@ -70,7 +72,7 @@ export const listOrderedDatastoreEntries = addApiMethod(async <UniverseId extend
  * @param value The value of the entry.
  * 
  * @example
- * const { data:createdEntry } = await OrderedDatastoresApi_V1.createOrderedDatastoreEntry({
+ * const { data:createdEntry } = await OrderedDataStoresApi_V1.createOrderedDatastoreEntry({
      universeId: 5097539509, orderedDataStore: "PointsStore", scope: "global",
      id: "45348282", value: 54
    })
@@ -95,6 +97,7 @@ export const createOrderedDatastoreEntry = addApiMethod(async <
  * Returns a list of entries from an ordered data store.
  * @endpoint GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries
  * @tags [ "Cloud Key" ]
+ * @deprecated Please use `OrderedDataStoresApi_V2` for new work.
  * 
  * @param universeId The identifier of the experience with ordered data stores that you want to access.
  * @param orderedDataStore The name of the target ordered data store.
@@ -102,7 +105,7 @@ export const createOrderedDatastoreEntry = addApiMethod(async <
  * @param id The id of the entry.
  * 
  * @example
- * const { data:entry } = await OrderedDatastoresApi_V1.orderedDatastoreEntry({
+ * const { data:entry } = await OrderedDataStoresApi_V1.orderedDatastoreEntry({
      universeId: 5097539509, orderedDataStore: "PointsStore", scope: "global", id: "45348281"
    })
  * @exampleData { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 54, id: "45348281" }
@@ -124,6 +127,7 @@ export const orderedDatastoreEntry = addApiMethod(async <
  * Deletes the specified entry in an ordered datastore.
  * @endpoint GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries
  * @tags [ "Cloud Key" ]
+ * @deprecated Please use `OrderedDataStoresApi_V2` for new work.
  * 
  * @param universeId The identifier of the experience with ordered data stores that you want to access.
  * @param orderedDataStore The name of the target ordered data store.
@@ -131,7 +135,7 @@ export const orderedDatastoreEntry = addApiMethod(async <
  * @param id The id of the entry.
  * 
  * @example
- * const { data:success } = await OrderedDatastoresApi_V1.deleteOrderedDatastoreEntry({
+ * const { data:success } = await OrderedDataStoresApi_V1.deleteOrderedDatastoreEntry({
      universeId: 5097539509, orderedDataStore: "PointsStore", scope: "global", id: "45348281"
    })
  * @exampleData true
@@ -153,6 +157,7 @@ export const deleteOrderedDatastoreEntry = addApiMethod(async (
  * Updates the specified entry.
  * @endpoint GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries
  * @tags [ "Cloud Key" ]
+ * @deprecated Please use `OrderedDataStoresApi_V2` for new work.
  * 
  * @param universeId The identifier of the experience with ordered data stores that you want to access.
  * @param orderedDataStore The name of the target ordered data store.
@@ -162,7 +167,7 @@ export const deleteOrderedDatastoreEntry = addApiMethod(async (
  * @param createIfNoEntryExists The flag to allow the creation of an entry if the entry doesn't exist. (allow_missing)
  * 
  * @example
- * const { data:updatedEntry } = await OrderedDatastoresApi_V1.updateOrderedDatastoreEntry({
+ * const { data:updatedEntry } = await OrderedDataStoresApi_V1.updateOrderedDatastoreEntry({
      universeId: 5097539509, orderedDataStore: "PointsStore", scope: "global",
      id: "45348281", newValue: 58
    })
@@ -187,6 +192,7 @@ export const updateOrderedDatastoreEntry = addApiMethod(async <
  * Increments the specified entry.
  * @endpoint GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries
  * @tags [ "Cloud Key" ]
+ * @deprecated Please use `OrderedDataStoresApi_V2` for new work.
  * 
  * @param universeId The identifier of the experience with ordered data stores that you want to access.
  * @param orderedDataStore The name of the target ordered data store.
@@ -196,7 +202,7 @@ export const updateOrderedDatastoreEntry = addApiMethod(async <
  * @param createIfNoEntryExists The flag to allow the creation of an entry if the entry doesn't exist. (allow_missing)
  * 
  * @example
- * const { data:incrementedEntry } = await OrderedDatastoresApi_V1.incrementOrderedDatastoreEntry({
+ * const { data:incrementedEntry } = await OrderedDataStoresApi_V1.incrementOrderedDatastoreEntry({
      universeId: 5097539509, orderedDataStore: "PointsStore", scope: "global", id: "45348281",
      incrementBy: 26, createIfNoEntryExists: true
    })

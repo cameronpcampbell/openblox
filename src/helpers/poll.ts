@@ -20,13 +20,16 @@ const expBackoff = (iter: number, stepMultiplier: number) => stepMultiplier * (i
 
 export const poll = async <CallMethod extends CallApiMethod<any, any, true | false>>(
     method: CallMethod, args: Parameters<CallMethod>[0],
-    handlerFn: (result: Awaited<ReturnType<CallMethod>>) => Promise<boolean>,
+    handlerFn: (result: Awaited<ReturnType<CallMethod>>, stopPolling: () => void) => Promise<boolean | void>,
     config?: PollConfig
 ): Promise<void> => {
   const iterations = config?.iterations ?? 15, multiplyer = config?.multiplyer ?? 200, retryOffset = config?.retryOffset ?? 5, debug = config?.debug
   let offset = 0, isSuccess = false
 
-  while (true) {
+  let polling = true
+  const stopPolling = () => polling = false
+
+  while (polling) {
     for (let iter = 1 + offset; iter <= iterations + offset; iter++) {
       const backoff = expBackoff(iter, multiplyer)
       if (debug) console.log(`iteration ${iter} start, backing off for ${backoff}ms...`)
@@ -34,7 +37,9 @@ export const poll = async <CallMethod extends CallApiMethod<any, any, true | fal
       if (backoff !== 0) await sleep(backoff)
 
       const response = await method(args)
-      isSuccess = (await handlerFn(response as Awaited<ReturnType<CallMethod>>)) ?? false
+      isSuccess = (await handlerFn(response as Awaited<ReturnType<CallMethod>>, stopPolling)) ?? false
+
+      if (!polling) break
 
       if (debug) console.log(`iteration ${iter} end.\n`)
 

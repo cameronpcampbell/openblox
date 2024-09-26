@@ -22,13 +22,14 @@ const addApiMethod = createApiGroup({ name: "StandardDatastores_V1", baseUrl: "h
  * Returns a list of data stores belonging to an experience.
  * @endpoint GET /v1/universes/{universeId}/standard-datastores
  * @tags [ "Cloud Key" ]
+ * @deprecated Please use `StandardDataStoresApi_V2` for new work.
  * 
  * @param universeId The identifier of the experience with data stores that you want to access.
  * @param prefix Provide to return only data stores with this prefix.
  * @param limit The maximum number of items to return. Each call only reads one partition so it can return fewer than the given value when running out of objectives on one partition.
  * @param cursor Provide to request the next set of data.
  * 
- * @example const { data:datastores } = await StandardDatastoresApi_V1.listStandardDatastores({ universeId: 5097539509 })
+ * @example const { data:datastores } = await StandardDataStoresApi_V1.listStandardDatastores({ universeId: 5097539509 })
  * @exampleData [ { name: "InventoryStore", createdTime: 2023-09-16T11:03:03.868Z } ]
  * @exampleRawBody { datastores: [ { name: "InventoryStore", createdTime: "2023-09-16T11:03:03.868331Z" } ], nextPageCursor: "" }
  */
@@ -50,6 +51,7 @@ export const listStandardDatastores = addApiMethod(async <Prefix extends string>
  * Returns a list of entry keys within a data store.
  * @endpoint GET /v1/universes/{universeId}/standard-datastores/datastore/entries
  * @tags [ "Cloud Key" ]
+ * @deprecated Please use `StandardDataStoresApi_V2` for new work.
  * 
  * @param universeId The identifier of the experience with data stores that you want to access.
  * @param datastoreName The name of the data store.
@@ -60,7 +62,7 @@ export const listStandardDatastores = addApiMethod(async <Prefix extends string>
  * @param cursor Provide to request the next set of data.
  * 
  * @example
- * const { data:keys } = await StandardDatastoresApi_V1.standardDatastoreKeys({
+ * const { data:keys } = await StandardDataStoresApi_V1.standardDatastoreKeys({
      universeId: 5097539509, datastoreName: "InventoryStore"
    })
  * @exampleData [ "user/45348281" ]
@@ -85,6 +87,7 @@ export const standardDatastoreKeys = addApiMethod(async <Prefix extends string>(
  * Returns the value and metadata associated with an entry. Depending on the runtime, `Bun.CryptoHasher` or `node:crypto` is used to calculate the md5 checksum.
  * @endpoint GET /v1/universes/{universeId}/standard-datastores/datastore/entries/entry
  * @tags [ "Cloud Key" ]
+ * @deprecated Please use `StandardDataStoresApi_V2` for new work.
  * 
  * @param universeId The identifier of the experience with data stores that you want to access.
  * @param datastoreName The name of the data store.
@@ -93,7 +96,7 @@ export const standardDatastoreKeys = addApiMethod(async <Prefix extends string>(
  * 
  * @example
  * type InventorySchema = { Iron?: number, Gold?: number, Copper?: number, Stone?: number, Wood?: number }
-   const { data:entryInfo } = await StandardDatastoresApi_V1.standardDatastoreEntry<InventorySchema>({
+   const { data:entryInfo } = await StandardDataStoresApi_V1.standardDatastoreEntry<InventorySchema>({
      universeId: 5097539509, datastoreName: "InventoryStore", entryKey: "user/45348281"
    })
    if (!entryInfo.checksumsMatch) console.log("checksums do not match, data may be invalid!")
@@ -137,6 +140,7 @@ export const standardDatastoreEntry = addApiMethod(async <Schema extends Record<
  * Sets the value, metadata and user IDs associated with an entry.
  * @endpoint POST /v1/universes/{universeId}/standard-datastores/datastore/entries/entry
  * @tags [ "Cloud Key" ]
+ * @deprecated Please use `StandardDataStoresApi_V2` for new work.
  * 
  * @param universeId The identifier of the experience with data stores that you want to access.
  * @param datastoreName The name of the data store.
@@ -149,7 +153,7 @@ export const standardDatastoreEntry = addApiMethod(async <Schema extends Record<
  * 
  * @example
  * type InventorySchema = { Iron?: number, Gold?: number, Copper?: number, Stone?: number, Wood?: number }
-   const { data:response } = await StandardDatastoresApi_V1.setStandardDatastoreEntry<InventorySchema>({
+   const { data:response } = await StandardDataStoresApi_V1.setStandardDatastoreEntry<InventorySchema>({
      universeId: 5097539509, datastoreName: "InventoryStore", entryKey: "user/45348281", 
      entryValue: { Gold: 6 },  entryUserIds: [ 45348281 ]
    })
@@ -189,13 +193,14 @@ export const setStandardDatastoreEntry = addApiMethod(async <Schema extends Reco
  * Returns the value and metadata associated with an entry.
  * @endpoint GET /v1/universes/{universeId}/standard-datastores/datastore/entries/entry
  * @tags [ "Cloud Key" ]
+ * @deprecated Please use `StandardDataStoresApi_V2` for new work.
  * 
  * @param universeId The identifier of the experience with data stores that you want to access.
  * @param datastoreName The name of the data store.
  * @param entryKey The key identifying the entry.
  * @param scope The value is global by default.
  * 
- * @example const { data:success } = await StandardDatastoresApi_V1.deleteStandardDatastoreEntry({
+ * @example const { data:success } = await StandardDataStoresApi_V1.deleteStandardDatastoreEntry({
      universeId: 5097539509, datastoreName: "InventoryStore",  entryKey: "user/45348281"
    })
  * @exampleData true
@@ -218,6 +223,7 @@ export const deleteStandardDatastoreEntry = addApiMethod(async (
  * Increments the value for an entry by a given amount, or create a new entry with that amount.
  * @endpoint POST /v1/universes/{universeId}/standard-datastores/datastore/entries/entry/increment
  * @tags [ "Cloud Key" ]
+ * @deprecated Please use `StandardDataStoresApi_V2` for new work.
  * 
  * @param universeId The identifier of the experience with data stores that you want to access.
  * @param datastoreName The name of the data store.
@@ -228,7 +234,7 @@ export const deleteStandardDatastoreEntry = addApiMethod(async (
  * @param entryUserIds A comma-separated list of Roblox user IDs that the entry is tagged with. If not provided, existing user IDs are cleared.
  * 
  * @example
- * const { data:incrementedEntry } = await StandardDatastoresApi_V1.incrementStandardDatastoreEntry({
+ * const { data:incrementedEntry } = await StandardDataStoresApi_V1.incrementStandardDatastoreEntry({
      universeId: 5097539509, datastoreName: "LoremIpsum", entryKey: "user/45348281", incrementBy: 1,
      entryUserIds: [ 45348281 ]
    })
@@ -257,6 +263,7 @@ export const incrementStandardDatastoreEntry = addApiMethod(async (
  * Returns the value and metadata of a specific version of an entry.
  * @endpoint POST /v1/universes/{universeId}/standard-datastores/datastore/entries/entry/versions/version
  * @tags [ "Cloud Key" ]
+ * @deprecated Please use `StandardDataStoresApi_V2` for new work.
  * 
  * @param universeId The identifier of the experience with data stores that you want to access.
  * @param datastoreName The name of the data store.
@@ -266,7 +273,7 @@ export const incrementStandardDatastoreEntry = addApiMethod(async (
  * 
  * @example
  * type InventorySchema = { Iron?: number, Gold?: number, Copper?: number, Stone?: number, Wood?: number }
-   const { data:entry } = await StandardDatastoresApi_V1.standardDatastoreEntryOfVersion({
+   const { data:entry } = await StandardDataStoresApi_V1.standardDatastoreEntryOfVersion({
      universeId: 5097539509, datastoreName: "LoremIpsum",  entryKey: "user/45348281",
      versionId: "08DC7742E4BD78AF.0000000001.08DC7742E4BD78AF.01"
    })
@@ -309,6 +316,7 @@ export const standardDatastoreEntryOfVersion = addApiMethod(async <Schema extend
  * Returns a list of data stores belonging to an experience.
  * @endpoint GET /v1/universes/{universeId}/standard-datastores/datastore/entries/entry/versions
  * @tags [ "Cloud Key" ]
+ * @deprecated Please use `StandardDataStoresApi_V2` for new work.
  * 
  * @param universeId The identifier of the experience with data stores that you want to access.
  * @param datastoreName The name of the data store.
@@ -321,7 +329,7 @@ export const standardDatastoreEntryOfVersion = addApiMethod(async <Schema extend
  * @param cursor Provide to request the next set of data.
  * 
  * @example
- * const { data:versions } = await StandardDatastoresApi_V1.listStandardDatastoreEntryVersions({
+ * const { data:versions } = await StandardDataStoresApi_V1.listStandardDatastoreEntryVersions({
      universeId: 5097539509, datastoreName: "InventoryStore", entryKey: "user/45348281",
      sortOrder: "Ascending", limit: 1
    })
