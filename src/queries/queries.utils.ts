@@ -1,5 +1,5 @@
 import { CallApiMethod } from "../apis/apiGroup/apiGroup.types"
-import { poll, PollConfig } from "../helpers"
+import { pollMethod, PollConfig } from "../helpers"
 
 export const addObjectToFunction = <
   Fn extends (...args: any) => any, Obj extends Record<any, any>,
@@ -56,7 +56,7 @@ export const pollForLatest = <
 
   const _resultsAfterDate = typeof dateKey === "string" ? resultsAfterDate : resultsAfterDateWithMiddleware
 
-  return poll(method, args, async ({ data }) => {
+  return pollMethod(method(args), async ({ data }) => {
     const thisPolledTime = new Date().getTime()
   
     const newResults = _resultsAfterDate(data, dateKey as any, lastPolledTime)
@@ -66,5 +66,5 @@ export const pollForLatest = <
   
     lastPolledTime = thisPolledTime
     return true
-  }, config)
+  }, config) as any as Promise<void>
 }

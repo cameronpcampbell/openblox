@@ -6,7 +6,7 @@ import { addObjectToFunction, pollForLatest } from "../queries.utils"
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { Identifier, ObjectPrettify } from "typeforge"
-import { poll, type PollConfig } from "../../helpers"
+import { pollMethod, type PollConfig } from "../../helpers"
 import type { GroupAuditLogActionType, PrettifiedGroupAuditLogsData, PrettifiedGroupJoinRequests, PrettifiedGroupWallPostsData_V2 } from "../../apis/classic/groups/groups.types"
 import { PrettifiedGroupTransactionHistoryData } from "../../apis/classic/economy/economy.types"
 

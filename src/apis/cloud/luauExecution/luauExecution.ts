@@ -1,6 +1,5 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
-import { toCamel } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -8,13 +7,16 @@ import { toCamel } from "../../../utils/utils"
 import type { ArrayNonEmptyIfConst, Identifier } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
-import type { ExecuteLuauData, FormattedListLuauExecutionLogs, RawListLuauExecutionLogs } from "./luauExecution.types"
+import type { RawExecuteLuauData, FormattedListLuauExecutionLogs, RawListLuauExecutionLogs, FormattedExecuteLuauData, LuauExecutionPathItems, RawLuauExecutionTaskData, FormattedLuauExecutionTaskData } from "./luauExecution.types"
 import { readFile } from "../../../file"
+import { cloneAndMutateObject } from "../../../utils/utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
 const addApiMethod = createApiGroup({ name: "LuauExecution", baseUrl: "https://apis.roblox.com/cloud" })
+
+const executedLuauPathRegex = /universes\/([0-9]+)\/places\/([0-9]+)\/versions\/([0-9]+)\/luau-execution-sessions\/([^/]+)\/tasks\/([^/]+)/
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -33,6 +35,19 @@ const combineScripts = async (scripts: ArrayNonEmptyIfConst<string | Buffer>) =>
 
   return combined
 }
+
+const addPathItemsToExecutedLuauResponse = <
+  RawData extends { path: string } & Record<any, any>
+>(rawData: RawData) => cloneAndMutateObject(rawData, (obj: RawData & LuauExecutionPathItems) => {
+  const splitPath = executedLuauPathRegex.exec(obj.path)
+  if (!splitPath) return
+
+  obj.universeId = splitPath[1] as `${number}`
+  obj.placeId = splitPath[2] as `${number}`
+  obj.version = parseInt(splitPath[3] as `${number}`) as any
+  obj.sessionId = splitPath[4] as string
+  obj.taskId = splitPath[5] as string
+}) as any
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -51,21 +66,26 @@ const combineScripts = async (scripts: ArrayNonEmptyIfConst<string | Buffer>) =>
  * const { data:executed } = await LuauExecutionApi.executeLuau({
  *   universeId: 5795192361, placeId: 16866553538, script: `local x, y = 3, 4; return x + y`
  * })
- * @exampleData {"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/31710728-48c7-4447-ae13-f30c7a38bf42/tasks/31710728-48c7-4447-ae13-f30c7a38bf42","user":"45348281","state":"PROCESSING","script":"local x, y = 3, 4; return x + y"}
- * @exampleRawBody {"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/31710728-48c7-4447-ae13-f30c7a38bf42/tasks/31710728-48c7-4447-ae13-f30c7a38bf42","user":"45348281","state":"PROCESSING","script":"local x, y = 3, 4; return x + y"}
+ * @exampleData {"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d","user":"45348281","state":"PROCESSING","script":"local x, y = 3, 4; return x + y","universeId":"5795192361","placeId":"16866553538","version":26,"sessionId":"67823af7-1f99-4fc5-b3bb-da7ab3456b5d","taskId":"67823af7-1f99-4fc5-b3bb-da7ab3456b5d"}
+ * @exampleRawBody {"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d","user":"45348281","state":"PROCESSING","script":"local x, y = 3, 4; return x + y"} 
  */
 export const executeLuau = addApiMethod(async <
   UniverseId extends Identifier, PlaceId extends Identifier, Version extends number | undefined = undefined
 >(
   { universeId, placeId, version, script }:
   { universeId: UniverseId, placeId: PlaceId, version?: Version, script: string | Buffer | ArrayNonEmptyIfConst<string | Buffer> }
-): ApiMethod<ExecuteLuauData<UniverseId, PlaceId, Version>> => ({
+): ApiMethod<
+  RawExecuteLuauData<UniverseId, PlaceId, Version>,
+  FormattedExecuteLuauData<UniverseId, PlaceId, Version>
+> => ({
   method: "POST",
   path: `/v2/universes/${universeId}/places/${placeId}${
     version ? `/versions/${version}` : ""
   }/luau-execution-session-tasks`,
   body: { script: Array.isArray(script) ? await combineScripts(script) : await ensureScriptSource(script) },
   name: `executeLuau`,
+
+  formatRawDataFn: addPathItemsToExecutedLuauResponse
 }))
 
 
@@ -86,28 +106,23 @@ export const executeLuau = addApiMethod(async <
  * @param view If the response should return the script source (`"FULL"`) instead of an empty string.
  * 
  * @example
- * // This example exponentially polls until the task is complete.
+ * import { pollMethod } from "openblox/helpers";
  * 
- * import { poll } from "openblox/helpers";
- * 
- * let task
- * await poll(LuauExecutionApi.luauExecutionTask, {
- *   universeId: 5795192361, placeId: 16866553538, version: 26,
- *   sessionId: "66d01389-6bac-4d6e-8414-ec9d5dab8297", taskId: "66d01389-6bac-4d6e-8414-ec9d5dab8297"
- * }, async ({ data }, stopPolling) => {
- *   if (data.state !== "COMPLETE") return
- *   task = data
- *   stopPolling()
- * })
- * @exampleData {"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/66d01389-6bac-4d6e-8414-ec9d5dab8297/tasks/66d01389-6bac-4d6e-8414-ec9d5dab8297","createTime":"2024-09-26T09:34:09.014Z","updateTime":"2024-09-26T09:34:12.360Z","user":"45348281","state":"COMPLETE","script":"","output":{"results":[7]}}
- * @exampleRawBody {"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/66d01389-6bac-4d6e-8414-ec9d5dab8297/tasks/66d01389-6bac-4d6e-8414-ec9d5dab8297","createTime":"2024-09-26T09:34:09.014Z","updateTime":"2024-09-26T09:34:12.360Z","user":"45348281","state":"COMPLETE","script":"","output":{"results":[7]}}
+ * type Results = number[]
+ * const { data:executedTask } = await pollMethod(
+ *   LuauExecutionApi.luauExecutionTask<Results>({
+ *    universeId: 5795192361, placeId: 16866553538, version: 26,
+ *    sessionId: "67823af7-1f99-4fc5-b3bb-da7ab3456b5d", taskId: "67823af7-1f99-4fc5-b3bb-da7ab3456b5d"
+ *   }),
+ *   async ({ data }, stopPolling) => data.state === "COMPLETE" && stopPolling()
+ * )
+ * @exampleData {"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d","createTime":"2024-10-01T02:31:46.304Z","updateTime":"2024-10-01T02:31:49.959Z","user":"45348281","state":"COMPLETE","script":"","output":{"results":[7]},"universeId":"5795192361","placeId":"16866553538","version":26,"sessionId":"67823af7-1f99-4fc5-b3bb-da7ab3456b5d","taskId":"67823af7-1f99-4fc5-b3bb-da7ab3456b5d"} 
+ * @exampleRawBody {"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d","createTime":"2024-10-01T02:31:46.304Z","updateTime":"2024-10-01T02:31:49.959Z","user":"45348281","state":"COMPLETE","script":"","output":{"results":[7]}}
  */
-export const luauExecutionTask = addApiMethod(async <
-  UniverseId extends Identifier, PlaceId extends Identifier, Version extends number | undefined = undefined
->(
+export const luauExecutionTask = addApiMethod(async <Results extends any[]>(
   { universeId, placeId, version, sessionId, taskId, view }:
-  { universeId: UniverseId, placeId: PlaceId, version?: Version, sessionId: string, taskId: string, view?: "BASIC" | "FULL" }
-): ApiMethod<ExecuteLuauData<UniverseId, PlaceId, Version>> => ({
+  { universeId: Identifier, placeId: Identifier, version?: number, sessionId: string, taskId: string, view?: "BASIC" | "FULL" }
+): ApiMethod<RawLuauExecutionTaskData<Results>, FormattedLuauExecutionTaskData<Results>> => ({
   method: "GET",
   path: `/v2/universes/${universeId}/places/${placeId}${
     version ? `/versions/${version}` : ""
@@ -117,6 +132,8 @@ export const luauExecutionTask = addApiMethod(async <
   searchParams: { view },
 
   name: `getLuauExecutionTask`,
+
+  formatRawDataFn: addPathItemsToExecutedLuauResponse
 }))
 
 
@@ -138,10 +155,10 @@ export const luauExecutionTask = addApiMethod(async <
  * 
  * @example const { data:logs } = await LuauExecutionApi.listLuauExecutionLogs({
  *   universeId: 5795192361, placeId: 16866553538, version: 26,
- *   sessionId: "31710728-48c7-4447-ae13-f30c7a38bf42", taskId: "31710728-48c7-4447-ae13-f30c7a38bf42"
+ *   sessionId: "67823af7-1f99-4fc5-b3bb-da7ab3456b5d", taskId: "67823af7-1f99-4fc5-b3bb-da7ab3456b5d"
  * })
- * @exampleData [{"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/66d01389-6bac-4d6e-8414-ec9d5dab8297/tasks/66d01389-6bac-4d6e-8414-ec9d5dab8297/logs/1","messages":[]}]
- * @exampleRawBody {"luauExecutionSessionTaskLogs":[{"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/66d01389-6bac-4d6e-8414-ec9d5dab8297/tasks/66d01389-6bac-4d6e-8414-ec9d5dab8297/logs/1","messages":[]}],"nextPageToken":""}
+ * @exampleData [{"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/logs/1","messages":[],"universeId":"5795192361","placeId":"16866553538","version":26,"sessionId":"67823af7-1f99-4fc5-b3bb-da7ab3456b5d","taskId":"67823af7-1f99-4fc5-b3bb-da7ab3456b5d"}] 
+ * @exampleRawBody {"luauExecutionSessionTaskLogs":[{"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/logs/1","messages":[]}],"nextPageToken":""}
  */
 export const listLuauExecutionLogs = addApiMethod(async <
   UniverseId extends Identifier, PlaceId extends Identifier, SessionId extends string,
@@ -163,7 +180,7 @@ export const listLuauExecutionLogs = addApiMethod(async <
     searchParams: { maxPageSize: limit, pageToken: cursor },
     name: `listLuauExecutionLogs`,
 
-    formatRawDataFn: ({ luauExecutionSessionTaskLogs }) => luauExecutionSessionTaskLogs,
+    formatRawDataFn: ({ luauExecutionSessionTaskLogs }) => luauExecutionSessionTaskLogs.map(addPathItemsToExecutedLuauResponse),
 
     getCursorsFn: ({ nextPageToken }) => [ null, nextPageToken ]
   })

@@ -101,13 +101,15 @@ type AddApiMethodHandlerFn<Args extends Record<any, any>, MethodData extends Api
 export type ApiMethodResponse<
   RawData = any, PrettifiedData = any, ArgsContainsCursor extends boolean | null = null, IsRoot extends boolean = true
 > = ArgsContainsCursor extends false
-  ? ApiMethodResponse_WithoutPagination<RawData, PrettifiedData>
-  : ApiMethodResponse_WithPagination<RawData, PrettifiedData, ArgsContainsCursor, IsRoot>
+  ? ApiMethodResponse_WithoutPagination<RawData, PrettifiedData> &
+    { again: () => Promise<ApiMethodResponse_WithoutPagination<RawData, PrettifiedData>> }
+  : ApiMethodResponse_WithPagination<RawData, PrettifiedData, ArgsContainsCursor, IsRoot> &
+    { again: () => Promise<ApiMethodResponse_WithoutPagination<RawData, PrettifiedData>> }
 
 type ApiMethodResponse_WithoutPagination<RawData = any, PrettifiedData = any> = ObjectPrettify<
   {
     data: PrettifiedData,
-    response: ObjectPrettify<HttpResponse<RawData>>,
+    response: ObjectPrettify<HttpResponse<RawData>>
   }
 >
 

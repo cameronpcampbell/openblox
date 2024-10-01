@@ -21,16 +21,30 @@ const expBackoff = (iter: number, stepMultiplier: number) => stepMultiplier * (i
 //////////////////////////////////////////////////////////////////////////////////
 
 
-export const pollMethod = async <CallMethod extends CallApiMethod<any, any, true | false>>(
-    method: CallMethod, args: Parameters<CallMethod>[0],
-    handlerFn: (result: Awaited<ReturnType<CallMethod>>, stopPolling: () => void) => Promise<boolean | void>,
-    config?: PollConfig
-): Promise<void> => {
-  const iterations = config?.iterations ?? 15, multiplyer = config?.multiplyer ?? 200, retryOffset = config?.retryOffset ?? 5, debug = config?.debug
-  let offset = 0, isSuccess = false
+export const pollMethod = async <
+  MethodBase extends ReturnType<CallApiMethod<any, any, true | false>>,
+  Method extends MethodBase | Awaited<MethodBase>
+>(
+  method: Method,
+  handlerFn: (result: Awaited<MethodBase>, stopPolling: () => void) => Promise<boolean | void>,
+  config?: PollConfig
+): Promise<Awaited<Method>> => {
+  // Makes sure the method is awaited.
+  const methodAwaited = await method
 
-  let polling = true
+  let polling = true, dataToReturn = methodAwaited
   const stopPolling = () => polling = false
+
+  // Checks to see if polling can be avoided all together.
+  await handlerFn(methodAwaited, stopPolling)
+  if (!polling) return dataToReturn
+
+  const iterations = config?.iterations ?? 15, multiplyer = config?.multiplyer ?? 200, retryOffset = config?.retryOffset ?? 5, debug = config?.debug
+  let offset = 0, newIteration = false
+
+  const again = methodAwaited.again
+
+  console.warn(`Polling method (Please be patient)...`)
 
   while (polling) {
     for (let iter = 1 + offset; iter <= iterations + offset; iter++) {
@@ -39,20 +53,25 @@ export const pollMethod = async <CallMethod extends CallApiMethod<any, any, true
       
       if (backoff !== 0) await sleep(backoff)
 
-      const response = await method(args)
-      isSuccess = (await handlerFn(response as Awaited<ReturnType<CallMethod>>, stopPolling)) ?? false
+      const response: Awaited<Method> = await again() as any
+      newIteration = await handlerFn(response, stopPolling) ?? false
 
-      if (!polling) break
+      if (!polling) {
+        dataToReturn = response
+        break
+      }
 
       if (debug) console.log(`iteration ${iter} end.\n`)
 
       // if a new / valid response was gotten then breaks out of the current iteration cycle.
-      if (isSuccess) break
+      if (newIteration) break
     }
 
-    offset = isSuccess ? 0 : retryOffset
-    isSuccess = false
+    offset = newIteration ? 0 : retryOffset
+    newIteration = false
   }
+
+  return dataToReturn
 }
 
 
@@ -62,11 +81,11 @@ export const pollHttp = async <Body extends any>(
   config?: PollConfig
 ): Promise<void> => {
   const iterations = config?.iterations ?? 15, multiplyer = config?.multiplyer ?? 200, retryOffset = config?.retryOffset ?? 5, debug = config?.debug
-  let offset = 0, isSuccess = false
+  let offset = 0, newIteration = false
 
   let polling = true
   const stopPolling = () => polling = false
-
+  
   const httpAdapter = openbloxConfig.http?.adapter ?? FetchAdapter
 
   while (polling) {
@@ -77,17 +96,17 @@ export const pollHttp = async <Body extends any>(
       if (backoff !== 0) await sleep(backoff)
 
       const response = await httpAdapter(httpArgs)
-      isSuccess = (await handlerFn(response as HttpResponse<Body>, stopPolling)) ?? false
+      newIteration = await handlerFn(response as HttpResponse<Body>, stopPolling) ?? false
 
       if (!polling) break
 
       if (debug) console.log(`iteration ${iter} end.\n`)
 
       // if a new / valid response was gotten then breaks out of the current iteration cycle.
-      if (isSuccess) break
+      if (newIteration) break
     }
 
-    offset = isSuccess ? 0 : retryOffset
-    isSuccess = false
+    offset = newIteration ? 0 : retryOffset
+    newIteration = false
   }
 }

@@ -14,13 +14,21 @@ import type { RobloxCookie } from "../http/http.utils"
 export type OpenbloxConfig = {
   cookie?: RobloxCookie,
   cloudKey?: string,
+
   http?: {
     adapter?: HttpAdapter,
-    csrfMaxAttempts?: number
+    csrfMaxAttempts?: number,
+
+    polling?: {
+      disabled?: boolean,
+      iterations?: number,
+      multiplyer?: number,
+      retryOffset?: number,
+      debugMessages?: boolean
+    },
   },
-  cache?: {
-    [alias: string]: ReturnType<CacheAdapter<any, any>>
-  }
+
+  cache?: ReturnType<CacheAdapter<any, any>>[]
 }
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -32,7 +40,7 @@ export const config: OpenbloxConfig = {
   cookie: (initialCookie && `.ROBLOSECURITY=${initialCookie}; RBXEventTrackerV2=CreateDate=1/1/1 1:1:1 PM&rbxid=1&browserid=1;`) as any as RobloxCookie | undefined,
   cloudKey: process.env.ROBLOX_CLOUD_KEY,
 
-  cache: { default: TtlCacheAdapter({ included: { lifetime: 300 } }) }
+  cache: [ TtlCacheAdapter({ included: { lifetime: 300 } }) ]
 };
 //////////////////////////////////////////////////////////////////////////////////
 

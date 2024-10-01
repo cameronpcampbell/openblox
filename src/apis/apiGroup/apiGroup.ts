@@ -52,11 +52,8 @@ const defaultGetCursors = (rawData: Record<any, any>) => {
 }
 
 function isObjectEmpty(obj: Record<any, any>) {
-  for(var prop in obj) {
-      if(obj.hasOwnProperty(prop))
-          return false;
-  }
-  return true;
+  for (var prop in obj) if (obj.hasOwnProperty(prop)) return false
+  return true
 }
 
 const isNoMoreData = (data: any) => {
@@ -91,12 +88,6 @@ const paginate = (
   }
 )
 
-const sleep = async (s: number) => new Promise(resolve => setTimeout(resolve, s * 1000))
-
-const expBackoff = (delay: number, lastIter: number) => {
-  return delay + (5 * lastIter)
-}
-
 const pollForResponse = async (url: string, operationPath: string, cloudKey: string) => {
   const operationPrefix = operationPath.match(/^(\/?)cloud\/v[1-9]+(\/?)/)
     ? operationPrefixRegexWithoutVersion.exec(url)?.[1] as UrlSecure
@@ -107,9 +98,9 @@ const pollForResponse = async (url: string, operationPath: string, cloudKey: str
   const headers = { "x-api-key": cloudKey }
 
   let response: any
-  await pollHttp<{ done?: boolean }>({ method: "GET", url: operationUrl, headers }, async (response, stopPolling) => {
-    if (!response.body.done) return
-    response = response
+  await pollHttp<{ done?: boolean }>({ method: "GET", url: operationUrl, headers }, async (polledResponse, stopPolling) => {
+    if (!polledResponse.body.done) return
+    response = polledResponse
     stopPolling()
   })
 
@@ -153,54 +144,39 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
         if (oauthToken) headers["Authorization"] = `Bearer ${oauthToken}`
       }
 
-      let response: HttpResponse = await HttpHandler({ method, url, body, formData, headers }) as any // TODO
+      let main: () => Promise<any>
+      main = async () => {
+        let response: HttpResponse = await HttpHandler({ method, url, body, formData, headers }) as any // TODO
+        if (!(response instanceof HttpResponse)) throw response
+        let rawData = response.body
 
-      if (!(response instanceof HttpResponse)) throw response
-      let rawData = response.body
-
-      // Uncompleted long running operation.
-      let opPath = rawData?.path
-      if (opPath && rawData?.done === false && isOpenCloudUrl(url)) {
-        console.warn(`Polling '${groupName}.${name}' (Please be patient)...`)
-        response = await pollForResponse(url, pathToPoll ? pathToPoll(rawData) : opPath, cloudKey)
-
-        //if (pathToPoll) opPath = pathToPoll(rawData)
-
-        /*const operationPrefix = opPath.match(/^(\/?)cloud\/v[1-9]+(\/?)/)
-          ? operationPrefixRegexWithoutVersion.exec(url)?.[1] as UrlSecure
-          : operationPrefixRegexWithVersion.exec(url)?.[1] as UrlSecure
-        const opUrl = `${operationPrefix}${opPath}` as UrlSecure
-
-        const headers = { "x-api-key": cloudKey }*/
-
-        /*let delay = 0
-        for (let iter = 0; iter > -1; iter++) {
-          response = await HttpHandler({ method: "GET", url: opUrl, headers })
-          if (!(response instanceof HttpResponse)) throw response
+        // Uncompleted long running operation.
+        let opPath = rawData?.path
+        if (opPath && rawData?.done === false && isOpenCloudUrl(url)) {
+          console.warn(`Polling '${groupName}.${name}' (Please be patient)...`)
+          response = await pollForResponse(url, pathToPoll ? pathToPoll(rawData) : opPath, cloudKey)
           rawData = response.body
-
-          if (rawData?.done === true) break
-
-          await sleep(delay)
-          delay = expBackoff(delay, iter)
-        }*/
-      }
-
-      let apiMethodResult: ApiMethodResponse<any, any>
-      if (formatRawDataFn) apiMethodResult = { response, get data() { return formatRawDataFn(rawData, response) } }
-      else apiMethodResult = { response, data: rawData }
-
-      if (handlerFnCursorArg) {
-        let [ previousCursor, nextCursor ] = (getCursorsFn ?? thisDefaultGetCursors)(rawData);
-        apiMethodResult.cursors = { previous: previousCursor, next: nextCursor }
-        if (args && !("__notRoot" in args)) {
-          (apiMethodResult as any as ApiMethodResponse<any, any, true>)[Symbol.asyncIterator] = paginate(
-            apiMethodResult, callApiMethod as CallApiMethod<any, any, true>, args as Record<any, any>, overrides, handlerFnCursorArg
-          ) as any
         }
+
+        let apiMethodResult: ApiMethodResponse<any, any> = formatRawDataFn
+          ? { response, again: main, get data() { return formatRawDataFn(rawData, response) } }
+          : { response, again: main, data: rawData }
+
+        // Applies async iterator if method is paginated.
+        if (handlerFnCursorArg) {
+          let [ previousCursor, nextCursor ] = (getCursorsFn ?? thisDefaultGetCursors)(rawData);
+          apiMethodResult.cursors = { previous: previousCursor, next: nextCursor }
+          if (args && !("__notRoot" in args)) {
+            (apiMethodResult as any as ApiMethodResponse<any, any, true>)[Symbol.asyncIterator] = paginate(
+              apiMethodResult, callApiMethod as CallApiMethod<any, any, true>, args as Record<any, any>, overrides, handlerFnCursorArg
+            ) as any
+          }
+        }
+
+        return apiMethodResult as any
       }
 
-      return apiMethodResult as any
+      return await main()
     }
   }
 )

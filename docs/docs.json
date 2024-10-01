@@ -924,6 +924,126 @@
         ]
       }
     },
+    "luauExecution": {
+      "executeLuau": {
+        "description": "Executes a roblox luau script for a given place.",
+        "tags": {
+          "endpoint": "POST /cloud/v2/universes/{universeId}/places/{placeId}/luau-execution-session-tasks\nPOST /cloud/v2/universes/{universeId}/places/{placeId}/versions/{version}/luau-execution-session-tasks",
+          "example": "const { data: executed } = await LuauExecutionApi.executeLuau({\n  universeId: 5795192361,\n  placeId: 16866553538,\n  script: `local x, y = 3, 4; return x + y`,\n});",
+          "exampleData": "{\n  path: \"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d\",\n  user: \"45348281\",\n  state: \"PROCESSING\",\n  script: \"local x, y = 3, 4; return x + y\",\n  universeId: \"5795192361\",\n  placeId: \"16866553538\",\n  version: 26,\n  sessionId: \"67823af7-1f99-4fc5-b3bb-da7ab3456b5d\",\n  taskId: \"67823af7-1f99-4fc5-b3bb-da7ab3456b5d\",\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d\",\n  user: \"45348281\",\n  state: \"PROCESSING\",\n  script: \"local x, y = 3, 4; return x + y\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to execute the script under."
+          },
+          {
+            "name": "placeId",
+            "type": "PlaceId",
+            "description": "The ID of the place to execute the script under."
+          },
+          {
+            "name": "version?",
+            "type": "Version",
+            "description": "The optional version number of the place to execute the script under."
+          },
+          {
+            "name": "script",
+            "type": "string | Buffer | ArrayNonEmptyIfConst<string | Buffer>",
+            "description": "The script to execute."
+          }
+        ]
+      },
+      "luauExecutionTask": {
+        "description": "Gets a luau execution task.",
+        "tags": {
+          "endpoint": "GET /cloud/v2/universes/{universeId}/places/{placeId}/luau-execution-session-tasks\nGET /cloud/v2/universes/{universeId}/places/{placeId}/versions/{version}/luau-execution-session-tasks\nGET /cloud/v2/universes/{universeId}/places/{placeId}/luau-execution-sessions/{sessionId}/tasks\nGET /cloud/v2/universes/{universeId}/places/{placeId}/versions/{version}/luau-execution-sessions/{sessionId}/tasks",
+          "example": "import { pollMethod } from \"openblox/helpers\";\n\ntype Results = number[];\nconst { data: executedTask } = await pollMethod(\n  LuauExecutionApi.luauExecutionTask<Results>({\n    universeId: 5795192361,\n    placeId: 16866553538,\n    version: 26,\n    sessionId: \"67823af7-1f99-4fc5-b3bb-da7ab3456b5d\",\n    taskId: \"67823af7-1f99-4fc5-b3bb-da7ab3456b5d\",\n  }),\n  async ({ data }, stopPolling) => data.state === \"COMPLETE\" && stopPolling(),\n);",
+          "exampleData": "{\n  path: \"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d\",\n  createTime: \"2024-10-01T02:31:46.304Z\",\n  updateTime: \"2024-10-01T02:31:49.959Z\",\n  user: \"45348281\",\n  state: \"COMPLETE\",\n  script: \"\",\n  output: { results: [7] },\n  universeId: \"5795192361\",\n  placeId: \"16866553538\",\n  version: 26,\n  sessionId: \"67823af7-1f99-4fc5-b3bb-da7ab3456b5d\",\n  taskId: \"67823af7-1f99-4fc5-b3bb-da7ab3456b5d\",\n}\n",
+          "exampleRawBody": "{\n  path: \"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d\",\n  createTime: \"2024-10-01T02:31:46.304Z\",\n  updateTime: \"2024-10-01T02:31:49.959Z\",\n  user: \"45348281\",\n  state: \"COMPLETE\",\n  script: \"\",\n  output: { results: [7] },\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get the luau execution task from."
+          },
+          {
+            "name": "placeId",
+            "type": "Identifier",
+            "description": "The ID of the place to get the luau execution task from."
+          },
+          {
+            "name": "version?",
+            "type": "number",
+            "description": "The optional version number of the place to get the luau execution task for."
+          },
+          {
+            "name": "sessionId",
+            "type": "string",
+            "description": "The ID of the session to get the luau execution task for."
+          },
+          {
+            "name": "taskId",
+            "type": "string",
+            "description": "The ID of the task to get the luau execution task for."
+          },
+          {
+            "name": "view?",
+            "type": "\"BASIC\" | \"FULL\"",
+            "description": "If the response should return the script source (`\"FULL\"`) instead of an empty string."
+          }
+        ]
+      },
+      "listLuauExecutionLogs": {
+        "description": "Lists luau execution logs.",
+        "tags": {
+          "endpoint": "GET /cloud/v2/universes/{universeId}/places/{placeId}/luau-execution-session-tasks/{taskId}/logs\nGET /cloud/v2/universes/{universeId}/places/{placeId}/luau-execution-sessions/{sessionId}/tasks/{taskId}/logs\nGET /cloud/v2/universes/{universeId}/places/{placeId}/versions/{version}/luau-execution-session-tasks/{taskId}/logs\nGET /cloud/v2/universes/{universeId}/places/{placeId}/versions/{version}/luau-execution-sessions/{sessionId}/tasks/{taskId}/logs",
+          "example": "const { data: logs } = await LuauExecutionApi.listLuauExecutionLogs({\n  universeId: 5795192361,\n  placeId: 16866553538,\n  version: 26,\n  sessionId: \"67823af7-1f99-4fc5-b3bb-da7ab3456b5d\",\n  taskId: \"67823af7-1f99-4fc5-b3bb-da7ab3456b5d\",\n});",
+          "exampleData": "[\n  {\n    path: \"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/logs/1\",\n    messages: [],\n    universeId: \"5795192361\",\n    placeId: \"16866553538\",\n    version: 26,\n    sessionId: \"67823af7-1f99-4fc5-b3bb-da7ab3456b5d\",\n    taskId: \"67823af7-1f99-4fc5-b3bb-da7ab3456b5d\",\n  },\n]\n",
+          "exampleRawBody": "{\n  luauExecutionSessionTaskLogs: [\n    {\n      path: \"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/logs/1\",\n      messages: [],\n    },\n  ],\n  nextPageToken: \"\",\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to list logs for."
+          },
+          {
+            "name": "placeId",
+            "type": "PlaceId",
+            "description": "The ID of the place to list logs for."
+          },
+          {
+            "name": "version?",
+            "type": "Version",
+            "description": "The optional version number of the place to list logs for."
+          },
+          {
+            "name": "sessionId?",
+            "type": "SessionId",
+            "description": "The ID of the session to get logs for."
+          },
+          {
+            "name": "taskId",
+            "type": "TaskId",
+            "description": "The ID of the task to get logs for."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The maximum amount of logs to return. The service might return fewer than this value. If unspecified, at most 10000 luau execution session task logs are returned. The maximum value is 10000 and higher values are set to 10000."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "A page token, received from a previous call, to retrieve a subsequent page."
+          }
+        ]
+      }
+    },
     "memoryStores": {
       "sortedMapItem": {
         "description": "Gets a sorted map item.",
@@ -1221,7 +1341,8 @@
         "tags": {
           "endpoint": "GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries",
           "tags": "[ \"Cloud Key\" ]",
-          "example": "const { data: entries } = await OrderedDatastoresApi_V1.listOrderedDatastoreEntries({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n});",
+          "deprecated": "Please use `OrderedDataStoresApi_V2` for new work.",
+          "example": "const { data: entries } = await OrderedDataStoresApi_V1.listOrderedDatastoreEntries({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n});",
           "exampleData": "[\n  {\n    path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n    value: 54,\n    id: \"45348281\",\n  },\n]\n",
           "exampleRawBody": "{\n  entries: [\n    {\n      path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n      value: 54,\n      id: \"45348281\",\n    },\n  ],\n  nextPageToken: \"\",\n}\n"
         },
@@ -1268,7 +1389,8 @@
         "tags": {
           "endpoint": "POST /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries",
           "tags": "[ \"Cloud Key\" ]",
-          "example": "const { data: createdEntry } = await OrderedDatastoresApi_V1.createOrderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348282\",\n  value: 54,\n});",
+          "deprecated": "Please use `OrderedDataStoresApi_V2` for new work.",
+          "example": "const { data: createdEntry } = await OrderedDataStoresApi_V1.createOrderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348282\",\n  value: 54,\n});",
           "exampleData": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 54,\n  id: \"45348281\",\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 54,\n  id: \"45348281\",\n}\n"
         },
@@ -1305,7 +1427,8 @@
         "tags": {
           "endpoint": "GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries",
           "tags": "[ \"Cloud Key\" ]",
-          "example": "const { data: entry } = await OrderedDatastoresApi_V1.orderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348281\",\n});",
+          "deprecated": "Please use `OrderedDataStoresApi_V2` for new work.",
+          "example": "const { data: entry } = await OrderedDataStoresApi_V1.orderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348281\",\n});",
           "exampleData": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 54,\n  id: \"45348281\",\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 54,\n  id: \"45348281\",\n}\n"
         },
@@ -1337,7 +1460,8 @@
         "tags": {
           "endpoint": "GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries",
           "tags": "[ \"Cloud Key\" ]",
-          "example": "const { data: success } = await OrderedDatastoresApi_V1.deleteOrderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348281\",\n});",
+          "deprecated": "Please use `OrderedDataStoresApi_V2` for new work.",
+          "example": "const { data: success } = await OrderedDataStoresApi_V1.deleteOrderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348281\",\n});",
           "exampleData": "",
           "exampleRawBody": "{}\n"
         },
@@ -1369,7 +1493,8 @@
         "tags": {
           "endpoint": "GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries",
           "tags": "[ \"Cloud Key\" ]",
-          "example": "const { data: updatedEntry } = await OrderedDatastoresApi_V1.updateOrderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348281\",\n  newValue: 58,\n});",
+          "deprecated": "Please use `OrderedDataStoresApi_V2` for new work.",
+          "example": "const { data: updatedEntry } = await OrderedDataStoresApi_V1.updateOrderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348281\",\n  newValue: 58,\n});",
           "exampleData": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 58,\n  id: \"45348281\",\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 58,\n  id: \"45348281\",\n}\n"
         },
@@ -1411,7 +1536,8 @@
         "tags": {
           "endpoint": "GET /v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries",
           "tags": "[ \"Cloud Key\" ]",
-          "example": "const { data: incrementedEntry } = await OrderedDatastoresApi_V1.incrementOrderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348281\",\n  incrementBy: 26,\n  createIfNoEntryExists: true,\n});",
+          "deprecated": "Please use `OrderedDataStoresApi_V2` for new work.",
+          "example": "const { data: incrementedEntry } = await OrderedDataStoresApi_V1.incrementOrderedDatastoreEntry({\n  universeId: 5097539509,\n  orderedDataStore: \"PointsStore\",\n  scope: \"global\",\n  id: \"45348281\",\n  incrementBy: 26,\n  createIfNoEntryExists: true,\n});",
           "exampleData": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 66,\n  id: \"45348281\",\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281\",\n  value: 66,\n  id: \"45348281\",\n}\n"
         },
@@ -1454,7 +1580,7 @@
         "description": "Lists entries in an ordered data store.",
         "tags": {
           "endpoint": "GET /v2/universes/{universeId}/ordered-data-stores/{dataStoreId}/scopes/{scope}/entries",
-          "example": "const { data: entries } = await OrderedDatastoresApi_V2.listOrderedDatastoreEntries({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  sortOrder: \"Desc\",\n  lessThanOrEq: 80,\n  moreThanOrEq: 70,\n});",
+          "example": "const { data: entries } = await OrderedDataStoresApi_V2.listOrderedDatastoreEntries({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  sortOrder: \"Desc\",\n  lessThanOrEq: 80,\n  moreThanOrEq: 70,\n});",
           "exampleData": "[\n  {\n    path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n    value: 78,\n    id: \"45348281\",\n  },\n]\n",
           "exampleRawBody": "{\n  orderedDataStoreEntries: [\n    {\n      path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n      value: 78,\n      id: \"45348281\",\n    },\n  ],\n}\n"
         },
@@ -1488,6 +1614,16 @@
             "name": "moreThanOrEq?",
             "type": "number",
             "description": "Filters the results to include those more than or equal to a specific number (can be used in tangent with `lessThabOrEq`)."
+          },
+          {
+            "name": "limit?",
+            "type": "number",
+            "description": "The number of results per request."
+          },
+          {
+            "name": "cursor?",
+            "type": "string",
+            "description": "The paging cursor for the previous or next page."
           }
         ]
       },
@@ -1495,7 +1631,7 @@
         "description": "Creates a new entry in an ordered data store.",
         "tags": {
           "endpoint": "POST /v2/universes/{universeId}/ordered-data-stores/{dataStoreId}/scopes/{scope}/entries",
-          "example": "const { data: entry } = await OrderedDatastoresApi_V2.createOrderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"453482811\",\n  entryValue: 15,\n});",
+          "example": "const { data: entry } = await OrderedDataStoresApi_V2.createOrderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"453482811\",\n  entryValue: 15,\n});",
           "exampleData": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 15,\n  id: \"45348281\",\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 15,\n  id: \"45348281\",\n}\n"
         },
@@ -1526,7 +1662,7 @@
         "description": "Gets an new entry in an ordered data store.",
         "tags": {
           "endpoint": "GET /v2/universes/{universeId}/ordered-data-stores/{dataStoreId}/scopes/{scope}/entries",
-          "example": "const { data: entry } = await OrderedDatastoresApi_V2.orderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"45348281\",\n});",
+          "example": "const { data: entry } = await OrderedDataStoresApi_V2.orderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"45348281\",\n});",
           "exampleData": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 78,\n  id: \"45348281\",\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 78,\n  id: \"45348281\",\n}\n"
         },
@@ -1557,7 +1693,7 @@
         "description": "Deletes an entry from an ordered data store.",
         "tags": {
           "endpoint": "DELETE /v2/universes/{universeId}/ordered-data-stores/{dataStoreId}/scopes/{scope}/entries",
-          "example": "const { data: success } = await OrderedDatastoresApi_V2.deleteOrderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"45348281\",\n});",
+          "example": "const { data: success } = await OrderedDataStoresApi_V2.deleteOrderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"45348281\",\n});",
           "exampleData": "",
           "exampleRawBody": "{}\n"
         },
@@ -1588,7 +1724,7 @@
         "description": "Updates an entry in an ordered data store.",
         "tags": {
           "endpoint": "PATCH /v2/universes/{universeId}/ordered-data-stores/{dataStoreId}/scopes/{scope}/entries/{entryId}",
-          "example": "const { data: entry } = await OrderedDatastoresApi_V2.updateOrderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"45348281\",\n  newEntryValue: 45,\n});",
+          "example": "const { data: entry } = await OrderedDataStoresApi_V2.updateOrderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"45348281\",\n  newEntryValue: 45,\n});",
           "exampleData": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 45,\n  id: \"45348281\",\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 45,\n  id: \"45348281\",\n}\n"
         },
@@ -1619,7 +1755,7 @@
         "description": "Updates an entry in an ordered data store.",
         "tags": {
           "endpoint": "PATCH /v2/universes/{universeId}/ordered-data-stores/{dataStoreId}/scopes/{scope}/entries/{entryId}:increment",
-          "example": "const { data: entry } = await OrderedDatastoresApi_V2.incrementOrderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"45348281\",\n  incrementBy: 42,\n});",
+          "example": "const { data: entry } = await OrderedDataStoresApi_V2.incrementOrderedDataStoreEntry({\n  universeId: 5097539509,\n  dataStoreId: \"PointsStore\",\n  scope: \"global\",\n  entryId: \"45348281\",\n  incrementBy: 42,\n});",
           "exampleData": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 42,\n  id: \"45348281\",\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5097539509/ordered-data-stores/PointsStore/scopes/global/entries/45348281\",\n  value: 42,\n  id: \"45348281\",\n}\n"
         },
@@ -1653,7 +1789,8 @@
         "tags": {
           "endpoint": "GET /v1/universes/{universeId}/standard-datastores",
           "tags": "[ \"Cloud Key\" ]",
-          "example": "const { data: datastores } = await StandardDatastoresApi_V1.listStandardDatastores({ universeId: 5097539509 });",
+          "deprecated": "Please use `StandardDataStoresApi_V2` for new work.",
+          "example": "const { data: datastores } = await StandardDataStoresApi_V1.listStandardDatastores({ universeId: 5097539509 });",
           "exampleData": "[{ name: \"InventoryStore\", createdTime: \"2023-09-16T11:03:03.868Z\" }]\n",
           "exampleRawBody": "{\n  datastores: [\n    { name: \"InventoryStore\", createdTime: \"2023-09-16T11:03:03.868331Z\" },\n  ],\n  nextPageCursor: \"\",\n}\n"
         },
@@ -1685,7 +1822,8 @@
         "tags": {
           "endpoint": "GET /v1/universes/{universeId}/standard-datastores/datastore/entries",
           "tags": "[ \"Cloud Key\" ]",
-          "example": "const { data: keys } = await StandardDatastoresApi_V1.standardDatastoreKeys({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n});",
+          "deprecated": "Please use `StandardDataStoresApi_V2` for new work.",
+          "example": "const { data: keys } = await StandardDataStoresApi_V1.standardDatastoreKeys({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n});",
           "exampleData": "[\"user/45348281\"]\n",
           "exampleRawBody": "{\n  keys: [{ key: \"user/45348281\" }],\n  nextPageCursor: \"eyJ2ZXJzaW9uIjoxLCJjdXJzb3IiOiIxMyMifQ==\",\n}\n"
         },
@@ -1732,7 +1870,8 @@
         "tags": {
           "endpoint": "GET /v1/universes/{universeId}/standard-datastores/datastore/entries/entry",
           "tags": "[ \"Cloud Key\" ]",
-          "example": "type InventorySchema = { Iron?: number; Gold?: number; Copper?: number; Stone?: number; Wood?: number };\nconst { data: entryInfo } = await StandardDatastoresApi_V1.standardDatastoreEntry<InventorySchema>({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n  entryKey: \"user/45348281\",\n});\nif (!entryInfo.checksumsMatch) console.log(\"checksums do not match, data may be invalid!\");\nelse console.log(\"checksums match! ->\", entryInfo.entry);",
+          "deprecated": "Please use `StandardDataStoresApi_V2` for new work.",
+          "example": "type InventorySchema = { Iron?: number; Gold?: number; Copper?: number; Stone?: number; Wood?: number };\nconst { data: entryInfo } = await StandardDataStoresApi_V1.standardDatastoreEntry<InventorySchema>({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n  entryKey: \"user/45348281\",\n});\nif (!entryInfo.checksumsMatch) console.log(\"checksums do not match, data may be invalid!\");\nelse console.log(\"checksums match! ->\", entryInfo.entry);",
           "exampleData": "{\n  entry: { Gold: 6, Iron: 57 },\n  checksumsMatch: true,\n  metadata: {\n    contentMD5: \"hGwoaGwduF4bOhexREYGkA==\",\n    entryVersion: \"08DBB6A47FDE6132.0000000016.08DBB782CEE11766.01\",\n    entryCreatedTime: \"2023-09-16T11:03:03.922Z\",\n    entryVersionCreatedTime: \"2023-09-17T13:34:24.754Z\",\n    entryAttributes: null,\n    entryUserIds: [45348281],\n  },\n}\n",
           "exampleRawBody": "{\n  entry: { Gold: 6, Iron: 57 },\n  checksumsMatch: true,\n  metadata: {\n    contentMD5: \"hGwoaGwduF4bOhexREYGkA==\",\n    entryVersion: \"08DBB6A47FDE6132.0000000016.08DBB782CEE11766.01\",\n    entryCreatedTime: \"2023-09-16T11:03:03.922Z\",\n    entryVersionCreatedTime: \"2023-09-17T13:34:24.754Z\",\n    entryAttributes: null,\n    entryUserIds: [45348281],\n  },\n}\n"
         },
@@ -1764,7 +1903,8 @@
         "tags": {
           "endpoint": "POST /v1/universes/{universeId}/standard-datastores/datastore/entries/entry",
           "tags": "[ \"Cloud Key\" ]",
-          "example": "type InventorySchema = { Iron?: number; Gold?: number; Copper?: number; Stone?: number; Wood?: number };\nconst { data: response } = await StandardDatastoresApi_V1.setStandardDatastoreEntry<InventorySchema>({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n  entryKey: \"user/45348281\",\n  entryValue: { Gold: 6 },\n  entryUserIds: [45348281],\n});",
+          "deprecated": "Please use `StandardDataStoresApi_V2` for new work.",
+          "example": "type InventorySchema = { Iron?: number; Gold?: number; Copper?: number; Stone?: number; Wood?: number };\nconst { data: response } = await StandardDataStoresApi_V1.setStandardDatastoreEntry<InventorySchema>({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n  entryKey: \"user/45348281\",\n  entryValue: { Gold: 6 },\n  entryUserIds: [45348281],\n});",
           "exampleData": "{\n  version: \"08DBB6A47FDE6132.000000000E.08DBB780C616DF0C.01\",\n  deleted: false,\n  contentLength: 20,\n  createdTime: \"2023-09-17T13:19:51.014Z\",\n  objectCreatedTime: \"2023-09-16T11:03:03.922Z\",\n}\n",
           "exampleRawBody": "{\n  version: \"08DBB6A47FDE6132.000000000E.08DBB780C616DF0C.01\",\n  deleted: false,\n  contentLength: 20,\n  createdTime: \"2023-09-17T13:19:51.014Z\",\n  objectCreatedTime: \"2023-09-16T11:03:03.922Z\",\n}\n"
         },
@@ -1816,7 +1956,8 @@
         "tags": {
           "endpoint": "GET /v1/universes/{universeId}/standard-datastores/datastore/entries/entry",
           "tags": "[ \"Cloud Key\" ]",
-          "example": "const { data: success } = await StandardDatastoresApi_V1.deleteStandardDatastoreEntry({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n  entryKey: \"user/45348281\",\n});",
+          "deprecated": "Please use `StandardDataStoresApi_V2` for new work.",
+          "example": "const { data: success } = await StandardDataStoresApi_V1.deleteStandardDatastoreEntry({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n  entryKey: \"user/45348281\",\n});",
           "exampleData": "",
           "exampleRawBody": ""
         },
@@ -1848,7 +1989,8 @@
         "tags": {
           "endpoint": "POST /v1/universes/{universeId}/standard-datastores/datastore/entries/entry/increment",
           "tags": "[ \"Cloud Key\" ]",
-          "example": "const { data: incrementedEntry } = await StandardDatastoresApi_V1.incrementStandardDatastoreEntry({\n  universeId: 5097539509,\n  datastoreName: \"LoremIpsum\",\n  entryKey: \"user/45348281\",\n  incrementBy: 1,\n  entryUserIds: [45348281],\n});",
+          "deprecated": "Please use `StandardDataStoresApi_V2` for new work.",
+          "example": "const { data: incrementedEntry } = await StandardDataStoresApi_V1.incrementStandardDatastoreEntry({\n  universeId: 5097539509,\n  datastoreName: \"LoremIpsum\",\n  entryKey: \"user/45348281\",\n  incrementBy: 1,\n  entryUserIds: [45348281],\n});",
           "exampleData": "",
           "exampleRawBody": ""
         },
@@ -1895,7 +2037,8 @@
         "tags": {
           "endpoint": "POST /v1/universes/{universeId}/standard-datastores/datastore/entries/entry/versions/version",
           "tags": "[ \"Cloud Key\" ]",
-          "example": "type InventorySchema = { Iron?: number; Gold?: number; Copper?: number; Stone?: number; Wood?: number };\nconst { data: entry } = await StandardDatastoresApi_V1.standardDatastoreEntryOfVersion({\n  universeId: 5097539509,\n  datastoreName: \"LoremIpsum\",\n  entryKey: \"user/45348281\",\n  versionId: \"08DC7742E4BD78AF.0000000001.08DC7742E4BD78AF.01\",\n});",
+          "deprecated": "Please use `StandardDataStoresApi_V2` for new work.",
+          "example": "type InventorySchema = { Iron?: number; Gold?: number; Copper?: number; Stone?: number; Wood?: number };\nconst { data: entry } = await StandardDataStoresApi_V1.standardDatastoreEntryOfVersion({\n  universeId: 5097539509,\n  datastoreName: \"LoremIpsum\",\n  entryKey: \"user/45348281\",\n  versionId: \"08DC7742E4BD78AF.0000000001.08DC7742E4BD78AF.01\",\n});",
           "exampleData": "{\n  entry: { Gold: 6, Iron: 57 },\n  checksumsMatch: true,\n  metadata: {\n    contentMD5: \"hGwoaGwduF4bOhexREYGkA==\",\n    entryVersion: \"08DBB6A47FDE6132.0000000016.08DBB782CEE11766.01\",\n    entryCreatedTime: \"2023-09-16T11:03:03.922Z\",\n    entryVersionCreatedTime: \"2023-09-17T13:34:24.754Z\",\n    entryAttributes: null,\n    entryUserIds: [45348281],\n  },\n}\n",
           "exampleRawBody": "{\n  entry: { Gold: 6, Iron: 57 },\n  checksumsMatch: true,\n  metadata: {\n    contentMD5: \"hGwoaGwduF4bOhexREYGkA==\",\n    entryVersion: \"08DBB6A47FDE6132.0000000016.08DBB782CEE11766.01\",\n    entryCreatedTime: \"2023-09-16T11:03:03.922Z\",\n    entryVersionCreatedTime: \"2023-09-17T13:34:24.754Z\",\n    entryAttributes: null,\n    entryUserIds: [45348281],\n  },\n}\n"
         },
@@ -1932,7 +2075,8 @@
         "tags": {
           "endpoint": "GET /v1/universes/{universeId}/standard-datastores/datastore/entries/entry/versions",
           "tags": "[ \"Cloud Key\" ]",
-          "example": "const { data: versions } = await StandardDatastoresApi_V1.listStandardDatastoreEntryVersions({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n  entryKey: \"user/45348281\",\n  sortOrder: \"Ascending\",\n  limit: 1,\n});",
+          "deprecated": "Please use `StandardDataStoresApi_V2` for new work.",
+          "example": "const { data: versions } = await StandardDataStoresApi_V1.listStandardDatastoreEntryVersions({\n  universeId: 5097539509,\n  datastoreName: \"InventoryStore\",\n  entryKey: \"user/45348281\",\n  sortOrder: \"Ascending\",\n  limit: 1,\n});",
           "exampleData": "[\n  {\n    version: \"08DBB6A47FDE6132.0000000010.08DBB781B9579F00.01\",\n    deleted: false,\n    contentLength: 20,\n    createdTime: \"2023-09-17T13:26:39.124Z\",\n    objectCreatedTime: \"2023-09-16T11:03:03.922Z\",\n  },\n]\n",
           "exampleRawBody": "{\n  versions: [\n    {\n      version: \"08DBB6A47FDE6132.0000000010.08DBB781B9579F00.01\",\n      deleted: false,\n      contentLength: 20,\n      createdTime: \"2023-09-17T13:26:39.124Z\",\n      objectCreatedTime: \"2023-09-16T11:03:03.922Z\",\n    },\n  ],\n}\n"
         },
@@ -2345,11 +2489,11 @@
       }
     },
     "userRestrictions": {
-      "restrictions": {
+      "listRestrictions": {
         "description": "Gets restrictions for a user.",
         "tags": {
           "endpoint": "PATCH /v2/universes/{universe}/user-restrictions/{user-restriction}\nPATCH /v2/universes/{universeId}/places/{placeId}/user-restrictions/{userId}",
-          "example": "const { data: restrictions } = await UserRestrictionsApi.restrictions({\n  universeId: 5795192361,\n  placeId: 18210254887,\n  userId: 6193495014,\n});",
+          "example": "const { data: restrictions } = await UserRestrictionsApi.listRestrictions({\n  universeId: 5795192361,\n  placeId: 18210254887,\n  userId: 6193495014,\n});",
           "exampleData": "{\n  path: \"universes/5795192361/places/18210254887/user-restrictions/6193495014\",\n  user: \"users/6193495014\",\n  gameJoinRestriction: {\n    active: true,\n    startTime: \"2024-06-25T22:56:58.873Z\",\n    duration: \"31540000s\",\n    privateReason: \"Being a meanie :/\",\n    displayReason: \"Annoying other players.\",\n    excludeAltAccounts: false,\n    inherited: false,\n  },\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5795192361/places/18210254887/user-restrictions/6193495014\",\n  user: \"users/6193495014\",\n  gameJoinRestriction: {\n    active: true,\n    startTime: \"2024-06-25T22:56:58.873Z\",\n    duration: \"31540000s\",\n    privateReason: \"Being a meanie :/\",\n    displayReason: \"Annoying other players.\",\n    excludeAltAccounts: false,\n    inherited: false,\n  },\n}\n"
         },
@@ -2371,11 +2515,32 @@
           }
         ]
       },
+      "restrictionForUser": {
+        "description": "Gets the active restriction for a user in a given universe.",
+        "tags": {
+          "endpoint": "GET /cloud/v2/universes/{universeId}/user-restrictions/{userId}",
+          "example": "",
+          "exampleData": "",
+          "exampleRawBody": ""
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get restriction from."
+          },
+          {
+            "name": "userId",
+            "type": "Identifier",
+            "description": "The ID of the user to get restriction for."
+          }
+        ]
+      },
       "updateRestrictionsForUser": {
         "description": "Updates restrctions for a user.",
         "tags": {
           "endpoint": "PATCH /v2/universes/{universe}/user-restrictions/{user-restriction}\nPATCH /v2/universes/{universeId}/places/{placeId}/user-restrictions/{userId}",
-          "example": "import { v4 as uuidv4 } from \"uuid\";\nconst idempotencyKey = uuidv4(),\n  firstSent = new Date();\n\nconst { data: updatedRestrictions } = await UserRestrictionsApi.updateRestrictionsForUser({\n  universeId: 5795192361,\n  placeId: 18210254887,\n  userId: 6193495014,\n  idempotencyKey,\n  firstSent,\n  updatedData: {\n    gameJoinRestriction: {\n      active: true,\n      duration: \"31540000s\", // 1 year.\n      privateReason: \"Being a meanie :/\",\n      displayReason: \"Annoying other players.\",\n      excludeAltAccounts: false,\n      inherited: true,\n    },\n  },\n});",
+          "example": "import { v4 as uuidv4 } from \"uuid\";\nconst idempotencyKey = uuidv4(),\n  firstSent = new Date();\n\nconst { data: updatedRestrictions } = await UserRestrictionsApi.updateRestrictionsForUser({\n  universeId: 5795192361,\n  placeId: 18210254887,\n  userId: 6193495014,\n  idempotencyKey,\n  firstSent,\n  updatedData: {\n    gameJoinRestriction: {\n      active: true,\n      duration: \"31540000s\", // 1 year.\n      privateReason: \"Being a meanie :/\",\n      displayReason: \"Annoying other players.\",\n      excludeAltAccounts: false,\n    },\n  },\n});",
           "exampleData": "{\n  path: \"universes/5795192361/places/18210254887/user-restrictions/6193495014\",\n  user: \"users/6193495014\",\n  gameJoinRestriction: {\n    active: true,\n    startTime: \"2024-06-25T22:54:39.245Z\",\n    duration: \"31540000s\",\n    privateReason: \"Being a meanie :/\",\n    displayReason: \"Annoying other players.\",\n    excludeAltAccounts: false,\n    inherited: false,\n  },\n}\n",
           "exampleRawBody": "{\n  path: \"universes/5795192361/places/18210254887/user-restrictions/6193495014\",\n  user: \"users/6193495014\",\n  gameJoinRestriction: {\n    active: true,\n    startTime: \"2024-06-25T22:54:39.245Z\",\n    duration: \"31540000s\",\n    privateReason: \"Being a meanie :/\",\n    displayReason: \"Annoying other players.\",\n    excludeAltAccounts: false,\n    inherited: false,\n  },\n}\n"
         },
@@ -4586,6 +4751,50 @@
         ]
       }
     },
+    "gameInternationalization": {
+      "universeAutoTranslationsAllowed": {
+        "description": "Sees if automatic translations are allowed for a particular universe.",
+        "tags": {
+          "endpoint": "GET /v1/automatic-translation/games/{universeId}/feature-status",
+          "example": "const { data: allowed } = await ClassicGameInternationalizationApi.universeAutoTranslationsAllowed({\n  universeId: 1685831367,\n});",
+          "exampleData": "{\n  gameId: 1685831367,\n  isAutomaticTranslationAllowed: true,\n  isAutomaticTranslationSwitchesUIEnabled: true,\n}\n",
+          "exampleRawBody": "{\n  gameId: 1685831367,\n  isAutomaticTranslationAllowed: true,\n  isAutomaticTranslationSwitchesUIEnabled: true,\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "UniverseId",
+            "description": "The ID of the universe to see if automatic translations are allowed."
+          }
+        ]
+      },
+      "universeAutoTranslationQuota": {
+        "description": "Gets automatic translation quota for a particular universe.",
+        "tags": {
+          "endpoint": "GET /v1/automatic-translation/games/{universeId}/quota",
+          "example": "const { data: quota } = await ClassicGameInternationalizationApi.universeAutoTranslationQuota({\n  universeId: 1685831367,\n});",
+          "exampleData": "{\n  monthlyQuota: {\n    previousRefreshDate: \"0001-01-01T00:00:00\",\n    nextRefreshDate: \"2024-09-10T15:29:26.849Z\",\n    remaining: 550000,\n    capacity: 550000,\n  },\n  bankQuota: { remaining: 2750000, capacity: 2750000 },\n}\n",
+          "exampleRawBody": "{\n  monthlyQuota: {\n    previousRefreshDate: \"0001-01-01T00:00:00\",\n    nextRefreshDate: \"2024-09-10T15:29:26.849Z\",\n    remaining: 550000,\n    capacity: 550000,\n  },\n  bankQuota: { remaining: 2750000, capacity: 2750000 },\n}\n"
+        },
+        "params": [
+          {
+            "name": "universeId",
+            "type": "Identifier",
+            "description": "The ID of the universe to get automatic translation quota from."
+          }
+        ]
+      },
+      "autoTranslatableLanguagesForSource": {
+        "description": "DESCRIPTION",
+        "tags": {
+          "endpoint": "REST /...",
+          "example": "const { data: autoTranslationsAllowed } = await ClassicGameInternationalizationApi.autoTranslatableLanguagesForSource({\n  languageCode: \"en\",\n  targetLanguageCodes: [\"fr\"],\n});",
+          "exampleData": "{ fr: true }\n",
+          "exampleRawBody": "{\n  sourceLanguage: \"en\",\n  targetLanguages: [\n    { languageCode: \"fr\", isAutomaticTranslationAllowed: true },\n  ],\n}\n"
+        },
+        "params": []
+      }
+    },
     "gamePasses": {
       "gamePassInfo": {
         "description": "Gets information about a game pass.",
@@ -4657,6 +4866,16 @@
             "name": "icon?",
             "type": "string | File",
             "description": "The new icon for the game pass."
+          },
+          {
+            "name": "price?",
+            "type": "number",
+            "description": "The new price for the game pass."
+          },
+          {
+            "name": "isForSale?",
+            "type": "boolean",
+            "description": "If the game pass should be for sale."
           }
         ]
       },
@@ -7014,6 +7233,24 @@
             "name": "userId",
             "type": "Identifier",
             "description": "The ID of the user to get subscriptions for."
+          }
+        ]
+      }
+    },
+    "shareLinks": {
+      "shareLinkInfo": {
+        "description": "Gets information about a share link.",
+        "tags": {
+          "endpoint": "POST /v1/resolve-link",
+          "example": "const { data: linkInfo } = await ClassicShareLinksApi.shareLinkInfo({\n  shareLinkId: \"0629f8e684039c4d800a1a03623e7a6f\",\n});",
+          "exampleData": "{\n  experienceInviteData: null,\n  friendInviteData: null,\n  notificationExperienceInviteData: null,\n  profileLinkResolutionResponseData: null,\n  screenshotInviteData: null,\n  privateServerInviteData: {\n    status: \"Valid\",\n    ownerUserId: 45348281,\n    universeId: 6430220996,\n    privateServerId: 1630945839,\n    linkCode: \"67771413747491684286858666824242\",\n    placeId: 18980972074,\n  },\n  experienceDetailsInviteData: null,\n  avatarItemDetailsData: null,\n  contentPostData: null,\n  experienceAffiliateData: null,\n}\n",
+          "exampleRawBody": "{\n  experienceInviteData: null,\n  friendInviteData: null,\n  notificationExperienceInviteData: null,\n  profileLinkResolutionResponseData: null,\n  screenshotInviteData: null,\n  privateServerInviteData: {\n    status: \"Valid\",\n    ownerUserId: 45348281,\n    universeId: 6430220996,\n    privateServerId: 1630945839,\n    linkCode: \"67771413747491684286858666824242\",\n    placeId: 18980972074,\n  },\n  experienceDetailsInviteData: null,\n  avatarItemDetailsData: null,\n  contentPostData: null,\n  experienceAffiliateData: null,\n}\n"
+        },
+        "params": [
+          {
+            "name": "shareLinkId",
+            "type": "string",
+            "description": "The ID (code) of the share link."
           }
         ]
       }
