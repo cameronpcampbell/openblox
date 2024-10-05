@@ -14,7 +14,8 @@ export type MinimalOrderedDataStoreEntry<
 
 // GET /v2/universes/{universeId}/ordered-data-stores/{dataStoreId}/scopes/{scope}/entries ---------------------------
 export type RawListOrderedDatastoreEntries<UniverseId extends Identifier, DataStoreId extends string, Scope extends string> = {
-  orderedDataStoreEntries: MinimalOrderedDataStoreEntry<UniverseId, DataStoreId, Scope>[]
+  orderedDataStoreEntries: MinimalOrderedDataStoreEntry<UniverseId, DataStoreId, Scope>[],
+  nextPageToken: string
 }
 
 export type PrettifiedListOrderedDatastoreEntries<UniverseId extends Identifier, DataStoreId extends string, Scope extends string> =

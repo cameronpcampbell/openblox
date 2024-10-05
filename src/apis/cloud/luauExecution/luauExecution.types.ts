@@ -1,4 +1,4 @@
-import { Identifier, ISODateTime, ObjectEither, ObjectPrettify, Prettify, UnionPrettify } from "typeforge"
+import type { Identifier, ISODateTime, ObjectEither, ObjectPrettify, Prettify, UnionPrettify } from "typeforge"
 
 type LuauExecutionState = UnionPrettify<"STATE_UNSPECIFIED" | "QUEUED" | "PROCESSING" | "CANCELLED" | "COMPLETE" | "FAILED">
 

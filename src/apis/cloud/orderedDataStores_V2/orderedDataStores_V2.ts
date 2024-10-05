@@ -67,7 +67,9 @@ export const listOrderedDatastoreEntries = addApiMethod(async <UniverseId extend
   },
   name: `listOrderedDatastoreEntries`,
 
-  formatRawDataFn: ({ orderedDataStoreEntries }) => orderedDataStoreEntries
+  getCursorsFn: ({ nextPageToken }) => [ null, nextPageToken ],
+
+  formatRawDataFn: ({ orderedDataStoreEntries }) => orderedDataStoreEntries ?? []
 }))
 
 

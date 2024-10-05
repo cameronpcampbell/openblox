@@ -4751,50 +4751,6 @@
         ]
       }
     },
-    "gameInternationalization": {
-      "universeAutoTranslationsAllowed": {
-        "description": "Sees if automatic translations are allowed for a particular universe.",
-        "tags": {
-          "endpoint": "GET /v1/automatic-translation/games/{universeId}/feature-status",
-          "example": "const { data: allowed } = await ClassicGameInternationalizationApi.universeAutoTranslationsAllowed({\n  universeId: 1685831367,\n});",
-          "exampleData": "{\n  gameId: 1685831367,\n  isAutomaticTranslationAllowed: true,\n  isAutomaticTranslationSwitchesUIEnabled: true,\n}\n",
-          "exampleRawBody": "{\n  gameId: 1685831367,\n  isAutomaticTranslationAllowed: true,\n  isAutomaticTranslationSwitchesUIEnabled: true,\n}\n"
-        },
-        "params": [
-          {
-            "name": "universeId",
-            "type": "UniverseId",
-            "description": "The ID of the universe to see if automatic translations are allowed."
-          }
-        ]
-      },
-      "universeAutoTranslationQuota": {
-        "description": "Gets automatic translation quota for a particular universe.",
-        "tags": {
-          "endpoint": "GET /v1/automatic-translation/games/{universeId}/quota",
-          "example": "const { data: quota } = await ClassicGameInternationalizationApi.universeAutoTranslationQuota({\n  universeId: 1685831367,\n});",
-          "exampleData": "{\n  monthlyQuota: {\n    previousRefreshDate: \"0001-01-01T00:00:00\",\n    nextRefreshDate: \"2024-09-10T15:29:26.849Z\",\n    remaining: 550000,\n    capacity: 550000,\n  },\n  bankQuota: { remaining: 2750000, capacity: 2750000 },\n}\n",
-          "exampleRawBody": "{\n  monthlyQuota: {\n    previousRefreshDate: \"0001-01-01T00:00:00\",\n    nextRefreshDate: \"2024-09-10T15:29:26.849Z\",\n    remaining: 550000,\n    capacity: 550000,\n  },\n  bankQuota: { remaining: 2750000, capacity: 2750000 },\n}\n"
-        },
-        "params": [
-          {
-            "name": "universeId",
-            "type": "Identifier",
-            "description": "The ID of the universe to get automatic translation quota from."
-          }
-        ]
-      },
-      "autoTranslatableLanguagesForSource": {
-        "description": "DESCRIPTION",
-        "tags": {
-          "endpoint": "REST /...",
-          "example": "const { data: autoTranslationsAllowed } = await ClassicGameInternationalizationApi.autoTranslatableLanguagesForSource({\n  languageCode: \"en\",\n  targetLanguageCodes: [\"fr\"],\n});",
-          "exampleData": "{ fr: true }\n",
-          "exampleRawBody": "{\n  sourceLanguage: \"en\",\n  targetLanguages: [\n    { languageCode: \"fr\", isAutomaticTranslationAllowed: true },\n  ],\n}\n"
-        },
-        "params": []
-      }
-    },
     "gamePasses": {
       "gamePassInfo": {
         "description": "Gets information about a game pass.",
