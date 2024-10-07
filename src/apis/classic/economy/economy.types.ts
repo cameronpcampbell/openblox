@@ -89,6 +89,21 @@ export type GroupRevenueSummaryData = {
 /////////////////////////////////////////////////////////////////////////////////
 
 
+// [ Group Payouts ] ////////////////////////////////////////////////////////////
+// GET /v1/groups/{groupId}/users-payout-eligibility -------------------------
+
+export type RawUserGroupPayoutEligibilityData<UserId extends Identifier> = {
+  usersGroupPayoutEligibility: {
+    [Key in UserId]: 'Undefined' | 'Eligible' | 'NotInGroup' | 'PayoutRestricted' | undefined
+  }
+}
+
+export type PrettifiedUserGroupPayoutEligibilityData<UserId extends Identifier> = {
+  [Key in UserId]: 'Undefined' | 'Eligible' | 'NotInGroup' | 'PayoutRestricted' | undefined
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
 
 // [ Transaction History ] //////////////////////////////////////////////////////
 // GET /v2/groups/${groupId}/transactions ---------------------------------------

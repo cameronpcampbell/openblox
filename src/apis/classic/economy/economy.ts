@@ -4,10 +4,10 @@ import { createApiGroup } from "../../apiGroup"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { ISODateTime, Identifier } from "typeforge"
+import type { ArrayNonEmptyIfConst, ISODateTime, Identifier } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
-import type { AssetResaleData, AssetResellerData, AuthedUserDevExCashOutInfoData, AuthedUserEconomyMetadataData, GroupRevenueSummaryData, GroupTransactionType, PrettifiedGroupTransactionHistoryData, RawAssetResellersData, RawGroupTransactionHistoryData } from "./economy.types"
+import type { AssetResaleData, AssetResellerData, AuthedUserDevExCashOutInfoData, AuthedUserEconomyMetadataData, GroupRevenueSummaryData, GroupTransactionType, PrettifiedGroupTransactionHistoryData, PrettifiedUserGroupPayoutEligibilityData, RawAssetResellersData, RawGroupTransactionHistoryData, RawUserGroupPayoutEligibilityData } from "./economy.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -218,10 +218,40 @@ export const groupRevenueSummary = addApiMethod(async (
 /////////////////////////////////////////////////////////////////////////////////
 
 
+// [ Group Payouts ] ////////////////////////////////////////////////////////////
+
+/**
+ * Gets the group payout eligibility for a group of users.
+ * @endpoint GET /v1/groups/{groupId}/users-payout-eligibility
+ * 
+ * @param groupId The ID of the group.
+ * @param userIds The userIds to check for payout eligibility.
+ * 
+ * @example const { data:eligibility } = await ClassicEconomyApi.groupPayoutsUserEligibility({ groupId: 14941564, userIds: [1412728377] })
+ * @exampleData {"1412728377":"Eligible"}
+ * @exampleRawBody {"usersGroupPayoutEligibility":{"1412728377":"Eligible"}}
+ */
+export const groupPayoutsUserEligibility = addApiMethod(async <UserId extends Identifier>(
+  { groupId, userIds }: { groupId: Identifier, userIds: ArrayNonEmptyIfConst<UserId> }
+): ApiMethod<RawUserGroupPayoutEligibilityData<UserId>, PrettifiedUserGroupPayoutEligibilityData<UserId>> => ({
+  method: "GET",
+  path: `/v1/groups/${groupId}/users-payout-eligibility`,
+  searchParams: userIds.map(id => `userIds=${id}`).join('&'),
+  name: `groupPayoutsUserEligibility`,
+
+  formatRawDataFn: ({ usersGroupPayoutEligibility }) => usersGroupPayoutEligibility as any
+}))
+ 
+/////////////////////////////////////////////////////////////////////////////////
+
+
+// Economy V2
+
+
 // [ Transaction History ] //////////////////////////////////////////////////////
 /**
  * Gets transaction history for a particular group.
- * @endpoint GET /v1/group/${groupId}/transactions
+ * @endpoint GET /v2/group/${groupId}/transactions
  * 
  * @param groupId The ID of the group to get transaction history for.
  * @param transactionType The transaction type to get.
