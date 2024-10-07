@@ -83,7 +83,7 @@ type ApiMethodData<
   getCursorsFn?: (rawData: _PrettifiedRawData) => ([ previous: Cursor, next: Cursor ]),
 
   "🔒__PRIVATE_RAW_DATA"?: _PrettifiedRawData,
-  "🔒__PRIVATE_FORMATTED_DATA"?: _PrettifiedFormattedData,
+ "🔒__PRIVATE_FORMATTED_DATA"?: _PrettifiedFormattedData,
 } & (
   FormattedData extends undefined ? {}
   : ApiMethodDataFormatRawData<RawData, _FormattedData>
