@@ -69,7 +69,7 @@ type ApiMethodData<
   path: `/${string}`,
   name: string,
 
-  searchParams?: Record<string, any>,
+  searchParams?: Record<string, any> | string,
   headers?: Record<string, any>,
 
   body?: Record<string, any> | string | number,

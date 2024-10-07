@@ -236,7 +236,7 @@ export const groupPayoutsUserEligibility = addApiMethod(async <UserId extends Id
 ): ApiMethod<RawUserGroupPayoutEligibilityData<UserId>, PrettifiedUserGroupPayoutEligibilityData<UserId>> => ({
   method: "GET",
   path: `/v1/groups/${groupId}/users-payout-eligibility`,
-  searchParams: { userIds },
+  searchParams: userIds.map(id => `userIds=${id}`).join('&'),
   name: `groupPayoutsUserEligibility`,
 
   formatRawDataFn: ({ usersGroupPayoutEligibility }) => usersGroupPayoutEligibility as any

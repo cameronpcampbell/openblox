@@ -30,7 +30,8 @@ const getParams = (func: (...args: any[]) => any) => {
   return argsStr.replaceAll(/{(.*)}/g, "").replaceAll(/ = ([^,]+)/g, "").replaceAll(/:( *)/g, "").split(", ")
 }
 
-const formatSearchParams = (params?: Record<string, any>) => {
+const formatSearchParams = (params?: Record<string, any> | string) => {
+  if (typeof(params) == "string") return params
   if (!params) return ""
   
   const [paramsKeys, paramsValues] = [Object.keys(params), Object.values(params)]
