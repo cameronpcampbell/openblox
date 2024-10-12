@@ -13,7 +13,7 @@ import type { CreateSortedMapItem_ConstructItemConfig, EnqueueItem_ConstructItem
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "MemoryStore", baseUrl: "https://apis.roblox.com/cloud" })
+const { createApiMethod } = createApiGroup({ name: "MemoryStore", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -31,7 +31,7 @@ const addApiMethod = createApiGroup({ name: "MemoryStore", baseUrl: "https://api
  * @exampleData {"path":"cloud/v2/universes/5243626809/memory-stores/sorted-maps/MySortedMap/items/Testing123","value":{"isReal":true},"etag":"12","expireTime":"2024-04-18T01:44:49.000Z","id":"Testing123","numericSortKey":1}
  * @exampleRawBody {"path":"cloud/v2/universes/5243626809/memory-stores/sorted-maps/MySortedMap/items/Testing123","value":{"isReal":true},"etag":"12","expireTime":"2024-04-18T01:44:49Z","id":"Testing123","numericSortKey":1}
  */
-export const sortedMapItem = addApiMethod(async <ItemValue>(
+export const sortedMapItem = createApiMethod(async <ItemValue>(
   { universeId, sortedMap, itemId }: { universeId: Identifier, sortedMap: string, itemId: string }
 ): ApiMethod<RawSortedMapItemData<ItemValue>, PrettifiedSortedMapItemData<ItemValue>> => ({
   path: `/v2/universes/${universeId}/memory-store/sorted-maps/${sortedMap}/items/${itemId}`,
@@ -56,7 +56,7 @@ export const sortedMapItem = addApiMethod(async <ItemValue>(
  * @exampleData [{"path":"cloud/v2/universes/5243626809/memory-store/sorted-maps/MySortedMap/items/Testing123","value":{"isReal":true},"etag":"24","expireTime":"2024-04-18T04:31:14.000Z","id":"Testing123","numericSortKey":1}]
  * @exampleRawBody {"items":[{"path":"cloud/v2/universes/5243626809/memory-store/sorted-maps/MySortedMap/items/Testing123","value":{"isReal":true},"etag":"24","expireTime":"2024-04-18T04:31:14Z","id":"Testing123","numericSortKey":1}],"nextPageToken":"S_USLzRFVMU73i67jNK349FgCtYxw4Wl18ziPHeFRZoACgBUZXN0aW5nMTIzCQAAv_AAAAAAAAA"}
  */
-export const listSortedMapItems = addApiMethod(async (
+export const listSortedMapItems = createApiMethod(async (
   { universeId, sortedMap, maxPageSize, orderBy, filter, cursor }:
   { universeId: Identifier, sortedMap: string, maxPageSize?: number, orderBy?: "asc" | "desc", filter?: string, cursor?: string }
 ): ApiMethod<RawListSortedMapItemsData, PrettifiedListSortedMapItemsData> => ({
@@ -89,7 +89,7 @@ export const listSortedMapItems = addApiMethod(async (
  * @exampleData {"path":"cloud/v2/universes/5243626809/memory-store/sorted-maps/MySortedMap/items","value":{"isReal":true},"etag":"10","expireTime":"2024-04-18T00:30:14.000Z","id":"Testing123","numericSortKey":1}
  * @exampleRawBody {"path":"cloud/v2/universes/5243626809/memory-store/sorted-maps/MySortedMap/items","value":{"isReal":true},"etag":"10","expireTime":"2024-04-18T00:30:14Z","id":"Testing123","numericSortKey":1}
  */
-export const createSortedMapItem = addApiMethod(async <ItemValue>(
+export const createSortedMapItem = createApiMethod(async <ItemValue>(
   { universeId, sortedMap, item }: { universeId: Identifier, sortedMap: string, item: CreateSortedMapItem_ConstructItemConfig<ItemValue> }
 ): ApiMethod<RawSortedMapItemData<ItemValue>, PrettifiedSortedMapItemData<ItemValue>> => ({
   path: `/v2/universes/${universeId}/memory-store/sorted-maps/${sortedMap}/items`,
@@ -120,7 +120,7 @@ export const createSortedMapItem = addApiMethod(async <ItemValue>(
  * @exampleData {"path":"cloud/v2/universes/5243626809/memory-store/sorted-maps/MySortedMap/items/","value":{"isReal":false},"etag":"20","expireTime":"2024-04-18T03:48:53.000Z","numericSortKey":null}
  * @exampleRawBody {"path":"cloud/v2/universes/5243626809/memory-store/sorted-maps/MySortedMap/items/","value":{"isReal":false},"etag":"20","expireTime":"2024-04-18T03:48:53Z","numericSortKey":null}
  */
-export const updateSortedMapItem = addApiMethod(async <ItemValue>(
+export const updateSortedMapItem = createApiMethod(async <ItemValue>(
   { universeId, sortedMap, itemId, updatedItemData, allowMissing }:
   { universeId: Identifier, sortedMap: string, itemId: string, updatedItemData: UpdateSortedMapItem_ConstructItemConfig<ItemValue>, allowMissing?: boolean }
 ): ApiMethod<RawUpdateSortedMapItem<ItemValue>, PrettifiedUpdateSortedMapItem<ItemValue>> => ({
@@ -149,7 +149,7 @@ export const updateSortedMapItem = addApiMethod(async <ItemValue>(
  * @exampleData ""
  * @exampleRawBody ""
  */
-export const deleteSortedMapItem = addApiMethod(async (
+export const deleteSortedMapItem = createApiMethod(async (
   { universeId, sortedMap, itemId, etag }:
   { universeId: Identifier, sortedMap: string, itemId: string, etag?: string }
 ): ApiMethod<""> => ({
@@ -176,7 +176,7 @@ export const deleteSortedMapItem = addApiMethod(async (
  * @exampleData {"path":"cloud/v2/universes/5243626809/memory-store/queues/MyQueue/items/7fffffffffffffff0000000000000003","data":{"name":"MyItem","value":"fooBar"},"priority":0,"expireTime":2024-06-04T08:10:33.000Z}
  * @exampleRawBody {"path":"cloud/v2/universes/5243626809/memory-store/queues/MyQueue/items/7fffffffffffffff0000000000000003","data":{"name":"MyItem","value":"fooBar"},"priority":0,"expireTime":"2024-06-04T08:10:33Z"}
  */
-export const enqueueItem = addApiMethod(async <ItemValue>(
+export const enqueueItem = createApiMethod(async <ItemValue>(
   { universeId, queue, item }:
   { universeId: Identifier, queue: string, item: EnqueueItem_ConstructItemConfig<ItemValue> }
 ): ApiMethod<RawEnqueueItemData<ItemValue>, PrettifiedEnqueueItemData<ItemValue>> => ({
@@ -209,7 +209,7 @@ export const enqueueItem = addApiMethod(async <ItemValue>(
  * @exampleData {"items":[{"name":"Testing123","value":{"isReal":true}},{"name":"Testing1234","value":{"isReal":true}}],"id":"48e44da3c8754a4ab7ed728d07ac9526"}
  * @exampleRawBody {"data":[{"name":"Testing123","value":{"isReal":true}},{"name":"Testing1234","value":{"isReal":true}}],"id":"5cfc27af46da4cf08b41aa9a3d78a75e"}
  */
-export const readQueueItems = addApiMethod(async <ItemValue extends any>(
+export const readQueueItems = createApiMethod(async <ItemValue extends any>(
   { universeId, queue, limit, allOrNothing, invisibilityTimeoutSeconds }:
   { universeId: Identifier, queue: string, limit?: number, allOrNothing?: boolean, invisibilityTimeoutSeconds?: number }
 ): ApiMethod<RawReadQueueItemsData<ItemValue>, PrettifiedReadQueueItemsData<ItemValue>> => ({
@@ -235,7 +235,7 @@ export const readQueueItems = addApiMethod(async <ItemValue extends any>(
  * @exampleData ""
  * @exampleRawBody ""
  */
-export const dequeueItems = addApiMethod(async (
+export const dequeueItems = createApiMethod(async (
   { universeId, queue, readId }:
   { universeId: Identifier, queue: string, readId: string }
 ): ApiMethod<""> => ({
@@ -255,7 +255,7 @@ export const dequeueItems = addApiMethod(async (
  * @exampleData {"path":"cloud/v2/universes/5243626809/operations/AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ","done":false,"id":"AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ"}
  * @exampleRawBody {"path":"cloud/v2/universes/5243626809/operations/AAUAAAAAAADRMx55T0AKRxSgFCrSusMzqOKQNyVaQz8eMi9t-dwQwQ","done":null}
  */
-export const flushAllQueues = addApiMethod(async <UniverseId extends Identifier>(
+export const flushAllQueues = createApiMethod(async <UniverseId extends Identifier>(
   { universeId }: { universeId: UniverseId }
 ): ApiMethod<RawFlushAllQueuesData<UniverseId>, PrettifiedFlushAllQueuesData<UniverseId>> => ({
   path: `/v2/universes/${universeId}/memory-store:flush`,

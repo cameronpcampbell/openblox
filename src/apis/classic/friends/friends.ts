@@ -14,7 +14,7 @@ import type { SortOrder } from "../../../utils/utils.types"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "ClassicFriends", baseUrl: "https://friends.roblox.com" })
+const { createApiMethod } = createApiGroup({ name: "ClassicFriends", baseUrl: "https://friends.roblox.com" })
 
 const userSortNameToId = {
   Alphabetical: 0,
@@ -46,7 +46,7 @@ const friendshipOriginSourceTypeNameToId = {
  * @exampleData {"isFriendsFilterBarEnabled":true,"isFriendsPageSortExperimentEnabled":false,"isFriendsUserDataStoreCacheEnabled":true,"frequentFriendSortRollout":0,"userName":null,"displayName":null}
  * @exampleRawBody {"isFriendsFilterBarEnabled":true,"isFriendsPageSortExperimentEnabled":false,"isFriendsUserDataStoreCacheEnabled":true,"frequentFriendSortRollout":0,"userName":null,"displayName":null}
  */
-export const friendsMetadata = addApiMethod(async (
+export const friendsMetadata = createApiMethod(async (
 ): ApiMethod<FriendsMetadataData> => ({
   path: `/v1/metadata`,
   method: "GET",
@@ -61,7 +61,7 @@ export const friendsMetadata = addApiMethod(async (
  * @exampleData 47
  * @exampleRawBody {"count":47}
  */
-export const authenticatedUserFriendsCount = addApiMethod(async (
+export const authenticatedUserFriendsCount = createApiMethod(async (
 ): ApiMethod<{ count: number }, number> => ({
   path: `/v1/my/friends/count`,
   method: "GET",
@@ -82,7 +82,7 @@ export const authenticatedUserFriendsCount = addApiMethod(async (
  * @exampleData [ { "friendRequest": { "sentAt": "2024-03-24T02:25:33.095Z", "senderId": 5635371081, "sourceUniverseId": 2549415383, "originSourceType": "InGame", "contactName": null }, "mutualFriendsList": [], "hasVerifiedBadge": false, "description": "", "created": "2024-03-04T15:20:32.033Z", "isBanned": false, "externalAppDisplayName": null, "id": 5635371081, "name": "loremIpsum", "displayName": "loremIpsum"} ]
  * @exampleRawBody { "previousPageCursor": null, "nextPageCursor": "638366615689560000-0_1_bcccef3d2c3547470ca9dc3072eedfec", "data": [ { "friendRequest": { "sentAt": "2024-03-24T02:25:33.095Z", "senderId": 5635371081, "sourceUniverseId": 2549415383, "originSourceType": "InGame", "contactName": null }, "mutualFriendsList": [], "hasVerifiedBadge": false, "description": "", "created": "2024-03-04T15:20:32.033Z", "isBanned": false, "externalAppDisplayName": null, "id": 5635371081, "name": "loremIpsum", "displayName": "loremIpsum"} ] }
  */
-export const authenticatedUserFriendRequests = addApiMethod(async (
+export const authenticatedUserFriendRequests = createApiMethod(async (
   { limit, sortOrder, cursor }: { limit?: 10 | 18 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawAuthenticatedUserFriendRequestsData, PrettifiedAuthenticatedUserFriendRequestsData> => ({
   path: `/v1/my/friends/requests`,
@@ -105,7 +105,7 @@ export const authenticatedUserFriendRequests = addApiMethod(async (
  * @exampleData 82
  * @exampleRawBody {"count":82}
  */
-export const authenticatedUserFriendRequestsCount = addApiMethod(async (
+export const authenticatedUserFriendRequestsCount = createApiMethod(async (
 ): ApiMethod<{ count: number }, number> => ({
   path: `/v1/user/friend-requests/count`,
   method: "GET",
@@ -125,7 +125,7 @@ export const authenticatedUserFriendRequestsCount = addApiMethod(async (
  * @exampleData [{"isOnline":true,"presenceType":1,"isDeleted":false,"friendFrequentScore":0,"friendFrequentRank":1,"hasVerifiedBadge":false,"description":null,"created":"0001-01-01T05:52:00Z","isBanned":false,"externalAppDisplayName":null,"id":1999518862,"name":"Ipsum","displayName":"Lorem"}]
  * @exampleRawBody {"data":[{"isOnline":true,"presenceType":1,"isDeleted":false,"friendFrequentScore":0,"friendFrequentRank":1,"hasVerifiedBadge":false,"description":null,"created":"0001-01-01T05:52:00Z","isBanned":false,"externalAppDisplayName":null,"id":1999518862,"name":"Ipsum","displayName":"Lorem"}]}
  */
-export const friendsList = addApiMethod(async (
+export const friendsList = createApiMethod(async (
   { userId, userSort }: { userId: Identifier, userSort?: FriendsUserSort }
 ): ApiMethod<RawFriendsListData, PrettifiedFriendsListData> => ({
   path: `/v1/users/${userId}/friends`,
@@ -148,7 +148,7 @@ export const friendsList = addApiMethod(async (
  * @exampleData 47
  * @exampleRawBody {"count":47}
  */
-export const friendsCount = addApiMethod(async (
+export const friendsCount = createApiMethod(async (
   { userId }: { userId: Identifier }
 ): ApiMethod<{ count: number }, number> => ({
   path: `/v1/users/${userId}/friends/count`,
@@ -171,7 +171,7 @@ export const friendsCount = addApiMethod(async (
  * @exampleData [{"id":2820974191,"hasVerifiedBadge":false},{"id":29992184,"hasVerifiedBadge":true}]
  * @exampleRawBody {"PreviousCursor":null,"PageItems":[{"id":2820974191,"hasVerifiedBadge":false},{"id":29992184,"hasVerifiedBadge":true}],"NextCursor":"MTk5OTIxODE2MiYxNzYxMjQwMTYmMg==","HasMore":null}
  */
-export const findFriends = addApiMethod(async (
+export const findFriends = createApiMethod(async (
   { userId, userSort, limit, cursor }: { userId: Identifier, userSort?: FriendsUserSort, limit?: number, cursor?: string }
 ): ApiMethod<RawFindFriendsData, PrettifiedFindFriendsData> => ({
   path: `/v1/users/${userId}/friends/find`,
@@ -195,7 +195,7 @@ export const findFriends = addApiMethod(async (
  * @exampleData [{"isDeleted":false,"friendFrequentScore":0,"friendFrequentRank":201,"hasVerifiedBadge":false,"description":null,"created":"0001-01-01T05:51:00.000Z","isBanned":false,"externalAppDisplayName":null,"id":5275218436,"name":"loremIpsum","displayName":"LoremIpsum"}]
  * @exampleRawBody {"data":[{"isDeleted":false,"friendFrequentScore":0,"friendFrequentRank":201,"hasVerifiedBadge":false,"description":null,"created":"0001-01-01T05:51:00.000Z","isBanned":false,"externalAppDisplayName":null,"id":5275218436,"name":"loremIpsum","displayName":"LoremIpsum"}]}
  */
-export const inactiveFriends = addApiMethod(async (
+export const inactiveFriends = createApiMethod(async (
   { userId }: { userId: Identifier }
 ): ApiMethod<RawInactiveFriendsData, PrettifiedInactiveFriendsData> => ({
   method: "GET",
@@ -217,7 +217,7 @@ export const inactiveFriends = addApiMethod(async (
  * @exampleData [{"userPresence":{"lastLocation":"Simulator Simulator X 99 360","placeId":223715525,"rootPlaceId":221718525,"gameInstanceId":"acd149a6-d1ed-49d7-aa08-643d62cb3068","universeId":93141687,"lastOnline":"2024-05-20T14:34:40.820Z","userPresenceType":"InGame","userLocationType":"Game"},"id":2966800574,"name":"loremIpsum","displayName":"LoremIpsum"}]
  * @exampleRawBody {"data":[{"userPresence":{"lastLocation":"Simulator Simulator X 99 360","placeId":223715525,"rootPlaceId":221718525,"gameInstanceId":"acd149a6-d1ed-49d7-aa08-643d62cb3068","universeId":93141687,"lastOnline":"2024-05-20T14:34:40.820Z","userPresenceType":"InGame","userLocationType":"Game"},"id":2966800574,"name":"loremIpsum","displayName":"LoremIpsum"}]}
  */
-export const onlineFriends = addApiMethod(async (
+export const onlineFriends = createApiMethod(async (
   { userId, userSort }: { userId: Identifier, userSort?: Exclude<FriendsUserSort, "Alphabetical"> }
 ): ApiMethod<RawOnlineFriendsUserPresenceData, PrettifiedOnlineFriendsUserPresenceData> => ({
   method: "GET",
@@ -251,7 +251,7 @@ export const onlineFriends = addApiMethod(async (
  * @exampleData [{"id":2027974391,"hasVerifiedBadge":false},{"id":176144016,"hasVerifiedBadge":false},{"id":3116019601,"hasVerifiedBadge":false}]
  * @exampleRawBody {"PreviousCursor":null,"PageItems":[{"id":2027974391,"hasVerifiedBadge":false},{"id":176144016,"hasVerifiedBadge":false},{"id":3116019601,"hasVerifiedBadge":false}],"NextCursor":null,"HasMore":null}
  */
-export const friendsSearch = addApiMethod(async (
+export const friendsSearch = createApiMethod(async (
   { userId, query, userSort, limit, cursor }:
   { userId: Identifier, query: string, userSort?: Exclude<FriendsUserSort, "Alphabetical">, limit?: number, cursor?: string }
 ): ApiMethod<RawFriendsSearchData, PrettifiedFriendsSearchData> => ({
@@ -277,7 +277,7 @@ export const friendsSearch = addApiMethod(async (
  * @exampleData {"2655994471":"Friends"}
  * @exampleRawBody {"data":[{"id":2655994471,"status":"Friends"}]}
  */
-export const friendsStatuses = addApiMethod(async <RelatedUserId extends Identifier>(
+export const friendsStatuses = createApiMethod(async <RelatedUserId extends Identifier>(
   { userId, relatedUserIds }:
   { userId: Identifier, relatedUserIds: ArrayNonEmptyIfConst<RelatedUserId> }
 ): ApiMethod<RawFriendsStatusesData<RelatedUserId>, PrettifiedFriendsStatusesData<RelatedUserId>> => ({
@@ -298,7 +298,7 @@ export const friendsStatuses = addApiMethod(async <RelatedUserId extends Identif
  * @exampleData true
  * @exampleRawBody {}
  */
-export const authenticatedUserDeclineAllFriendRequests = addApiMethod(async (
+export const authenticatedUserDeclineAllFriendRequests = createApiMethod(async (
 ): ApiMethod<{}, boolean> => ({
   method: "POST",
   path: `/v1/user/friend-requests/decline-all`,
@@ -318,7 +318,7 @@ export const authenticatedUserDeclineAllFriendRequests = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const authenticatedUserAcceptFriendRequest = addApiMethod(async (
+export const authenticatedUserAcceptFriendRequest = createApiMethod(async (
   { userId }: { userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "POST",
@@ -339,7 +339,7 @@ export const authenticatedUserAcceptFriendRequest = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const authenticatedUserDeclineFriendRequest = addApiMethod(async (
+export const authenticatedUserDeclineFriendRequest = createApiMethod(async (
   { requesterUserId }: { requesterUserId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "POST",
@@ -364,7 +364,7 @@ export const authenticatedUserDeclineFriendRequest = addApiMethod(async (
  * @exampleData {"success":true,"isCaptchaRequired":false}
  * @exampleRawBody {"success":true,"isCaptchaRequired":false}
  */
-export const authenticatedUserRequestFriendship = addApiMethod(async (
+export const authenticatedUserRequestFriendship = createApiMethod(async (
   { userId, originSourceType }: { userId: Identifier, originSourceType?: FriendshipOriginSourceType }
 ): ApiMethod<{ success: boolean, isCaptchaRequired: boolean }> => ({
   method: "POST",
@@ -383,7 +383,7 @@ export const authenticatedUserRequestFriendship = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const authenticatedUserUnfriend = addApiMethod(async (
+export const authenticatedUserUnfriend = createApiMethod(async (
   { userId }: { userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "POST",
@@ -409,7 +409,7 @@ export const authenticatedUserUnfriend = addApiMethod(async (
  * @exampleData [{"isDeleted":false,"friendFrequentScore":0,"friendFrequentRank":201,"hasVerifiedBadge":true,"description":null,"created":"0001-01-01T05:51:00.000Z","isBanned":false,"externalAppDisplayName":null,"id":156,"name":"builderman","displayName":"builderman"}]
  * @exampleRawBody {"previousPageCursor":null,"nextPageCursor":"745831147_1_1e210d709f013f76846a9e2517aa7263","data":[{"isDeleted":false,"friendFrequentScore":0,"friendFrequentRank":201,"hasVerifiedBadge":true,"description":null,"created":"0001-01-01T05:51:00.000Z","isBanned":false,"externalAppDisplayName":null,"id":156,"name":"builderman","displayName":"builderman"}]}
  */
-export const userFollowers = addApiMethod(async (
+export const userFollowers = createApiMethod(async (
   { userId, limit, sortOrder, cursor }:
   { userId: Identifier, limit?: 10 | 18 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawUserFollowersData, PrettifiedUserFollowersData> => ({
@@ -432,7 +432,7 @@ export const userFollowers = addApiMethod(async (
  * @exampleData 510
  * @exampleRawBody { count: 510 }
  */
-export const userFollowersCount = addApiMethod(async (
+export const userFollowersCount = createApiMethod(async (
   { userId }: { userId: Identifier }
 ): ApiMethod<{ count: number }, number> => ({
   path: `/v1/users/${userId}/followers/count`,
@@ -456,7 +456,7 @@ export const userFollowersCount = addApiMethod(async (
  * @exampleData
  * @exampleRawBody
  */
-export const userFollowings = addApiMethod(async (
+export const userFollowings = createApiMethod(async (
   { userId, limit, sortOrder, cursor }:
   { userId: Identifier, limit: 10 | 18 | 25 | 50 | 100, sortOrder: SortOrder, cursor: string }
 ): ApiMethod<any> => ({
@@ -477,7 +477,7 @@ export const userFollowings = addApiMethod(async (
  * @exampleData 337
  * @exampleRawBody { count: 337 }
  */
-export const userFollowingsCount = addApiMethod(async (
+export const userFollowingsCount = createApiMethod(async (
   { userId }: { userId: Identifier }
 ): ApiMethod<{ count: number }, number> => ({
   method: "GET",
@@ -497,7 +497,7 @@ export const userFollowingsCount = addApiMethod(async (
  * @exampleData {"2655994471":{"isFollowing":false,"isFollowed":false}}
  * @exampleRawBody {"followings":[{"isFollowing":false,"isFollowed":false,"userId":2655994471}]}
  */
-export const authenticatedUserFollowingsExist = addApiMethod(async <UserId extends Identifier>(
+export const authenticatedUserFollowingsExist = createApiMethod(async <UserId extends Identifier>(
   { userIds }: { userIds: ArrayNonEmptyIfConst<UserId> }
 ): ApiMethod<RawAuthenticatedUserFollowingsExistData<UserId>, PrettifiedAuthenticatedUserFollowingsExistData<UserId>> => ({
   method: "POST",

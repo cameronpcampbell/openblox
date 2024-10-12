@@ -14,7 +14,7 @@ import type { SortOrder } from "../../../utils/utils.types"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "ClassicDevelop", baseUrl: "https://develop.roblox.com" })
+const { createApiMethod } = createApiGroup({ name: "ClassicDevelop", baseUrl: "https://develop.roblox.com" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -27,7 +27,7 @@ const addApiMethod = createApiGroup({ name: "ClassicDevelop", baseUrl: "https://
  * @exampleData [{"gameTemplateType":"Generic","hasTutorials":false,"universe":{"id":28220420,"name":"Baseplate","description":null,"isArchived":false,"rootPlaceId":95206881,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2013-11-01T08:47:14.070Z","updated":"2023-05-02T22:03:01.107Z"}},{"gameTemplateType":"Generic","hasTutorials":false,"universe":{"id":2464612126,"name":"Classic Baseplate","description":null,"isArchived":false,"rootPlaceId":6560363541,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2021-03-24T00:56:45.957Z","updated":"2021-04-16T18:55:13.820Z"}},{"gameTemplateType":"Generic","hasTutorials":false,"universe":{"id":28223770,"name":"Flat Terrain","description":null,"isArchived":false,"rootPlaceId":95206192,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2013-11-01T08:47:18.013Z","updated":"2023-05-02T22:17:58.570Z"}},{"gameTemplateType":"Gameplay","hasTutorials":false,"universe":{"id":6106389365,"name":"Laser Tag","description":null,"isArchived":false,"rootPlaceId":17823019220,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2024-06-11T21:29:12.993Z","updated":"2024-06-20T16:58:40.577Z"}},{"gameTemplateType":"Gameplay","hasTutorials":false,"universe":{"id":6106388692,"name":"FPS System","description":null,"isArchived":false,"rootPlaceId":17823017290,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2024-06-11T21:28:57.433Z","updated":"2024-06-20T16:58:54.493Z"}},{"gameTemplateType":"Gameplay","hasTutorials":false,"universe":{"id":5557500170,"name":"Racing","description":null,"isArchived":false,"rootPlaceId":16078915506,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2024-01-22T19:47:42.920Z","updated":"2024-01-29T17:39:18.837Z"}},{"gameTemplateType":"Theme","hasTutorials":true,"universe":{"id":202770430,"name":"Village","description":null,"isArchived":false,"rootPlaceId":520390648,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2016-10-10T21:32:42.780Z","updated":"2023-05-03T23:39:56.663Z"}},{"gameTemplateType":"Theme","hasTutorials":true,"universe":{"id":93411794,"name":"Castle","description":null,"isArchived":false,"rootPlaceId":203810088,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2015-01-14T21:46:11.363Z","updated":"2023-05-03T23:46:03.850Z"}},{"gameTemplateType":"Theme","hasTutorials":false,"universe":{"id":138962641,"name":"Suburban","description":null,"isArchived":false,"rootPlaceId":366130569,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2016-02-20T00:02:36.483Z","updated":"2023-05-03T23:45:29.983Z"}},{"gameTemplateType":"Theme","hasTutorials":true,"universe":{"id":107387509,"name":"Pirate Island","description":null,"isArchived":false,"rootPlaceId":264719325,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2015-07-01T22:54:38.927Z","updated":"2023-05-03T23:49:39.753Z"}},{"gameTemplateType":"Gameplay","hasTutorials":false,"universe":{"id":93412282,"name":"Obby","description":null,"isArchived":false,"rootPlaceId":203812057,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2015-01-14T21:51:25.830Z","updated":"2023-05-03T23:50:57.623Z"}},{"gameTemplateType":"Theme","hasTutorials":true,"universe":{"id":142606178,"name":"Starting Place","description":null,"isArchived":false,"rootPlaceId":379736082,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2016-03-09T19:04:30.723Z","updated":"2023-05-04T00:09:23.643Z"}},{"gameTemplateType":"Gameplay","hasTutorials":false,"universe":{"id":115791780,"name":"Line Runner","description":null,"isArchived":false,"rootPlaceId":301530843,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2015-09-28T22:16:52.420Z","updated":"2023-05-04T00:10:55.837Z"}},{"gameTemplateType":"Theme","hasTutorials":false,"universe":{"id":3760683948,"name":"Concert","description":null,"isArchived":false,"rootPlaceId":10275826693,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2022-07-19T00:42:50.713Z","updated":"2023-05-03T23:14:32.480Z"}},{"gameTemplateType":"Theme","hasTutorials":false,"universe":{"id":4594822820,"name":"Modern City","description":null,"isArchived":false,"rootPlaceId":13165709401,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2023-04-17T18:33:52.930Z","updated":"2023-04-17T23:24:03.373Z"}}] 
  * @exampleRawBody {"data":[{"gameTemplateType":"Generic","hasTutorials":false,"universe":{"id":28220420,"name":"Baseplate","description":null,"isArchived":false,"rootPlaceId":95206881,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2013-11-01T08:47:14.07Z","updated":"2023-05-02T22:03:01.107Z"}},{"gameTemplateType":"Generic","hasTutorials":false,"universe":{"id":2464612126,"name":"Classic Baseplate","description":null,"isArchived":false,"rootPlaceId":6560363541,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2021-03-24T00:56:45.957Z","updated":"2021-04-16T18:55:13.82Z"}},{"gameTemplateType":"Generic","hasTutorials":false,"universe":{"id":28223770,"name":"Flat Terrain","description":null,"isArchived":false,"rootPlaceId":95206192,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2013-11-01T08:47:18.013Z","updated":"2023-05-02T22:17:58.57Z"}},{"gameTemplateType":"Gameplay","hasTutorials":false,"universe":{"id":6106389365,"name":"Laser Tag","description":null,"isArchived":false,"rootPlaceId":17823019220,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2024-06-11T21:29:12.993Z","updated":"2024-06-20T16:58:40.577Z"}},{"gameTemplateType":"Gameplay","hasTutorials":false,"universe":{"id":6106388692,"name":"FPS System","description":null,"isArchived":false,"rootPlaceId":17823017290,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2024-06-11T21:28:57.433Z","updated":"2024-06-20T16:58:54.493Z"}},{"gameTemplateType":"Gameplay","hasTutorials":false,"universe":{"id":5557500170,"name":"Racing","description":null,"isArchived":false,"rootPlaceId":16078915506,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2024-01-22T19:47:42.92Z","updated":"2024-01-29T17:39:18.837Z"}},{"gameTemplateType":"Theme","hasTutorials":true,"universe":{"id":202770430,"name":"Village","description":null,"isArchived":false,"rootPlaceId":520390648,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2016-10-10T21:32:42.78Z","updated":"2023-05-03T23:39:56.663Z"}},{"gameTemplateType":"Theme","hasTutorials":true,"universe":{"id":93411794,"name":"Castle","description":null,"isArchived":false,"rootPlaceId":203810088,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2015-01-14T21:46:11.363Z","updated":"2023-05-03T23:46:03.85Z"}},{"gameTemplateType":"Theme","hasTutorials":false,"universe":{"id":138962641,"name":"Suburban","description":null,"isArchived":false,"rootPlaceId":366130569,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2016-02-20T00:02:36.483Z","updated":"2023-05-03T23:45:29.983Z"}},{"gameTemplateType":"Theme","hasTutorials":true,"universe":{"id":107387509,"name":"Pirate Island","description":null,"isArchived":false,"rootPlaceId":264719325,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2015-07-01T22:54:38.927Z","updated":"2023-05-03T23:49:39.753Z"}},{"gameTemplateType":"Gameplay","hasTutorials":false,"universe":{"id":93412282,"name":"Obby","description":null,"isArchived":false,"rootPlaceId":203812057,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2015-01-14T21:51:25.83Z","updated":"2023-05-03T23:50:57.623Z"}},{"gameTemplateType":"Theme","hasTutorials":true,"universe":{"id":142606178,"name":"Starting Place","description":null,"isArchived":false,"rootPlaceId":379736082,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2016-03-09T19:04:30.723Z","updated":"2023-05-04T00:09:23.643Z"}},{"gameTemplateType":"Gameplay","hasTutorials":false,"universe":{"id":115791780,"name":"Line Runner","description":null,"isArchived":false,"rootPlaceId":301530843,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2015-09-28T22:16:52.42Z","updated":"2023-05-04T00:10:55.837Z"}},{"gameTemplateType":"Theme","hasTutorials":false,"universe":{"id":3760683948,"name":"Concert","description":null,"isArchived":false,"rootPlaceId":10275826693,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2022-07-19T00:42:50.713Z","updated":"2023-05-03T23:14:32.48Z"}},{"gameTemplateType":"Theme","hasTutorials":false,"universe":{"id":4594822820,"name":"Modern City","description":null,"isArchived":false,"rootPlaceId":13165709401,"isActive":true,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2023-04-17T18:33:52.93Z","updated":"2023-04-17T23:24:03.373Z"}}]}
  */
-export const gameTemplates = addApiMethod(async (
+export const gameTemplates = createApiMethod(async (
 ): ApiMethod<RawGameTemplatesData, PrettifiedGameTemplatesData> => ({
   method: "GET",
   path: `/v1/gametemplates`,
@@ -57,7 +57,7 @@ export const gameTemplates = addApiMethod(async (
  * @exampleData [{"id":1651554338,"name":"Ninjas Unleashed: Legion","description":"No secret projects here\r\nScriptor/Game Designer - NamelessGuy2005\r\nBuilder/Animator - Flaroh\r\n","isArchived":false,"rootPlaceId":4857762148,"isActive":false,"privacyType":"Private","creatorType":"Group","creatorTargetId":5850082,"creatorName":"MightyPart Games","created":"2020-04-04T13:17:08.120Z","updated":"2020-04-20T15:37:55.803Z"}] 
  * @exampleRawBody {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":1651554338,"name":"Ninjas Unleashed: Legion","description":"No secret projects here\r\nScriptor/Game Designer - NamelessGuy2005\r\nBuilder/Animator - Flaroh\r\n","isArchived":false,"rootPlaceId":4857762148,"isActive":false,"privacyType":"Private","creatorType":"Group","creatorTargetId":5850082,"creatorName":"MightyPart Games","created":"2020-04-04T13:17:08.12Z","updated":"2020-04-20T15:37:55.803Z"}]}
  */
-export const groupUniverses = addApiMethod(async <GroupId extends Identifier>(
+export const groupUniverses = createApiMethod(async <GroupId extends Identifier>(
   { groupId, isArchived, limit, sortOrder, cursor }:
   { groupId: GroupId, isArchived?: boolean, limit?: 10 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawGroupUniversesData<GroupId>, PrettifiedGroupUniversesData<GroupId>> => ({
@@ -88,7 +88,7 @@ export const groupUniverses = addApiMethod(async <GroupId extends Identifier>(
  * @exampleData [{"id":45348281,"name":"MightyPart","displayName":"Mighty"}] 
  * @exampleRawBody {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":45348281,"name":"MightyPart","displayName":"Mighty"}]}
  */
-export const teamCreateActiveMembers = addApiMethod(async (
+export const teamCreateActiveMembers = createApiMethod(async (
   { placeId, limit, cursor }: { placeId: Identifier, limit?: 10 | 25 | 50 | 100, cursor?: string }
 ): ApiMethod<RawTeamCreateActiveMembersData, PrettifiedTeamCreateActiveMembersData> => ({
   method: "GET",
@@ -110,7 +110,7 @@ export const teamCreateActiveMembers = addApiMethod(async (
  * @exampleData {"isEnabled":true} 
  * @exampleRawBody {"isEnabled":true} 
  */
-export const teamCreateSettingsForUniverse = addApiMethod(async (
+export const teamCreateSettingsForUniverse = createApiMethod(async (
   { universeId }: { universeId: Identifier }
 ): ApiMethod<{ isEnabled: boolean }> => ({
   method: "GET",
@@ -126,17 +126,17 @@ export const teamCreateSettingsForUniverse = addApiMethod(async (
  * @param universeId The ID of the universe to update team create settings for.
  * @param isEnabled If team create should be enabled.
  * 
- * @example const { data:success } = await ClassicDevelopApi.updateTeamCreateSettingsForUniverse({ universeId: 6069031486, isEnabled: false })
+ * @example const { data:success } = await ClassicDevelopApi.setTeamCreateSettingsForUniverse({ universeId: 6069031486, isEnabled: false })
  * @exampleData true
  * @exampleRawBody {}
  */
-export const updateTeamCreateSettingsForUniverse = addApiMethod(async (
+export const setTeamCreateSettingsForUniverse = createApiMethod(async (
   { universeId, isEnabled }: { universeId: Identifier, isEnabled: boolean }
 ): ApiMethod<{}, boolean> => ({
   method: "PATCH",
   path: `/v1/universes/${universeId}/teamcreate`,
   body: { isEnabled },
-  name: `updateTeamCreateSettingsForUniverse`,
+  name: `setTeamCreateSettingsForUniverse`,
 
   formatRawDataFn: dataIsSuccess
 }))
@@ -152,7 +152,7 @@ export const updateTeamCreateSettingsForUniverse = addApiMethod(async (
  * @exampleData {"6069031486":{"isEnabled":false}} 
  * @exampleRawBody {"data":[{"id":6069031486,"isEnabled":false}]}
  */
-export const teamCreateSettingsForUniverses = addApiMethod(async <UniverseId extends Identifier>(
+export const teamCreateSettingsForUniverses = createApiMethod(async <UniverseId extends Identifier>(
   { universeIds }: { universeIds: ArrayNonEmptyIfConst<UniverseId> }
 ): ApiMethod<RawTeamCreateSettingsForUniversesData<UniverseId>, PrettifiedTeamCreateSettingsForUniversesData<UniverseId>> => ({
   method: "GET",
@@ -175,7 +175,7 @@ export const teamCreateSettingsForUniverses = addApiMethod(async <UniverseId ext
  * @exampleData true
  * @exampleRawBody {}
  */
-export const teamCreateRemoveUsersAccessForUniverse = addApiMethod(async (
+export const teamCreateRemoveUsersAccessForUniverse = createApiMethod(async (
   { universeId, userId }: { universeId: Identifier, userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "DELETE",
@@ -199,7 +199,7 @@ export const teamCreateRemoveUsersAccessForUniverse = addApiMethod(async (
  * @exampleData {"18407509477":{"created":"2024-07-09T10:44:37.523Z","updated":"2024-07-09T10:44:37.523Z","name":"PropertyLab [PRE-ALPHA V0.0.0]","description":"A modernised plugin explorer for Roblox.","commentsEnabled":false,"versionId":24376570646}} 
  * @exampleRawBody {"data":[{"id":18407509477,"name":"PropertyLab [PRE-ALPHA V0.0.0]","description":"A modernised plugin explorer for Roblox.","commentsEnabled":false,"versionId":24376570646,"created":"2024-07-09T10:44:37.523Z","updated":"2024-07-09T10:44:37.523Z"}]}
  */
-export const pluginsInfo = addApiMethod(async <PluginId extends Identifier>(
+export const pluginsInfo = createApiMethod(async <PluginId extends Identifier>(
   { pluginIds }: { pluginIds: ArrayNonEmptyIfConst<PluginId> }
 ): ApiMethod<RawPluginsInfoData<PluginId>, PrettifiedPluginsInfoData<PluginId>> => ({
   method: "GET",
@@ -228,7 +228,7 @@ export const pluginsInfo = addApiMethod(async <PluginId extends Identifier>(
  * @exampleData true
  * @exampleRawBody {}
  */
-export const updatePlugin = addApiMethod(async (
+export const updatePlugin = createApiMethod(async (
   { pluginId, name, description, commentsEnabled }: { pluginId: Identifier, name?: string, description?: string, commentsEnabled?: boolean }
 ): ApiMethod<{}, boolean> => ({
   method: "PATCH",
@@ -252,7 +252,7 @@ export const updatePlugin = addApiMethod(async (
  * @exampleData {"id":6069031486,"name":"MightyPart's Place: 06032024_1","description":null,"isArchived":false,"rootPlaceId":17718644108,"isActive":false,"privacyType":"Private","creatorType":"User","creatorTargetId":45348281,"creatorName":"MightyPart","created":"2024-06-03T09:42:56.270Z","updated":"2024-06-03T09:42:56.270Z"} 
  * @exampleRawBody {"id":6069031486,"name":"MightyPart's Place: 06032024_1","description":null,"isArchived":false,"rootPlaceId":17718644108,"isActive":false,"privacyType":"Private","creatorType":"User","creatorTargetId":45348281,"creatorName":"MightyPart","created":"2024-06-03T09:42:56.27Z","updated":"2024-06-03T09:42:56.27Z"}
  */
-export const universeInfo = addApiMethod(async <UniverseId extends Identifier>(
+export const universeInfo = createApiMethod(async <UniverseId extends Identifier>(
   { universeId }: { universeId: Identifier }
 ): ApiMethod<RawUniverseInfo<UniverseId>, PrettifiedUniverseInfo<UniverseId>> => ({
   method: "GET",
@@ -276,7 +276,7 @@ export const universeInfo = addApiMethod(async <UniverseId extends Identifier>(
  * @exampleData {"canManage":true,"canCloudEdit":true}
  * @exampleRawBody {"canManage":true,"canCloudEdit":true}
  */
-export const authenticatedUserPermissionsForUniverse = addApiMethod(async (
+export const authenticatedUserPermissionsForUniverse = createApiMethod(async (
   { universeId }: { universeId: Identifier }
 ): ApiMethod<{ canManage: boolean, canCloudEdit: boolean }> => ({
   method: "GET",
@@ -298,7 +298,7 @@ export const authenticatedUserPermissionsForUniverse = addApiMethod(async (
  * @exampleData [{"id":11969698031,"universeId":6026274246,"name":"MightyPart's Place Number: 140","description":""}]
  * @exampleRawBody {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":11969698031,"universeId":6026274246,"name":"MightyPart's Place Number: 140","description":""}]}
  */
-export const universePlaces = addApiMethod(async <UniverseId extends Identifier>(
+export const universePlaces = createApiMethod(async <UniverseId extends Identifier>(
   { universeId, isUniverseCreation, limit, sortOrder, cursor }:
   { universeId: UniverseId, isUniverseCreation?: boolean, limit?: 10 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawUniversePlacesData<UniverseId>, PrettifiedUniversePlacesData<UniverseId>> => ({
@@ -321,7 +321,7 @@ export const universePlaces = addApiMethod(async <UniverseId extends Identifier>
  * @exampleData {"6069031486":{"created":"2024-06-03T09:42:56.270Z","updated":"2024-06-03T09:42:56.270Z","name":"MightyPart's Place: 06032024_1","description":null,"isArchived":false,"rootPlaceId":17718644108,"isActive":false,"privacyType":"Private","creatorType":"User","creatorTargetId":45348281,"creatorName":"MightyPart"}}
  * @exampleRawBody {"data":[{"id":6069031486,"name":"MightyPart's Place: 06032024_1","description":null,"isArchived":false,"rootPlaceId":17718644108,"isActive":false,"privacyType":"Private","creatorType":"User","creatorTargetId":45348281,"creatorName":"MightyPart","created":"2024-06-03T09:42:56.27Z","updated":"2024-06-03T09:42:56.27Z"}]}
  */
-export const universesInfo = addApiMethod(async <UniverseId extends Identifier>(
+export const universesInfo = createApiMethod(async <UniverseId extends Identifier>(
   { universeIds }: { universeIds: ArrayNonEmptyIfConst<UniverseId> }
 ): ApiMethod<RawUniversesInfoData<UniverseId>, PrettifiedUniversesInfoData<UniverseId>> => ({
   method: "GET",
@@ -345,7 +345,7 @@ export const universesInfo = addApiMethod(async <UniverseId extends Identifier>(
  * @exampleData {"6069031486":{"canManage":true,"canCloudEdit":true}}
  * @exampleRawBody {"data":[{"universeId":6069031486,"canManage":true,"canCloudEdit":true}]}
  */
-export const authenticatedUserPermissionsForUniverses = addApiMethod(async <UniverseId extends Identifier>(
+export const authenticatedUserPermissionsForUniverses = createApiMethod(async <UniverseId extends Identifier>(
   { universeIds }: { universeIds: ArrayNonEmptyIfConst<UniverseId> }
 ): ApiMethod<
   RawAuthenticatedUserPermissionsForUniversesData<UniverseId>, PrettifiedAuthenticatedUserPermissionsForUniversesData<UniverseId>
@@ -371,7 +371,7 @@ export const authenticatedUserPermissionsForUniverses = addApiMethod(async <Univ
  * @exampleData {"allowPrivateServers":false,"privateServerPrice":null,"isMeshTextureApiAccessAllowed":false,"id":6069031486,"name":"MightyPart's Place: 06032024_1","universeAvatarType":"MorphToR15","universeScaleType":"AllScales","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeBodyType":"Standard","universeJointPositioningType":"ArtistIntent","isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer","Phone","Tablet","VR"],"isForSale":false,"price":0,"isStudioAccessToApisAllowed":false,"privacyType":"Private"} 
  * @exampleRawBody {"allowPrivateServers":false,"privateServerPrice":null,"isMeshTextureApiAccessAllowed":false,"id":6069031486,"name":"MightyPart's Place: 06032024_1","universeAvatarType":"MorphToR15","universeScaleType":"AllScales","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeBodyType":"Standard","universeJointPositioningType":"ArtistIntent","isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer","Phone","Tablet","VR"],"isForSale":false,"price":0,"isStudioAccessToApisAllowed":false,"privacyType":"Private"}
  */
-export const universeConfiguration = addApiMethod(async <UniverseId extends Identifier>(
+export const universeConfiguration = createApiMethod(async <UniverseId extends Identifier>(
   { universeId }: { universeId: UniverseId }
 ): ApiMethod<UniverseConfigurationData_V1<UniverseId>> => ({
   method: "GET",
@@ -407,7 +407,7 @@ export const universeConfiguration = addApiMethod(async <UniverseId extends Iden
  * @exampleData {"allowPrivateServers":false,"privateServerPrice":null,"isMeshTextureApiAccessAllowed":true,"id":5638577595,"name":"Terrain Gen Tech Demo","universeAvatarType":"PlayerChoice","universeScaleType":"AllScales","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeBodyType":"Standard","universeJointPositioningType":"ArtistIntent","isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer"],"isForSale":false,"price":0,"isStudioAccessToApisAllowed":false,"privacyType":"Public"} 
  * @exampleRawBody {"allowPrivateServers":false,"privateServerPrice":null,"isMeshTextureApiAccessAllowed":true,"id":5638577595,"name":"Terrain Gen Tech Demo","universeAvatarType":"PlayerChoice","universeScaleType":"AllScales","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeBodyType":"Standard","universeJointPositioningType":"ArtistIntent","isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer"],"isForSale":false,"price":0,"isStudioAccessToApisAllowed":false,"privacyType":"Public"}
  */
-export const updateUniverseConfiguration_V1 = addApiMethod(async <
+export const updateUniverseConfiguration_V1 = createApiMethod(async <
   UniverseId extends Identifier, Name extends string, AvatarType extends UniverseAvatarType, ScaleType extends UniverseScaleType,
   AnimationType extends UniverseAnimationType, CollisionType extends UniverseCollisionType, BodyType extends UniverseBodyType,
   JointPositioningType extends UniverseJointPositioningType, IsArchived extends boolean, IsFriendsOnly extends boolean,
@@ -449,7 +449,7 @@ export const updateUniverseConfiguration_V1 = addApiMethod(async <
  * @exampleData {"isEnabled":false,"price":null,"activeServersCount":0,"activeSubscriptionsCount":0} 
  * @exampleRawBody {"isEnabled":false,"price":null,"activeServersCount":0,"activeSubscriptionsCount":0} 
  */
-export const vipServerConfigurationForUniverse = addApiMethod(async (
+export const vipServerConfigurationForUniverse = createApiMethod(async (
   { universeId }: { universeId: Identifier }
 ): ApiMethod<{ isEnabled: boolean, price: number | null, activeServersCount: number, activeSubscriptionsCount: number }> => ({
   method: "GET",
@@ -468,7 +468,7 @@ export const vipServerConfigurationForUniverse = addApiMethod(async (
  * @exampleData [{"id":5850082,"name":"MightyPart Games"}] 
  * @exampleRawBody {"data":[{"id":5850082,"name":"MightyPart Games"}]}
  */
-export const authenticatedUserGroupsCanManage = addApiMethod(async (
+export const authenticatedUserGroupsCanManage = createApiMethod(async (
 ): ApiMethod<RawAuthenticatedUserGroupsCanManage, PrettifiedAuthenticatedUserGroupsCanManage> => ({
   method: "GET",
   path: `/v1/user/groups/canmanage`,
@@ -486,7 +486,7 @@ export const authenticatedUserGroupsCanManage = addApiMethod(async (
  * @exampleData [{"id":5850082,"name":"MightyPart Games"}] 
  * @exampleRawBody {"data":[{"id":5850082,"name":"MightyPart Games"}]}
  */
-export const authenticatedUserGroupsCanManageGamesOrItems = addApiMethod(async (
+export const authenticatedUserGroupsCanManageGamesOrItems = createApiMethod(async (
 ): ApiMethod<RawAuthenticatedUserGroupsCanManage, PrettifiedAuthenticatedUserGroupsCanManage> => ({
   method: "GET",
   path: `/v1/user/groups/canmanagegamesoritems`,
@@ -509,7 +509,7 @@ export const authenticatedUserGroupsCanManageGamesOrItems = addApiMethod(async (
  * @exampleData [{"id":43387735,"name":"parrrty's Place Number: 2","description":"parrrty's Place","isArchived":false,"rootPlaceId":122862800,"isActive":false,"privacyType":"Private","creatorType":"User","creatorTargetId":45348281,"creatorName":"MightyPart","created":"2013-11-01T13:47:47.813Z","updated":"2019-04-04T13:32:49.633Z"}]
  * @exampleRawBody {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":43387735,"name":"parrrty's Place Number: 2","description":"parrrty's Place","isArchived":false,"rootPlaceId":122862800,"isActive":false,"privacyType":"Private","creatorType":"User","creatorTargetId":45348281,"creatorName":"MightyPart","created":"2013-11-01T13:47:47.813Z","updated":"2019-04-04T13:32:49.633Z"}]}
  */
-export const authenticatedUserUniverses = addApiMethod(async (
+export const authenticatedUserUniverses = createApiMethod(async (
   { isArchived, limit, sortOrder, cursor }:
   { isArchived?: boolean, limit?: 10 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawAuthenticatedUserUniversesData, PrettifiedAuthenticatedUserUniversesData> => ({
@@ -539,7 +539,7 @@ export const authenticatedUserUniverses = addApiMethod(async (
  * @exampleData {"id":16349154726,"universeId":5638577595,"name":"New name!","description":""} 
  * @exampleRawBody {"id":16349154726,"universeId":5638577595,"name":"New name!","description":""}
  */
-export const updatePlaceConfiguration_V1 = addApiMethod(async <
+export const updatePlaceConfiguration_V1 = createApiMethod(async <
   PlaceId extends Identifier, Name extends string, Description extends string
 >(
   { placeId, name, description }: { placeId: PlaceId, name?: Name, description?: Description }
@@ -563,7 +563,7 @@ export const updatePlaceConfiguration_V1 = addApiMethod(async <
  * @exampleData {"maxPlayerCount":50,"socialSlotType":"Automatic","customSocialSlotsCount":15,"allowCopying":false,"currentSavedVersion":1537,"isAllGenresAllowed":true,"allowedGearTypes":[],"maxPlayersAllowed":700,"id":16349154726,"universeId":5638577595,"name":"New name!","description":"","isRootPlace":true}
  * @exampleRawBody {"maxPlayerCount":50,"socialSlotType":"Automatic","customSocialSlotsCount":15,"allowCopying":false,"currentSavedVersion":1537,"isAllGenresAllowed":true,"allowedGearTypes":[],"maxPlayersAllowed":700,"id":16349154726,"universeId":5638577595,"name":"New name!","description":"","isRootPlace":true}
  */
-export const placeConfiguration = addApiMethod(async <PlaceId extends Identifier>(
+export const placeConfiguration = createApiMethod(async <PlaceId extends Identifier>(
   { placeId }: { placeId: PlaceId }
 ): ApiMethod<PlaceConfigurationData<PlaceId>> => ({
   method: "GET",
@@ -584,7 +584,7 @@ export const placeConfiguration = addApiMethod(async <PlaceId extends Identifier
  * @exampleData {"id":16349154726,"universeId":5638577595,"name":"New name!","description":""} 
  * @exampleRawBody {"id":16349154726,"universeId":5638577595,"name":"New name!","description":""}
  */
-export const updatePlaceConfiguration_V2 = addApiMethod(async <
+export const updatePlaceConfiguration_V2 = createApiMethod(async <
   PlaceId extends Identifier, Name extends string, Description extends string, MaxPlayerCount extends number,
   SocialSlotType extends PlaceSocialSlotType, CustomSocialSlotsCount extends number, AllowCopying extends boolean,
   AllowedGearTypes extends PlaceGearType, IsAllGenresAllowed extends boolean
@@ -644,7 +644,7 @@ export const updatePlaceConfiguration_V2 = addApiMethod(async <
  * @exampleData {"allowPrivateServers":false,"privateServerPrice":null,"optInRegions":[],"isMeshTextureApiAccessAllowed":true,"id":5638577595,"name":"New name!","description":"","universeAvatarType":"PlayerChoice","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeJointPositioningType":"ArtistIntent","isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer"],"isForSale":false,"price":0,"universeAvatarMinScales":{"height":0.9,"width":0.7,"head":0.95,"depth":0,"proportion":0,"bodyType":0},"universeAvatarMaxScales":{"height":1.05,"width":1,"head":1,"depth":0,"proportion":1,"bodyType":1},"studioAccessToApisAllowed":false,"universeAvatarAssetOverrides":[],"permissions":{"isThirdPartyTeleportAllowed":false,"isThirdPartyAssetAllowed":false,"isThirdPartyPurchaseAllowed":false}} 
  * @exampleRawBody {"allowPrivateServers":false,"privateServerPrice":null,"optInRegions":[],"isMeshTextureApiAccessAllowed":true,"id":5638577595,"name":"New name!","description":"","universeAvatarType":"PlayerChoice","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeJointPositioningType":"ArtistIntent","isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer"],"isForSale":false,"price":0,"universeAvatarAssetOverrides":[],"universeAvatarMinScales":{"height":0.9,"width":0.7,"head":0.95,"depth":0,"proportion":0,"bodyType":0},"universeAvatarMaxScales":{"height":1.05,"width":1,"head":1,"depth":0,"proportion":1,"bodyType":1},"studioAccessToApisAllowed":false,"permissions":{"IsThirdPartyTeleportAllowed":false,"IsThirdPartyAssetAllowed":false,"IsThirdPartyPurchaseAllowed":false}}
  */
-export const updateUniverseConfiguration_V2 = addApiMethod(async <
+export const updateUniverseConfiguration_V2 = createApiMethod(async <
   UniverseId extends Identifier, AllowPrivateServers extends boolean, PrivateServerPrice extends number, Name extends string,
   Description extends string, AvatarType extends UniverseAvatarType, AnimationType extends UniverseAnimationType,
   CollisionType extends UniverseCollisionType, JointPositioningType extends UniverseJointPositioningType,
@@ -731,7 +731,7 @@ export const updateUniverseConfiguration_V2 = addApiMethod(async <
  * @exampleData true
  * @exampleRawBody {}
  */
-export const closeTeamTestSession = addApiMethod(async (
+export const closeTeamTestSession = createApiMethod(async (
   { placeId, jobId }: { placeId: Identifier, jobId: string }
 ): ApiMethod<any> => ({
   method: "DELETE",

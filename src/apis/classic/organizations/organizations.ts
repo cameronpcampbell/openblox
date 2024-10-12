@@ -13,7 +13,7 @@ import type { OrgInfoForGroupData, OrgMemberPermissionsData, OrgRoleColor, Overw
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "ClassicOrganizations", baseUrl: "https://apis.roblox.com/orgs" })
+const { createApiMethod } = createApiGroup({ name: "ClassicOrganizations", baseUrl: "https://apis.roblox.com/orgs" })
 
 const permissionsCategory = {
   manageMembers: "Organization",
@@ -36,7 +36,7 @@ const permissionsCategory = {
  * @exampleData { id: "4244556007738484576", groupId: "15842838" }
  * @exampleRawBody { id: "4244556007738484576", groupId: "15842838" }
  */
-export const orgInfoForGroup = addApiMethod(async <GroupId extends Identifier>(
+export const orgInfoForGroup = createApiMethod(async <GroupId extends Identifier>(
   { groupId }: { groupId: GroupId }
 ): ApiMethod<OrgInfoForGroupData<GroupId>> => ({
   method: "GET",
@@ -58,7 +58,7 @@ export const orgInfoForGroup = addApiMethod(async <GroupId extends Identifier>(
  * @exampleData [{"id":"2011766837304130930","organizationId":"4244556007738484576","name":"New Role 7275","color":"Green","updatedTime":"2024-05-31T02:34:51.832Z"},{"id":"914257001913009232","organizationId":"4244556007738484576","name":"Developer","color":"LightOrange","updatedTime":"2024-05-31T01:24:02.823Z"},{"id":"3456593169348895666","organizationId":"4244556007738484576","name":"Tester","color":"Teal","updatedTime":"2024-05-31T01:24:02.827Z"}]
  * @exampleRawBody {"roles":[{"id":"2011766837304130930","organizationId":"4244556007738484576","name":"New Role 7275","color":"Green","updatedTime":"2024-05-31T02:34:51.8329242Z"},{"id":"914257001913009232","organizationId":"4244556007738484576","name":"Developer","color":"LightOrange","updatedTime":"2024-05-31T01:24:02.8238408Z"},{"id":"3456593169348895666","organizationId":"4244556007738484576","name":"Tester","color":"Teal","updatedTime":"2024-05-31T01:24:02.8271342Z"}],"pageToken":""}
  */
-export const orgRoles = addApiMethod(async <OrgId extends Identifier>(
+export const orgRoles = createApiMethod(async <OrgId extends Identifier>(
   { orgId, limit = 10, cursor }: { orgId: OrgId, limit?: number, cursor?: string }
 ): ApiMethod<RawOrgRolesData<OrgId>, PrettifiedOrgRolesData<OrgId>> => ({
   method: "GET",
@@ -88,7 +88,7 @@ export const orgRoles = addApiMethod(async <OrgId extends Identifier>(
  * @exampleData [{"category":"Organization","operation":"ManageMembers","enabled":false},{"category":"Organization","operation":"ManageRoles","enabled":false},{"category":"Organization","operation":"Configure","enabled":false},{"category":"Experience","operation":"Play","enabled":false},{"category":"Experience","operation":"Edit","enabled":false},{"category":"Experience","operation":"ViewAnalytics","enabled":false}]
  * @exampleRawBody {"permissions":[{"category":"Organization","operation":"ManageMembers","enabled":false},{"category":"Organization","operation":"ManageRoles","enabled":false},{"category":"Organization","operation":"Configure","enabled":false},{"category":"Experience","operation":"Play","enabled":false},{"category":"Experience","operation":"Edit","enabled":false},{"category":"Experience","operation":"ViewAnalytics","enabled":false}]}
  */
-export const orgRolePermissions = addApiMethod(async (
+export const orgRolePermissions = createApiMethod(async (
   { orgId, roleId }: { orgId: Identifier, roleId: Identifier }
 ): ApiMethod<RawOrgRolePermissionsData, PrettifiedOrgRolePermissionsData> => ({
   method: "GET",
@@ -112,7 +112,7 @@ export const orgRolePermissions = addApiMethod(async (
  * @exampleData {"id":"914257001913009232","organizationId":"4244556007738484576","name":"Developer","color":"LightOrange","updatedTime": 2024-05-31T01:24:02.823Z}
  * @exampleRawBody {"id":"914257001913009232","organizationId":"4244556007738484576","name":"Developer","color":"LightOrange","updatedTime":"2024-05-31T01:24:02.823Z"}
  */
-export const orgRoleMetadata = addApiMethod(async <OrgId extends Identifier, RoleId extends Identifier>(
+export const orgRoleMetadata = createApiMethod(async <OrgId extends Identifier, RoleId extends Identifier>(
   { orgId, roleId }: { orgId: OrgId, roleId: RoleId }
 ): ApiMethod<RawOrgRoleMetadataData<OrgId, RoleId>, PrettifiedOrgRoleMetadataData<OrgId, RoleId>> => ({
   method: "GET",
@@ -145,7 +145,7 @@ export const orgRoleMetadata = addApiMethod(async <OrgId extends Identifier, Rol
  * @exampleData true
  * @exampleRawBody { success: true }
  */
-export const overwriteOrgRolePermissions = addApiMethod(async (
+export const overwriteOrgRolePermissions = createApiMethod(async (
   { orgId, roleId, newPermissions }: { orgId: Identifier, roleId: Identifier, newPermissions: OverwriteOrgRolePermissions_NewPermissions }
 ): ApiMethod<{ success: boolean }, boolean> => ({
   method: "PATCH",
@@ -178,7 +178,7 @@ export const overwriteOrgRolePermissions = addApiMethod(async (
  * @exampleData [{"userId":"45348281","roles":[{"id":"4500991930780611394","organizationId":"4244556007738484576","name":"Orange","color":"Orange","updatedTime":2024-05-31T03:13:24.753Z}]}]
  * @exampleRawBody {"users":[{"userId":"45348281","roles":[{"id":"4500991930780611394","organizationId":"4244556007738484576","name":"Orange","color":"Orange","updatedTime":"2024-05-31T03:13:24.7539993Z"}]}],"pageToken":""}
  */
-export const orgRoleMembers = addApiMethod(async <OrgId extends Identifier>(
+export const orgRoleMembers = createApiMethod(async <OrgId extends Identifier>(
   { orgId, roleId, limit = 10, cursor }: { orgId: Identifier, roleId: Identifier, limit?: number, cursor?: string }
 ): ApiMethod<RawOrgMembersData<OrgId>, PrettifiedOrgMembersData<OrgId>> => ({
   method: "GET",
@@ -211,7 +211,7 @@ export const orgRoleMembers = addApiMethod(async <OrgId extends Identifier>(
  * @exampleData [{"userId":"45348281","roles":[{"id":"914257001913009232","organizationId":"4244556007738484576","name":"Developer","color":"LightOrange","updatedTime":"2024-05-31T01:24:02.823Z"}]}]
  * @exampleRawBody {"users":[{"userId":"45348281","roles":[{"id":"914257001913009232","organizationId":"4244556007738484576","name":"Developer","color":"LightOrange","updatedTime":"2024-05-31T01:24:02.8238408Z"}]}],"pageToken":""}
  */
-export const orgMembers = addApiMethod(async <OrgId extends Identifier>(
+export const orgMembers = createApiMethod(async <OrgId extends Identifier>(
   { orgId, limit = 10, cursor }: { orgId: OrgId, limit?: number, cursor?: string }
 ): ApiMethod<RawOrgMembersData<OrgId>, PrettifiedOrgMembersData<OrgId>> => ({
   method: "GET",
@@ -244,7 +244,7 @@ export const orgMembers = addApiMethod(async <OrgId extends Identifier>(
  * @exampleData [{"id":"7659171709868310756","organizationId":"4244556007738484576","recipientUserId":"2655994471","senderUserId":"45348281","invitationStatusType":"Open","updatedTime":"2024-05-31T04:30:08.713Z"}]
  * @exampleRawBody {"invitations":[{"id":"7659171709868310756","organizationId":"4244556007738484576","recipientUserId":"2655994471","senderUserId":"45348281","invitationStatusType":"Open","updatedTime":"2024-05-31T04:30:08.713Z"}],"pageToken":""}
  */
-export const orgInvitations = addApiMethod(async <OrgId extends Identifier>(
+export const orgInvitations = createApiMethod(async <OrgId extends Identifier>(
   { orgId, limit = 500, cursor }: { orgId: OrgId, limit?: number, cursor?: string }
 ): ApiMethod<RawOrgInvitations<OrgId>, PrettifiedOrgInvitations<OrgId>> => ({
   method: "GET",
@@ -274,7 +274,7 @@ export const orgInvitations = addApiMethod(async <OrgId extends Identifier>(
  * @exampleData [{"userId":"45348281","roles":[{"id":"914257001913009232","organizationId":"4244556007738484576","name":"Developer","color":"LightOrange","updatedTime":"2024-05-31T01:24:02.823Z"}]}]
  * @exampleRawBody {"users":[{"userId":"45348281","roles":[{"id":"914257001913009232","organizationId":"4244556007738484576","name":"Developer","color":"LightOrange","updatedTime":"2024-05-31T01:24:02.8238408Z"}]}],"pageToken":""}
  */
-export const createOrgInvitation = addApiMethod(async <OrgId extends Identifier, UserId extends Identifier>(
+export const createOrgInvitation = createApiMethod(async <OrgId extends Identifier, UserId extends Identifier>(
   { orgId, userId }: { orgId: OrgId, userId: UserId }
 ): ApiMethod<RawCreateOrgInvitationData<OrgId, UserId>, PrettifiedCreateOrgInvitationData<OrgId, UserId>> => ({
   method: "POST",
@@ -299,7 +299,7 @@ export const createOrgInvitation = addApiMethod(async <OrgId extends Identifier,
  * @exampleData true
  * @exampleRawBody { success: true }
  */
-export const removeOrgInvitation = addApiMethod(async (
+export const removeOrgInvitation = createApiMethod(async (
   { orgId, invitationId }: { orgId: Identifier, invitationId: Identifier }
 ): ApiMethod<{ success: boolean }, boolean> => ({
   method: "DELETE",
@@ -321,7 +321,7 @@ export const removeOrgInvitation = addApiMethod(async (
  * @exampleData {"isOwner":true,"canConfigureOrganization":true,"canManageRoles":true,"canManageMembers":true,"canViewAnalytics":true,"canPlayExperiences":true,"canEditExperiences":true}
  * @exampleRawBody {"isOwner":true,"canConfigureOrganization":true,"canManageRoles":true,"canManageMembers":true,"canViewAnalytics":true,"canPlayExperiences":true,"canEditExperiences":true}
  */
-export const orgMemberPermissions = addApiMethod(async (
+export const orgMemberPermissions = createApiMethod(async (
   { orgId, userId }: { orgId: Identifier, userId: Identifier }
 ): ApiMethod<OrgMemberPermissionsData> => ({
   method: "GET",
@@ -345,7 +345,7 @@ export const orgMemberPermissions = addApiMethod(async (
  * @exampleData { success: true }
  * @exampleRawBody true
  */
-export const giveRoleToOrgMember = addApiMethod(async (
+export const giveRoleToOrgMember = createApiMethod(async (
   { orgId, userId, roleId }: { orgId: Identifier, userId: Identifier, roleId: Identifier }
 ): ApiMethod<{ success: boolean }, boolean> => ({
   method: "POST",
@@ -371,7 +371,7 @@ export const giveRoleToOrgMember = addApiMethod(async (
  * @exampleData { success: true }
  * @exampleRawBody true
  */
-export const removeRoleFromOrgMember = addApiMethod(async (
+export const removeRoleFromOrgMember = createApiMethod(async (
   { orgId, userId, roleId }: { orgId: Identifier, userId: Identifier, roleId: Identifier }
 ): ApiMethod<{ success: boolean }, boolean> => ({
   method: "DELETE",
@@ -397,7 +397,7 @@ export const removeRoleFromOrgMember = addApiMethod(async (
  * @exampleData {"id":"4508567586590971666","organizationId":"4244556007738484576","name":"Admin","color":"LightOrange","updatedTime":2024-05-31T03:25:37.841Z}
  * @exampleRawBody {"id":"4508567586590971666","organizationId":"4244556007738484576","name":"Admin","color":"LightOrange","updatedTime":"2024-05-31T03:25:37.8410158Z"}
  */
-export const createOrgRole = addApiMethod(async <OrgId extends Identifier, RoleName extends string, RoleColor extends OrgRoleColor>(
+export const createOrgRole = createApiMethod(async <OrgId extends Identifier, RoleName extends string, RoleColor extends OrgRoleColor>(
   { orgId, roleName, roleColor }: { orgId: OrgId, roleName: RoleName, roleColor: RoleColor }
 ): ApiMethod<RawCreateOrgRoleData<OrgId, RoleName, RoleColor>, PrettifiedCreateOrgRoleData<OrgId, RoleName, RoleColor>> => ({
   method: "POST",
@@ -425,7 +425,7 @@ export const createOrgRole = addApiMethod(async <OrgId extends Identifier, RoleN
  * @exampleData {"id":"4508567586590971666","organizationId":"4244556007738484576","name":"Admin","color":"LightOrange","updatedTime":2024-05-31T03:25:37.841Z}
  * @exampleRawBody {"id":"4508567586590971666","organizationId":"4244556007738484576","name":"Admin","color":"LightOrange","updatedTime":"2024-05-31T03:25:37.8410158Z"}
  */
-export const updateOrgRole = addApiMethod(async <
+export const updateOrgRole = createApiMethod(async <
   OrgId extends Identifier, RoleId extends Identifier, RoleName extends string, RoleColor extends OrgRoleColor
 >(
   { orgId, roleId, roleName, roleColor }: { orgId: OrgId, roleId: RoleId, roleName: RoleName, roleColor: RoleColor }
@@ -453,7 +453,7 @@ export const updateOrgRole = addApiMethod(async <
  * @exampleData true
  * @exampleRawBody { success: true }
  */
-   export const deleteOrgRole = addApiMethod(async (
+   export const deleteOrgRole = createApiMethod(async (
     { orgId, roleId }: { orgId: Identifier, roleId: Identifier }
   ): ApiMethod<{ success: boolean }, boolean> => ({
     method: "DELETE",

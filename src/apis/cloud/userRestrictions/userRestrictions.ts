@@ -13,7 +13,7 @@ import type { PrettifiedListRestrictionLogsData, RawListRestrictionLogsData, Upd
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "UserRestrictions", baseUrl: "https://apis.roblox.com/cloud" })
+const { createApiMethod } = createApiGroup({ name: "UserRestrictions", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -39,7 +39,7 @@ const addApiMethod = createApiGroup({ name: "UserRestrictions", baseUrl: "https:
  * @exampleData {"path":"universes/5795192361/places/18210254887/user-restrictions/6193495014","user":"users/6193495014","gameJoinRestriction":{"active":true,"startTime":"2024-06-25T22:56:58.873Z","duration":"31540000s","privateReason":"Being a meanie :/","displayReason":"Annoying other players.","excludeAltAccounts":false,"inherited":false}}
  * @exampleRawBody {"path":"universes/5795192361/places/18210254887/user-restrictions/6193495014","user":"users/6193495014","gameJoinRestriction":{"active":true,"startTime":"2024-06-25T22:56:58.873Z","duration":"31540000s","privateReason":"Being a meanie :/","displayReason":"Annoying other players.","excludeAltAccounts":false,"inherited":false}}
  */
-export const listRestrictions = addApiMethod(async <
+export const listRestrictions = createApiMethod(async <
   UniverseId extends Identifier, UserId extends Identifier, PlaceId extends Identifier | undefined = undefined
 >(
   { universeId, placeId, userId }:
@@ -65,7 +65,7 @@ export const listRestrictions = addApiMethod(async <
  * @exampleData
  * @exampleRawBody
  */
-export const restrictionForUser = addApiMethod(async <UniverseId extends Identifier, UserId extends Identifier, PlaceId extends Identifier>(
+export const restrictionForUser = createApiMethod(async <UniverseId extends Identifier, UserId extends Identifier, PlaceId extends Identifier>(
   { universeId, placeId, userId }: { universeId: Identifier, placeId?: Identifier, userId: Identifier }
 ): ApiMethod<UserRestrictionsData<UniverseId, UserId, PlaceId>> => ({
   method: "GET",
@@ -108,7 +108,7 @@ export const restrictionForUser = addApiMethod(async <UniverseId extends Identif
  * @exampleData {"path":"universes/5795192361/places/18210254887/user-restrictions/6193495014","user":"users/6193495014","gameJoinRestriction":{"active":true,"startTime":"2024-06-25T22:54:39.245Z","duration":"31540000s","privateReason":"Being a meanie :/","displayReason":"Annoying other players.","excludeAltAccounts":false,"inherited":false}}
  * @exampleRawBody {"path":"universes/5795192361/places/18210254887/user-restrictions/6193495014","user":"users/6193495014","gameJoinRestriction":{"active":true,"startTime":"2024-06-25T22:54:39.245Z","duration":"31540000s","privateReason":"Being a meanie :/","displayReason":"Annoying other players.","excludeAltAccounts":false,"inherited":false}}
  */
-export const updateRestrictionsForUser = addApiMethod(async <
+export const updateRestrictionsForUser = createApiMethod(async <
   UniverseId extends Identifier, UserId extends Identifier,
   const UpdatedData extends UpdateUserRestrictionsData, PlaceId extends Identifier | undefined = undefined
 >(
@@ -149,7 +149,7 @@ export const updateRestrictionsForUser = addApiMethod(async <
  * @exampleData [{"user":"users/6193495014","place":"18210254887","moderator":{"robloxUser":"45348281"},"createTime":"2024-06-25T22:56:58.873Z","active":true,"startTime":"2024-06-25T22:56:58.873Z","duration":"31540000s","privateReason":"Being a meanie :/","displayReason":"Annoying other players.","excludeAltAccounts":false}]
  * @exampleRawBody {"logs":[{"user":"users/6193495014","place":"18210254887","moderator":{"robloxUser":"45348281"},"createTime":"2024-06-25T22:56:58.873Z","active":true,"startTime":"2024-06-25T22:56:58.873Z","duration":"31540000s","privateReason":"Being a meanie :/","displayReason":"Annoying other players.","excludeAltAccounts":false}],"nextPageToken":"id_2zwAAAZBRnd35xBBXeienIm9K54uMH01-RpcT"}
  */
-export const listRestrictionLogs = addApiMethod(async <
+export const listRestrictionLogs = createApiMethod(async <
   UniverseId extends Identifier, UserId extends Identifier = Identifier, PlaceId extends Identifier = Identifier
 >(
   { universeId, placeId, userId, limit, cursor }:

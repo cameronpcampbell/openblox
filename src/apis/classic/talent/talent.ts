@@ -14,7 +14,7 @@ import type { SortOrder } from "../../../utils/utils.types"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "ClassicTalent", baseUrl: "https://apis.roblox.com/talent" })
+const { createApiMethod } = createApiGroup({ name: "ClassicTalent", baseUrl: "https://apis.roblox.com/talent" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -28,7 +28,7 @@ const addApiMethod = createApiGroup({ name: "ClassicTalent", baseUrl: "https://a
  * @exampleData {"creatorUserId":45348281,"createdUtc":"2021-08-13T01:21:19.146Z","updatedUtc":"2024-05-05T01:24:58.442Z","isPublic":true,"isContactAllowed":false,"creatorDescription":"Lorem ipsum dolor sit amet.","isOpenToWork":false,"interestDescription":"","linkTypes":["DeveloperForum","Roblox","Twitter"],"preferredContactLinkType":"DeveloperForum","socialLinks":[],"jobTypes":[],"skillTypes":["Programmer"],"requiresAction":"NoAction"}
  * @exampleRawBody {"data":[{"creatorUserId":45348281,"createdUtc":"2021-08-13T01:21:19.1463527Z","updatedUtc":"2024-05-05T01:24:58.4421938Z","isPublic":true,"isContactAllowed":false,"creatorDescription":"Lorem ipsum dolor sit amet.","isOpenToWork":false,"interestDescription":"","linkTypes":["DeveloperForum","Roblox","Twitter"],"preferredContactLinkType":"DeveloperForum","socialLinks":[],"jobTypes":[],"skillTypes":["Programmer"],"requiresAction":"NoAction"}]}
  */
-export const creatorProfile = addApiMethod(async <UserId extends Identifier>(
+export const creatorProfile = createApiMethod(async <UserId extends Identifier>(
   { userId }: { userId: UserId }
 ): ApiMethod<RawCreatorProfileData<UserId>, PrettifiedCreatorProfileData<UserId>> => ({
   path: `/v1/users/${userId}/profile`,
@@ -54,7 +54,7 @@ export const creatorProfile = addApiMethod(async <UserId extends Identifier>(
  * @exampleData [{"experienceId":21126,"creatorUserId":45348281,"createdUtc":"2022-01-16T16:09:30.161Z","updatedUtc":"2022-07-29T12:23:28.866Z","projectName":"RoCamping","experienceDescription":"RoCamping was my first game, it was a survival game where you built a shelter and tried to survive. My role was the manage the project as well as script and create the UI .","jobRole":"Programmer & UI Designer","teamName":"","experienceMedia":[],"experienceLinks":["[The Game](https://www.roblox.com/games/4922741943/RoCamping)"],"teamId":null,"robloxExperienceIds":[],"robloxAssetIds":[],"startedUtc":"2020-03-31T23:00:00.000Z","endedUtc":"2020-09-30T23:00:00.000Z","isCurrent":false}]
  * @exampleRawBody {"data":[{"experienceId":21126,"creatorUserId":45348281,"createdUtc":"2022-01-16T16:09:30.1614813Z","updatedUtc":"2022-07-29T12:23:28.8660325Z","projectName":"RoCamping","experienceDescription":"RoCamping was my first game, it was a survival game where you built a shelter and tried to survive. My role was the manage the project as well as script and create the UI .","jobRole":"Programmer & UI Designer","teamName":"","experienceMedia":[],"experienceLinks":["[The Game](https://www.roblox.com/games/4922741943/RoCamping)"],"teamId":null,"robloxExperienceIds":[],"robloxAssetIds":[],"startedUtc":"2020-03-31T23:00:00Z","endedUtc":"2020-09-30T23:00:00Z","isCurrent":false}],"nextPageCursor":null,"previousPageCursor":null}
  */
-export const creatorExperiences = addApiMethod(async <UserId extends Identifier>(
+export const creatorExperiences = createApiMethod(async <UserId extends Identifier>(
   { userId, sortOrder, limit, cursor }: { userId: UserId, sortOrder?: SortOrder, limit?: number, cursor?: string }
 ): ApiMethod<RawCreatorExperiencesData, PrettifiedCreatorExperiencesData> => ({
   path: `/v1/users/${userId}/experiences`,
@@ -82,7 +82,7 @@ export const creatorExperiences = addApiMethod(async <UserId extends Identifier>
  * @exampleData {"data":[{"userId":45348281,"isVerified":false}]}
  * @exampleRawBody false
  */
-export const creatorIsIdVerified = addApiMethod(async <UserId extends Identifier>(
+export const creatorIsIdVerified = createApiMethod(async <UserId extends Identifier>(
   { userId }: { userId: UserId }
 ): ApiMethod<RawUsersAreIdVerifiedData<UserId>, boolean> => ({
   path: `/v1/users/verification`,
@@ -107,7 +107,7 @@ export const creatorIsIdVerified = addApiMethod(async <UserId extends Identifier
  * @exampleData {"results":[{"id":"2428901580346619","jobPosterId":"419693467","title":"Frontend Scripter for a simulator game","description":"Hi I'm looking for 1 scripter that can work on the frontend script in my new game i already have a talented scripter that wanna focus on the backend but if you are good at booth we can se what we can do. The game function in a way where you collect different instruments and pets to become one of the best musicians in the game, if you want more information about the game, just ask. Below you can see pictures of models but also UI that we have right now but of course these are just a beginning and we will upgrade these.","jobType":"FullTime","paymentTypes":["RevenuePercent"],"skillTypes":["Scripting"],"publishedUtc":"2024-04-10T19:37:08.749Z","expiresUtc":"2024-07-09T19:37:08.749Z","minAgeRequirement":0,"isVerifiedRequirement":true,"isVerified":"true","paymentAmount":25,"paymentAmountType":"Total"}],"meta":{"page":{"totalPages":184,"totalResults":184,"current":1,"size":1}}}
  * @exampleRawBody {"meta":{"page":{"totalPages":184,"totalResults":184,"current":1,"size":1}},"results":[{"id":{"raw":"2428901580346619"},"jobPosterId":{"raw":"419693467"},"title":{"raw":"Frontend Scripter for a simulator game"},"description":{"raw":"Hi I'm looking for 1 scripter that can work on the frontend script in my new game i already have a talented scripter that wanna focus on the backend but if you are good at booth we can se what we can do. The game function in a way where you collect different instruments and pets to become one of the best musicians in the game, if you want more information about the game, just ask. Below you can see pictures of models but also UI that we have right now but of course these are just a beginning and we will upgrade these."},"jobType":{"raw":"FullTime"},"paymentTypes":{"raw":["RevenuePercent"]},"skillTypes":{"raw":["Scripting"]},"publishedUtc":{"raw":"2024-04-10T19:37:08.749Z"},"expiresUtc":{"raw":"2024-07-09T19:37:08.749Z"},"minAgeRequirement":{"raw":0},"isVerifiedRequirement":{"raw":"false"},"isVerified":{"raw":"true"},"paymentAmount":{"raw":25},"paymentAmountType":{"raw":"Total"},"_meta":{"score":0}}]}
  */
-export const jobSearch = addApiMethod(async (
+export const jobSearch = createApiMethod(async (
   { query = "", limit = 10, filter:{ jobType, paymentAmount, paymentTypes, skillTypes, isVerified = true } = {}, cursor }:
   { query?: string, limit?: number, filter?: JobSearchFilter, cursor?: number }
 ): ApiMethod<RawJobSearchData, PrettifiedJobSearchData> => ({

@@ -1,22 +1,11 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
 import { createApiGroup } from "../../apiGroup"
-import { dataIsSuccess } from "../../../utils/utils"
-//////////////////////////////////////////////////////////////////////////////////
-
-
-// [ Types ] /////////////////////////////////////////////////////////////////////
-import type { Identifier } from "typeforge"
-
-import type { ApiMethod } from "../../apiGroup"
+import { ClassicBadgesApi } from "../../classic"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "LegacyBadges", baseUrl: "https://apis.roblox.com/legacy-badges" })
-//////////////////////////////////////////////////////////////////////////////////
-
-
-// [ Private Functions ] /////////////////////////////////////////////////////////
+const { addExistingApiMethod } = createApiGroup({ name: "LegacyBadges", baseUrl: "https://apis.roblox.com/legacy-badges" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -34,14 +23,5 @@ const addApiMethod = createApiGroup({ name: "LegacyBadges", baseUrl: "https://ap
  * @exampleData true
  * @exampleRawBody {}
  */
-export const updateBadge = addApiMethod(async (
-  { badgeId, name, description, enabled }: { badgeId: Identifier, name?: string, description?: string, enabled?: boolean }
-): ApiMethod<{}, boolean> => ({
-  method: "PATCH",
-  path: `/v1/badges/${badgeId}`,
-  name: `updateBadge`,
-  body: { name, description, enabled },
-
-  formatRawDataFn: rawData => dataIsSuccess(rawData)
-}))
+export const updateBadge = addExistingApiMethod(ClassicBadgesApi.updateBadge)
 //////////////////////////////////////////////////////////////////////////////////

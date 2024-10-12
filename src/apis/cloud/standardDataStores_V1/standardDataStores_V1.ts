@@ -14,7 +14,7 @@ import type { PrettifiedListStandardDatastoreData, PrettifiedListStandardDatasto
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "StandardDatastores_V1", baseUrl: "https://apis.roblox.com/datastores" })
+const { createApiMethod } = createApiGroup({ name: "StandardDatastores_V1", baseUrl: "https://apis.roblox.com/datastores" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -33,7 +33,7 @@ const addApiMethod = createApiGroup({ name: "StandardDatastores_V1", baseUrl: "h
  * @exampleData [ { name: "InventoryStore", createdTime: 2023-09-16T11:03:03.868Z } ]
  * @exampleRawBody { datastores: [ { name: "InventoryStore", createdTime: "2023-09-16T11:03:03.868331Z" } ], nextPageCursor: "" }
  */
-export const listStandardDatastores = addApiMethod(async <Prefix extends string>(
+export const listStandardDatastores = createApiMethod(async <Prefix extends string>(
   { universeId, prefix, limit, cursor }: { universeId: Identifier, prefix?: Prefix, limit?: number, cursor?: string }
 ): ApiMethod<RawListStandardDatastoreData<Prefix>, PrettifiedListStandardDatastoreData<Prefix>> => ({
   method: "GET",
@@ -68,7 +68,7 @@ export const listStandardDatastores = addApiMethod(async <Prefix extends string>
  * @exampleData [ "user/45348281" ]
  * @exampleRawBody { keys: [ { key: "user/45348281" } ], nextPageCursor: "eyJ2ZXJzaW9uIjoxLCJjdXJzb3IiOiIxMyMifQ==" }
  */
-export const standardDatastoreKeys = addApiMethod(async <Prefix extends string>(
+export const standardDatastoreKeys = createApiMethod(async <Prefix extends string>(
   { universeId, datastoreName, scope, allScopes, limit, prefix, cursor }:
   { universeId: Identifier, datastoreName: string, scope?: string, allScopes?: boolean, limit?: number, prefix?: Prefix, cursor?: string }
 ): ApiMethod<RawStandardDatastoreKeysData<Prefix>, PrettifiedStandardDatastoreKeysData<Prefix>> => ({
@@ -104,7 +104,7 @@ export const standardDatastoreKeys = addApiMethod(async <Prefix extends string>(
  * @exampleData { entry: { Gold: 6, Iron: 57 }, checksumsMatch: true, metadata: { contentMD5: "hGwoaGwduF4bOhexREYGkA==", entryVersion: "08DBB6A47FDE6132.0000000016.08DBB782CEE11766.01", entryCreatedTime: 2023-09-16T11:03:03.922Z, entryVersionCreatedTime: 2023-09-17T13:34:24.754Z, entryAttributes: null, entryUserIds: [ 45348281 ] } }
  * @exampleRawBody { entry: { Gold: 6, Iron: 57 }, checksumsMatch: true, metadata: { contentMD5: "hGwoaGwduF4bOhexREYGkA==", entryVersion: "08DBB6A47FDE6132.0000000016.08DBB782CEE11766.01", entryCreatedTime: 2023-09-16T11:03:03.922Z, entryVersionCreatedTime: 2023-09-17T13:34:24.754Z, entryAttributes: null, entryUserIds: [ 45348281 ] } }
  */ 
-export const standardDatastoreEntry = addApiMethod(async <Schema extends Record<any, any> | string | number = string | number>(
+export const standardDatastoreEntry = createApiMethod(async <Schema extends Record<any, any> | string | number = string | number>(
   { universeId, datastoreName, entryKey, scope }:
   { universeId: Identifier, datastoreName: string, entryKey: string, scope?: string }
 ): ApiMethod<Schema, PrettifiedStandardDatastoreEntryData<Schema>> => ({
@@ -160,7 +160,7 @@ export const standardDatastoreEntry = addApiMethod(async <Schema extends Record<
  * @exampleData { version: "08DBB6A47FDE6132.000000000E.08DBB780C616DF0C.01", deleted: false, contentLength: 20, createdTime: 2023-09-17T13:19:51.014Z, objectCreatedTime: 2023-09-16T11:03:03.922Z }
  * @exampleRawBody { version: "08DBB6A47FDE6132.000000000E.08DBB780C616DF0C.01", deleted: false, contentLength: 20, createdTime: "2023-09-17T13:19:51.014Z", objectCreatedTime: "2023-09-16T11:03:03.922Z" }
  */ 
-export const setStandardDatastoreEntry = addApiMethod(async <Schema extends Record<any, any> | string | number = string | number>(
+export const setStandardDatastoreEntry = createApiMethod(async <Schema extends Record<any, any> | string | number = string | number>(
   { universeId, datastoreName, entryKey, entryValue, scope, matchVersion, exclusiveCreate, entryAttributes, entryUserIds }:
   {
     universeId: Identifier, datastoreName: string, entryKey: string, entryValue: Schema, scope?: string,
@@ -206,7 +206,7 @@ export const setStandardDatastoreEntry = addApiMethod(async <Schema extends Reco
  * @exampleData true
  * @exampleRawBody ""
  */ 
-export const deleteStandardDatastoreEntry = addApiMethod(async (
+export const deleteStandardDatastoreEntry = createApiMethod(async (
   { universeId, datastoreName, entryKey, scope }:
   { universeId: Identifier, datastoreName: string, entryKey: string, scope?: string }
 ): ApiMethod<"", boolean> => ({
@@ -241,7 +241,7 @@ export const deleteStandardDatastoreEntry = addApiMethod(async (
  * @exampleData 2
  * @exampleRawBody 2
  */ 
-export const incrementStandardDatastoreEntry = addApiMethod(async (
+export const incrementStandardDatastoreEntry = createApiMethod(async (
   { universeId, datastoreName, entryKey, scope, incrementBy, entryAttributes, entryUserIds }:
   {
     universeId: Identifier, datastoreName: string, entryKey: string, scope?: string, incrementBy: number,
@@ -280,7 +280,7 @@ export const incrementStandardDatastoreEntry = addApiMethod(async (
  * @exampleData { entry: { Gold: 6, Iron: 57 }, checksumsMatch: true, metadata: { contentMD5: "hGwoaGwduF4bOhexREYGkA==", entryVersion: "08DBB6A47FDE6132.0000000016.08DBB782CEE11766.01", entryCreatedTime: 2023-09-16T11:03:03.922Z, entryVersionCreatedTime: 2023-09-17T13:34:24.754Z, entryAttributes: null, entryUserIds: [ 45348281 ] } }
  * @exampleRawBody { entry: { Gold: 6, Iron: 57 }, checksumsMatch: true, metadata: { contentMD5: "hGwoaGwduF4bOhexREYGkA==", entryVersion: "08DBB6A47FDE6132.0000000016.08DBB782CEE11766.01", entryCreatedTime: 2023-09-16T11:03:03.922Z, entryVersionCreatedTime: 2023-09-17T13:34:24.754Z, entryAttributes: null, entryUserIds: [ 45348281 ] } }
  */ 
-export const standardDatastoreEntryOfVersion = addApiMethod(async <Schema extends Record<any, any> | string | number = string | number>(
+export const standardDatastoreEntryOfVersion = createApiMethod(async <Schema extends Record<any, any> | string | number = string | number>(
   { universeId, datastoreName, entryKey, scope, versionId }:
   { universeId: Identifier, datastoreName: string, entryKey: string, scope?: string, versionId: string }
 ): ApiMethod<Prettify<Schema>, PrettifiedStandardDatastoreEntryData<Schema>> => ({
@@ -336,7 +336,7 @@ export const standardDatastoreEntryOfVersion = addApiMethod(async <Schema extend
  * @exampleData [ { version: "08DBB6A47FDE6132.0000000010.08DBB781B9579F00.01", deleted: false, contentLength: 20, createdTime: 2023-09-17T13:26:39.124Z, objectCreatedTime: 2023-09-16T11:03:03.922Z } ]
  * @exampleRawBody { versions: [ { version: "08DBB6A47FDE6132.0000000010.08DBB781B9579F00.01", deleted: false, contentLength: 20, createdTime: "2023-09-17T13:26:39.124Z", objectCreatedTime: "2023-09-16T11:03:03.922Z" } ] }
  */ 
-export const listStandardDatastoreEntryVersions = addApiMethod(async <Schema extends Record<any, any> | string | number = string | number>(
+export const listStandardDatastoreEntryVersions = createApiMethod(async <Schema extends Record<any, any> | string | number = string | number>(
   { universeId, datastoreName, entryKey, scope, startTime, endTime, sortOrder, limit, cursor }:
   {
     universeId: Identifier, datastoreName: string, entryKey: string, scope?: string,

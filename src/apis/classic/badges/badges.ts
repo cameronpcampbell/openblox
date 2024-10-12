@@ -14,7 +14,7 @@ import type { PrettifiedBadgeAwardedDateForUserData, PrettifiedBadgeInfoData, Pr
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "ClassicBadgesApi", baseUrl: "https://badges.roblox.com" })
+const { createApiMethod } = createApiGroup({ name: "ClassicBadgesApi", baseUrl: "https://badges.roblox.com" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -33,7 +33,7 @@ const addApiMethod = createApiGroup({ name: "ClassicBadgesApi", baseUrl: "https:
  * @exampleData {"id":2124533401,"name":"Tutorial Done","description":"Tutorial Lol","displayName":"Tutorial Done","displayDescription":"Tutorial Lol","enabled":true,"iconImageId":5316501478,"displayIconImageId":5316501478,"created":"2020-05-05T08:20:10.653Z","updated":"2023-08-26T12:43:15.280Z","statistics":{"pastDayAwardedCount":0,"awardedCount":394,"winRatePercentage":0},"awardingUniverse":{"id":1685831367,"name":"RoCamping","rootPlaceId":4922741943}}
  * @exampleRawBody {"id":2124533401,"name":"Tutorial Done","description":"Tutorial Lol","displayName":"Tutorial Done","displayDescription":"Tutorial Lol","enabled":true,"iconImageId":5316501478,"displayIconImageId":5316501478,"created":"2020-05-05T08:20:10.653Z","updated":"2023-08-26T12:43:15.280Z","statistics":{"pastDayAwardedCount":0,"awardedCount":394,"winRatePercentage":0},"awardingUniverse":{"id":1685831367,"name":"RoCamping","rootPlaceId":4922741943}}
  */
-export const badgeInfo = addApiMethod(async <BadgeId extends Identifier>(
+export const badgeInfo = createApiMethod(async <BadgeId extends Identifier>(
   { badgeId }: { badgeId: BadgeId }
 ): ApiMethod<RawBadgeInfoData<BadgeId>, PrettifiedBadgeInfoData<BadgeId>> => ({
   method: "GET",
@@ -60,7 +60,7 @@ export const badgeInfo = addApiMethod(async <BadgeId extends Identifier>(
  * @exampleData true
  * @exampleRawBody {}
  */
-export const updateBadge = addApiMethod(async (
+export const updateBadge = createApiMethod(async (
   { badgeId, name, description, enabled }: { badgeId: Identifier, name?: string, description?: string, enabled?: boolean }
 ): ApiMethod<{}, boolean> => ({
   method: "PATCH",
@@ -80,7 +80,7 @@ export const updateBadge = addApiMethod(async (
  * @exampleData {"badgeCreationPrice":100,"maxBadgeNameLength":50,"maxBadgeDescriptionLength":1000}
  * @exampleRawBody {"badgeCreationPrice":100,"maxBadgeNameLength":50,"maxBadgeDescriptionLength":1000}
  */
-export const badgesMetadata = addApiMethod(async (
+export const badgesMetadata = createApiMethod(async (
 ): ApiMethod<{ badgeCreationPrice: number, maxBadgeNameLength: number, maxBadgeDescriptionLength: number }> => ({
   method: "GET",
   path: `/v1/badges/metadata`,
@@ -101,7 +101,7 @@ export const badgesMetadata = addApiMethod(async (
  * @exampleData [{"id":2124533401,"name":"Tutorial Done","description":"true","displayName":"Tutorial Done","displayDescription":"true","enabled":true,"iconImageId":5316501478,"displayIconImageId":5316501478,"created":"2020-05-05T08:20:10.653Z","updated":"2024-07-16T22:34:44.021Z","statistics":{"pastDayAwardedCount":0,"awardedCount":394,"winRatePercentage":0},"awardingUniverse":{"id":1685831367,"name":"RoCamping","rootPlaceId":4922741943}}]
  * @exampleRawBody {"previousPageCursor":null,"nextPageCursor":"eyJrZXkiOiJpZF8yendBQUFYSGo2OEVkem42aHpwayIsInNvcnRPcmRlciI6IkFzYyIsInBhZ2luZ0RpcmVjdGlvbiI6IkZvcndhcmQiLCJwYWdlTnVtYmVyIjoyLCJkaXNjcmltaW5hdG9yIjoidW5pdmVyc2VJZDoxNjg1ODMxMzY3IiwiY291bnQiOjEwfQplMzk4ODQzNTg5NGYxNzU4MTk1YmVlNWFhMDE5NTI1MmJiMjdhZDRiYzU5YzE3NjNjNjg3M2UxYmExNDdkMWZh","data":[{"id":2124533401,"name":"Tutorial Done","description":"true","displayName":"Tutorial Done","displayDescription":"true","enabled":true,"iconImageId":5316501478,"displayIconImageId":5316501478,"created":"2020-05-05T08:20:10.653+00:00","updated":"2024-07-16T22:34:44.021+00:00","statistics":{"pastDayAwardedCount":0,"awardedCount":394,"winRatePercentage":0},"awardingUniverse":{"id":1685831367,"name":"RoCamping","rootPlaceId":4922741943}}]}
  */
-export const badgesForUniverse = addApiMethod(async <UniverseId extends Identifier>(
+export const badgesForUniverse = createApiMethod(async <UniverseId extends Identifier>(
   { universeId, limit, sortOrder, cursor }: { universeId: UniverseId, limit?: 10 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawPaginatedBadgesData<UniverseId>, PrettifiedPaginatedBadgesData<UniverseId>> => ({
   method: "GET",
@@ -126,7 +126,7 @@ export const badgesForUniverse = addApiMethod(async <UniverseId extends Identifi
  * @exampleData 5
  * @exampleRawBody 5
  */
-export const freeBadgesLeftForUniverse = addApiMethod(async (
+export const freeBadgesLeftForUniverse = createApiMethod(async (
   { universeId }: { universeId: Identifier }
 ): ApiMethod<number> => ({
   method: "GET",
@@ -148,7 +148,7 @@ export const freeBadgesLeftForUniverse = addApiMethod(async (
  * @exampleData [{"id":2124533401,"name":"Tutorial Done","description":"true","displayName":"Tutorial Done","displayDescription":"true","enabled":true,"iconImageId":5316501478,"displayIconImageId":5316501478,"created":"2020-05-05T08:20:10.653Z","updated":"2024-07-16T22:34:44.021Z","statistics":{"pastDayAwardedCount":0,"awardedCount":394,"winRatePercentage":0},"awardingUniverse":{"id":1685831367,"name":"RoCamping","rootPlaceId":4922741943}}]
  * @exampleRawBody {"previousPageCursor":null,"nextPageCursor":"eyJrZXkiOiJpZF8yendBQUFYSGo2OEVkem42aHpwayIsInNvcnRPcmRlciI6IkFzYyIsInBhZ2luZ0RpcmVjdGlvbiI6IkZvcndhcmQiLCJwYWdlTnVtYmVyIjoyLCJkaXNjcmltaW5hdG9yIjoidW5pdmVyc2VJZDoxNjg1ODMxMzY3IiwiY291bnQiOjEwfQplMzk4ODQzNTg5NGYxNzU4MTk1YmVlNWFhMDE5NTI1MmJiMjdhZDRiYzU5YzE3NjNjNjg3M2UxYmExNDdkMWZh","data":[{"id":2124533401,"name":"Tutorial Done","description":"true","displayName":"Tutorial Done","displayDescription":"true","enabled":true,"iconImageId":5316501478,"displayIconImageId":5316501478,"created":"2020-05-05T08:20:10.653+00:00","updated":"2024-07-16T22:34:44.021+00:00","statistics":{"pastDayAwardedCount":0,"awardedCount":394,"winRatePercentage":0},"awardingUniverse":{"id":1685831367,"name":"RoCamping","rootPlaceId":4922741943}}]}
  */
-export const userBadges = addApiMethod(async (
+export const userBadges = createApiMethod(async (
   { userId, limit, sortOrder, cursor }: { userId: Identifier, limit?: 10 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawPaginatedBadgesData, PrettifiedPaginatedBadgesData> => ({
   method: "GET",
@@ -177,7 +177,7 @@ export const userBadges = addApiMethod(async (
  * @exampleData 2020-11-15T18:51:30.604Z
  * @exampleRawBody {"badgeId":2124533401,"awardedDate":"2020-11-15T18:51:30.604064Z"}
  */
-export const badgeAwardedDateForUser = addApiMethod(async <BadgeId extends Identifier>(
+export const badgeAwardedDateForUser = createApiMethod(async <BadgeId extends Identifier>(
   { badgeId, userId }: { badgeId: BadgeId, userId: Identifier }
 ): ApiMethod<RawBadgeAwardedDateForUserData<BadgeId>, PrettifiedBadgeAwardedDateForUserData> => ({
   method: "GET",
@@ -202,7 +202,7 @@ export const badgeAwardedDateForUser = addApiMethod(async <BadgeId extends Ident
  * @exampleData {"2124533401":"2020-11-15T18:51:30.604Z"}
  * @exampleRawBody {"data":[{"badgeId":2124533401,"awardedDate":"2020-11-15T18:51:30.604064Z"}]}
  */
-export const badgesAwardedDatesForUser = addApiMethod(async <BadgeId extends Identifier>(
+export const badgesAwardedDatesForUser = createApiMethod(async <BadgeId extends Identifier>(
   { badgeIds, userId }: { badgeIds: ArrayNonEmptyIfConst<BadgeId>, userId: Identifier }
 ): ApiMethod<RawBadgesAwardedDatesForUserData<BadgeId>, PrettifiedBadgesAwardedDatesForUserData<BadgeId>> => ({
   method: "GET",
@@ -225,7 +225,7 @@ export const badgesAwardedDatesForUser = addApiMethod(async <BadgeId extends Ide
  * @exampleData true
  * @exampleRawBody {}
  */
-export const removeBadgeFromUser = addApiMethod(async (
+export const removeBadgeFromUser = createApiMethod(async (
   { badgeId, userId }: { badgeId: Identifier, userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "DELETE",
@@ -246,7 +246,7 @@ export const removeBadgeFromUser = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const authenticatedUserRemoveBadge = addApiMethod(async (
+export const authenticatedUserRemoveBadge = createApiMethod(async (
   { badgeId }: { badgeId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "DELETE",

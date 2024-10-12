@@ -110,9 +110,9 @@ const pollForResponse = async (url: string, operationPath: string, cloudKey: str
 //////////////////////////////////////////////////////////////////////////////////
 
 
-export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defaultGetCursors:groupDefaultGetCursors }) => (
+export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defaultGetCursors:groupDefaultGetCursors }) => ({
   // createApiMethod.
-  (handlerFn) => {
+  createApiMethod: (handlerFn) => {
     const handlerFnArgs = getParams(handlerFn)
     const handlerFnCursorArg = 
       handlerFnArgs.includes("cursor") ? "cursor" :
@@ -121,7 +121,7 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
 
     const thisDefaultGetCursors = groupDefaultGetCursors ?? defaultGetCursors
 
-    return async function callApiMethod(args) {
+    const createCallApiMethod = (_baseUrl: UrlSecure = baseUrl): CallApiMethod<any, any, boolean> => async function(args) {
       const overrides = this
       const cookie = overrides?.cookie || config?.cookie
       const cloudKey =  overrides?.cloudKey || config?.cloudKey
@@ -135,7 +135,7 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
       let formattedSearchParams = formatSearchParams(searchParams)
       if (applyFieldMask && body && isObject(body)) formattedSearchParams += `&updateMask=${objectToFieldMask(body as Record<any, any>)}`
 
-      const url: UrlSecure = `${baseUrl}${path}${formattedSearchParams ? `?${new URLSearchParams(formattedSearchParams).toString()}` : ""}`
+      const url: UrlSecure = `${_baseUrl}${path}${formattedSearchParams ? `?${new URLSearchParams(formattedSearchParams).toString()}` : ""}`
 
       // Adds credentials to headers.
       if (cookie || cloudKey || oauthToken) {
@@ -179,5 +179,16 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
 
       return await main()
     }
+
+    const callApiMethod = createCallApiMethod();
+
+    // To handle legacy open cloud endpoints which use classic endpoints but with different base urls.
+    (callApiMethod as any)._deriveWithDifferentBaseUrl = (baseUrl: UrlSecure) => createCallApiMethod(baseUrl)
+
+    return callApiMethod
+  },
+
+  addExistingApiMethod: <Method extends CallApiMethod<any, any, boolean>>(method: Method): Method => {
+    return (method as any)._deriveWithDifferentBaseUrl(baseUrl)
   }
-)
+})

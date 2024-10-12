@@ -4,8 +4,12 @@ export * as EngineApi from "./engine"
 export * as ExperiencesApi from "./experiences"
 export * as GroupsApi from "./groups"
 export * as InventoryApi from "./inventory"
+
 export * as LegacyBadgesApi from "./legacyBadges"
+export * as LegacyDevelopApi from "./legacyDevelop"
 export * as LegacyFollowingsApi from "./legacyFollowings"
+export * as LegacyGroupsApi from "./legacyGroups"
+
 export * as LuauExecutionApi from "./luauExecution"
 export * as MemoryStoresApi from "./memoryStores"
 export * as MessagingApi from "./messaging"

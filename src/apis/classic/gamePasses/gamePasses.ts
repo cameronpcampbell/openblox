@@ -13,7 +13,7 @@ import { readFile } from "../../../file"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "ClassicGamePasses", baseUrl: "https://apis.roblox.com/game-passes" })
+const { createApiMethod } = createApiGroup({ name: "ClassicGamePasses", baseUrl: "https://apis.roblox.com/game-passes" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -31,7 +31,7 @@ const addApiMethod = createApiGroup({ name: "ClassicGamePasses", baseUrl: "https
  * @exampleData "targetId":9260480,"productType":"Game Pass","assetId":0,"productId":979386303,"name":"Donate","description":"null","assetTypeId":0,"creator":{"id":1536374574,"name":"MightyPart Games","creatorType":"Group","creatorTargetId":5850082},"iconImageAssetId":5316458121,"created":"2020-05-01T15:05:21.543Z","updated":"2020-07-09T13:08:21.133Z","priceInRobux":15,"priceInTickets":null,"sales":6,"isNew":false,"isForSale":true,"isPublicDomain":false,"isLimited":false,"isLimitedUnique":false,"remaining":null,"minimumMembershipLevel":0} 
  * @exampleRawBody {"TargetId":9260480,"ProductType":"Game Pass","AssetId":0,"ProductId":979386303,"Name":"Donate","Description":"null","AssetTypeId":0,"Creator":{"Id":1536374574,"Name":"MightyPart Games","CreatorType":"Group","CreatorTargetId":5850082},"IconImageAssetId":5316458121,"Created":"2020-05-01T15:05:21.543Z","Updated":"2020-07-09T13:08:21.133Z","PriceInRobux":15,"PriceInTickets":null,"Sales":6,"IsNew":false,"IsForSale":true,"IsPublicDomain":false,"IsLimited":false,"IsLimitedUnique":false,"Remaining":null,"MinimumMembershipLevel":0}
  */
-export const gamePassInfo = addApiMethod(async <GamePassId extends Identifier>(
+export const gamePassInfo = createApiMethod(async <GamePassId extends Identifier>(
   { gamePassId }: { gamePassId: GamePassId }
 ): ApiMethod<RawGamePassInfo<GamePassId>, PrettifiedGamePassInfo<GamePassId>> => ({
   method: "GET",
@@ -57,7 +57,7 @@ export const gamePassInfo = addApiMethod(async <GamePassId extends Identifier>(
  * @exampleData [{"gamePassId":11546631,"name":"Donate Pluss","description":"nulll","isForSale":true,"iconAssetId":18759297002,"placeId":4922741943,"createdTimestamp":"2020-09-01T00:15:17.79Z","updatedTimestamp":"2024-08-02T00:43:10.541Z","priceInformation":{"defaultPriceInRobux":250,"isInActivePriceOptimizationExperiment":false,"isInActiveDiscountCampaign":false,"discountPercentage":0},"productId":1084063256}]
  * @exampleRawBody {"gamePasses":[{"gamePassId":11546631,"name":"Donate Pluss","description":"nulll","isForSale":true,"iconAssetId":18759297002,"placeId":4922741943,"createdTimestamp":"2020-09-01T00:15:17.79Z","updatedTimestamp":"2024-08-02T00:43:10.541Z","priceInformation":{"defaultPriceInRobux":250,"isInActivePriceOptimizationExperiment":false,"isInActiveDiscountCampaign":false,"discountPercentage":0},"productId":1084063256}],"cursor":"id_2zwAAAXRHBJkezgCwMAc"}
  */
-export const gamePassesForUniverse = addApiMethod(async (
+export const gamePassesForUniverse = createApiMethod(async (
   { universeId, limit = 10, cursor }: { universeId: Identifier, limit?: number, cursor?: string }
 ): ApiMethod<RawGamePassesForUniverseData, PrettifiedGamePassesForUniverseData> => ({
   method: "GET",
@@ -86,7 +86,7 @@ export const gamePassesForUniverse = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody ""
  */
-export const updateGamePass = addApiMethod(async (
+export const updateGamePass = createApiMethod(async (
   { gamePassId, name, description, icon, price, isForSale }:
   { gamePassId: Identifier, name?: string, description?: string, icon?: string | File, price?: number, isForSale?: boolean }
 ): ApiMethod<"", boolean> => ({
@@ -120,7 +120,7 @@ export const updateGamePass = addApiMethod(async (
  * @exampleData 810182288
  * @exampleRawBody {"gamePassId":810182288}
  */
-export const createGamePass = addApiMethod(async (
+export const createGamePass = createApiMethod(async (
   { universeId, name, description, icon }: { universeId: Identifier, name: string, description: string, icon?: string | File }
 ): ApiMethod<{ gamePassId: Identifier }, Identifier> => {
   return ({

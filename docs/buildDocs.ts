@@ -162,7 +162,9 @@ const buildDocsForApis = async (apis: Directory[], apisName: "classic" | "cloud"
 
     for (const method of methods) {
       const methodName = method.getName()
-      allJsDocData[apisName][apiName][methodName] = await getJsDocData(method)
+      try {
+        allJsDocData[apisName][apiName][methodName] = await getJsDocData(method)
+      } catch {}
     }
   }
 }

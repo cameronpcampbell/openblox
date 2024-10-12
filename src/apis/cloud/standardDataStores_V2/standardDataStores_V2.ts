@@ -13,7 +13,7 @@ import type { PrettifiedCreateStandardDataStoreSnapshotData, PrettifiedFullDatas
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "StandardDatastores_V2", baseUrl: "https://apis.roblox.com/cloud" })
+const { createApiMethod } = createApiGroup({ name: "StandardDatastores_V2", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -44,7 +44,7 @@ const formatRevisionCreateTimeClamp = (createdBefore?: ISODateTime | Date, creat
  * @exampleData [{"path":"universes/5097539509/data-stores/Bans","id":"Bans"}] 
  * @exampleRawBody {"dataStores":[{"path":"universes/5097539509/data-stores/Bans","id":"Bans"}]}
  */
-export const listStandardDataStores = addApiMethod(async <UniverseId extends Identifier, Prefix extends string>(
+export const listStandardDataStores = createApiMethod(async <UniverseId extends Identifier, Prefix extends string>(
   { universeId, prefix, limit, cursor }: { universeId: UniverseId, prefix?: Prefix, limit?: number, cursor?: string }
 ): ApiMethod<RawListStandardDatastoresData<UniverseId, Prefix>, PrettifiedListStandardDatastoresData<UniverseId, Prefix>> => ({
   method: "GET",
@@ -66,7 +66,7 @@ export const listStandardDataStores = addApiMethod(async <UniverseId extends Ide
  * @exampleData {"newSnapshotTaken":false,"latestSnapshotTime":"2024-07-29T22:08:49.588Z"}
  * @exampleRawBody {"newSnapshotTaken":false,"latestSnapshotTime":"2024-07-29T22:08:49.588Z"}
  */
-export const createStandardDataStoreSnapshot = addApiMethod(async (
+export const createStandardDataStoreSnapshot = createApiMethod(async (
   { universeId }: { universeId: Identifier }
 ): ApiMethod<RawCreateStandardDataStoreSnapshotData, PrettifiedCreateStandardDataStoreSnapshotData> => ({
   method: "POST",
@@ -99,7 +99,7 @@ export const createStandardDataStoreSnapshot = addApiMethod(async (
  * @exampleData [{"path":"universes/5097539509/data-stores/InventoryStore/entries/user/45348281","id":"user/45348281"}]
  * @exampleRawBody {"dataStoreEntries":[{"path":"universes/5097539509/data-stores/InventoryStore/entries/user/45348281","id":"user/45348281"}]}
  */
-export const listStandardDataStoreEntries = addApiMethod(async <
+export const listStandardDataStoreEntries = createApiMethod(async <
   UniverseId extends Identifier, Prefix extends string, DataStore extends string, Scope extends string
 >(
   { universeId, dataStore, scope, prefix, limit, cursor }:
@@ -144,7 +144,7 @@ export const listStandardDataStoreEntries = addApiMethod(async <
  * @exampleData {"path":"universes/5097539509/data-stores/InventoryStore/entries/users:45348281","createTime":"2024-07-22T19:06:55.829Z","revisionId":"08DCAA81744A406E.0000000001.08DCAA81744A406E.01","revisionCreateTime":"2024-07-22T19:06:55.829Z","state":"ACTIVE","etag":"08DCAA81744A406E.0000000001.08DCAA81744A406E.01","value":{"Iron":50},"id":"users:45348281","users":["users/45348281"],"attributes":{}}
  * @exampleRawBody {"path":"universes/5097539509/data-stores/InventoryStore/entries/users:45348281","createTime":"2024-07-22T19:06:55.829412600Z","revisionId":"08DCAA81744A406E.0000000001.08DCAA81744A406E.01","revisionCreateTime":"2024-07-22T19:06:55.829412600Z","state":"ACTIVE","etag":"08DCAA81744A406E.0000000001.08DCAA81744A406E.01","value":{"Iron":50},"id":"users:45348281","users":["users/45348281"],"attributes":{}}
  */
-export const createStandardDataStoreEntry = addApiMethod(async <Schema extends Record<any, any> | any[] | null | boolean | string | number>(
+export const createStandardDataStoreEntry = createApiMethod(async <Schema extends Record<any, any> | any[] | null | boolean | string | number>(
   { universeId, dataStore, scope, entryId, value, users, attributes }:
   {
     universeId: Identifier, dataStore: string, scope?: string, entryId: string,
@@ -187,7 +187,7 @@ export const createStandardDataStoreEntry = addApiMethod(async <Schema extends R
  * @exampleData
  * @exampleRawBody
  */
-export const standardDataStoreEntry = addApiMethod(async <Schema extends Record<any, any>>(
+export const standardDataStoreEntry = createApiMethod(async <Schema extends Record<any, any>>(
   { universeId, dataStore, scope, entryId, revisionId }:
   { universeId: Identifier, dataStore: string, scope?: string, entryId: string, revisionId?: string }
 ): ApiMethod<RawFullDatastoreData<Schema>, PrettifiedFullDatastoreData<Schema>> => ({
@@ -223,7 +223,7 @@ export const standardDataStoreEntry = addApiMethod(async <Schema extends Record<
  * @exampleData true
  * @exampleRawBody {}
  */
-export const deleteStandardDataStoreEntry = addApiMethod(async (
+export const deleteStandardDataStoreEntry = createApiMethod(async (
   { universeId, dataStore, scope, entryId }:
   { universeId: Identifier, dataStore: string, scope?: string, entryId: string }
 ): ApiMethod<{}, boolean> => ({
@@ -260,7 +260,7 @@ export const deleteStandardDataStoreEntry = addApiMethod(async (
  * @exampleData {"path":"universes/5097539509/data-stores/InventoryStore/entries/users:453482811","createTime":"2024-07-22T19:02:27.811Z","revisionId":"08DCAA80D489FD52.0000000003.08DCAA8627CF76E1.01","revisionCreateTime":"2024-07-22T19:02:27.811Z","state":"ACTIVE","etag":"08DCAA80D489FD52.0000000003.08DCAA8627CF76E1.01","value":{"Iron":50,"Gold":26},"id":"users:453482811","users":["users/45348281"],"attributes":{}}
  * @exampleRawBody {"path":"universes/5097539509/data-stores/InventoryStore/entries/users:453482811","createTime":"2024-07-22T19:02:27.811669Z","revisionId":"08DCAA80D489FD52.0000000003.08DCAA8627CF76E1.01","revisionCreateTime":"2024-07-22T19:40:35.001520100Z","state":"ACTIVE","etag":"08DCAA80D489FD52.0000000003.08DCAA8627CF76E1.01","value":{"Iron":50,"Gold":26},"id":"users:453482811","users":["users/45348281"],"attributes":{}}
  */
-export const updateStandardDataStoreEntry = addApiMethod(async <Schema extends Record<any, any>>(
+export const updateStandardDataStoreEntry = createApiMethod(async <Schema extends Record<any, any>>(
   { universeId, dataStore, scope, entryId, value, users, attributes }:
   {
     universeId: Identifier, dataStore: string, scope?: string, entryId: string,
@@ -303,7 +303,7 @@ export const updateStandardDataStoreEntry = addApiMethod(async <Schema extends R
  * @exampleData {"path":"universes/5097539509/data-stores/Deaths/entries/users:45348281","createTime":"2024-07-22T19:46:42.453Z","revisionId":"08DCAA8702D435AC.0000000003.08DCAA877D776995.01","revisionCreateTime":"2024-07-22T19:46:42.453Z","state":"ACTIVE","etag":"08DCAA8702D435AC.0000000003.08DCAA877D776995.01","value":9,"id":"users:45348281","users":["users/45348281"],"attributes":{}}
  * @exampleRawBody {"path":"universes/5097539509/data-stores/Deaths/entries/users:45348281","createTime":"2024-07-22T19:46:42.453649200Z","revisionId":"08DCAA8702D435AC.0000000003.08DCAA877D776995.01","revisionCreateTime":"2024-07-22T19:50:08.205250100Z","state":"ACTIVE","etag":"08DCAA8702D435AC.0000000003.08DCAA877D776995.01","value":9,"id":"users:45348281","users":["users/45348281"],"attributes":{}}
  */
-export const incrementStandardDatastoreEntry = addApiMethod(async (
+export const incrementStandardDatastoreEntry = createApiMethod(async (
   { universeId, dataStore, scope, entryId, amount, users, attributes }:
   {
     universeId: Identifier, dataStore: string, scope?: string, entryId: string,
@@ -347,7 +347,7 @@ export const incrementStandardDatastoreEntry = addApiMethod(async (
  * @exampleData [{"path":"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000003.08DCAA877D776995.01","createTime":"2024-07-22T19:46:42.453Z","revisionId":"08DCAA8702D435AC.0000000003.08DCAA877D776995.01","revisionCreateTime":"2024-07-22T19:46:42.453Z","state":"ACTIVE","etag":"08DCAA8702D435AC.0000000003.08DCAA877D776995.01","id":"users:45348281@08DCAA8702D435AC.0000000003.08DCAA877D776995.01"},{"path":"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01","createTime":"2024-07-22T19:46:42.453Z","revisionId":"08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01","revisionCreateTime":"2024-07-22T19:46:42.453Z","state":"ACTIVE","etag":"08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01","id":"users:45348281@08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01"},{"path":"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01","createTime":"2024-07-22T19:46:42.453Z","revisionId":"08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01","revisionCreateTime":"2024-07-22T19:46:42.453Z","state":"ACTIVE","etag":"08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01","id":"users:45348281@08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01"}]
  * @exampleRawBody {"dataStoreEntries":[{"path":"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000003.08DCAA877D776995.01","createTime":"2024-07-22T19:46:42.453649200Z","revisionId":"08DCAA8702D435AC.0000000003.08DCAA877D776995.01","revisionCreateTime":"2024-07-22T19:50:08.205250100Z","state":"ACTIVE","etag":"08DCAA8702D435AC.0000000003.08DCAA877D776995.01","id":"users:45348281@08DCAA8702D435AC.0000000003.08DCAA877D776995.01"},{"path":"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01","createTime":"2024-07-22T19:46:42.453649200Z","revisionId":"08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01","revisionCreateTime":"2024-07-22T19:49:30.797636Z","state":"ACTIVE","etag":"08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01","id":"users:45348281@08DCAA8702D435AC.0000000002.08DCAA87672B76A8.01"},{"path":"universes/5097539509/data-stores/Deaths/entries/users:45348281@08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01","createTime":"2024-07-22T19:46:42.453649200Z","revisionId":"08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01","revisionCreateTime":"2024-07-22T19:46:42.453649200Z","state":"ACTIVE","etag":"08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01","id":"users:45348281@08DCAA8702D435AC.0000000001.08DCAA8702D435AC.01"}],"nextPageToken":"eyJpbmxpbmVWZXJzaW9uIjpmYWxzZSwibGFzdFZlcnNpb24iOiIwOERDQUE4NzAyRDQzNUFDLjAwMDAwMDAwMDEuMDhEQ0FBODcwMkQ0MzVBQy4wMSIsIkN1cnNvclZlcnNpb24iOjF9"}
  */
-export const listStandardDataStoreEntryRevisions = addApiMethod(async <
+export const listStandardDataStoreEntryRevisions = createApiMethod(async <
   UniverseId extends Identifier, DataStore extends string, Scope extends string, EntryId extends string
 >(
   { universeId, dataStore, scope, entryId, createdBefore, createdAfter, limit, cursor }:

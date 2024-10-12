@@ -14,7 +14,7 @@ import type { AuthenticatedUserSubscriptionsPermissionsForUniverseData, Prettifi
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "ClassicSubscriptions", baseUrl: "https://apis.roblox.com/experience-subscriptions" })
+const { createApiMethod } = createApiGroup({ name: "ClassicSubscriptions", baseUrl: "https://apis.roblox.com/experience-subscriptions" })
 
 const subscriptionTypeToId: { [key in SubscriptionType]: number } = {
   "Durable": 3,
@@ -60,7 +60,7 @@ const subscriptionIdToPrice: { [key in SubscriptionBasePriceId]: SubsriptionPric
  * @exampleData {"id":"8517167288618319987","universeId":5795192361,"shopId":5795481121,"name":"Cool Subscription","description":"Lorem ipsum dolor sit amet.","imageAssetId":0,"periodType":"Monthly","developerSubscriptionProductType":"Durable","productStatusType":1,"initialActivationTimestampMs":null,"createdTimestampMs":1713322834753,"updatedTimestampMs":1713322834753}
  * @exampleRawBody {"developerSubscription":{"id":"8517167288618319987","universeId":5795192361,"shopId":5795481121,"name":"Cool Subscription","description":"Lorem ipsum dolor sit amet.","imageAssetId":0,"periodType":1,"developerSubscriptionProductType":3,"productStatusType":1,"initialActivationTimestampMs":null,"createdTimestampMs":1713322834753,"updatedTimestampMs":1713322834753}}
  */
-export const createSubscription = addApiMethod(async <
+export const createSubscription = createApiMethod(async <
   UniverseId extends Identifier, Name extends string, Description extends string, Type extends SubscriptionType
 >(
   { universeId, name, description, type, price }: { universeId: UniverseId, name: Name, description: Description, type: Type, price: SubsriptionPrice }
@@ -94,7 +94,7 @@ export const createSubscription = addApiMethod(async <
  * @exampleData true
  * @exampleRawBody { status: true }
  */
-export const setSubscriptionIcon = addApiMethod(async (
+export const setSubscriptionIcon = createApiMethod(async (
   { universeId, subscriptionId, actingUserId, icon }: { universeId: Identifier, subscriptionId: Identifier, actingUserId: Identifier, icon: string | File }
 ): ApiMethod<{ status: boolean }, boolean> => ({
   path: `/v1/experiences/${universeId}/experience-subscriptions/${subscriptionId}/upload-image`,
@@ -120,7 +120,7 @@ export const setSubscriptionIcon = addApiMethod(async (
  * @exampleData [{"id":"3656348821302804581","universeId":5795192361,"name":"Testing","description":"Lorem ipsum dolor sit amet.","imageAssetId":17095512680,"periodType":"Monthly","productType":"Consumable","productStatusType":1,"basePriceId":"919c5912-7de8-413c-9756-d4265b3cbd3a","initialActivationTimestampMs":0,"createdTimestampMs":1712783803427,"updatedTimestampMs":1712783804047,"basePrice":"$2.99"}]
  * @exampleRawBody {"developerSubscriptions":[{"id":"3656348821302804581","universeId":5795192361,"name":"Testing","description":"Lorem ipsum dolor sit amet.","imageAssetId":17095512680,"periodType":1,"productType":1,"productStatusType":1,"basePriceId":"919c5912-7de8-413c-9756-d4265b3cbd3a","initialActivationTimestampMs":0,"createdTimestampMs":1712783803427,"updatedTimestampMs":1712783804047}],"previousCursor":"id_2Ac8yvfXhfKwAZQ","nextCursor":"id_2Ac8yvfXhfKwAZQ","hasMoreResults":false}
  */
-export const subscriptionsForUniverse = addApiMethod(async <UniverseId extends Identifier>(
+export const subscriptionsForUniverse = createApiMethod(async <UniverseId extends Identifier>(
   { universeId, resultsPerPage, cursor }: { universeId: UniverseId, resultsPerPage?: number, cursor?: string }
 ): ApiMethod<RawSubscriptionsForUniverseData<UniverseId>, PrettifiedSubscriptionsForUniverseData<UniverseId>> => ({
   path: `/v1/experiences/${universeId}/experience-subscriptions`,
@@ -153,7 +153,7 @@ export const subscriptionsForUniverse = addApiMethod(async <UniverseId extends I
  * @exampleData {"id":"3656348821302804581","universeId":5795192361,"name":"Testing","description":"Lorem ipsum dolor sit amet.","imageAssetId":17175811135,"periodType":"Monthly","productType":"Consumable","productStatusType":1,"basePriceId":"919c5912-7de8-413c-9756-d4265b3cbd3a","initialActivationTimestampMs":0,"createdTimestampMs":1712783803427,"updatedTimestampMs":1713318949692,"basePrice":"$2.99"}
  * @exampleRawBody {"id":"3656348821302804581","universeId":5795192361,"name":"Testing","description":"Lorem ipsum dolor sit amet.","imageAssetId":17175811135,"periodType":1,"productType":1,"productStatusType":1,"basePriceId":"919c5912-7de8-413c-9756-d4265b3cbd3a","initialActivationTimestampMs":0,"createdTimestampMs":1712783803427,"updatedTimestampMs":1713318949692}
  */
-export const subscriptionInfo = addApiMethod(async <UniverseId extends Identifier, SubscriptionId extends Identifier>(
+export const subscriptionInfo = createApiMethod(async <UniverseId extends Identifier, SubscriptionId extends Identifier>(
   { universeId, subscriptionId }: { universeId: UniverseId, subscriptionId: SubscriptionId }
 ): ApiMethod<RawSubscriptionInfoData<UniverseId, SubscriptionId>, PrettifiedSubscriptionInfoData<UniverseId, SubscriptionId>> => ({
   path: `/v1/experiences/${universeId}/experience-subscriptions/${subscriptionId}`,
@@ -179,7 +179,7 @@ export const subscriptionInfo = addApiMethod(async <UniverseId extends Identifie
  * @exampleData {"919c5912-7de8-413c-9756-d4265b3cbd3a":"$2.99","c0516080-fc44-42a2-bc23-3c6dbfd0772d":"$4.99","75c782ff-9d8b-4cf0-b3d8-64dd0ec4676a":"$7.99","1adf5d0a-eabb-4d5d-a9e7-d9ab28dcb7c7":"$9.99","790ff0ac-ef4b-490e-9b95-89f9249b8f51":"$14.99"}
  * @exampleRawBody {"priceTierPrices":{"919c5912-7de8-413c-9756-d4265b3cbd3a":{"units":2,"cents":99},"c0516080-fc44-42a2-bc23-3c6dbfd0772d":{"units":4,"cents":99},"75c782ff-9d8b-4cf0-b3d8-64dd0ec4676a":{"units":7,"cents":99},"1adf5d0a-eabb-4d5d-a9e7-d9ab28dcb7c7":{"units":9,"cents":99},"790ff0ac-ef4b-490e-9b95-89f9249b8f51":{"units":14,"cents":99}}}
  */
-export const subscriptionsPriceTiersForUniverse = addApiMethod(async (
+export const subscriptionsPriceTiersForUniverse = createApiMethod(async (
   { universeId }: { universeId: Identifier }
 ): ApiMethod<RawSubscriptionsPriceTiersForUniverseData, PrettifiedSubscriptionsPriceTiersForUniverseData> => ({
   path: `/v1/experiences/${universeId}/experience-subscriptions/prices`,
@@ -207,7 +207,7 @@ export const subscriptionsPriceTiersForUniverse = addApiMethod(async (
  * @exampleData { canUserEditExperienceSubscription: true }
  * @exampleRawBody { canUserEditExperienceSubscription: true }
  */
-export const authenticatedUserSubscriptionsPermissionsForUniverse = addApiMethod(async (
+export const authenticatedUserSubscriptionsPermissionsForUniverse = createApiMethod(async (
   { universeId }: { universeId: Identifier }
 ): ApiMethod<AuthenticatedUserSubscriptionsPermissionsForUniverseData> => ({
   path: `/v1/experiences/${universeId}/experience-subscriptions/permission`,

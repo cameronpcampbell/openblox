@@ -13,7 +13,7 @@ import type { PrettifiedInstanceChildrenData, PrettifiedInstanceData, RawInstanc
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "Engine", baseUrl: "https://apis.roblox.com/cloud" })
+const { createApiMethod } = createApiGroup({ name: "Engine", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -29,7 +29,7 @@ const addApiMethod = createApiGroup({ name: "Engine", baseUrl: "https://apis.rob
  * @exampleData {"path":"universes/5795192361/places/16866553538/instances/root/operations/2ae28479-2d4f-4725-99e6-123cb44b5193","done":true,"response":{"@type":"type.googleapis.com/roblox.open_cloud.cloud.v2.Instance","path":"universes/5795192361/places/16866553538/instances/78c032f0-6e1a-1015-0691-6a1600000001","hasChildren":true,"engineInstance":{"id":"78c032f0-6e1a-1015-0691-6a1600000001","parent":"","name":"Game","details":{}}}}
  * @exampleRawBody {"path":"universes/5795192361/places/16866553538/instances/root/operations/2ae28479-2d4f-4725-99e6-123cb44b5193","done":true,"response":{"@type":"type.googleapis.com/roblox.open_cloud.cloud.v2.Instance","path":"universes/5795192361/places/16866553538/instances/78c032f0-6e1a-1015-0691-6a1600000001","hasChildren":true,"engineInstance":{"Id":"78c032f0-6e1a-1015-0691-6a1600000001","Parent":"","Name":"Game","Details":{}}}}
  */
-export const instanceInfo = addApiMethod(async <UniverseId extends Identifier, PlaceId extends Identifier, InstanceId extends string>(
+export const instanceInfo = createApiMethod(async <UniverseId extends Identifier, PlaceId extends Identifier, InstanceId extends string>(
   { universeId, placeId, instanceId }: { universeId: UniverseId, placeId: PlaceId, instanceId: InstanceId }
 ): ApiMethod<RawInstanceData<UniverseId, PlaceId, InstanceId>, PrettifiedInstanceData<UniverseId, PlaceId, InstanceId>> => ({
   method: "GET",
@@ -61,7 +61,7 @@ export const instanceInfo = addApiMethod(async <UniverseId extends Identifier, P
  * @exampleData {"path":"universes/5795192361/places/16866553538/instances/root/operations/1a9a74a7-c687-492d-8035-759b29295867","done":true,"response":{"@type":"type.googleapis.com/roblox.open_cloud.cloud.v2.ListInstanceChildrenResponse","instances":[{"path":"universes/5795192361/places/16866553538/instances/44b188da-ce63-2b47-02e9-c68d004815fc","hasChildren":true,"engineInstance":{"id":"44b188da-ce63-2b47-02e9-c68d004815fc","parent":"649b6a4b-51bf-b866-0691-76d800000001","name":"Workspace","details":{}}}],"nextPageToken":""}}
  * @exampleRawBody {"path":"universes/5795192361/places/16866553538/instances/root/operations/1a9a74a7-c687-492d-8035-759b29295867","done":true,"response":{"@type":"type.googleapis.com/roblox.open_cloud.cloud.v2.ListInstanceChildrenResponse","instances":[{"path":"universes/5795192361/places/16866553538/instances/44b188da-ce63-2b47-02e9-c68d004815fc","hasChildren":true,"engineInstance":{"Id":"44b188da-ce63-2b47-02e9-c68d004815fc","Parent":"649b6a4b-51bf-b866-0691-76d800000001","Name":"Workspace","Details":{}}}],"nextPageToken":""}}
  */
-export const instanceChildren = addApiMethod(async <UniverseId extends Identifier, PlaceId extends Identifier, InstanceId extends string>(
+export const instanceChildren = createApiMethod(async <UniverseId extends Identifier, PlaceId extends Identifier, InstanceId extends string>(
   { universeId, placeId, instanceId, limit, cursor }:
   { universeId: UniverseId, placeId: PlaceId, instanceId: InstanceId, limit?: number, cursor?: string }
 ): ApiMethod<RawInstanceChildrenData<UniverseId, PlaceId, InstanceId>, PrettifiedInstanceChildrenData<UniverseId, PlaceId, InstanceId>> => ({
@@ -107,7 +107,7 @@ export const instanceChildren = addApiMethod(async <UniverseId extends Identifie
  * @exampleData {"path":"universes/5795192361/places/16866553538/instances/4b70b051-16c0-dede-0691-7e9e00004e03/operations/7a865423-3566-4377-8b9e-ffd831341399","done":true,"response":{"@type":"type.googleapis.com/roblox.open_cloud.cloud.v2.Instance","path":"universes/5795192361/places/16866553538/instances/4b70b051-16c0-dede-0691-7e9e00004e03","hasChildren":false,"engineInstance":{"id":"4b70b051-16c0-dede-0691-7e9e00004e03","parent":"44b188da-ce63-2b47-02e9-c68d004815fc","name":"Script","details":{"script":{"enabled":true,"runContext":"Legacy","source":"-- editing a script via typescript :)"}}}}}
  * @exampleRawBody {"path":"universes/5795192361/places/16866553538/instances/4b70b051-16c0-dede-0691-7e9e00004e03/operations/7a865423-3566-4377-8b9e-ffd831341399","done":true,"response":{"@type":"type.googleapis.com/roblox.open_cloud.cloud.v2.Instance","path":"universes/5795192361/places/16866553538/instances/4b70b051-16c0-dede-0691-7e9e00004e03","hasChildren":false,"engineInstance":{"Id":"4b70b051-16c0-dede-0691-7e9e00004e03","Parent":"44b188da-ce63-2b47-02e9-c68d004815fc","Name":"Script","Details":{"Script":{"Enabled":true,"RunContext":"Legacy","Source":"-- editing a script via typescript :)"}}}}}
  */
-export const updateInstance = addApiMethod(async <UniverseId extends Identifier, PlaceId extends Identifier, InstanceId extends string>(
+export const updateInstance = createApiMethod(async <UniverseId extends Identifier, PlaceId extends Identifier, InstanceId extends string>(
   { universeId, placeId, instanceId, newData }:
   {
     universeId: UniverseId, placeId: PlaceId, instanceId: InstanceId,

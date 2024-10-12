@@ -13,7 +13,7 @@ import type { NotificationData, PrettifiedUserInfoData, RawUserInfoData, SendNot
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "Users", baseUrl: "https://apis.roblox.com/cloud" })
+const { createApiMethod } = createApiGroup({ name: "Users", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -36,7 +36,7 @@ const sendNotificationToUser_formatParameters = (params: Record<string, string>)
  * @exampleData {"path":"users/45348281","createTime":"2013-07-13T07:50:00.083Z","id":"45348281","name":"MightyPart","displayName":"Mighty","about":"football nothing to is push sudden national","locale":"en_us","premium":true,"idVerified":true,"socialNetworkProfiles":{"visibility":"EVERYONE"}}
  * @exampleRawBody {"path":"users/45348281","createTime":"2013-07-13T07:50:00.083Z","id":"45348281","name":"MightyPart","displayName":"Mighty","about":"football nothing to is push sudden national","locale":"en_us","premium":true,"idVerified":true,"socialNetworkProfiles":{"facebook":"","twitter":"","youtube":"","twitch":"","guilded":"","visibility":"EVERYONE"}}
  */
-export const userInfo = addApiMethod(async <UserId extends Identifier>(
+export const userInfo = createApiMethod(async <UserId extends Identifier>(
   { userId }: { userId: UserId }
 ): ApiMethod<RawUserInfoData<UserId>, PrettifiedUserInfoData<UserId>> => ({
   path: `/v2/users/${userId}`,
@@ -68,7 +68,7 @@ export const userInfo = addApiMethod(async <UserId extends Identifier>(
  * @exampleData {"path":"users/45348281/operations/eyJOb25jZSI6ImM5ZGZmN2E3OTQ1ZTQxYTc4M2E3OGY4Nzk2ZTYwOTczIiwiVHlwZSI6IkdlbmVyYXRlVXNlclRodW1ibmFpbFJlcXVlc3QiLCJQYXRoIjoidXNlcnMvNDUzNDgyODEiLCJTaXplIjoiMCIsIkZvcm1hdCI6IjAiLCJTaGFwZSI6IjAifQ==","done":true,"response":{"@type":"apis.roblox.com/roblox.open_cloud.cloud.v2.GenerateUserThumbnailResponse","imageUri":"https://tr.rbxcdn.com/30DAY-AvatarHeadshot-8D297BB79DBA963A48A765F78DFC5D1B-Png/420/420/AvatarHeadshot/Png/isCircular"}}
  * @exampleRawBody {"path":"users/45348281/operations/eyJOb25jZSI6ImM5ZGZmN2E3OTQ1ZTQxYTc4M2E3OGY4Nzk2ZTYwOTczIiwiVHlwZSI6IkdlbmVyYXRlVXNlclRodW1ibmFpbFJlcXVlc3QiLCJQYXRoIjoidXNlcnMvNDUzNDgyODEiLCJTaXplIjoiMCIsIkZvcm1hdCI6IjAiLCJTaGFwZSI6IjAifQ==","done":true,"response":{"@type":"apis.roblox.com/roblox.open_cloud.cloud.v2.GenerateUserThumbnailResponse","imageUri":"https://tr.rbxcdn.com/30DAY-AvatarHeadshot-8D297BB79DBA963A48A765F78DFC5D1B-Png/420/420/AvatarHeadshot/Png/isCircular"}}
  */
-export const userThumbnail = addApiMethod(async <UserId extends Identifier>(
+export const userThumbnail = createApiMethod(async <UserId extends Identifier>(
   { userId, size, format, shape }: { userId: UserId, size?: UserThumbnailSize, format?: "PNG" | "JPEG", shape?: "ROUND" | "SQUARE" }
 ): ApiMethod<UserThumbnailData<UserId>> => ({
   path: `/v2/users/${userId}:generateThumbnail`,
@@ -97,7 +97,7 @@ export const userThumbnail = addApiMethod(async <UserId extends Identifier>(
  * @exampleData {"path":"users/45348281/notifications/05268fb7-3a73-4d07-9972-65e7a6063892","id":"05268fb7-3a73-4d07-9972-65e7a6063892"}
  * @exampleRawBody {"path":"users/45348281/notifications/05268fb7-3a73-4d07-9972-65e7a6063892","id":"05268fb7-3a73-4d07-9972-65e7a6063892"}
  */
-export const sendNotificationToUser = addApiMethod(async <Parameters extends string>(
+export const sendNotificationToUser = createApiMethod(async <Parameters extends string>(
   { userId, universeId, notificationData }:
   { userId: Identifier, universeId: Identifier, notificationData: SendNotificationToUser_NotificationData<Parameters> }
 ): ApiMethod<NotificationData<Identifier>> => ({

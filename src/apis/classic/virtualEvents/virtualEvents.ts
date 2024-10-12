@@ -13,7 +13,7 @@ import type { AuthenticatedUserEventPermissionsForHostData, EventCategory, Event
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "ClassicVirtualEventsApi", baseUrl: "https://apis.roblox.com/virtual-events" })
+const { createApiMethod } = createApiGroup({ name: "ClassicVirtualEventsApi", baseUrl: "https://apis.roblox.com/virtual-events" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -41,7 +41,7 @@ const prettifyEvent = (event: VirtualEvent<ISODateTime | Date>) => {
  * @exampleData {"id":"5904751593700196492","title":"My Cool Event Of Epic Awesomeness","displayTitle":"My Cool Event Of Epic Awesomeness","description":"hello","displayDescription":"hello","eventTime":{"startUtc":"2024-07-12T19:18:00.000Z","endUtc":"2024-07-13T20:30:00.000Z"},"host":{"hostName":"Bloxfolio","hasVerifiedBadge":false,"hostType":"group","hostId":15842838},"universeId":6255645791,"eventStatus":"active","createdUtc":"2024-07-12T19:01:41.661Z","updatedUtc":"2024-07-13T20:29:50.734Z","eventCategories":[{"category":"activity","rank":0},{"category":"systemUpdate","rank":1}],"thumbnails":[{"mediaId":18459197740,"rank":0}],"allThumbnailsCreated":false,"userRsvpStatus":"going"}
  * @exampleRawBody {"id":"5904751593700196492","title":"My Cool Event Of Epic Awesomeness","displayTitle":"My Cool Event Of Epic Awesomeness","description":"hello","displayDescription":"hello","eventTime":{"startUtc":"2024-07-12T19:18:00.000Z","endUtc":"2024-07-13T20:30:00.000Z"},"host":{"hostName":"Bloxfolio","hasVerifiedBadge":false,"hostType":"group","hostId":15842838},"universeId":6255645791,"eventStatus":"active","createdUtc":"2024-07-12T19:01:41.661Z","updatedUtc":"2024-07-13T20:29:50.734Z","eventCategories":[{"category":"activity","rank":0},{"category":"systemUpdate","rank":1}],"thumbnails":[{"mediaId":18459197740,"rank":0}],"allThumbnailsCreated":false,"userRsvpStatus":"going"}
  */
-export const eventInfo = addApiMethod(async <EventId extends Identifier>(
+export const eventInfo = createApiMethod(async <EventId extends Identifier>(
   { eventId }: { eventId: Identifier }
 ): ApiMethod<RawVirtualEventsData<EventId>, PrettifiedVirtualEventsData<EventId>> => ({
   path: `/v1/virtual-events/${eventId}`,
@@ -76,7 +76,7 @@ export const eventInfo = addApiMethod(async <EventId extends Identifier>(
  * @exampleData {"id":"6533473338141704368","title":"Event Name","displayTitle":null,"description":"Description","displayDescription":null,"eventTime":{"startUtc":"2024-08-14T00:46:54.000Z","endUtc":"2024-08-14T01:46:54.000Z"},"host":{"hostName":"Bloxfolio","hasVerifiedBadge":false,"hostType":"group","hostId":15842838},"universeId":6255645791,"eventStatus":"unpublished","createdUtc":"2024-07-14T00:35:35.487Z","updatedUtc":"2024-07-14T00:35:35.487Z","eventCategories":[{"category":"contentUpdate","rank":0},{"category":"activity","rank":1}],"thumbnails":null,"allThumbnailsCreated":false}
  * @exampleRawBody {"id":"6533473338141704368","title":"Event Name","displayTitle":null,"description":"Description","displayDescription":null,"eventTime":{"startUtc":"2024-08-14T00:46:54+00:00","endUtc":"2024-08-14T01:46:54+00:00"},"host":{"hostName":"Bloxfolio","hasVerifiedBadge":false,"hostType":"group","hostId":15842838},"universeId":6255645791,"eventStatus":"unpublished","createdUtc":"2024-07-14T00:35:35.487+00:00","updatedUtc":"2024-07-14T00:35:35.487+00:00","eventCategories":[{"category":"contentUpdate","rank":0},{"category":"activity","rank":1}],"thumbnails":null,"allThumbnailsCreated":false}
  */
-export const createEvent = addApiMethod(async <
+export const createEvent = createApiMethod(async <
   Title extends string, Description extends string,
   StartTime extends ISODateTime | Date, EndTime extends ISODateTime | Date,
   UniverseId extends Identifier, GroupId extends Identifier,
@@ -128,7 +128,7 @@ export const createEvent = addApiMethod(async <
 
 
 
-export const updateEvent = addApiMethod(async <
+export const updateEvent = createApiMethod(async <
   SecondaryCategory extends (PrimaryCategory extends undefined
     ? undefined
     : Exclude<EventCategory, PrimaryCategory>
@@ -172,7 +172,7 @@ export const updateEvent = addApiMethod(async <
  * @exampleData { isUpdated: true }
  * @exampleRawBody true
  */
-export const publishEvent = addApiMethod(async (
+export const publishEvent = createApiMethod(async (
   { eventId }: { eventId: Identifier }
 ): ApiMethod<{ isUpdated: boolean }, boolean> => ({
   method: "PATCH",
@@ -194,7 +194,7 @@ export const publishEvent = addApiMethod(async (
  * @exampleData [{"userId":45348281,"rsvpStatus":"going","shouldSeeNotificationsUpsellModal":false}]
  * @exampleRawBody {"nextPageCursor":"","previousPageCursor":"","data":[{"userId":45348281,"rsvpStatus":"going","shouldSeeNotificationsUpsellModal":false}]}
  */
-export const eventRsvps = addApiMethod(async (
+export const eventRsvps = createApiMethod(async (
   { eventId, limit, cursor }: { eventId: Identifier, limit?: 25, cursor?: string }
 ): ApiMethod<RawRsvpsData, PrettifiedRsvpsData> => ({
   method: "GET",
@@ -216,7 +216,7 @@ export const eventRsvps = addApiMethod(async (
  * @exampleData {"none":0,"going":1,"maybeGoing":0,"notGoing":0}
  * @exampleRawBody {"counters":{"none":0,"going":1,"maybeGoing":0,"notGoing":0}}
  */
-export const eventRsvpCounters = addApiMethod(async (
+export const eventRsvpCounters = createApiMethod(async (
   { eventId }: { eventId: Identifier }
 ): ApiMethod<RawRsvpCountersData, PrettifiedRsvpCountersData> => ({
   method: "GET",
@@ -238,7 +238,7 @@ export const eventRsvpCounters = addApiMethod(async (
  * @exampleData {"maxPermissionLevel":"edit"}
  * @exampleRawBody {"maxPermissionLevel":"edit"}
  */
-export const authenticatedUserEventPermissionsForHost = addApiMethod(async (
+export const authenticatedUserEventPermissionsForHost = createApiMethod(async (
   { userId, groupId }: ObjectEither<{ userId: Identifier }, { groupId: Identifier }>
 ): ApiMethod<AuthenticatedUserEventPermissionsForHostData> => ({
   method: "GET",
@@ -265,7 +265,7 @@ export const authenticatedUserEventPermissionsForHost = addApiMethod(async (
  * @exampleData [{"id":"5904751593700196492","title":"My Cool Event Of Epic Awesomeness","displayTitle":null,"description":"hello","displayDescription":null,"eventTime":{"startUtc":"2024-07-12T19:18:00.000Z","endUtc":"2024-07-13T20:30:00.000Z"},"host":{"hostName":"Bloxfolio","hasVerifiedBadge":false,"hostType":"group","hostId":15842838},"universeId":6255645791,"eventStatus":"active","createdUtc":"2024-07-12T19:01:41.661Z","updatedUtc":"2024-07-13T20:29:50.734Z","eventCategories":null,"thumbnails":[{"mediaId":18459197740,"rank":0}],"allThumbnailsCreated":false},{"id":"3425484122702479513","title":"Test","displayTitle":null,"description":"lol","displayDescription":null,"eventTime":{"startUtc":"2024-07-13T21:27:32.656Z","endUtc":"2024-07-13T22:27:32.656Z"},"host":{"hostName":"Bloxfolio","hasVerifiedBadge":false,"hostType":"group","hostId":15842838},"universeId":6255645791,"eventStatus":"active","createdUtc":"2024-07-13T20:27:52.493Z","updatedUtc":"2024-07-13T20:27:52.967Z","eventCategories":null,"thumbnails":null,"allThumbnailsCreated":false}]
  * @exampleRawBody {"nextPageCursor":"","previousPageCursor":"","data":[{"id":"5904751593700196492","title":"My Cool Event Of Epic Awesomeness","displayTitle":null,"description":"hello","displayDescription":null,"eventTime":{"startUtc":"2024-07-12T19:18:00+00:00","endUtc":"2024-07-13T20:30:00+00:00"},"host":{"hostName":"Bloxfolio","hasVerifiedBadge":false,"hostType":"group","hostId":15842838},"universeId":6255645791,"eventStatus":"active","createdUtc":"2024-07-12T19:01:41.661+00:00","updatedUtc":"2024-07-13T20:29:50.734+00:00","eventCategories":null,"thumbnails":[{"mediaId":18459197740,"rank":0}],"allThumbnailsCreated":false},{"id":"3425484122702479513","title":"Test","displayTitle":null,"description":"lol","displayDescription":null,"eventTime":{"startUtc":"2024-07-13T21:27:32.656+00:00","endUtc":"2024-07-13T22:27:32.656+00:00"},"host":{"hostName":"Bloxfolio","hasVerifiedBadge":false,"hostType":"group","hostId":15842838},"universeId":6255645791,"eventStatus":"active","createdUtc":"2024-07-13T20:27:52.493+00:00","updatedUtc":"2024-07-13T20:27:52.967+00:00","eventCategories":null,"thumbnails":null,"allThumbnailsCreated":false}]}
  */
-export const authenticatedUserEvents = addApiMethod(async <GroupId extends Identifier>(
+export const authenticatedUserEvents = createApiMethod(async <GroupId extends Identifier>(
   { groupId, filterBy, sortOrder, sortBy, fromUtc, limit, cursor }:
   {
     groupId: GroupId, filterBy?: "upcoming" | "past" | "drafts", sortOrder?: "desc" | "asc",

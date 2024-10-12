@@ -13,7 +13,7 @@ import type { PrettifiedUserSubscriptionsData, RawUserSubscriptionsData } from "
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "ClassicPremiumFeatures", baseUrl: "https://premiumFeatures.roblox.com" })
+const { createApiMethod } = createApiGroup({ name: "ClassicPremiumFeatures", baseUrl: "https://premiumFeatures.roblox.com" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -27,7 +27,7 @@ const addApiMethod = createApiGroup({ name: "ClassicPremiumFeatures", baseUrl: "
  * @exampleData true
  * @exampleRawBody true
  */
-export const userHasPremium = addApiMethod(async (
+export const userHasPremium = createApiMethod(async (
   { userId }: { userId: Identifier }
 ): ApiMethod<boolean> => ({
   path: `/v1/users/${userId}/validate-membership`,
@@ -45,7 +45,7 @@ export const userHasPremium = addApiMethod(async (
  * @exampleData {"subscriptionProductModel":{"premiumFeatureId":505,"subscriptionTypeName":"RobloxPremium450","robuxStipendAmount":450,"isLifetime":false,"expiration":2024-08-15T15:04:28.326Z,"renewal":2024-08-12T15:04:28.326Z,"created":2014-02-14T16:20:38.117Z,"purchasePlatform":"isIosApp","subscriptionName":"Roblox Premium 450"}}
  * @exampleRawBody {"subscriptionProductModel":{"premiumFeatureId":505,"subscriptionTypeName":"RobloxPremium450","robuxStipendAmount":450,"isLifetime":false,"expiration":"2024-08-15T15:04:28.326Z","renewal":"2024-08-12T15:04:28.326Z","created":"2014-02-14T16:20:38.117Z","purchasePlatform":"isIosApp","subscriptionName":"Roblox Premium 450"}}
  */
-export const userSubscriptions = addApiMethod(async (
+export const userSubscriptions = createApiMethod(async (
   { userId }: { userId: Identifier }
 ): ApiMethod<RawUserSubscriptionsData, PrettifiedUserSubscriptionsData> => ({
   path: `/v1/users/${userId}/subscriptions`,

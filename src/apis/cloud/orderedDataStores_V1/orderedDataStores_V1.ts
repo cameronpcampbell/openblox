@@ -13,7 +13,7 @@ import type { OrderedDatastoreEntry, PrettifiedListOrderedDatastoreEntriesData, 
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "OrderedDatastores_V1", baseUrl: "https://apis.roblox.com/ordered-data-stores" })
+const { createApiMethod } = createApiGroup({ name: "OrderedDatastores_V1", baseUrl: "https://apis.roblox.com/ordered-data-stores" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -38,7 +38,7 @@ const addApiMethod = createApiGroup({ name: "OrderedDatastores_V1", baseUrl: "ht
  * @exampleData [ { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 54, id: "45348281" } ]
  * @exampleRawBody { entries: [ { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 54, id: "45348281" } ], nextPageToken: "" }
  */
-export const listOrderedDatastoreEntries = addApiMethod(async <UniverseId extends Identifier, OrderedDataStore extends string, Scope extends string>(
+export const listOrderedDatastoreEntries = createApiMethod(async <UniverseId extends Identifier, OrderedDataStore extends string, Scope extends string>(
   { universeId, orderedDataStore, scope, maxPageSize, orderBy, filter, cursor }:
   {
     universeId: UniverseId, orderedDataStore: OrderedDataStore, scope: Scope,
@@ -79,7 +79,7 @@ export const listOrderedDatastoreEntries = addApiMethod(async <UniverseId extend
  * @exampleData { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 54, id: "45348281" }
  * @exampleRawBody { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 54, id: "45348281" }
  */
-export const createOrderedDatastoreEntry = addApiMethod(async <
+export const createOrderedDatastoreEntry = createApiMethod(async <
   UniverseId extends Identifier, OrderedDataStore extends string, Scope extends string, Id extends string, Value extends Identifier
 >(
   { universeId, orderedDataStore, scope, id, value }:
@@ -111,7 +111,7 @@ export const createOrderedDatastoreEntry = addApiMethod(async <
  * @exampleData { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 54, id: "45348281" }
  * @exampleRawBody { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 54, id: "45348281" }
  */
-export const orderedDatastoreEntry = addApiMethod(async <
+export const orderedDatastoreEntry = createApiMethod(async <
   UniverseId extends Identifier, OrderedDataStore extends string, Scope extends string, Id extends string
 >(
   { universeId, orderedDataStore, scope, id }:
@@ -141,7 +141,7 @@ export const orderedDatastoreEntry = addApiMethod(async <
  * @exampleData true
  * @exampleRawBody {}
  */
-export const deleteOrderedDatastoreEntry = addApiMethod(async (
+export const deleteOrderedDatastoreEntry = createApiMethod(async (
   { universeId, orderedDataStore, scope, id }:
   { universeId: Identifier, orderedDataStore: string, scope: string, id: string }
 ): ApiMethod<{}, boolean> => ({
@@ -174,7 +174,7 @@ export const deleteOrderedDatastoreEntry = addApiMethod(async (
  * @exampleData { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 58, id: "45348281" }
  * @exampleRawBody { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 58, id: "45348281" }
  */
-export const updateOrderedDatastoreEntry = addApiMethod(async <
+export const updateOrderedDatastoreEntry = createApiMethod(async <
   UniverseId extends Identifier, OrderedDataStore extends string, Scope extends string, Id extends string, Value extends Identifier
 >(
   { universeId, orderedDataStore, scope, id, newValue, createIfNoEntryExists }:
@@ -209,7 +209,7 @@ export const updateOrderedDatastoreEntry = addApiMethod(async <
  * @exampleData { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 66, id: "45348281" }
  * @exampleRawBody { path: "universes/5097539509/orderedDataStores/PointsStore/scopes/global/entries/45348281", value: 66, id: "45348281" }
  */
-  export const incrementOrderedDatastoreEntry = addApiMethod(async <
+  export const incrementOrderedDatastoreEntry = createApiMethod(async <
   UniverseId extends Identifier, OrderedDataStore extends string, Scope extends string, Id extends string
 >(
   { universeId, orderedDataStore, scope, id, incrementBy, createIfNoEntryExists }:

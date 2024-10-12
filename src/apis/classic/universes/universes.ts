@@ -11,7 +11,7 @@ import type { ApiMethod } from "../../apiGroup"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "ClassicUniverses", baseUrl: "https://apis.roblox.com/universes" })
+const { createApiMethod } = createApiGroup({ name: "ClassicUniverses", baseUrl: "https://apis.roblox.com/universes" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -25,7 +25,7 @@ const addApiMethod = createApiGroup({ name: "ClassicUniverses", baseUrl: "https:
  * @exampleData 5638577595
  * @exampleRawBody {"universeId":5638577595}
  */
-export const universeIdFromPlaceId = addApiMethod(async (
+export const universeIdFromPlaceId = createApiMethod(async (
   { placeId }: { placeId: Identifier }
 ): ApiMethod<{ universeId: Identifier }, Identifier> => ({
   path: `/v1/places/${placeId}/universe`,

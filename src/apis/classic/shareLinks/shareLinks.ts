@@ -11,7 +11,7 @@ import type { ShareLinkInfo } from "./shareLinks.types"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "ClassicShareLinks", baseUrl: "https://apis.roblox.com/sharelinks" })
+const { createApiMethod } = createApiGroup({ name: "ClassicShareLinks", baseUrl: "https://apis.roblox.com/sharelinks" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -25,7 +25,7 @@ const addApiMethod = createApiGroup({ name: "ClassicShareLinks", baseUrl: "https
  * @exampleData {"experienceInviteData":null,"friendInviteData":null,"notificationExperienceInviteData":null,"profileLinkResolutionResponseData":null,"screenshotInviteData":null,"privateServerInviteData":{"status":"Valid","ownerUserId":45348281,"universeId":6430220996,"privateServerId":1630945839,"linkCode":"67771413747491684286858666824242","placeId":18980972074},"experienceDetailsInviteData":null,"avatarItemDetailsData":null,"contentPostData":null,"experienceAffiliateData":null}
  * @exampleRawBody {"experienceInviteData":null,"friendInviteData":null,"notificationExperienceInviteData":null,"profileLinkResolutionResponseData":null,"screenshotInviteData":null,"privateServerInviteData":{"status":"Valid","ownerUserId":45348281,"universeId":6430220996,"privateServerId":1630945839,"linkCode":"67771413747491684286858666824242","placeId":18980972074},"experienceDetailsInviteData":null,"avatarItemDetailsData":null,"contentPostData":null,"experienceAffiliateData":null}
  */
-export const shareLinkInfo = addApiMethod(async (
+export const shareLinkInfo = createApiMethod(async (
   { shareLinkId }: { shareLinkId: string }
 ): ApiMethod<ShareLinkInfo> => ({
   method: "POST",

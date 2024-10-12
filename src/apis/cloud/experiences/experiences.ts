@@ -14,7 +14,7 @@ import type { PrettifiedPlaceInfoData, PrettifiedUniverseInfoData, PrettifiedUpd
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "Experiences", baseUrl: "https://apis.roblox.com" })
+const { createApiMethod } = createApiGroup({ name: "Experiences", baseUrl: "https://apis.roblox.com" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -38,7 +38,7 @@ function isPlaceFileBufferXml(buffer: Buffer): boolean {
  * @exampleData {"path":"universes/5795192361","createTime":"2024-03-25T10:42:46.360Z","updateTime":"2024-03-25T10:42:46.360Z","displayName":"MightyPart's Place Number: 201","description":"","user":"users/45348281","visibility":"PRIVATE","voiceChatEnabled":false,"ageRating":"AGE_RATING_UNSPECIFIED","desktopEnabled":true,"mobileEnabled":true,"tabletEnabled":true,"consoleEnabled":false,"vrEnabled":true}
  * @exampleRawBody {"path":"universes/5795192361","createTime":"2024-03-25T10:42:46.360Z","updateTime":"2024-03-25T10:42:46.360Z","displayName":"MightyPart's Place Number: 201","description":"","user":"users/45348281","visibility":"PRIVATE","voiceChatEnabled":false,"ageRating":"AGE_RATING_UNSPECIFIED","desktopEnabled":true,"mobileEnabled":true,"tabletEnabled":true,"consoleEnabled":false,"vrEnabled":true}
  */
-export const universeInfo = addApiMethod(async <UniverseId extends Identifier>(
+export const universeInfo = createApiMethod(async <UniverseId extends Identifier>(
   { universeId }: { universeId: UniverseId }
 ): ApiMethod<RawUniverseInfoData<UniverseId>, PrettifiedUniverseInfoData<UniverseId>> => ({
   path: `/cloud/v2/universes/${universeId}`,
@@ -83,7 +83,7 @@ export const universeInfo = addApiMethod(async <UniverseId extends Identifier>(
  * @exampleData {"path":"universes/5795192361","createTime":"2024-03-25T10:42:46.360Z","updateTime":"2024-03-25T10:42:46.360Z","displayName":"MightyPart's Place Number: 201","description":"","user":"users/45348281","visibility":"PRIVATE","voiceChatEnabled":false,"ageRating":"AGE_RATING_UNSPECIFIED","desktopEnabled":true,"mobileEnabled":true,"tabletEnabled":true,"consoleEnabled":false,"vrEnabled":true}
  * @exampleRawBody {"path":"universes/5795192361","createTime":"2024-03-25T10:42:46.360Z","updateTime":"2024-03-25T10:42:46.360Z","displayName":"MightyPart's Place Number: 201","description":"","user":"users/45348281","visibility":"PRIVATE","voiceChatEnabled":false,"ageRating":"AGE_RATING_UNSPECIFIED","desktopEnabled":true,"mobileEnabled":true,"tabletEnabled":true,"consoleEnabled":false,"vrEnabled":true}
  */
-export const updateUniverse = addApiMethod(async <
+export const updateUniverse = createApiMethod(async <
     UniverseId extends Identifier, DisplayName extends string, Description extends string, Visibility extends UniverseVisibility,
     VoiceChatEnabled extends boolean, AgeRating extends UniverseAgeRating, DesktopEnabled extends boolean,
     MobileEnabled extends boolean, TabletEnabled extends boolean, ConsoleEnabled extends boolean,
@@ -126,7 +126,7 @@ export const updateUniverse = addApiMethod(async <
  * @exampleData {}
  * @exampleRawBody {}
  */
-export const restartUniverseServers = addApiMethod(async <UniverseId extends Identifier>(
+export const restartUniverseServers = createApiMethod(async <UniverseId extends Identifier>(
   { universeId }: { universeId: UniverseId }
 ): ApiMethod<{}> => ({
   path: `/cloud/v2/universes/${universeId}:restartServers`,
@@ -147,7 +147,7 @@ export const restartUniverseServers = addApiMethod(async <UniverseId extends Ide
  * @exampleData {"path":"universes/5795192361/places/16866553538","createTime":"2024-03-25T10:42:46.297Z","updateTime":"2024-03-26T16:50:19.023Z","displayName":"MightyPart's Place Number: 201","description":"","serverSize":50}
  * @exampleRawBody {"path":"universes/5795192361/places/16866553538","createTime":"2024-03-25T10:42:46.297Z","updateTime":"2024-03-26T16:50:19.023Z","displayName":"MightyPart's Place Number: 201","description":"","serverSize":50}
  */
-export const placeInfo = addApiMethod(async <UniverseId extends Identifier, PlaceId extends Identifier>(
+export const placeInfo = createApiMethod(async <UniverseId extends Identifier, PlaceId extends Identifier>(
   { universeId, placeId: PlaceId }: { universeId: UniverseId, placeId: PlaceId }
 ): ApiMethod<RawPlaceInfoData<UniverseId, PlaceId>, PrettifiedPlaceInfoData<UniverseId, PlaceId>> => ({
   path: `/cloud/v2/universes/${universeId}/places/${PlaceId}`,
@@ -178,7 +178,7 @@ export const placeInfo = addApiMethod(async <UniverseId extends Identifier, Plac
  * @exampleData {"path":"universes/5795192361/places/16866553538","createTime":"2024-03-25T10:42:46.297Z","updateTime":"2024-05-13T10:21:20.247Z","displayName":"Hello World","description":"","serverSize":50}
  * @exampleRawBody {"path":"universes/5795192361/places/16866553538","createTime":"2024-03-25T10:42:46.297Z","updateTime":"2024-05-13T10:21:20.247157600Z","displayName":"Hello World","description":"","serverSize":50}
  */
-export const updatePlace = addApiMethod(async <
+export const updatePlace = createApiMethod(async <
     UniverseId extends Identifier, PlaceId extends Identifier, DisplayName extends string,
     Description extends string, ServerSize extends number
   >(
@@ -216,7 +216,7 @@ export const updatePlace = addApiMethod(async <
  * @exampleData 26
  * @exampleRawBody { "versionNumber": 26 }
  */
-export const publishPlace = addApiMethod(async (
+export const publishPlace = createApiMethod(async (
   { universeId, placeId, versionType, placeFile }:
   {
     universeId: Identifier, placeId: Identifier,

@@ -13,7 +13,7 @@ import { readFile } from "../../../file"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "Assets", baseUrl: "https://apis.roblox.com/assets" })
+const { createApiMethod } = createApiGroup({ name: "Assets", baseUrl: "https://apis.roblox.com/assets" })
 
 const assetsDefaultFields = "assetType,assetId,creationContext,description,displayName,path,revisionId,revisionCreateTime,moderationResult,icon,previews,state"
 //////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +70,7 @@ const formDataWithAssetFile = async (
  * @exampleData {"path":"assets/16989283104","revisionId":"1","revisionCreateTime":"2024-04-02T22:57:45.953Z","assetId":"16989283104","displayName":"suzanne","assetType":"Model","creationContext":{"creator":{"userId":"45348281"}},"moderationResult":{"moderationState":"Approved"},"previews":[]}
  * @exampleRawBody {"path":"assets/16989283104","revisionId":"1","revisionCreateTime":"2024-04-02T22:57:45.953Z","assetId":"16989283104","displayName":"suzanne","assetType":"Model","creationContext":{"creator":{"userId":"45348281"}},"moderationResult":{"moderationState":"Approved"},"previews":[]}
  */
-export const assetInfo = addApiMethod(async <AssetId extends Identifier, Field extends AssetField = AssetField>(
+export const assetInfo = createApiMethod(async <AssetId extends Identifier, Field extends AssetField = AssetField>(
   { assetId, fields }: { assetId: AssetId, fields?: Field[] }
 ): ApiMethod<RawAsset<AssetId, Field>, PrettifiedAsset<AssetId, Field>> => ({
   method: "GET",
@@ -103,7 +103,7 @@ export const assetInfo = addApiMethod(async <AssetId extends Identifier, Field e
  * @exampleData {"path":"operations/b9682431-3c86-4473-8779-2ae9df9f0c0e","operationId":"b9682431-3c86-4473-8779-2ae9df9f0c0e","done":true,"response":{"path":"assets/18490359719","revisionId":"1","revisionCreateTime":"2024-07-14T18:02:50.597Z","assetId":"18490359719","displayName":"Model","assetType":"Model","creationContext":{"creator":{"userId":"45348281"}},"moderationResult":{"moderationState":"Approved"},"state":"Active"}} 
  * @exampleRawBody {"path":"operations/b9682431-3c86-4473-8779-2ae9df9f0c0e","operationId":"b9682431-3c86-4473-8779-2ae9df9f0c0e","done":true,"response":{"path":"assets/18490359719","revisionId":"1","revisionCreateTime":"2024-07-14T18:02:50.597689600Z","assetId":"18490359719","displayName":"Model","assetType":"Model","creationContext":{"creator":{"userId":"45348281"}},"moderationResult":{"moderationState":"Approved"},"state":"Active"}}
  */
-export const createAsset = addApiMethod(async <
+export const createAsset = createApiMethod(async <
   DisplayName extends string, ThisAssetType extends AssetType,
   UserId extends Identifier|never = never, GroupId extends Identifier|never = never,
   Description extends string | undefined = undefined, const Preview extends AssetPreview = never
@@ -167,7 +167,7 @@ export const createAsset = addApiMethod(async <
  * @exampleData {"path":"operations/b9682431-3c86-4473-8779-2ae9df9f0c0e","operationId":"b9682431-3c86-4473-8779-2ae9df9f0c0e","done":true,"response":{"path":"assets/18490359719","revisionId":"2","revisionCreateTime":"2024-07-14T18:02:50.597Z","assetId":"18490359719","displayName":"Model","assetType":"Model","creationContext":{"creator":{"userId":"45348281"}},"moderationResult":{"moderationState":"Approved"},"state":"Active"}} 
  * @exampleRawBody {"path":"operations/b9682431-3c86-4473-8779-2ae9df9f0c0e","operationId":"b9682431-3c86-4473-8779-2ae9df9f0c0e","done":true,"response":{"path":"assets/18490359719","revisionId":"2","revisionCreateTime":"2024-07-14T18:02:50.597689600Z","assetId":"18490359719","displayName":"Model","assetType":"Model","creationContext":{"creator":{"userId":"45348281"}},"moderationResult":{"moderationState":"Approved"},"state":"Active"}}
  */
-export const updateAsset = addApiMethod(async <
+export const updateAsset = createApiMethod(async <
   AssetId extends Identifier, DisplayName extends string, ThisAssetType extends AssetType,
   Description extends string | undefined = undefined, const Preview extends AssetPreview = never
 >(
@@ -220,7 +220,7 @@ export const updateAsset = addApiMethod(async <
  * @exampleData {"path":"assets/18508967120/versions/1","creationContext":{"creator":{"userId":"45348281"}},"moderationResult":{"moderationState":"Approved"}}
  * @exampleRawBody {"path":"assets/18508967120/versions/1","creationContext":{"creator":{"userId":"45348281"}},"moderationResult":{"moderationState":"Approved"}}
  */
-export const assetOfVersion = addApiMethod(async <AssetId extends Identifier, Version extends number>(
+export const assetOfVersion = createApiMethod(async <AssetId extends Identifier, Version extends number>(
   { assetId, version }: { assetId: AssetId, version: Version }
 ): ApiMethod<AssetOfVersionData<AssetId, Version>> => ({
   method: "GET",
@@ -241,7 +241,7 @@ export const assetOfVersion = addApiMethod(async <AssetId extends Identifier, Ve
  * @exampleData [{"path":"assets/18494719558/versions/2","creationContext":{"creator":{"userId":"45348281"}},"moderationResult":{"moderationState":"Approved"}},{"path":"assets/18494719558/versions/1","creationContext":{"creator":{"userId":"45348281"}},"moderationResult":{"moderationState":"Approved"}}]
  * @exampleRawBody {"assetVersions":[{"path":"assets/18494719558/versions/2","creationContext":{"creator":{"userId":"45348281"}},"moderationResult":{"moderationState":"Approved"}},{"path":"assets/18494719558/versions/1","creationContext":{"creator":{"userId":"45348281"}},"moderationResult":{"moderationState":"Approved"}}]}
  */
-export const assetVersions = addApiMethod(async <AssetId extends Identifier>(
+export const assetVersions = createApiMethod(async <AssetId extends Identifier>(
   { assetId, limit, cursor }: { assetId: AssetId, limit?: number, cursor?: string }
 ): ApiMethod<RawAssetVersionsData<AssetId>, PrettifiedAssetVersionsData<AssetId>> => ({
   method: "GET",
@@ -264,7 +264,7 @@ export const assetVersions = addApiMethod(async <AssetId extends Identifier>(
  * @exampleData {"path":"assets/18494719558/versions/2","creationContext":{"creator":{"userId":"45348281"}},"moderationResult":{"moderationState":"Approved"}}
  * @exampleRawBody {"path":"assets/18494719558/versions/2","creationContext":{"creator":{"userId":"45348281"}},"moderationResult":{"moderationState":"Approved"}}
  */
-export const rollbackAssetVersion = addApiMethod(async <AssetId extends Identifier, Version extends number>(
+export const rollbackAssetVersion = createApiMethod(async <AssetId extends Identifier, Version extends number>(
   { assetId, version }: { assetId: AssetId, version: Version }
 ): ApiMethod<AssetOfVersionData<AssetId, Version>> => ({
   method: "POST",

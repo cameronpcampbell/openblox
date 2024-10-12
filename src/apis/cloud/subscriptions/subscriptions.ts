@@ -13,7 +13,7 @@ import type { PrettifiedSubscriptionInfoData, RawSubscriptionInfoData } from "./
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "Inventory", baseUrl: "https://apis.roblox.com/cloud" })
+const { createApiMethod } = createApiGroup({ name: "Inventory", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -33,7 +33,7 @@ const addApiMethod = createApiGroup({ name: "Inventory", baseUrl: "https://apis.
  * @exampleData
  * @exampleRawBody
  */
-export const subscriptionInfo = addApiMethod(async <
+export const subscriptionInfo = createApiMethod(async <
   UniverseId extends Identifier, SubscriptionProductId extends string, SubscriptionId extends Identifier
 >(
   { universeId, subscriptionProductId, subscriptionId }:

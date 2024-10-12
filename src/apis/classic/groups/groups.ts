@@ -15,7 +15,7 @@ import type { SortOrder } from "../../../utils/utils.types"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "ClassicGroups", baseUrl: "https://groups.roblox.com" })
+const { createApiMethod } = createApiGroup({ name: "ClassicGroups", baseUrl: "https://groups.roblox.com" })
 /////////////////////////////////////////////////////////////////////////////////
 
 
@@ -30,7 +30,7 @@ const addApiMethod = createApiGroup({ name: "ClassicGroups", baseUrl: "https://g
  * @exampleData "6533473338141704368"
  * @exampleRawBody {"groupId":15842838,"contentType":"event","contentId":"6533473338141704368"}
  */
-export const featuredEvent = addApiMethod(async <GroupId extends Identifier>(
+export const featuredEvent = createApiMethod(async <GroupId extends Identifier>(
   { groupId }: { groupId: GroupId }
 ): ApiMethod<{ groupId: GroupId, contentType: "event", contentId: Identifier }, Identifier> => ({
   method: "GET",
@@ -53,7 +53,7 @@ export const featuredEvent = addApiMethod(async <GroupId extends Identifier>(
  * @exampleData 5904751593700196492
  * @exampleRawBody {"groupId":15842838,"contentType":"event","contentId":"6533473338141704368"}
  */
-export const setFeaturedEvent = addApiMethod(async <GroupId extends Identifier, EventId extends Identifier>(
+export const setFeaturedEvent = createApiMethod(async <GroupId extends Identifier, EventId extends Identifier>(
   { groupId, eventId }: { groupId: Identifier, eventId: EventId }
 ): ApiMethod<{ groupId: GroupId, contentType: "event", contentId: EventId }, EventId> => ({
   method: "POST",
@@ -75,7 +75,7 @@ export const setFeaturedEvent = addApiMethod(async <GroupId extends Identifier, 
  * @exampleData true
  * @exampleRawBody ""
  */
-export const removeFeaturedEvent = addApiMethod(async <GroupId extends Identifier, EventId extends Identifier>(
+export const removeFeaturedEvent = createApiMethod(async <GroupId extends Identifier, EventId extends Identifier>(
   { groupId, eventId }: { groupId: Identifier, eventId: EventId }
 ): ApiMethod<"", boolean> => ({
   method: "DELETE",
@@ -101,7 +101,7 @@ export const removeFeaturedEvent = addApiMethod(async <GroupId extends Identifie
  * @exampleData { id: 5850082, name: "MightyPart Games", description: "Lorem ipsum dolor sit amet consectetur adipiscing elit.", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, shout: null, memberCount: 102, isBuildersClubOnly: false, publicEntryAllowed: true, hasVerifiedBadge: false }
  * @exampleRawBody { id: 5850082, name: "MightyPart Games", description: "Lorem ipsum dolor sit amet consectetur adipiscing elit.", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, shout: null, memberCount: 102, isBuildersClubOnly: false, publicEntryAllowed: true, hasVerifiedBadge: false }
  */
-export const groupInfo = addApiMethod(async <GroupId extends Identifier>(
+export const groupInfo = createApiMethod(async <GroupId extends Identifier>(
   { groupId }: { groupId: GroupId }
 ): ApiMethod<RawGroupInfoData<GroupId>, PrettifiedGroupInfoData<GroupId>> => ({
   method: "GET",
@@ -132,7 +132,7 @@ export const groupInfo = addApiMethod(async <GroupId extends Identifier>(
  * @exampleData { previousPageCursor: null, nextPageCursor: null, data: [ { actor: { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, role: { id: 38353811, name: "NamelessGuy2005 - Scriptor", rank: 255 } }, actionType: "Accept Ally Request", description: { TargetGroupId: 6333562, TargetGroupName: "Mine Ways Talk Show" }, created: "2020-05-18T12:06:34Z" }, { actor: { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, role: { id: 38353811, name: "NamelessGuy2005 - Scriptor", rank: 255 } }, actionType: "Accept Ally Request", description: { TargetGroupId: 5257567, TargetGroupName: "The X1 Team" }, created: "2020-05-13T13:52:57Z" }, { actor: { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, role: { id: 38353811, name: "NamelessGuy2005 - Scriptor", rank: 255 } }, actionType: "Accept Ally Request", description: { TargetGroupId: 5894486, TargetGroupName: "Sky-Blox Studio" }, created: "2020-05-13T13:52:56Z" } ] }
  * @exampleRawBody [ { actor: { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, role: { id: 38353811, name: "NamelessGuy2005 - Scriptor", rank: 255 } }, actionType: "AcceptAllyRequest", description: { targetGroupId: 6333562, targetGroupName: "Mine Ways Talk Show" }, created: "2020-05-18T12:06:34Z" }, { actor: { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, role: { id: 38353811, name: "NamelessGuy2005 - Scriptor", rank: 255 } }, actionType: "AcceptAllyRequest", description: { targetGroupId: 5257567, targetGroupName: "The X1 Team" }, created: "2020-05-13T13:52:57Z" }, { actor: { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, role: { id: 38353811, name: "NamelessGuy2005 - Scriptor", rank: 255 } }, actionType: "AcceptAllyRequest", description: { targetGroupId: 5894486, targetGroupName: "Sky-Blox Studio" }, created: "2020-05-13T13:52:56Z" } ]
  */
-export const groupAuditLogs = addApiMethod(async (
+export const groupAuditLogs = createApiMethod(async (
   { groupId, actionType, userId, limit, sortOrder, cursor }:
   { groupId: Identifier, actionType?: GroupAuditLogActionType, userId?: Identifier, limit?: 10 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawGroupAuditLogsData, PrettifiedGroupAuditLogsData> => ({
@@ -165,7 +165,7 @@ export const groupAuditLogs = addApiMethod(async (
  * @exampleData [ { name: "Nameless Game Studio", created: 2022-01-06T00:01:47.193Z } ]
  * @exampleRawBody { previousPageCursor: null, nextPageCursor: null, data: [ { name: "Nameless Game Studio", created: "2022-01-06T00:01:47.193Z" } ] }
  */
-export const groupNameHistory = addApiMethod(async (
+export const groupNameHistory = createApiMethod(async (
   { groupId, limit, sortOrder, cursor }:
   { groupId: Identifier, limit?: 10 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawGroupNameHistoryData, PrettifiedGroupNameHistoryData> => ({
@@ -194,7 +194,7 @@ export const groupNameHistory = addApiMethod(async (
  * @exampleData { isApprovalRequired: true, isBuildersClubRequired: false, areEnemiesAllowed: true, areGroupFundsVisible: false, areGroupGamesVisible: true, isGroupNameChangeEnabled: true }
  * @exampleRawBody { isApprovalRequired: true, isBuildersClubRequired: false, areEnemiesAllowed: true, areGroupFundsVisible: false, areGroupGamesVisible: true, isGroupNameChangeEnabled: true }
  */
-export const groupSettings = addApiMethod(async (
+export const groupSettings = createApiMethod(async (
   { groupId }: { groupId: Identifier }
 ): ApiMethod<GroupSettingsData> => ({
   method: "GET",
@@ -222,7 +222,7 @@ export const groupSettings = addApiMethod(async (
  * @exampleData boolean
  * @exampleRawBody {}
  */
-export const setGroupSettings = addApiMethod(async (
+export const setGroupSettings = createApiMethod(async (
   { groupId, newSettings }: { groupId: Identifier, newSettings: GroupSettingsData }
 ): ApiMethod<boolean, {}> => ({
   method: "PATCH",
@@ -243,7 +243,7 @@ export const setGroupSettings = addApiMethod(async (
  * @exampleData { groupConfiguration: { nameMaxLength: 50, descriptionMaxLength: 1000, iconMaxFileSizeMb: 20, cost: 100, isUsingTwoStepWebviewComponent: true }, recurringPayoutsConfiguration: { maxPayoutPartners: 20 }, roleConfiguration: { nameMaxLength: 100, descriptionMaxLength: 1000, limit: 40, cost: 25, minRank: 0, maxRank: 255 }, groupNameChangeConfiguration: { cost: 100, cooldownInDays: 90, ownershipCooldownInDays: 90 }, isPremiumPayoutsEnabled: true, isDefaultEmblemPolicyEnabled: true }
  * @exampleRawBody { groupConfiguration: { nameMaxLength: 50, descriptionMaxLength: 1000, iconMaxFileSizeMb: 20, cost: 100, isUsingTwoStepWebviewComponent: true }, recurringPayoutsConfiguration: { maxPayoutPartners: 20 }, roleConfiguration: { nameMaxLength: 100, descriptionMaxLength: 1000, limit: 40, cost: 25, minRank: 0, maxRank: 255 }, groupNameChangeConfiguration: { cost: 100, cooldownInDays: 90, ownershipCooldownInDays: 90 }, isPremiumPayoutsEnabled: true, isDefaultEmblemPolicyEnabled: true }
  */
-export const groupsConfigMetadata = addApiMethod(async (
+export const groupsConfigMetadata = createApiMethod(async (
 ): ApiMethod<GroupsConfigMetadataData> => ({
   method: "GET",
   path: `/v1/groups/configuration/metadata`,
@@ -262,7 +262,7 @@ export const groupsConfigMetadata = addApiMethod(async (
  * @exampleRawBody { groupLimit: 100, currentGroupCount: 57, groupStatusMaxLength: 255, groupPostMaxLength: 500, isGroupWallNotificationsEnabled: false,
  groupWallNotificationsSubscribeIntervalInMilliseconds: 60000, areProfileGroupsHidden: false, isGroupDetailsPolicyEnabled: true, showPreviousGroupNames: true }
  */
-export const groupsMetadata = addApiMethod(async (
+export const groupsMetadata = createApiMethod(async (
 ): ApiMethod<GroupsMetadataData> => ({
   method: "GET",
   path: `/v1/groups/metadata`,
@@ -282,7 +282,7 @@ export const groupsMetadata = addApiMethod(async (
  * @exampleData { "5850082": { canViewGroup: true } }
  * @exampleRawBody { groups: [ { canViewGroup: true, groupId: 5850082 } ] }
  */
-export const groupsPolicyInfo = addApiMethod(async <GroupId extends Identifier>(
+export const groupsPolicyInfo = createApiMethod(async <GroupId extends Identifier>(
   { groupIds }: { groupIds: ArrayNonEmptyIfConst<GroupId> }
 ): ApiMethod<RawGroupPolicyInfoData<GroupId>, PrettifiedGroupPolicyInfoData<GroupId>> => ({
   method: "POST",
@@ -307,7 +307,7 @@ export const groupsPolicyInfo = addApiMethod(async <GroupId extends Identifier>(
  * @exampleData "Hello World!"
  * @exampleRawBody { newDescription: "Hello World!" }
  */
-export const setGroupDescription = addApiMethod(async <NewDescription extends string>(
+export const setGroupDescription = createApiMethod(async <NewDescription extends string>(
   { groupId, newDescription }: { groupId: Identifier, newDescription: NewDescription }
 ): ApiMethod<{ newDescription: NewDescription }, NewDescription> => ({
   method: "PATCH",
@@ -332,7 +332,7 @@ export const setGroupDescription = addApiMethod(async <NewDescription extends st
  * @exampleData { body: "Hello World!", poster: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, created: 2020-03-31T18:36:51.607Z, updated: 2023-09-15T16:21:00.272Z }
  * @exampleRawBody { body: "Hello World!", poster: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, created: "2020-03-31T18:36:51.607Z", updated: "2023-09-15T16:21:00.272Z" }
  */
-export const setGroupShout = addApiMethod(async <NewShout extends string>(
+export const setGroupShout = createApiMethod(async <NewShout extends string>(
   { groupId, newShout }: { groupId: Identifier, newShout: NewShout }
 ): ApiMethod<RawGroupShoutData<NewShout>, PrettifiedGroupShoutData<NewShout>> => ({
   method: "PATCH",
@@ -360,7 +360,7 @@ export const setGroupShout = addApiMethod(async <NewShout extends string>(
  * @exampleData true
  * @exampleRawBody {}
  */
-export const setGroupIcon = addApiMethod(async (
+export const setGroupIcon = createApiMethod(async (
   { groupId, newIcon }: { groupId: Identifier, newIcon: string | File }
 ): ApiMethod<{}, boolean> => ({
   method: "PATCH",
@@ -389,7 +389,7 @@ export const setGroupIcon = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const batchDeclineGroupJoinRequests = addApiMethod(async (
+export const batchDeclineGroupJoinRequests = createApiMethod(async (
   { groupId, userIds }: { groupId: Identifier, userIds: ArrayNonEmptyIfConst<Identifier> }
 ): ApiMethod<{}, boolean> => ({
   method: "DELETE",
@@ -416,7 +416,7 @@ export const batchDeclineGroupJoinRequests = addApiMethod(async (
  * @exampleData [ { requester: { hasVerifiedBadge: false, userId: 2655994471, username: "MightyPartJr", displayName: "MightyPartJr" }, created: 2023-09-12T09:35:49.287Z } ]
  * @exampleRawBody [ { requester: { hasVerifiedBadge: false, userId: 2655994471, username: "MightyPartJr", displayName: "MightyPartJr" }, created: "2023-09-12T09:35:49.287Z" } ]
  */
-export const groupJoinRequests = addApiMethod(async (
+export const groupJoinRequests = createApiMethod(async (
   { groupId, limit, sortOrder, cursor }: { groupId: Identifier, limit?: 10|25|50|100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawGroupJoinRequests, PrettifiedGroupJoinRequests> => ({
   method: "GET",
@@ -440,7 +440,7 @@ export const groupJoinRequests = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const batchAcceptGroupJoinRequests = addApiMethod(async (
+export const batchAcceptGroupJoinRequests = createApiMethod(async (
   { groupId, userIds }: { groupId: Identifier, userIds: ArrayNonEmptyIfConst<Identifier> }
 ): ApiMethod<{}, boolean> => ({
   method: "POST",
@@ -465,7 +465,7 @@ export const batchAcceptGroupJoinRequests = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const declineGroupJoinRequest = addApiMethod(async (
+export const declineGroupJoinRequest = createApiMethod(async (
   { groupId, userId }: { groupId: Identifier, userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "DELETE",
@@ -489,7 +489,7 @@ export const declineGroupJoinRequest = addApiMethod(async (
  * @exampleData { requester: { hasVerifiedBadge: false, userId: 2655994471, username: "MightyPartJr", displayName: "MightyPartJr" }, created: 2023-09-12T11:31:18.933Z }
  * @exampleRawBody { requester: { hasVerifiedBadge: false, userId: 2655994471, username: "MightyPartJr", displayName: "MightyPartJr" }, created: "2023-09-12T11:31:18.933Z" }
  */
-export const groupJoinRequestInfo = addApiMethod(async <UserId extends Identifier>(
+export const groupJoinRequestInfo = createApiMethod(async <UserId extends Identifier>(
   { groupId, userId }: { groupId: Identifier, userId: UserId }
 ): ApiMethod<RawGroupJoinRequestForUser<UserId>, PrettifiedGroupJoinRequestForUser<UserId>> => ({
   method: "GET",
@@ -515,7 +515,7 @@ export const groupJoinRequestInfo = addApiMethod(async <UserId extends Identifie
  * @exampleData true
  * @exampleRawBody {}
  */
-export const acceptGroupJoinRequest = addApiMethod(async (
+export const acceptGroupJoinRequest = createApiMethod(async (
   { groupId, userId }: { groupId: Identifier, userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "POST",
@@ -537,7 +537,7 @@ export const acceptGroupJoinRequest = addApiMethod(async (
  * @exampleData { groupId: 5850082, isPrimary: false, isPendingJoin: false, userRole: { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, role: { id: 38353811, name: "NamelessGuy2005 - Scriptor", rank: 255 } }, permissions: { groupPostsPermissions: { viewWall: true, postToWall: true, deleteFromWall: true, viewStatus: true, postToStatus: true }, groupMembershipPermissions: { changeRank: true, inviteMembers: true, removeMembers: true }, groupManagementPermissions: { manageRelationships: true, manageClan: true, viewAuditLogs: true }, groupEconomyPermissions: { spendGroupFunds: true, advertiseGroup: true, createItems: true, manageItems: true, addGroupPlaces: true, manageGroupGames: true, viewGroupPayouts: true, viewAnalytics: true }, groupOpenCloudPermissions: { useCloudAuthentication: true, administerCloudAuthentication: true } }, areGroupGamesVisible: true, areGroupFundsVisible: false, areEnemiesAllowed: true, canConfigure: true }
  * @exampleRawBody { groupId: 5850082, isPrimary: false, isPendingJoin: false, userRole: { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, role: { id: 38353811, name: "NamelessGuy2005 - Scriptor", rank: 255 } }, permissions: { groupPostsPermissions: { viewWall: true, postToWall: true, deleteFromWall: true, viewStatus: true, postToStatus: true }, groupMembershipPermissions: { changeRank: true, inviteMembers: true, removeMembers: true }, groupManagementPermissions: { manageRelationships: true, manageClan: true, viewAuditLogs: true }, groupEconomyPermissions: { spendGroupFunds: true, advertiseGroup: true, createItems: true, manageItems: true, addGroupPlaces: true, manageGroupGames: true, viewGroupPayouts: true, viewAnalytics: true }, groupOpenCloudPermissions: { useCloudAuthentication: true, administerCloudAuthentication: true } }, areGroupGamesVisible: true, areGroupFundsVisible: false, areEnemiesAllowed: true, canConfigure: true }
  */
-export const authenticatedUserGroupMembershipInfo = addApiMethod(async <GroupId extends Identifier>(
+export const authenticatedUserGroupMembershipInfo = createApiMethod(async <GroupId extends Identifier>(
   { groupId }: { groupId: GroupId }
 ): ApiMethod<AuthenticatedUserGroupMembershipInfoData<GroupId>> => ({
   method: "GET",
@@ -556,7 +556,7 @@ export const authenticatedUserGroupMembershipInfo = addApiMethod(async <GroupId 
  * @exampleData [ { id: 38353814, name: "Guest", description: "A non-group member.", rank: 0, memberCount: 0 }, { id: 38353811, name: "Owner", description: "", rank: 255, memberCount: 1 } ]
  * @exampleRawBody { groupId: 5850082, roles: [ { id: 38353814, name: "Guest", description: "A non-group member.", rank: 0, memberCount: 0 }, { id: 38353811, name: "Owner", description: "", rank: 255, memberCount: 1 } ] }
  */
-export const groupRoles = addApiMethod(async <GroupId extends Identifier>(
+export const groupRoles = createApiMethod(async <GroupId extends Identifier>(
   { groupId }: { groupId: GroupId }
 ): ApiMethod<RawAllRolesForGroupData<GroupId>, PrettifiedAllRolesForGroupData> => ({
   method: "GET",
@@ -582,7 +582,7 @@ export const groupRoles = addApiMethod(async <GroupId extends Identifier>(
  * @exampleData [ { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" } ]
  * @exampleRawBody { previousPageCursor: null, nextPageCursor: null, data: [ { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" } ] }
  */
-export const groupMembersWithRole = addApiMethod(async (
+export const groupMembersWithRole = createApiMethod(async (
   { groupId, roleSetId, limit, sortOrder, cursor }:
   { groupId: Identifier, roleSetId: Identifier, limit?: 10 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawGroupMembersWithRoleData, PrettifiedGroupMembersWithRoleData> => ({
@@ -609,7 +609,7 @@ export const groupMembersWithRole = addApiMethod(async (
  * @exampleData [ { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, role: { id: 38353811, name: "NamelessGuy2005 - Scriptor", rank: 255 } } ]
  * @exampleRawBody { previousPageCursor: null, nextPageCursor: "3023291639_1_8ba111cfa4097b6dd27d851a15353a1f", data: [ { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, role: { id: 38353811, name: "NamelessGuy2005 - Scriptor", rank: 255 } } ] }
  */
-export const groupMembers = addApiMethod(async (
+export const groupMembers = createApiMethod(async (
   { groupId, limit, sortOrder, cursor }:
   { groupId: Identifier, limit?: 10 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawGroupMembersData, PrettifiedGroupMembersData> => ({
@@ -632,7 +632,7 @@ export const groupMembers = addApiMethod(async (
  * @exampleData [ { id: 5850082, name: "lorem ipsum", description: "", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, shout: null, isBuildersClubOnly: false, publicEntryAllowed: false, hasVerifiedBadge: false } ]
  * @exampleRawBody { data: [ { id: 5850082, name: "lorem ipsum", description: "", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, shout: null, isBuildersClubOnly: false, publicEntryAllowed: false, hasVerifiedBadge: false } ] }
  */
-export const authenticatedUserPendingGroups = addApiMethod(async (
+export const authenticatedUserPendingGroups = createApiMethod(async (
 ): ApiMethod<RawAuthenticatedUserPendingGroupsData, PrettifiedAuthenticatedUserPendingGroupsData> => ({
   method: "GET",
   path: `/v1/user/groups/pending`,
@@ -658,7 +658,7 @@ export const authenticatedUserPendingGroups = addApiMethod(async (
  * @exampleData [ { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, groups: [ { group: { id: 5850082, name: "Lorem ipsum", description: "Lorem ipsum dolor sit amet.", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, shout: null, isBuildersClubOnly: false, publicEntryAllowed: true, hasVerifiedBadge: false }, role: { id: 45348281, name: "MightyPart", rank: 1 } } ] } ]
  * @exampleRawBody { data: [ { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, groups: [ { group: { id: 5850082, name: "Lorem ipsum", description: "Lorem ipsum dolor sit amet.", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, shout: null, isBuildersClubOnly: false, publicEntryAllowed: true, hasVerifiedBadge: false }, role: { id: 45348281, name: "MightyPart", rank: 1 } } ] } ] }
  */
-export const groupsThatUsersFriendsAreIn = addApiMethod(async (
+export const groupsThatUsersFriendsAreIn = createApiMethod(async (
   { userId }: { userId: Identifier }
 ): ApiMethod<RawGroupsThatUsersFriendsAreInData, PrettifiedGroupsThatUsersFriendsAreInData> => ({
   method: "GET",
@@ -687,7 +687,7 @@ export const groupsThatUsersFriendsAreIn = addApiMethod(async (
  * @exampleData [ { group: { id: 5855434, name: "MightyPart Games", description: "Lorem ipsum dolor sit amet...", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: 'MightyPart' }, shout: null, memberCount: 102, isBuildersClubOnly: false, publicEntryAllowed: true, hasVerifiedBadge: false }, role: { id: 5855434, name: "MightyPart", rank: 1 } } ]
  * @exampleRawBody { data: [ { group: { id: 5855434, name: "MightyPart Games", description: "Lorem ipsum dolor sit amet...", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: 'MightyPart' }, shout: null, memberCount: 102, isBuildersClubOnly: false, publicEntryAllowed: true, hasVerifiedBadge: false }, role: { id: 5855434, name: "MightyPart", rank: 1 } } ] }
  */
-export const allGroupRolesForUser_V1 = addApiMethod(async (
+export const allGroupRolesForUser_V1 = createApiMethod(async (
   { userId }: { userId: Identifier }
 ): ApiMethod<RawAllGroupRolesForUserData_V1, FormattedAllGroupRolesForUserData_V1> => ({
   method: "GET",
@@ -715,7 +715,7 @@ export const allGroupRolesForUser_V1 = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const removeGroupMember = addApiMethod(async (
+export const removeGroupMember = createApiMethod(async (
   { groupId, userId }: { groupId: Identifier, userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "DELETE",
@@ -740,7 +740,7 @@ export const removeGroupMember = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const updateGroupMemberRole = addApiMethod(async (
+export const updateGroupMemberRole = createApiMethod(async (
   { groupId, userId, roleId }: { groupId: Identifier, userId: Identifier, roleId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "PATCH",
@@ -766,7 +766,7 @@ export const updateGroupMemberRole = addApiMethod(async (
  * @exampleData { canUseRecurringPayout: true, canUseOneTimePayout: true }
  * @exampleRawBody { canUseRecurringPayout: true, canUseOneTimePayout: true }
  */
-export const groupPayoutRestrictionsInfo = addApiMethod(async (
+export const groupPayoutRestrictionsInfo = createApiMethod(async (
   { groupId }: { groupId: Identifier }
 ): ApiMethod<GroupPayoutRestrictionsInfoData> => ({
   method: "GET",
@@ -787,7 +787,7 @@ export const groupPayoutRestrictionsInfo = addApiMethod(async (
  * @exampleData [ { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, percentage: 50 } ]
  * @exampleRawBody { data: [ { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, percentage: 50 } ] }
  */
-export const groupPayoutsInfo = addApiMethod(async (
+export const groupPayoutsInfo = createApiMethod(async (
   { groupId }: { groupId: Identifier }
 ): ApiMethod<RawGroupPayoutsInfoData, PrettifiedGroupPayoutsInfoData> => ({
   method: "GET",
@@ -815,7 +815,7 @@ export const groupPayoutsInfo = addApiMethod(async (
  * @exampleData { groupId: 5850082, relationshipType: "Allies", totalGroupCount: 2, relatedGroups: [ { id: 50, name: "Lorem Ipsum", description: "Hello World", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, shout: null, memberCount: 38, isBuildersClubOnly: false, publicEntryAllowed: true, hasVerifiedBadge: false } ] }
  * @exampleRawBody { groupId: 5850082, relationshipType: "Allies", totalGroupCount: 2, relatedGroups: [ { id: 50, name: "Lorem Ipsum", description: "Hello World", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, shout: null, memberCount: 38, isBuildersClubOnly: false, publicEntryAllowed: true, hasVerifiedBadge: false } ], nextRowIndex: 1 }
  */
-export const groupRelationships = addApiMethod(async <GroupId extends Identifier>(
+export const groupRelationships = createApiMethod(async <GroupId extends Identifier>(
   { groupId, groupRelationshipType, maxRows = 10, startRowIndex = 0 }:
   { groupId: Identifier, groupRelationshipType: GroupRelationshipType, maxRows?: number, startRowIndex?: number }
 ): ApiMethod<RawGroupRelationshipsData<GroupId>, PrettifiedGroupRelationshipsData<GroupId>> => ({
@@ -853,7 +853,7 @@ export const groupRelationships = addApiMethod(async <GroupId extends Identifier
  * @exampleData true
  * @exampleRawBody {}
  */
-export const batchDeclineGroupRelationshipRequests = addApiMethod(async (
+export const batchDeclineGroupRelationshipRequests = createApiMethod(async (
   { groupId, groupRelationshipType, groupIds }:
   { groupId: Identifier, groupRelationshipType: GroupRelationshipType, groupIds: Identifier[] }
 ): ApiMethod<{}, boolean> => ({
@@ -884,7 +884,7 @@ export const batchDeclineGroupRelationshipRequests = addApiMethod(async (
  * @exampleData { groupId: 5850082, relationshipType: "Allies", totalGroupCount: 2, relatedGroups: [ { id: 50, name: "Lorem Ipsum", description: "Hello World", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, shout: null, memberCount: 38, isBuildersClubOnly: false, publicEntryAllowed: true, hasVerifiedBadge: false } ] }
  * @exampleRawBody { groupId: 5850082, relationshipType: "Allies", totalGroupCount: 2, relatedGroups: [ { id: 50, name: "Lorem Ipsum", description: "Hello World", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, shout: null, memberCount: 38, isBuildersClubOnly: false, publicEntryAllowed: true, hasVerifiedBadge: false } ], nextRowIndex: 1 }
  */
-export const groupRelationshipRequests = addApiMethod(async <GroupId extends Identifier>(
+export const groupRelationshipRequests = createApiMethod(async <GroupId extends Identifier>(
   { groupId, groupRelationshipType, maxRows = 10, startRowIndex = 0 }:
   { groupId: Identifier, groupRelationshipType: GroupRelationshipType, maxRows?: number, startRowIndex?: number }
 ): ApiMethod<RawGroupRelationshipsData<GroupId>, PrettifiedGroupRelationshipsData<GroupId>> => ({
@@ -922,7 +922,7 @@ export const groupRelationshipRequests = addApiMethod(async <GroupId extends Ide
  * @exampleData true
  * @exampleRawBody {}
  */
-export const batchAcceptGroupRelationshipRequests = addApiMethod(async (
+export const batchAcceptGroupRelationshipRequests = createApiMethod(async (
   { groupId, groupRelationshipType, groupIds }:
   { groupId: Identifier, groupRelationshipType: GroupRelationshipType, groupIds: Identifier[] }
 ): ApiMethod<{}, boolean> => ({
@@ -949,7 +949,7 @@ export const batchAcceptGroupRelationshipRequests = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const removeGroupRelationship = addApiMethod(async (
+export const removeGroupRelationship = createApiMethod(async (
   { groupId, groupRelationshipType, relatedGroupId }:
   { groupId: Identifier, groupRelationshipType: GroupRelationshipType, relatedGroupId: Identifier }
 ): ApiMethod<{}, boolean> => ({
@@ -975,7 +975,7 @@ export const removeGroupRelationship = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const requestGroupRelationship = addApiMethod(async (
+export const requestGroupRelationship = createApiMethod(async (
   { groupId, groupRelationshipType, relatedGroupId }:
   { groupId: Identifier, groupRelationshipType: GroupRelationshipType, relatedGroupId: Identifier }
 ): ApiMethod<{}, boolean> => ({
@@ -1001,7 +1001,7 @@ export const requestGroupRelationship = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const declineGroupRelationshipRequest = addApiMethod(async (
+export const declineGroupRelationshipRequest = createApiMethod(async (
   { groupId, groupRelationshipType, relatedGroupId }:
   { groupId: Identifier, groupRelationshipType: GroupRelationshipType, relatedGroupId: Identifier }
 ): ApiMethod<{}, boolean> => ({
@@ -1027,7 +1027,7 @@ export const declineGroupRelationshipRequest = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const acceptGroupRelationshipRequest = addApiMethod(async (
+export const acceptGroupRelationshipRequest = createApiMethod(async (
   { groupId, groupRelationshipType, relatedGroupId }:
   { groupId: Identifier, groupRelationshipType: GroupRelationshipType, relatedGroupId: Identifier }
 ): ApiMethod<{}, boolean> => ({
@@ -1054,7 +1054,7 @@ export const acceptGroupRelationshipRequest = addApiMethod(async (
  * @exampleData { groupId: 5850082, role: { id: 38353814, name: "Guest", description: "A non-group member.", rank: 0 }, permissions: { groupPostsPermissions: { viewWall: true, postToWall: false, deleteFromWall: false, viewStatus: false, postToStatus: false }, groupMembershipPermissions: { changeRank: false, inviteMembers: false, removeMembers: false }, groupManagementPermissions: { manageRelationships: false, manageClan: false, viewAuditLogs: false }, groupEconomyPermissions: { spendGroupFunds: false, advertiseGroup: false, createItems: false, manageItems: false, addGroupPlaces: false, manageGroupGames: false, viewGroupPayouts: false, viewAnalytics: false }, groupOpenCloudPermissions: { useCloudAuthentication: false, administerCloudAuthentication: false } } }
  * @exampleRawBody { groupId: 5850082, role: { id: 38353814, name: "Guest", description: "A non-group member.", rank: 0 }, permissions: { groupPostsPermissions: { viewWall: true, postToWall: false, deleteFromWall: false, viewStatus: false, postToStatus: false }, groupMembershipPermissions: { changeRank: false, inviteMembers: false, removeMembers: false }, groupManagementPermissions: { manageRelationships: false, manageClan: false, viewAuditLogs: false }, groupEconomyPermissions: { spendGroupFunds: false, advertiseGroup: false, createItems: false, manageItems: false, addGroupPlaces: false, manageGroupGames: false, viewGroupPayouts: false, viewAnalytics: false }, groupOpenCloudPermissions: { useCloudAuthentication: false, administerCloudAuthentication: false } } }
  */
-export const groupPermissionsForRole = addApiMethod(async <GroupId extends Identifier, RoleSetId extends Identifier>(
+export const groupPermissionsForRole = createApiMethod(async <GroupId extends Identifier, RoleSetId extends Identifier>(
   { groupId, roleSetId }: { groupId: GroupId, roleSetId: RoleSetId }
 ): ApiMethod<GroupRolePermissionsData<GroupId, RoleSetId>> => ({
   method: "GET",
@@ -1080,7 +1080,7 @@ export const groupPermissionsForRole = addApiMethod(async <GroupId extends Ident
  * @exampleData true
  * @exampleRawBody {}
  */
-export const setGroupRolePermissions = addApiMethod(async <GroupId extends Identifier, RoleSetId extends Identifier>(
+export const setGroupRolePermissions = createApiMethod(async <GroupId extends Identifier, RoleSetId extends Identifier>(
   { groupId, roleSetId, permissions }:
   { groupId: GroupId, roleSetId: RoleSetId, permissions: GroupRolePermissions }
 ): ApiMethod<{}, boolean> => ({
@@ -1105,7 +1105,7 @@ export const setGroupRolePermissions = addApiMethod(async <GroupId extends Ident
  * @exampleData { groupId: 5850082, role: { id: 38353814, name: "Guest", description: "A non-group member.", rank: 0 }, permissions: { groupPostsPermissions: { viewWall: true, postToWall: false, deleteFromWall: false, viewStatus: false, postToStatus: false }, groupMembershipPermissions: { changeRank: false, inviteMembers: false, removeMembers: false }, groupManagementPermissions: { manageRelationships: false, manageClan: false, viewAuditLogs: false }, groupEconomyPermissions: { spendGroupFunds: false, advertiseGroup: false, createItems: false, manageItems: false, addGroupPlaces: false, manageGroupGames: false, viewGroupPayouts: false, viewAnalytics: false }, groupOpenCloudPermissions: { useCloudAuthentication: false, administerCloudAuthentication: false } } }
  * @exampleRawBody { groupId: 5850082, role: { id: 38353814, name: "Guest", description: "A non-group member.", rank: 0 }, permissions: { groupPostsPermissions: { viewWall: true, postToWall: false, deleteFromWall: false, viewStatus: false, postToStatus: false }, groupMembershipPermissions: { changeRank: false, inviteMembers: false, removeMembers: false }, groupManagementPermissions: { manageRelationships: false, manageClan: false, viewAuditLogs: false }, groupEconomyPermissions: { spendGroupFunds: false, advertiseGroup: false, createItems: false, manageItems: false, addGroupPlaces: false, manageGroupGames: false, viewGroupPayouts: false, viewAnalytics: false }, groupOpenCloudPermissions: { useCloudAuthentication: false, administerCloudAuthentication: false } } }
  */
-export const groupGuestRolePermissions = addApiMethod(async <GroupId extends Identifier>(
+export const groupGuestRolePermissions = createApiMethod(async <GroupId extends Identifier>(
   { groupId }: { groupId: GroupId }
 ): ApiMethod<GroupRolePermissionsData<GroupId, Identifier, "Guest", 0>> => ({
   method: "GET",
@@ -1126,7 +1126,7 @@ export const groupGuestRolePermissions = addApiMethod(async <GroupId extends Ide
  * @exampleData [ { groupId: 5850082, role: { id: 38353814, name: "Guest", description: "A non-group member.", rank: 0 }, permissions: { groupPostsPermissions: { viewWall: true, postToWall: false, deleteFromWall: false, viewStatus: false, postToStatus: false }, groupMembershipPermissions: { changeRank: false, inviteMembers: false, removeMembers: false }, groupManagementPermissions: { manageRelationships: false, manageClan: false, viewAuditLogs: false }, groupEconomyPermissions: { spendGroupFunds: false, advertiseGroup: false, createItems: false, manageItems: false, addGroupPlaces: false, manageGroupGames: false, viewGroupPayouts: false, viewAnalytics: false }, groupOpenCloudPermissions: { useCloudAuthentication: false, administerCloudAuthentication: false } } } ]
  * @exampleRawBody { data: [ { groupId: 5850082, role: { id: 38353814, name: "Guest", description: "A non-group member.", rank: 0 }, permissions: { groupPostsPermissions: { viewWall: true, postToWall: false, deleteFromWall: false, viewStatus: false, postToStatus: false }, groupMembershipPermissions: { changeRank: false, inviteMembers: false, removeMembers: false }, groupManagementPermissions: { manageRelationships: false, manageClan: false, viewAuditLogs: false }, groupEconomyPermissions: { spendGroupFunds: false, advertiseGroup: false, createItems: false, manageItems: false, addGroupPlaces: false, manageGroupGames: false, viewGroupPayouts: false, viewAnalytics: false }, groupOpenCloudPermissions: { useCloudAuthentication: false, administerCloudAuthentication: false } } } ] }
  */
-export const groupPermissionsForAllRoles = addApiMethod(async <GroupId extends Identifier>(
+export const groupPermissionsForAllRoles = createApiMethod(async <GroupId extends Identifier>(
   { groupId }: { groupId: GroupId }
 ): ApiMethod<RawGroupPermissionsForAllRoles<GroupId>, PrettifiedGroupPermissionsForAllRoles<GroupId>> => ({
   method: "GET",
@@ -1151,7 +1151,7 @@ export const groupPermissionsForAllRoles = addApiMethod(async <GroupId extends I
  * @exampleData [ { id: 3412774, type: "Discord", url: "https://discord.gg/4hDH5s52a", title: "Support Server" } ]
  * @exampleRawBody { data: [ { id: 3412774, type: "Discord", url: "https://discord.gg/4hDH5s52a", title: "Support Server" } ] }
  */
-export const groupSocialLinks = addApiMethod(async (
+export const groupSocialLinks = createApiMethod(async (
   { groupId }: { groupId: Identifier }
 ): ApiMethod<RawGroupSocialLinksData, PrettifiedGroupSocialLinksData> => ({
   method: "GET",
@@ -1180,7 +1180,7 @@ export const groupSocialLinks = addApiMethod(async (
  * @exampleData { id: 10791942, type: "Twitch", url: "https://twitch.tv/fooBar", title: "Follow My Twitch" }
  * @exampleRawBody { id: 10791942, type: "Twitch", url: "https://twitch.tv/fooBar", title: "Follow My Twitch" }
  */
-export const addGroupSocialLink = addApiMethod(async <const NewSocial extends NewSocialLinkRequest>(
+export const addGroupSocialLink = createApiMethod(async <const NewSocial extends NewSocialLinkRequest>(
   { groupId, newSocial }: { groupId: Identifier, newSocial: NewSocial }
 ): ApiMethod<AddGroupSocialLinkData<NewSocial>> => ({
   method: "POST",
@@ -1203,7 +1203,7 @@ export const addGroupSocialLink = addApiMethod(async <const NewSocial extends Ne
  * @exampleData true
  * @exampleRawBody {}
  */
-export const removeGroupSocialLink = addApiMethod(async (
+export const removeGroupSocialLink = createApiMethod(async (
   { groupId, socialLinkId }: { groupId: Identifier, socialLinkId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "DELETE",
@@ -1232,7 +1232,7 @@ export const removeGroupSocialLink = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const updateGroupSocialLink = addApiMethod(async <SocialLinkId extends Identifier, const NewSocial extends NewSocialLinkRequest>(
+export const updateGroupSocialLink = createApiMethod(async <SocialLinkId extends Identifier, const NewSocial extends NewSocialLinkRequest>(
   { groupId, socialLinkId, newSocial }: { groupId: Identifier, socialLinkId: SocialLinkId, newSocial: NewSocial }
 ): ApiMethod<AddGroupSocialLinkData<NewSocial, SocialLinkId>> => ({
   method: "PATCH",
@@ -1259,7 +1259,7 @@ export const updateGroupSocialLink = addApiMethod(async <SocialLinkId extends Id
  * @exampleData [ { id: 2727146317, poster: { hasVerifiedBadge: false, userId: 45348281, username: 'MightyPart', displayName: 'MightyPart' }, body: 'Lorem Ipsum dolor sit amet...', created: 2022-11-24T15:31:28.157Z, updated: 2022-11-24T15:31:28.157Z } ]
  * @exampleRawBody { previousPageCursor: null, nextPageCursor: '2550358523_1_75917f56fab75bb02bd9d16be933b95a', data: [ { id: 2727146317, poster: { hasVerifiedBadge: false, userId: 45348281, username: 'MightyPart', displayName: 'MightyPart' }, body: 'Lorem Ipsum dolor sit amet...', created: "2022-11-24T15:31:28.157Z", updated: "2022-11-24T15:31:28.157Z" } ] }
  */
-export const groupWallPosts_V1 = addApiMethod(async <SocialLinkId extends Identifier, const NewSocial extends NewSocialLinkRequest>(
+export const groupWallPosts_V1 = createApiMethod(async <SocialLinkId extends Identifier, const NewSocial extends NewSocialLinkRequest>(
   { groupId, limit, sortOrder, cursor }:
   { groupId: Identifier, limit?: 10 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawGroupWallPostsData_V1, PrettifiedGroupWallPostsData_V1> => ({
@@ -1287,7 +1287,7 @@ export const groupWallPosts_V1 = addApiMethod(async <SocialLinkId extends Identi
  * 
  * @example const { data } = await ClassicGroupsApi.authenticatedUserSubscribeToGroupWallNotificationEvents({ groupId: 5850082 })
  */
-export const authenticatedUserSubscribeToGroupWallNotificationEvents = addApiMethod(async (
+export const authenticatedUserSubscribeToGroupWallNotificationEvents = createApiMethod(async (
   { groupId }: { groupId: Identifier }
 ): ApiMethod<any> => ({
   method: "POST",
@@ -1309,7 +1309,7 @@ export const authenticatedUserSubscribeToGroupWallNotificationEvents = addApiMet
  * @exampleData true
  * @exampleRawBody {}
  */
-export const removeGroupWallPost = addApiMethod(async (
+export const removeGroupWallPost = createApiMethod(async (
   { groupId, wallPostId }: { groupId: Identifier, wallPostId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "DELETE",
@@ -1333,7 +1333,7 @@ export const removeGroupWallPost = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const removeAllGroupWallPostsMadeByUser = addApiMethod(async (
+export const removeAllGroupWallPostsMadeByUser = createApiMethod(async (
   { groupId, userId }: { groupId: Identifier, userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "DELETE",
@@ -1360,7 +1360,7 @@ export const removeAllGroupWallPostsMadeByUser = addApiMethod(async (
  * @exampleData [ { id: 5850082, name: 'MightyPart Games', description: 'Welcome to my amazing group', memberCount: 102, previousName: 'Nameless Game Studio', publicEntryAllowed: true, created: '2020-03-29T18:15:20.1Z', updated: '2023-09-14T06:34:36.243Z', hasVerifiedBadge: false } ]
  * @exampleRawBody { keyword: 'MightyPart Games', previousPageCursor: null, nextPageCursor: 'eyJzdGFydEluZGV4IjoxMCwiZGlzY3JpbWluYXRvciI6ImtleXdvcmQ6TWlnaHR5UGFydCBHYW1lcyIsImNvdW50IjoxMH0KOTIwMGU5MzQwMTBlM2IzOTBlNmU3M2E3MzJkNzhhYzRkZjU1ZGM2ZGEwNWUwMDRjMmM1ZmRmZDlhMzk3YjRhNA==', data: [ { id: 5850082, name: 'MightyPart Games', description: 'Welcome to my amazing group', memberCount: 102, previousName: 'Nameless Game Studio', publicEntryAllowed: true, created: '2020-03-29T18:15:20.1Z', updated: '2023-09-14T06:34:36.243Z', hasVerifiedBadge: false } ] }
  */
-export const groupSearch = addApiMethod(async (
+export const groupSearch = createApiMethod(async (
   { keyword, prioritizeExactMatch, limit, cursor }:
   { keyword: string, prioritizeExactMatch?: boolean, limit?: 10 | 25 | 50 | 100, cursor?: string }
 ): ApiMethod<RawGroupSearchData, PrettifiedGroupSearchData> => ({
@@ -1387,7 +1387,7 @@ export const groupSearch = addApiMethod(async (
  * @exampleData [ { id: 5850082, name: 'MightyPart Games', memberCount: 102, hasVerifiedBadge: false } ]
  * @exampleRawBody { data: [ { id: 5850082, name: 'MightyPart Games', memberCount: 102, hasVerifiedBadge: false } ] }
  */
-export const groupLookupSearch = addApiMethod(async (
+export const groupLookupSearch = createApiMethod(async (
   { groupName }: { groupName: string }
 ): ApiMethod<RawGroupLookupSearch, PrettifiedGroupLookupSearch> => ({
   method: "GET",
@@ -1408,7 +1408,7 @@ export const groupLookupSearch = addApiMethod(async (
  * @exampleData { suggestedGroupKeywords: [ 'Experience Studios', 'Building', 'Roleplaying', 'Fan' ], showFriendsGroupsSort: true }
  * @exampleRawBody { SuggestedGroupKeywords: [ 'Experience Studios', 'Building', 'Roleplaying', 'Fan' ], ShowFriendsGroupsSort: true }
  */
-export const groupSearchMetadata = addApiMethod(async (
+export const groupSearchMetadata = createApiMethod(async (
 ): ApiMethod<RawGroupSearchMetadata, PrettifiedGroupSearchMetadata> => ({
   method: "GET",
   path: `/v1/groups/search/metadata`,
@@ -1431,7 +1431,7 @@ export const groupSearchMetadata = addApiMethod(async (
  * @exampleData { '38353811': { groupId: 5850082, name: 'NamelessGuy2005 - Scriptor', rank: 255 } }
  * @exampleRawBody { data: [ { groupId: 5850082, id: 38353811, name: 'NamelessGuy2005 - Scriptor', rank: 255 } ] }
  */
-export const groupRolesFromIds = addApiMethod(async <RoleId extends Identifier>(
+export const groupRolesFromIds = createApiMethod(async <RoleId extends Identifier>(
   { roleIds }: { roleIds: ArrayNonEmptyIfConst<RoleId> }
 ): ApiMethod<RawGroupRolesFromIdsData<RoleId>, PrettifiedGroupRolesFromIdsData<RoleId>> => ({
   method: "GET",
@@ -1456,7 +1456,7 @@ export const groupRolesFromIds = addApiMethod(async <RoleId extends Identifier>(
  * @exampleData { group: { id: 5850082, name: "MightyPart Games", description: "Welcome to my amazing group", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, shout: null, isBuildersClubOnly: false, publicEntryAllowed: true, hasVerifiedBadge: false }, role: { id: 38353811, name: "NamelessGuy2005 - Scriptor", rank: 255 } }
  * @exampleRawBody { group: { id: 5850082, name: "MightyPart Games", description: "Welcome to my amazing group", owner: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, shout: null, isBuildersClubOnly: false, publicEntryAllowed: true, hasVerifiedBadge: false }, role: { id: 38353811, name: "NamelessGuy2005 - Scriptor", rank: 255 } }
  */
-export const primaryGroupForUser = addApiMethod(async (
+export const primaryGroupForUser = createApiMethod(async (
   { userId }: { userId: Identifier }
 ): ApiMethod<RawPrimaryGroupForUserData, PrettifiedPrimaryGroupForUserData> => ({
   method: "GET",
@@ -1480,7 +1480,7 @@ export const primaryGroupForUser = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const authenticatedUserRemovePrimaryGroup = addApiMethod(async (
+export const authenticatedUserRemovePrimaryGroup = createApiMethod(async (
 ): ApiMethod<{}, boolean> => ({
   method: "DELETE",
   path: `/v1/user/groups/primary`,
@@ -1501,7 +1501,7 @@ export const authenticatedUserRemovePrimaryGroup = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const authenticatedUserSetPrimaryGroup = addApiMethod(async (
+export const authenticatedUserSetPrimaryGroup = createApiMethod(async (
   { groupId }: { groupId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "POST",
@@ -1533,7 +1533,7 @@ export const authenticatedUserSetPrimaryGroup = addApiMethod(async (
  * @exampleData { id: 38353813, name: "Mighty Member", description:  "A regular group member.", rank: 2, memberCount: 94 }
  * @exampleRawBody { id: 38353813, name: "Mighty Member", description:  "A regular group member.", rank: 2, memberCount: 94 }
  */
-export const updateGroupRoleSet = addApiMethod(async <const NewRoleData extends UpdateRoleSetRequest>(
+export const updateGroupRoleSet = createApiMethod(async <const NewRoleData extends UpdateRoleSetRequest>(
   { groupId, roleSetId, newData }: { groupId: Identifier, roleSetId: Identifier, newData: NewRoleData }
 ): ApiMethod<UpdateRoleSetData<NewRoleData>> => ({
   method: "PATCH",
@@ -1556,7 +1556,7 @@ export const updateGroupRoleSet = addApiMethod(async <const NewRoleData extends 
  * @exampleData { "5850082": { name: "MightyPart Games", description: "Welcome to my amazing group", owner: { id: 45348281, type: "User" }, created: 2020-03-29T18:15:20.100Z, hasVerifiedBadge: false } }
  * @exampleRawBody { data: [ { id: 5850082, name: "MightyPart Games", description: "Welcome to my amazing group", owner: { id: 45348281, type: "User" }, created: "2020-03-29T18:15:20.1Z", hasVerifiedBadge: false } ] }
  */
-export const groupsInfo = addApiMethod(async <GroupId extends Identifier>(
+export const groupsInfo = createApiMethod(async <GroupId extends Identifier>(
   { groupIds }: { groupIds: GroupId[] }
 ): ApiMethod<RawGroupIdsToGroupsInfoData<GroupId>, PrettifiedGroupIdsToGroupsInfoData<GroupId>> => ({
   method: "GET",
@@ -1580,7 +1580,7 @@ export const groupsInfo = addApiMethod(async <GroupId extends Identifier>(
  * @exampleData [ { group: { id: 5850082, name: "MightyPart Games", memberCount: 108, hasVerifiedBadge: false }, role: { id: 5850082, name: "Mighty Member", rank: 100 } } ]
  * @exampleRawBody { data: [ { group: { id: 5850082, name: "MightyPart Games", memberCount: 108, hasVerifiedBadge: false }, role: { id: 5850082, name: "Mighty Member", rank: 100 } } ] }
  */
-export const allGroupRolesForUser_v2 = addApiMethod(async (
+export const allGroupRolesForUser_v2 = createApiMethod(async (
   { userId }: { userId: Identifier }
 ): ApiMethod<RawAllGroupRolesForUserData_V2, PrettifiedAllGroupRolesForUserData_V2> => ({
   method: "GET",
@@ -1608,7 +1608,7 @@ export const allGroupRolesForUser_v2 = addApiMethod(async (
  * @exampleData [ { id: 2724986278, poster: { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, role: { id: 38353813, name: "Mighty Member", rank: 1 } }, body: "Lorem ipsum dolor sit amet.", created: 2022-11-19T16:30:38.197Z, updated: 2022-11-19T16:30:38.197Z } ]
  * @exampleRawBody { previousPageCursor: null, nextPageCursor: "2549745135_1_00ad0f026ca1d251093fc548c366b7ea", data: [ { id: 2724986278, poster: { user: { hasVerifiedBadge: false, userId: 45348281, username: "MightyPart", displayName: "MightyPart" }, role: { id: 38353813, name: "Mighty Member", rank: 1 } }, body: "Lorem ipsum dolor sit amet.", created: 2022-11-19T16:30:38.197Z, updated: 2022-11-19T16:30:38.197Z } ] }
  */
-export const groupWallPosts_V2 = addApiMethod(async (
+export const groupWallPosts_V2 = createApiMethod(async (
   { groupId, limit, sortOrder, cursor }: { groupId: Identifier, limit?: 10 | 25 | 50 | 100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawGroupWallPostsData_V2, PrettifiedGroupWallPostsData_V2> => ({
   method: "GET",

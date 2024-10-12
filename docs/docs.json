@@ -810,39 +810,8 @@
         ]
       }
     },
-    "legacyBadges": {
-      "updateBadge": {
-        "description": "Updates a badge.",
-        "tags": {
-          "endpoint": "PATCH /v1/badges/{badgeId}",
-          "example": "const { data: success } = await LegacyBadgesApi.updateBadge({ badgeId: 2124533401, description: \"hello\" });",
-          "exampleData": "",
-          "exampleRawBody": "{}\n"
-        },
-        "params": [
-          {
-            "name": "badgeId",
-            "type": "Identifier",
-            "description": "The ID of the badge to update."
-          },
-          {
-            "name": "name?",
-            "type": "string",
-            "description": "The new name for the badge."
-          },
-          {
-            "name": "description?",
-            "type": "string",
-            "description": "The new description for the badge."
-          },
-          {
-            "name": "enabled?",
-            "type": "boolean",
-            "description": "If the badge is to enabled."
-          }
-        ]
-      }
-    },
+    "legacyBadges": {},
+    "legacyDevelop": {},
     "legacyFollowings": {
       "universeFollowingsForUser": {
         "description": "Gets all universes that a user is following.",
@@ -924,6 +893,7 @@
         ]
       }
     },
+    "legacyGroups": {},
     "luauExecution": {
       "executeLuau": {
         "description": "Executes a roblox luau script for a given place.",
@@ -3394,11 +3364,11 @@
           }
         ]
       },
-      "updateTeamCreateSettingsForUniverse": {
+      "setTeamCreateSettingsForUniverse": {
         "description": "Updates team create settings for a universe.",
         "tags": {
           "endpoint": "PATCH /v1/universes/{universeId}/teamcreate",
-          "example": "const { data: success } = await ClassicDevelopApi.updateTeamCreateSettingsForUniverse({\n  universeId: 6069031486,\n  isEnabled: false,\n});",
+          "example": "const { data: success } = await ClassicDevelopApi.setTeamCreateSettingsForUniverse({\n  universeId: 6069031486,\n  isEnabled: false,\n});",
           "exampleData": "",
           "exampleRawBody": "{}\n"
         },
@@ -4300,10 +4270,31 @@
           }
         ]
       },
+      "groupPayoutsUserEligibility": {
+        "description": "Gets the group payout eligibility for a group of users.",
+        "tags": {
+          "endpoint": "GET /v1/groups/{groupId}/users-payout-eligibility",
+          "example": "const { data: eligibility } = await ClassicEconomyApi.groupPayoutsUserEligibility({\n  groupId: 14941564,\n  userIds: [1412728377],\n});",
+          "exampleData": "{ \"1412728377\": \"Eligible\" }\n",
+          "exampleRawBody": "{ usersGroupPayoutEligibility: { \"1412728377\": \"Eligible\" } }\n"
+        },
+        "params": [
+          {
+            "name": "groupId",
+            "type": "Identifier",
+            "description": "The ID of the group."
+          },
+          {
+            "name": "userIds",
+            "type": "ArrayNonEmptyIfConst<UserId>",
+            "description": "The userIds to check for payout eligibility."
+          }
+        ]
+      },
       "groupTransactionHistory": {
         "description": "Gets transaction history for a particular group.",
         "tags": {
-          "endpoint": "GET /v1/group/${groupId}/transactions",
+          "endpoint": "GET /v2/group/${groupId}/transactions",
           "example": "const { data: transactions } = await ClassicEconomyApi.groupTransactionHistory({\n  groupId: 5850082,\n  transactionType: \"Sale\",\n});",
           "exampleData": "[\n  {\n    id: 14289110391,\n    idHash: \"L1HiwSO1f1e68Xh1d50b91\",\n    created: \"2022-07-09T21:35:43.013Z\",\n    isPending: false,\n    agent: { id: 473747714, type: \"User\", name: \"LoremIpsum\" },\n    details: {\n      id: 1116381,\n      name: \"Buy 100 Coins\",\n      type: \"DeveloperProduct\",\n      place: {\n        placeId: 1121711941,\n        universeId: 8681831361,\n        name: \"LoremIpsumGame\",\n      },\n    },\n    currency: { amount: 0, type: \"Robux\" },\n    purchaseToken: null,\n  },\n]\n",
           "exampleRawBody": "{\n  previousPageCursor: null,\n  nextPageCursor: \"eyJrZXkiOjEwLCJzb3J0T3JkZXIiOiJBc2MiLCJwYWdpbmdEaXJlY3Rpb24iOiJGb3J3YXJkIiwicGFnZU51bWJlciI6MiwiZGlzY3JpbWluYXRvciI6Imdyb3VwSWQ6NTg1MDA4MnRyYW5zYWN0aW9uVHlwZTpTYWxlIiwiY291bnQiOjEwfQpiYzljYmU0OTFiNjlmNTBmZDBiMGM3YzJmZTVlN2RkMGNlZjY5ZTQ4ZTRiODViZDNiMzBlZGM0NDNiZDMxMmU0\",\n  data: [\n    {\n      id: 14289110391,\n      idHash: \"L1HiwSO1f1e68Xh1d50b91\",\n      created: \"2022-07-09T21:35:43.013Z\",\n      isPending: false,\n      agent: { id: 473747714, type: \"User\", name: \"LoremIpsum\" },\n      details: {\n        id: 1116381,\n        name: \"Buy 100 Coins\",\n        type: \"DeveloperProduct\",\n        place: {\n          placeId: 1121711941,\n          universeId: 8681831361,\n          name: \"LoremIpsumGame\",\n        },\n      },\n      currency: { amount: 0, type: \"Robux\" },\n      purchaseToken: null,\n    },\n  ],\n}\n"

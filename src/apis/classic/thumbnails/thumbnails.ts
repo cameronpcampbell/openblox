@@ -13,7 +13,7 @@ import type { AssetAnimatedThumbnailData, AssetSize, AvatarsFullThumbnailsSize, 
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "ClassicThumbnails", baseUrl: "https://thumbnails.roblox.com" })
+const { createApiMethod } = createApiGroup({ name: "ClassicThumbnails", baseUrl: "https://thumbnails.roblox.com" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -33,7 +33,7 @@ const addApiMethod = createApiGroup({ name: "ClassicThumbnails", baseUrl: "https
  * @exampleData { "7229442422": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/7da8e78d9e2e303f0122c355f19f66d5/420/420/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 7229442422, state: "Completed", imageUrl: "https://tr.rbxcdn.com/7da8e78d9e2e303f0122c355f19f66d5/420/420/Image/Png" } ] }
  */
-export const assetsThumbnails = addApiMethod(async <AssetId extends Identifier>(
+export const assetsThumbnails = createApiMethod(async <AssetId extends Identifier>(
   { assetIds, returnPolicy = "PlaceHolder", size, format = "WebP", isCircular }:
   { assetIds: ArrayNonEmptyIfConst<AssetId>, returnPolicy?: ThumbnailReturnPolicy, size: AssetSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<any, any> => ({
@@ -57,7 +57,7 @@ export const assetsThumbnails = addApiMethod(async <AssetId extends Identifier>(
  * @exampleData { targetId: 6768917255, state: "Completed", imageUrl: 'https://t2.rbxcdn.com/30ac72dfa05dff91baae9b8c0f9049e3' }
  * @exampleRawBody { targetId: 6768917255, state: "Completed", imageUrl: 'https://t2.rbxcdn.com/30ac72dfa05dff91baae9b8c0f9049e3' }
  */
-export const asset3dThumbnail = addApiMethod(async <AssetId extends Identifier>(
+export const asset3dThumbnail = createApiMethod(async <AssetId extends Identifier>(
   { assetId }: { assetId: AssetId }
 ): ApiMethod<ThumbnailData<AssetId>> => ({
   method: "GET",
@@ -77,7 +77,7 @@ export const asset3dThumbnail = addApiMethod(async <AssetId extends Identifier>(
  * @exampleData { targetId: 6768917255, state: "Completed", imageUrl: null }
  * @exampleRawBody { targetId: 6768917255, state: "Completed", imageUrl: null }
  */
-export const assetAnimatedThumbnail = addApiMethod(async <AssetId extends Identifier>(
+export const assetAnimatedThumbnail = createApiMethod(async <AssetId extends Identifier>(
   { assetId }: { assetId: AssetId }
 ): ApiMethod<AssetAnimatedThumbnailData<AssetId>> => ({
   method: "GET",
@@ -102,7 +102,7 @@ export const assetAnimatedThumbnail = addApiMethod(async <AssetId extends Identi
  * @exampleData  { "2124533401": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/87105a9a85ea09e7591cfdd3f0825225/150/150/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 2124533401, state: "Completed", imageUrl: "https://tr.rbxcdn.com/87105a9a85ea09e7591cfdd3f0825225/150/150/Image/Png" } ] }
  */
-export const badgesThumbnails = addApiMethod(async <BadgeId extends Identifier>(
+export const badgesThumbnails = createApiMethod(async <BadgeId extends Identifier>(
   { badgeIds, format  = "WebP", isCircular }: { badgeIds: ArrayNonEmptyIfConst<BadgeId>, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<BadgeId>, PrettifiedThumbnailsData<BadgeId>> => ({
   method: "GET",
@@ -132,7 +132,7 @@ export const badgesThumbnails = addApiMethod(async <BadgeId extends Identifier>(
  * @exampleData { "181": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/12ff41b547ee75865bb60d0f3ae5508b/420/420/Avatar/Png" } }
  * @exampleRawBody { data: [ { targetId: 181, state: "Completed", imageUrl: "https://tr.rbxcdn.com/12ff41b547ee75865bb60d0f3ae5508b/420/420/Avatar/Png" } ] }
  */
-export const bundlesThumbnails = addApiMethod(async <BundleId extends Identifier>(
+export const bundlesThumbnails = createApiMethod(async <BundleId extends Identifier>(
   { bundleIds, size="420x420", format = "WebP", isCircular }:
   { bundleIds: ArrayNonEmptyIfConst<BundleId>, size?: BundleSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<BundleId>, PrettifiedThumbnailsData<BundleId>> => ({
@@ -160,7 +160,7 @@ export const bundlesThumbnails = addApiMethod(async <BundleId extends Identifier
  * @exampleData { "3616425": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/3e495c43b44b85cd3dd1afee9df3636b/420/420/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 3616425, state: "Completed", imageUrl: "https://tr.rbxcdn.com/3e495c43b44b85cd3dd1afee9df3636b/420/420/Image/Png" } ] }
  */
-export const developerProductsThumbnails = addApiMethod(async <DeveloperProductId extends Identifier>(
+export const developerProductsThumbnails = createApiMethod(async <DeveloperProductId extends Identifier>(
   { developerProductIds, size = "420x420", format = "WebP", isCircular }: {
     developerProductIds: ArrayNonEmptyIfConst<DeveloperProductId>, size?: DeveloperProductSize, format?: ThumbnailFormat, isCircular?: boolean 
   }
@@ -189,7 +189,7 @@ export const developerProductsThumbnails = addApiMethod(async <DeveloperProductI
  * @exampleData { "9063647": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/4464935a3f7b124ba0a315cb3ff8113d/150/150/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 9063647, state: "Completed", imageUrl: "https://tr.rbxcdn.com/4464935a3f7b124ba0a315cb3ff8113d/150/150/Image/Png" } ] }
  */
-export const gamePassesThumbnails = addApiMethod(async <GamePassId extends Identifier>(
+export const gamePassesThumbnails = createApiMethod(async <GamePassId extends Identifier>(
   { gamePassIds, format = "WebP", isCircular }:
   { gamePassIds: ArrayNonEmptyIfConst<GamePassId>, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<GamePassId>, PrettifiedThumbnailsData<GamePassId>> => ({
@@ -218,7 +218,7 @@ export const gamePassesThumbnails = addApiMethod(async <GamePassId extends Ident
  * @exampleData { "5030792576": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/e997db8b4e41b08acb49b9d2bb021b23/768/432/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: "5030792576", state: "Completed", imageUrl: "https://tr.rbxcdn.com/e997db8b4e41b08acb49b9d2bb021b23/768/432/Image/Png" } ] }
  */
-export const gameThumbnailsFromIds = addApiMethod(async <ThumbnailId extends Identifier>(
+export const gameThumbnailsFromIds = createApiMethod(async <ThumbnailId extends Identifier>(
   { universeId, thumbnailIds, size = "480x270", format = "WebP", isCircular }:
   { universeId: Identifier, thumbnailIds: ArrayNonEmptyIfConst<ThumbnailId>, size?: GameThumbnailSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<ThumbnailId>, PrettifiedThumbnailsData<ThumbnailId>> => ({
@@ -246,7 +246,7 @@ export const gameThumbnailsFromIds = addApiMethod(async <ThumbnailId extends Ide
  * @exampleData { "1685831367": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 1685831367, state: "Completed", imageUrl: "https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png" } ] }
  */
-/*export const gamesIcons = addApiMethod(async <UniverseId extends Identifier>(
+/*export const gamesIcons = createApiMethod(async <UniverseId extends Identifier>(
   { universeIds, returnPolicy, size = "256x256", format = "WebP", isCircular }:
   {
     universeIds: ArrayNonEmptyIfConst<UniverseId>, returnPolicy?: ThumbnailReturnPolicy, size?: GamesIconSize, format?: ThumbnailFormat, isCircular?: boolean
@@ -276,7 +276,7 @@ export const gameThumbnailsFromIds = addApiMethod(async <ThumbnailId extends Ide
  * @exampleData {"1685831367":{"error":null,"thumbnails":[{"targetId":5130624799,"state":"Completed","imageUrl":"https://tr.rbxcdn.com/611f558eaab21d31a688b0523cb12433/480/270/Image/Webp","version":"TN2"}]}}
  * @exampleRawBody {"data":[{"error":null,"thumbnails":[{"targetId":5130624799,"state":"Completed","imageUrl":"https://tr.rbxcdn.com/611f558eaab21d31a688b0523cb12433/480/270/Image/Webp","version":"TN2"}]}]}
  */
-export const gamesThumbnails = addApiMethod(async <UniverseId extends Identifier>(
+export const gamesThumbnails = createApiMethod(async <UniverseId extends Identifier>(
   { universeIds, countPerUniverse, defaults, size = "480x270", format = "WebP", isCircular }:
   {
     universeIds: ArrayNonEmptyIfConst<UniverseId>, countPerUniverse?: number, defaults?: boolean,
@@ -311,7 +311,7 @@ export const gamesThumbnails = addApiMethod(async <UniverseId extends Identifier
  * @exampleData { "5850082": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/caadbbddbed97108cfcff64fd1258b8f/420/420/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 5850082, state: "Completed", imageUrl: "https://tr.rbxcdn.com/caadbbddbed97108cfcff64fd1258b8f/420/420/Image/Png" } ] }
  */
-export const groupsEmblems = addApiMethod(async <GroupId extends Identifier>(
+export const groupsEmblems = createApiMethod(async <GroupId extends Identifier>(
   { groupIds, size = "420x420", format = "WebP", isCircular }:
   { groupIds: ArrayNonEmptyIfConst<GroupId>, size?: GroupEmblemSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<GroupId>, PrettifiedThumbnailsData<GroupId>> => ({
@@ -335,7 +335,7 @@ export const groupsEmblems = addApiMethod(async <GroupId extends Identifier>(
  * @exampleData { isWebappUseCacheEnabled: false, webappCacheExpirationTimspan: "00:00:00" }
  * @exampleRawBody { isWebappUseCacheEnabled: false, webappCacheExpirationTimspan: "00:00:00" }
  */
-export const thumbnailsMetadata = addApiMethod(async (
+export const thumbnailsMetadata = createApiMethod(async (
 ): ApiMethod<ThumbnailsMetadataData> => ({
   method: "GET",
   path: `/v1/metadata`,
@@ -360,7 +360,7 @@ export const thumbnailsMetadata = addApiMethod(async (
  * @exampleData { "4922741943": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png" } }
  * @exampleRawBody { data: [ { targetId: 4922741943, state: "Completed", imageUrl: "https://tr.rbxcdn.com/7c1bf96fefde7b761e7b86bedf6fdca3/512/512/Image/Png" } ] }
  */
-export const placesIcons = addApiMethod(async <PlaceId extends Identifier>(
+export const placesIcons = createApiMethod(async <PlaceId extends Identifier>(
   { placeIds, returnPolicy, size = "256x256", format = "WebP", isCircular }:
   { placeIds: ArrayNonEmptyIfConst<PlaceId>, returnPolicy?: ThumbnailReturnPolicy, size?: GamesIconSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<PlaceId>, PrettifiedThumbnailsData<PlaceId>> => ({
@@ -389,7 +389,7 @@ export const placesIcons = addApiMethod(async <PlaceId extends Identifier>(
  * @exampleData { "45348281": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/b91cd7a2d531a50be786e08c7739c56a/150/150/Avatar/Png" } }
  * @exampleRawBody { data: [ { targetId: 45348281, state: "Completed", imageUrl: "https://tr.rbxcdn.com/b91cd7a2d531a50be786e08c7739c56a/150/150/Avatar/Png" } ] }
  */
-export const avatarsFullThumbnails = addApiMethod(async <UserId extends Identifier>(
+export const avatarsFullThumbnails = createApiMethod(async <UserId extends Identifier>(
   { userIds, size = "420x420", format = "WebP", isCircular }:
   { userIds: ArrayNonEmptyIfConst<UserId>, size?: AvatarsFullThumbnailsSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<UserId>, PrettifiedThumbnailsData<UserId>> => ({
@@ -415,7 +415,7 @@ export const avatarsFullThumbnails = addApiMethod(async <UserId extends Identifi
  * @exampleData { "45348281": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/4b3c0e5b4efdda3bdfd94e77b2850ea5/150/150/AvatarBust/Png" } }
  * @exampleRawBody { data: [ { targetId: 45348281, state: 'Completed', imageUrl: 'https://tr.rbxcdn.com/4b3c0e5b4efdda3bdfd94e77b2850ea5/150/150/AvatarBust/Png' } ] }
  */
-export const avatarsBustsThumbnails = addApiMethod(async <UserId extends Identifier>(
+export const avatarsBustsThumbnails = createApiMethod(async <UserId extends Identifier>(
   { userIds, size = "420x420", format = "WebP", isCircular }:
   { userIds: ArrayNonEmptyIfConst<UserId>, size?: AvatarsFullThumbnailsSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<UserId>, PrettifiedThumbnailsData<UserId>> => ({
@@ -442,7 +442,7 @@ export const avatarsBustsThumbnails = addApiMethod(async <UserId extends Identif
  * @exampleData { "45348281": { state: "Completed", imageUrl: "https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f" } }
  * @exampleRawBody { data: [ { targetId: 45348281, state: "Completed", imageUrl: "https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f" } ] }
  */
-export const avatarsHeadshotsThumbnails = addApiMethod(async <UserId extends Identifier>(
+export const avatarsHeadshotsThumbnails = createApiMethod(async <UserId extends Identifier>(
   { userIds, size = "420x420", format = "WebP", isCircular }:
   { userIds: ArrayNonEmptyIfConst<UserId>, size?: AvatarsFullThumbnailsSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<UserId>, PrettifiedThumbnailsData<UserId>> => ({
@@ -465,7 +465,7 @@ export const avatarsHeadshotsThumbnails = addApiMethod(async <UserId extends Ide
  * @exampleData { targetId: 45348281, state: "Completed", imageUrl: "https://t6.rbxcdn.com/7927ecfe11399126171f4cd2939dc511" }
  * @exampleRawBody { targetId: 45348281, state: "Completed", imageUrl: "https://t6.rbxcdn.com/7927ecfe11399126171f4cd2939dc511" }
  */
-export const avatar3dThumbnail = addApiMethod(async <UserId extends Identifier>(
+export const avatar3dThumbnail = createApiMethod(async <UserId extends Identifier>(
   { userId }: { userId: UserId }
 ): ApiMethod<ThumbnailData<UserId>> => ({
   method: "GET",
@@ -488,7 +488,7 @@ export const avatar3dThumbnail = addApiMethod(async <UserId extends Identifier>(
  * @exampleData { targetId: 110540093, state: "Completed", imageUrl: "https://t7.rbxcdn.com/24eea0d840fe712230943a3bead4659a" }
  * @exampleRawBody { targetId: 110540093, state: "Completed", imageUrl: "https://t7.rbxcdn.com/24eea0d840fe712230943a3bead4659a" }
  */
-export const outfit3dThumbnail = addApiMethod(async <OutfitId extends Identifier>(
+export const outfit3dThumbnail = createApiMethod(async <OutfitId extends Identifier>(
   { outfitId }: { outfitId: OutfitId }
 ): ApiMethod<ThumbnailData<OutfitId>> => ({
   method: "GET",
@@ -511,7 +511,7 @@ export const outfit3dThumbnail = addApiMethod(async <OutfitId extends Identifier
  * @exampleData { "110540093": { state: "Completed", imageUrl: "https://tr.rbxcdn.com/41b9a3552f17cc2d7bca01b37be25d40/420/420/Avatar/Png" } }
  * @exampleRawBody { data: [ { targetId: 110540093, state: "Completed", imageUrl: "https://tr.rbxcdn.com/41b9a3552f17cc2d7bca01b37be25d40/420/420/Avatar/Png" } ] }
  */
-export const outfitsThumbnails = addApiMethod(async <OutfitId extends Identifier>(
+export const outfitsThumbnails = createApiMethod(async <OutfitId extends Identifier>(
   { outfitIds, size = "420x420", format = "WebP", isCircular }:
   { outfitIds: ArrayNonEmptyIfConst<OutfitId>, size?: OutfitSize, format?: ThumbnailFormat, isCircular?: boolean }
 ): ApiMethod<RawThumbnailsData<OutfitId>, PrettifiedThumbnailsData<OutfitId>> => ({
@@ -546,7 +546,7 @@ export const outfitsThumbnails = addApiMethod(async <OutfitId extends Identifier
  * @exampleData { AvatarHeadShot: { "45348281": { requestId: null, errorCode: 0, errorMessage: "", state: "Completed", imageUrl: "https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f" } } }
  * @exampleRawBody { data: [ { requestId: null, errorCode: 0, errorMessage: "", targetId: 45348281, state: "Completed", imageUrl: "https://t0.rbxcdn.com/697567606503f6484a06e8617307d54f" } ] }
  */
-export const batchThumbnails = addApiMethod(async <const BReq extends BatchRequest>(
+export const batchThumbnails = createApiMethod(async <const BReq extends BatchRequest>(
   { requests }: { requests: BReq[] }
 ): ApiMethod<RawBatchThumbnailsData, PrettifiedBatchThumbnailsData<BReq>> => ({
   method: "POST",

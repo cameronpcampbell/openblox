@@ -11,7 +11,7 @@ import type { ApiMethod } from "../../apiGroup"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "Messaging", baseUrl: "https://apis.roblox.com/messaging-service" })
+const { createApiMethod } = createApiGroup({ name: "Messaging", baseUrl: "https://apis.roblox.com/messaging-service" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -44,7 +44,7 @@ const addApiMethod = createApiGroup({ name: "Messaging", baseUrl: "https://apis.
  * @exampleData true
  * @exampleRawBody ""
  */
-export const publishMessage = addApiMethod(async <Message extends string | Record<any, any>>(
+export const publishMessage = createApiMethod(async <Message extends string | Record<any, any>>(
   { universeId, topic, message }: { universeId: Identifier, topic: string, message: Message }
 ): ApiMethod<"", true> => ({
   path: `/v1/universes/${universeId}/topics/${topic}`,

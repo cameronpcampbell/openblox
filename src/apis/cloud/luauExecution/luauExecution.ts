@@ -14,7 +14,7 @@ import { cloneAndMutateObject } from "../../../utils/utils"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "LuauExecution", baseUrl: "https://apis.roblox.com/cloud" })
+const { createApiMethod } = createApiGroup({ name: "LuauExecution", baseUrl: "https://apis.roblox.com/cloud" })
 
 const executedLuauPathRegex = /universes\/([0-9]+)\/places\/([0-9]+)\/versions\/([0-9]+)\/luau-execution-sessions\/([^/]+)\/tasks\/([^/]+)/
 //////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ const addPathItemsToExecutedLuauResponse = <
  * @exampleData {"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d","user":"45348281","state":"PROCESSING","script":"local x, y = 3, 4; return x + y","universeId":"5795192361","placeId":"16866553538","version":26,"sessionId":"67823af7-1f99-4fc5-b3bb-da7ab3456b5d","taskId":"67823af7-1f99-4fc5-b3bb-da7ab3456b5d"}
  * @exampleRawBody {"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d","user":"45348281","state":"PROCESSING","script":"local x, y = 3, 4; return x + y"} 
  */
-export const executeLuau = addApiMethod(async <
+export const executeLuau = createApiMethod(async <
   UniverseId extends Identifier, PlaceId extends Identifier, Version extends number | undefined = undefined
 >(
   { universeId, placeId, version, script }:
@@ -118,7 +118,7 @@ export const executeLuau = addApiMethod(async <
  * @exampleData {"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d","createTime":"2024-10-01T02:31:46.304Z","updateTime":"2024-10-01T02:31:49.959Z","user":"45348281","state":"COMPLETE","script":"","output":{"results":[7]},"universeId":"5795192361","placeId":"16866553538","version":26,"sessionId":"67823af7-1f99-4fc5-b3bb-da7ab3456b5d","taskId":"67823af7-1f99-4fc5-b3bb-da7ab3456b5d"} 
  * @exampleRawBody {"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d","createTime":"2024-10-01T02:31:46.304Z","updateTime":"2024-10-01T02:31:49.959Z","user":"45348281","state":"COMPLETE","script":"","output":{"results":[7]}}
  */
-export const luauExecutionTask = addApiMethod(async <Results extends any[]>(
+export const luauExecutionTask = createApiMethod(async <Results extends any[]>(
   { universeId, placeId, version, sessionId, taskId, view }:
   { universeId: Identifier, placeId: Identifier, version?: number, sessionId: string, taskId: string, view?: "BASIC" | "FULL" }
 ): ApiMethod<RawLuauExecutionTaskData<Results>, FormattedLuauExecutionTaskData<Results>> => ({
@@ -159,7 +159,7 @@ export const luauExecutionTask = addApiMethod(async <Results extends any[]>(
  * @exampleData [{"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/logs/1","messages":[],"universeId":"5795192361","placeId":"16866553538","version":26,"sessionId":"67823af7-1f99-4fc5-b3bb-da7ab3456b5d","taskId":"67823af7-1f99-4fc5-b3bb-da7ab3456b5d"}] 
  * @exampleRawBody {"luauExecutionSessionTaskLogs":[{"path":"universes/5795192361/places/16866553538/versions/26/luau-execution-sessions/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/tasks/67823af7-1f99-4fc5-b3bb-da7ab3456b5d/logs/1","messages":[]}],"nextPageToken":""}
  */
-export const listLuauExecutionLogs = addApiMethod(async <
+export const listLuauExecutionLogs = createApiMethod(async <
   UniverseId extends Identifier, PlaceId extends Identifier, SessionId extends string,
   TaskId extends string, Version extends number | undefined = undefined
 >(

@@ -11,7 +11,7 @@ import type { CreatorStoreProduct_NewProductData, CreatorStoreProduct_OnlyOneId,
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "CreatorStore", baseUrl: "https://apis.roblox.com/cloud" })
+const { createApiMethod } = createApiGroup({ name: "CreatorStore", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -36,7 +36,7 @@ const addApiMethod = createApiGroup({ name: "CreatorStore", baseUrl: "https://ap
  * @exampleData {"path":"creator-store-products/CreatorMarketplaceAsset-Model-16989381169","displayName":"monkey","description":"","basePrice":{"currencyCode":"USD","quantity":{"significand":0,"exponent":0}},"purchasePrice":{"currencyCode":"USD","quantity":{"significand":0,"exponent":0}},"published":false,"restrictions":[],"purchasable":false,"userSeller":"45348281","modelAssetId":"16989381169"}
  * @exampleRawBody {"path":"creator-store-products/CreatorMarketplaceAsset-Model-16989381169","displayName":"monkey","description":"","basePrice":{"currencyCode":"USD","quantity":{"significand":0,"exponent":0}},"purchasePrice":{"currencyCode":"USD","quantity":{"significand":0,"exponent":0}},"published":false,"restrictions":[],"purchasable":false,"userSeller":"45348281","modelAssetId":"16989381169"}
  */
-export const creatorStoreProductInfo = addApiMethod(async <const IdInfo extends CreatorStoreProduct_OnlyOneId>(
+export const creatorStoreProductInfo = createApiMethod(async <const IdInfo extends CreatorStoreProduct_OnlyOneId>(
   { modelAssetId, pluginAssetId, audioAssetId, decalAssetId, meshPartAssetId, videoAssetId, fontFamilyAssetId }: IdInfo
 ): ApiMethod<CreatorStoreProductInfo<IdInfo>> => {
   const [productType, productId]: [ CreatorStoreProduct_Type, any ] = (
@@ -71,7 +71,7 @@ export const creatorStoreProductInfo = addApiMethod(async <const IdInfo extends 
  * @exampleData
  * @exampleRawBody
  */
-export const createCreatorStoreProduct = addApiMethod(async (
+export const createCreatorStoreProduct = createApiMethod(async (
   {
      displayName, description, basePrice, purchasePrice, published, purchasable,
      modelAssetId, pluginAssetId, audioAssetId, decalAssetId, meshPartAssetId, videoAssetId, fontFamilyAssetId
@@ -99,7 +99,7 @@ export const createCreatorStoreProduct = addApiMethod(async (
 })
 
 
-export const updateCreatorStoreProduct = addApiMethod(async (
+export const updateCreatorStoreProduct = createApiMethod(async (
   {
      displayName, description, basePrice, purchasePrice, published, purchasable,
      modelAssetId, pluginAssetId, audioAssetId, decalAssetId, meshPartAssetId, videoAssetId, fontFamilyAssetId

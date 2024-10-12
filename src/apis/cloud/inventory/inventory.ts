@@ -13,7 +13,7 @@ import type { UnionPrettify } from "typeforge"
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "Inventory", baseUrl: "https://apis.roblox.com/cloud" })
+const { createApiMethod } = createApiGroup({ name: "Inventory", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -43,7 +43,7 @@ const formatInventoryItemsForUserFilters = (filter: any) => {
  * @exampleRawBody { inventoryItems: [ { path: 'users/45348281/inventory-items/R0FNRV9QQVNTX0lEPTEyNTI3', gamePassDetails: { gamePassId: '12527' } } ],
   nextPageToken: 'djEveyJGaWVsZEluZGV4IjoyLCJWYWx1ZUluZGV4IjowLCJDdXJzb3IiOiIxMjUyNyIsIkZpbHRlckhhc2giOiJrV3Y2VFQ0ZW1FOGgzT1RQL1hjOXFkdGIwR0JiWjNySkRMU3FTSmV5TUVJPSJ9' }
  */
-export const inventoryItemsForUser = addApiMethod(async (
+export const inventoryItemsForUser = createApiMethod(async (
   { userId, limit, filter, cursor }: { userId: Identifier, limit?: number, filter?: UnionPrettify<InventoryItemsForUser_Filter>, cursor?: string }
 ): ApiMethod<RawInventoryItemsForUserData, PrettifiedInventoryItemsForUserData> => ({
   path: `/v2/users/${userId}/inventory-items`,

@@ -10,7 +10,11 @@ type ApiGroupProps = {
   defaultGetCursors?: (rawData: any) => ([ previous: string | null, next: string | null ])
 }
 
-export type CreateApiGroupFn = (props: ApiGroupProps) => AddApiMethodFn
+export type CreateApiGroupFn = (props: ApiGroupProps) => {
+  createApiMethod: AddApiMethodFn,
+  
+  addExistingApiMethod: <Method extends CallApiMethod<any, any, boolean>>(method: Method) => Method
+}
 // -------------------------------------------------------------------------------------------------------------------
 
 

@@ -14,7 +14,7 @@ import type { AuthenticatedUserInfoData, PrettifiedAuthenticatedUserAgeBracketDa
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "ClassicUsers", baseUrl: "https://users.roblox.com" })
+const { createApiMethod } = createApiGroup({ name: "ClassicUsers", baseUrl: "https://users.roblox.com" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -29,7 +29,7 @@ const addApiMethod = createApiGroup({ name: "ClassicUsers", baseUrl: "https://us
  * @exampleData 2005-02-03T00:00:00.000Z
  * @exampleRawBody { birthMonth: 2, birthDay: 3, birthYear: 2005 }
  */
-export const authenticatedUserBirthdate = addApiMethod(async  (
+export const authenticatedUserBirthdate = createApiMethod(async  (
 ): ApiMethod<RawAuthenticatedUserBirthdateData, Date> => ({
   path: `/v1/birthdate`,
   method: "GET",
@@ -48,7 +48,7 @@ export const authenticatedUserBirthdate = addApiMethod(async  (
  * @exampleData Lorem ipsum dolor sit amet consectetur adipiscing elit.
  * @exampleRawBody { description: "Lorem ipsum dolor sit amet consectetur adipiscing elit." }
  */
-export const authenticatedUserDescription = addApiMethod(async  (
+export const authenticatedUserDescription = createApiMethod(async  (
 ): ApiMethod<RawAuthenticatedUserDescriptionData, string> => ({
   path: `/v1/description`,
   method: "GET",
@@ -67,7 +67,7 @@ export const authenticatedUserDescription = addApiMethod(async  (
  * @exampleData Male
  * @exampleRawBody { gender: 2 }
  */
-export const authenticatedUserGender = addApiMethod(async (
+export const authenticatedUserGender = createApiMethod(async (
 ): ApiMethod<RawAuthenticatedUserGenderData, PrettifiedAuthenticatedUserGenderData> => ({
   path: `/v1/gender`,
   method: "GET",
@@ -92,7 +92,7 @@ export const authenticatedUserGender = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const validateDisplayNameForNewUser = addApiMethod(async  (
+export const validateDisplayNameForNewUser = createApiMethod(async  (
   { displayName, birthdate }: { displayName: string, birthdate: ISODateTime | Date }
 ): ApiMethod<{}, boolean> => ({
   path: `/v1/display-names/validate`,
@@ -116,7 +116,7 @@ export const validateDisplayNameForNewUser = addApiMethod(async  (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const validateDisplayNameForExistingUser = addApiMethod(async  (
+export const validateDisplayNameForExistingUser = createApiMethod(async  (
   { userId, displayName }: { userId: Identifier, displayName: string }
 ): ApiMethod<{}, boolean> => ({
   path: `/v1/users/${userId}/display-names/validate`,
@@ -140,7 +140,7 @@ export const validateDisplayNameForExistingUser = addApiMethod(async  (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const authenticatedUserSetDisplayName = addApiMethod(async  (
+export const authenticatedUserSetDisplayName = createApiMethod(async  (
   { userId, newDisplayName }: { userId: Identifier, newDisplayName: string }
 ): ApiMethod<{}, boolean> => ({
   path: `/v1/users/${userId}/display-names`,
@@ -165,7 +165,7 @@ export const authenticatedUserSetDisplayName = addApiMethod(async  (
  * @exampleData { description: "Lorem ipsum dolor sit amet consectetur adipiscing elit.", created: 2013-07-13T07:50:00.083Z, isBanned: false, externalAppDisplayName: null, hasVerifiedBadge: false, id: 45348281, name: "MightyPart", displayName: "MightyPart" }
  * @exampleRawBody { description: "Lorem ipsum dolor sit amet consectetur adipiscing elit.", created: "2013-07-13T07:50:00.083Z", isBanned: false, externalAppDisplayName: null, hasVerifiedBadge: false, id: 45348281, name: "MightyPart", displayName: "MightyPart" }
  */
-export const userInfo = addApiMethod(async  <UserId extends Identifier>(
+export const userInfo = createApiMethod(async  <UserId extends Identifier>(
   { userId }: { userId: UserId }
 ): ApiMethod<RawUserInfoData<UserId>, PrettifiedUserInfoData<UserId>> => ({
   path: `/v1/users/${userId}`,
@@ -185,7 +185,7 @@ export const userInfo = addApiMethod(async  <UserId extends Identifier>(
  * @exampleData { id: 45348281, name: "MightyPart", displayName: "MightyPart" }
  * @exampleRawBody { id: 45348281, name: "MightyPart", displayName: "MightyPart" }
  */
-export const authenticatedUserInfo = addApiMethod(async  (
+export const authenticatedUserInfo = createApiMethod(async  (
 ): ApiMethod<AuthenticatedUserInfoData> => ({
   path: `/v1/users/authenticated`,
   method: "GET",
@@ -202,7 +202,7 @@ export const authenticatedUserInfo = addApiMethod(async  (
  * @exampleData 13+
  * @exampleRawBody { ageBracket: 0 }
  */
-export const authenticatedUserAgeBracket = addApiMethod(async  (
+export const authenticatedUserAgeBracket = createApiMethod(async  (
 ): ApiMethod<RawAuthenticatedUserAgeBracketData, PrettifiedAuthenticatedUserAgeBracketData> => ({
   path: `/v1/users/authenticated/age-bracket`,
   method: "GET",
@@ -222,7 +222,7 @@ export const authenticatedUserAgeBracket = addApiMethod(async  (
  * @exampleData DE
  * @exampleRawBody { countryCode: "DE" }
  */
-export const authenticatedUserCountryCode = addApiMethod(async  (
+export const authenticatedUserCountryCode = createApiMethod(async  (
 ): ApiMethod<RawAuthenticatedUserCountryCodeData, PrettifiedAuthenticatedUserCountryCodeData> => ({
   path: `/v1/users/authenticated/country-code`,
   method: "GET",
@@ -241,7 +241,7 @@ export const authenticatedUserCountryCode = addApiMethod(async  (
  * @exampleData [ "BetaTester" ]
  * @exampleRawBody { roles: [ "BetaTester" ] }
  */
-export const authenticatedUserRoles = addApiMethod(async  (
+export const authenticatedUserRoles = createApiMethod(async  (
 ): ApiMethod<RawAuthenticatedUserRolesData, string[]> => ({
   path: `/v1/users/authenticated/roles`,
   method: "GET",
@@ -262,7 +262,7 @@ export const authenticatedUserRoles = addApiMethod(async  (
  * @exampleData { MightyPart: { hasVerifiedBadge: false, id: 45348281, name: "MightyPart", displayName: "MightyPart" } }
  * @exampleRawBody { data: [ { requestedUsername: "MightyPart", hasVerifiedBadge: false, id: 45348281, name: "MightyPart", displayName: "MightyPart" } ] }
  */
-export const usersInfoFromNames = addApiMethod(async <Username extends string>(
+export const usersInfoFromNames = createApiMethod(async <Username extends string>(
   { usernames, excludeBannedUsers = false }: { usernames: ArrayNonEmptyIfConst<Username>, excludeBannedUsers?: boolean }
 ): ApiMethod<RawUsernamesToUsersInfoData<Username>, PrettifiedUsernamesToUsersInfoData<Username>> => ({
   path: `/v1/usernames/users`,
@@ -288,7 +288,7 @@ export const usersInfoFromNames = addApiMethod(async <Username extends string>(
  * @exampleData { "45348281": { hasVerifiedBadge: false, name: "MightyPart", displayName: "MightyPart" } }
  * @exampleRawBody { data: [ { hasVerifiedBadge: false, id: 45348281, name: "MightyPart", displayName: "MightyPart" } ] }
  */
-export const usersInfoFromIds = addApiMethod(async <UserId extends Identifier>(
+export const usersInfoFromIds = createApiMethod(async <UserId extends Identifier>(
   { userIds, excludeBannedUsers }: { userIds: ArrayNonEmptyIfConst<UserId>, excludeBannedUsers?: boolean }
 ): ApiMethod<RawUserIdsToUsersInfoData<UserId>, PrettifiedUserIdsToUsersInfoData<UserId>> => ({
   path: `/v1/users`,
@@ -320,7 +320,7 @@ export const usersInfoFromIds = addApiMethod(async <UserId extends Identifier>(
  * @exampleData [ "NamelessGuy2005", "parrrty" ]
  * @exampleRawBody { previousPageCursor: null, nextPageCursor: null, data: [ { name: "NamelessGuy2005" }, { name: "parrrty" } ] }
  */
-export const usernameHistory = addApiMethod(async (
+export const usernameHistory = createApiMethod(async (
   { userId, limit, sortOrder, cursor }
   :{ userId: Identifier, limit?: 10|25|50|100, sortOrder?: SortOrder, cursor?: string }
 ): ApiMethod<RawUsernameHistoryData, string[]> => ({
@@ -349,7 +349,7 @@ export const usernameHistory = addApiMethod(async (
  * @exampleData [ { "previousUsernames": [ "parrrty", "NamelessGuy2005" ], "hasVerifiedBadge": false, "id": 45348281, "name": "MightyPart", "displayName": "MightyPart" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 2655994471, "name": "MightyPartJr", "displayName": "MightyPartJr" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 109174199, "name": "MightyPartyAnimal", "displayName": "jonny" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 151051171, "name": "MightyPartygirl101", "displayName": "india" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 3886457808, "name": "mightypartxl", "displayName": "mightypartxl" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 31488865, "name": "mightypartyrocker101", "displayName": "mightypartyrocker101" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 35463215, "name": "mightyparty3", "displayName": "mightyparty3" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 152196440, "name": "MightyPartygirl234", "displayName": "MightyPartygirl234" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 141415414, "name": "MightyPartygod49", "displayName": "MightyPartygod49" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 153951993, "name": "Mightypartylove", "displayName": "Mightypartylove" } ]
  * @exampleRawBody { previousPageCursor: null, nextPageCursor: 'eyJzdGFydEluZGV4IjoxMCwiZGlzY3JpbWluYXRvciI6ImtleXdvcmQ6TWlnaHR5UGFydCIsImNvdW50IjoxMH0KNzU4ZDExMWU1NjYwZGI1YWQ3ZDk4ZTJhMzI3ZTQzNjA0ZjdkYzI0NGRjODlkMWY1YjczMDBjY2E3NDI4YmMxOQ==', data: [ { "previousUsernames": [ "parrrty", "NamelessGuy2005" ], "hasVerifiedBadge": false, "id": 45348281, "name": "MightyPart", "displayName": "MightyPart" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 2655994471, "name": "MightyPartJr", "displayName": "MightyPartJr" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 109174199, "name": "MightyPartyAnimal", "displayName": "jonny" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 151051171, "name": "MightyPartygirl101", "displayName": "india" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 3886457808, "name": "mightypartxl", "displayName": "mightypartxl" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 31488865, "name": "mightypartyrocker101", "displayName": "mightypartyrocker101" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 35463215, "name": "mightyparty3", "displayName": "mightyparty3" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 152196440, "name": "MightyPartygirl234", "displayName": "MightyPartygirl234" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 141415414, "name": "MightyPartygod49", "displayName": "MightyPartygod49" }, { "previousUsernames": [], "hasVerifiedBadge": false, "id": 153951993, "name": "Mightypartylove", "displayName": "Mightypartylove" } ] }
  */
-export const userSearch = addApiMethod(async (
+export const userSearch = createApiMethod(async (
   { keyword, limit, cursor }
   :{ keyword: string, limit?: 10|25|50|100, cursor?: string }
 ): ApiMethod<RawUserSearchData, PrettifiedUserSearchData> => ({

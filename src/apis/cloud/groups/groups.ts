@@ -13,7 +13,7 @@ import type { GroupMembers_Filter, GroupMembers_WildcardFilter, PrettifiedGroupI
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const addApiMethod = createApiGroup({ name: "Users", baseUrl: "https://apis.roblox.com/cloud" })
+const { createApiMethod } = createApiGroup({ name: "Users", baseUrl: "https://apis.roblox.com/cloud" })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -49,7 +49,7 @@ const formatGroupMembersFilters = (groupId: Identifier | "-", filter: GroupMembe
  * @exampleData {"path":"groups/5850082","createTime":"2020-03-29T18:15:20.100Z","updateTime":"2024-05-12T13:17:41.639Z","id":"5850082","displayName":"MightyPart Games","description":"Hello World!","owner":"users/45348281","memberCount":99,"publicEntryAllowed":true,"locked":false,"verified":false}
  * @exampleRawBody {"path":"groups/5850082","createTime":"2020-03-29T18:15:20.100Z","updateTime":"2024-05-12T13:17:41.639132600Z","id":"5850082","displayName":"MightyPart Games","description":"Hello World!","owner":"users/45348281","memberCount":99,"publicEntryAllowed":true,"locked":false,"verified":false}
  */
-export const groupInfo = addApiMethod(async <GroupId extends Identifier>(
+export const groupInfo = createApiMethod(async <GroupId extends Identifier>(
   { groupId }: { groupId: GroupId }
 ): ApiMethod<RawGroupInfoData<GroupId>, PrettifiedGroupInfoData<GroupId>> => ({
   path: `/v2/groups/${groupId}`,
@@ -76,7 +76,7 @@ export const groupInfo = addApiMethod(async <GroupId extends Identifier>(
  * @exampleData [{"path":"groups/5850082/memberships/NDUzNDgyODE","createTime":"2020-03-29T18:15:20.020Z","updateTime":"2023-09-15T07:03:50.583Z","user":"users/45348281","role":"groups/5850082/roles/38353811"}]
  * @exampleRawBody {"groupMemberships":[{"path":"groups/5850082/memberships/NDUzNDgyODE","createTime":"2020-03-29T18:15:20.020Z","updateTime":"2023-09-15T07:03:50.583Z","user":"users/45348281","role":"groups/5850082/roles/38353811"}],"nextPageToken":""}
  */
-export const groupMembers = addApiMethod(async <
+export const groupMembers = createApiMethod(async <
   GroupId extends Identifier | "-",
   const Filter extends GroupId extends "-" ? ObjectPrettify<GroupMembers_WildcardFilter> : ObjectPrettify<GroupMembers_Filter>,
 
@@ -122,7 +122,7 @@ export const groupMembers = addApiMethod(async <
  * @exampleData [{"path":"groups/5850082/roles/38353811","createTime":"2020-03-29T13:15:20.020Z","updateTime":"2020-09-20T08:04:35.850Z","id":"38353811","displayName":"NamelessGuy2005 - Scriptor","description":"","rank":255,"memberCount":1,"permissions":{"viewWallPosts":true,"createWallPosts":true,"deleteWallPosts":true,"viewGroupShout":true,"createGroupShout":true,"changeRank":true,"acceptRequests":true,"exileMembers":true,"manageRelationships":true,"viewAuditLog":true,"spendGroupFunds":true,"advertiseGroup":true,"createAvatarItems":true,"manageAvatarItems":true,"manageGroupUniverses":true,"viewUniverseAnalytics":true,"createApiKeys":true,"manageApiKeys":true}}]
  * @exampleRawBody {"groupRoles":[{"path":"groups/5850082/roles/38353811","createTime":"2020-03-29T13:15:20.020Z","updateTime":"2020-09-20T08:04:35.850Z","id":"38353811","displayName":"NamelessGuy2005 - Scriptor","description":"","rank":255,"memberCount":1,"permissions":{"viewWallPosts":true,"createWallPosts":true,"deleteWallPosts":true,"viewGroupShout":true,"createGroupShout":true,"changeRank":true,"acceptRequests":true,"exileMembers":true,"manageRelationships":true,"viewAuditLog":true,"spendGroupFunds":true,"advertiseGroup":true,"createAvatarItems":true,"manageAvatarItems":true,"manageGroupUniverses":true,"viewUniverseAnalytics":true,"createApiKeys":true,"manageApiKeys":true}}],"nextPageToken":"38353811"}
  */
-export const groupRoles = addApiMethod(async <GroupId extends Identifier>(
+export const groupRoles = createApiMethod(async <GroupId extends Identifier>(
   { groupId, limit, cursor }
   : { groupId: GroupId, limit?: number,  cursor?: string }
 ): ApiMethod<RawGroupRolesData<GroupId>, PrettifiedGroupRolesData<GroupId>> => ({
@@ -152,7 +152,7 @@ export const groupRoles = addApiMethod(async <GroupId extends Identifier>(
  * @exampleData {"path":"groups/5850082/shout","createTime":"2020-03-31T18:36:51.607Z","updateTime":"2023-09-17T20:35:48.213Z","content":"Hello World!","poster":"users/45348281"}
  * @exampleRawBody {"path":"groups/5850082/shout","createTime":"2020-03-31T18:36:51.607Z","updateTime":"2023-09-17T20:35:48.213Z","content":"Hello World!","poster":"users/45348281"}
  */
-export const groupShout = addApiMethod(async <GroupId extends Identifier>(
+export const groupShout = createApiMethod(async <GroupId extends Identifier>(
   { groupId }: { groupId: GroupId }
 ): ApiMethod<RawGroupShoutData<GroupId>, PrettifiedGroupShoutData<GroupId>> => ({
   path: `/v2/groups/${groupId}/shout`,
@@ -179,7 +179,7 @@ export const groupShout = addApiMethod(async <GroupId extends Identifier>(
  * @exampleData [{"path":"groups/5850082/join-requests/2655994471","createTime":"2024-05-12T16:32:46.841Z","user":"users/2655994471"}]
  * @exampleRawBody {"groupJoinRequests":[{"path":"groups/5850082/join-requests/2655994471","createTime":"2024-05-12T16:32:46.841Z","user":"users/2655994471"}],"nextPageToken":""}
  */
-export const groupJoinRequests = addApiMethod(async <GroupId extends Identifier>(
+export const groupJoinRequests = createApiMethod(async <GroupId extends Identifier>(
   { groupId, limit, filter:{userId:userIdFilter} = {} as any, cursor }
   : { groupId: GroupId, limit?: number, filter?: { userId: Identifier }, cursor?: string }
 ): ApiMethod<RawGroupJoinRequestsData<GroupId>, PrettifiedGroupJoinRequestsData<GroupId>> => ({
@@ -207,7 +207,7 @@ export const groupJoinRequests = addApiMethod(async <GroupId extends Identifier>
  * @exampleData true
  * @exampleRawBody {}
  */
-export const acceptGroupJoinRequest = addApiMethod(async (
+export const acceptGroupJoinRequest = createApiMethod(async (
   { groupId, userId }: { groupId: Identifier, userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "POST",
@@ -230,7 +230,7 @@ export const acceptGroupJoinRequest = addApiMethod(async (
  * @exampleData true
  * @exampleRawBody {}
  */
-export const declineGroupJoinRequest = addApiMethod(async (
+export const declineGroupJoinRequest = createApiMethod(async (
   { groupId, userId }: { groupId: Identifier, userId: Identifier }
 ): ApiMethod<{}, boolean> => ({
   method: "POST",
