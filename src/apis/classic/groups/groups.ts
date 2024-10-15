@@ -32,13 +32,13 @@ const { createApiMethod } = createApiGroup({ name: "ClassicGroups", baseUrl: "ht
  */
 export const featuredEvent = createApiMethod(async <GroupId extends Identifier>(
   { groupId }: { groupId: GroupId }
-): ApiMethod<{ groupId: GroupId, contentType: "event", contentId: Identifier }, Identifier> => ({
+): ApiMethod<{ groupId: GroupId, contentType: "event", contentId: Identifier } | null, Identifier | null> => ({
   method: "GET",
   path: `/v1/featured-content/event`,
   searchParams: { groupId },
   name: `featuredEvent`,
 
-  formatRawDataFn: ({ contentId }) => contentId
+  formatRawDataFn: (data) => data ? data.contentId : null
 }))
 
 

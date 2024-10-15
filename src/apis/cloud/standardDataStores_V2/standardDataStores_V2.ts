@@ -248,6 +248,7 @@ export const deleteStandardDataStoreEntry = createApiMethod(async (
  * @param dataStore the name of the datastore to update an entry in.
  * @param scope The optional scope of the dataStore.
  * @param entryId The ID (key / name) of the entry.
+ * @param allowMissing If set to true, and the data store entry is not found, a data store entry is created.
  * @param value The value (content) of the entry.
  * @param users Array metadata containing the IDs of the users this entry is affiliated with.
  * @param attributes Key-Value Pairs metadata containing arbitrary data.
@@ -261,10 +262,10 @@ export const deleteStandardDataStoreEntry = createApiMethod(async (
  * @exampleRawBody {"path":"universes/5097539509/data-stores/InventoryStore/entries/users:453482811","createTime":"2024-07-22T19:02:27.811669Z","revisionId":"08DCAA80D489FD52.0000000003.08DCAA8627CF76E1.01","revisionCreateTime":"2024-07-22T19:40:35.001520100Z","state":"ACTIVE","etag":"08DCAA80D489FD52.0000000003.08DCAA8627CF76E1.01","value":{"Iron":50,"Gold":26},"id":"users:453482811","users":["users/45348281"],"attributes":{}}
  */
 export const updateStandardDataStoreEntry = createApiMethod(async <Schema extends Record<any, any>>(
-  { universeId, dataStore, scope, entryId, value, users, attributes }:
+  { universeId, dataStore, scope, entryId, value, allowMissing, users, attributes }:
   {
     universeId: Identifier, dataStore: string, scope?: string, entryId: string,
-    value: Schema, users?: ArrayNonEmptyIfConst<Identifier>, attributes?: Record<any, any>
+    value: Schema, allowMissing: boolean, users?: ArrayNonEmptyIfConst<Identifier>, attributes?: Record<any, any>
   }
 ): ApiMethod<RawFullDatastoreData<Schema>, PrettifiedFullDatastoreData<Schema>> => ({
   method: "PATCH",
@@ -272,6 +273,7 @@ export const updateStandardDataStoreEntry = createApiMethod(async <Schema extend
     scope ? `/v2/universes/${universeId}/data-stores/${dataStore}/scopes/${scope}/entries/${entryId.replaceAll("/", ":")}`
     : `/v2/universes/${universeId}/data-stores/${dataStore}/entries/${entryId.replaceAll("/", ":")}`
   ),
+  searchParams: { allowMissing },
   body: { value, users: users?.map(user => `users/${user.toString()}`), attributes },
   name: `updateStandardDataStoreEntry`,
 
