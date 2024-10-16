@@ -2316,6 +2316,11 @@
             "description": "The ID (key / name) of the entry."
           },
           {
+            "name": "allowMissing",
+            "type": "boolean",
+            "description": "If set to true, and the data store entry is not found, a data store entry is created."
+          },
+          {
             "name": "value",
             "type": "Schema",
             "description": "The value (content) of the entry."
