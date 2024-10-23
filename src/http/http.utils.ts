@@ -66,3 +66,5 @@ export class HttpError {
     this.response = response
   }
 }
+
+export type { HttpAdapter } from "./httpAdapters"

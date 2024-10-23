@@ -6,7 +6,7 @@ By default Openblox uses `fetch` to make HTTP requests. Some users may prefer to
 // ./myHttpAdapter.ts
 
 // [ Modules ] ///////////////////////////////////////////////////////////////////
-import { HttpAdapter, HttpResponse } from "openblox/http/adapters"
+import { HttpAdapter, HttpResponse } from "openblox/http"
 //////////////////////////////////////////////////////////////////////////////////
 
 
