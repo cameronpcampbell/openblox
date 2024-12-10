@@ -71,7 +71,7 @@ export const restrictionForUser = createApiMethod(async <UniverseId extends Iden
   method: "GET",
   path: (
     placeId ? `/v2/universes/${universeId}/places/${placeId}/user-restrictions/${userId}`
-    : `/v2/universes/${universeId}/places/${placeId}/user-restrictions/${userId}`
+    : `/v2/universes/${universeId}/user-restrictions/${userId}`
   ),
   name: `restrictionForUser`,
 }))
