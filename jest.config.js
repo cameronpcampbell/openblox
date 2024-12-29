@@ -3,6 +3,6 @@ module.exports = {
   testEnvironment: "node",
   setupFilesAfterEnv: ['dotenv/config'],
   transform: {
-    "^.+.tsx?$": ["ts-jest",{}],
+    "^.+.tsx?$": ["ts-jest", {}],
   },
 };

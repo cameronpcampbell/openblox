@@ -56,11 +56,14 @@ export class HttpResponse<Body extends any = any> {
 }
 
 export class HttpError {
+  name = "OpenBlox HttpError"
+  // message: string
   type: "Csrf" | "Generic"
   errors: AnyRobloxError[]
   response: HttpResponse
 
   constructor(type: "Csrf" | "Generic", response: HttpResponse, errors: AnyRobloxError[]) {
+    // this.message = `A ${type} HttpError occurred when making a request to: ${response.url.toString()}`
     this.type = type
     this.errors = errors
     this.response = response
