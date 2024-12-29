@@ -8,3 +8,4 @@ node_modules/
 bun.lockb
 tsconfig.tsbuildinfo
 ./build.ts
+.env

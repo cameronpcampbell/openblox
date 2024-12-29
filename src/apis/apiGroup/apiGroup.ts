@@ -123,7 +123,7 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
 
     const createCallApiMethod = (_baseUrl: UrlSecure = baseUrl): CallApiMethod<any, any, boolean> => async function(args) {
       const overrides = this
-      const cookie = overrides?.cookie || config?.cookie
+      const cookie = overrides?.cookie ? `.ROBLOSECURITY=${overrides.cookie}` : config?.cookie;
       const cloudKey =  overrides?.cloudKey || config?.cloudKey
       const oauthToken = overrides?.oauthToken
 
