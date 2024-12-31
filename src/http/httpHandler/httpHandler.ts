@@ -122,7 +122,8 @@ export const HttpHandler = async <RawData extends any = any>(
 
       } else {
         // Only Changes the saved csrf token to be that of the response csrf token if the cookie used was not an override.
-        if (headerCookie == config?.cookie) savedCsrfToken = responseCsrfToken
+        // Well, we do want to allow overrides
+        /* if (headerCookie == config?.cookie)  */savedCsrfToken = responseCsrfToken
 
         // retries the request with the new csrf token.
         currentCsrfAttempt++
