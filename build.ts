@@ -1,7 +1,10 @@
 import * as esbuild from 'esbuild';
+import { globby } from 'globby';
+
+const entryPoints = await globby(['src/**/*.{js,ts}']);
 
 const settings = {
-  entryPoints: ["src/**/*"],
+  entryPoints,
   outdir: "dist",
   //minify: true,
   //keepNames: true,

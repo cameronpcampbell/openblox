@@ -1,5 +1,5 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
-import { config } from "../../config";
+import { defaultOpenbloxConfig, OpenbloxConfig } from "../../config";
 import { HttpHandler, isOpenCloudUrl } from "../../http/httpHandler";
 import { isObject, objectToFieldMask } from "../../utils/utils";
 import { HttpResponse } from "../../http/http.utils";
@@ -68,7 +68,7 @@ const isCursorEmpty = (cursor: Cursor) => (!cursor || (typeof cursor == "string"
 const paginate = (
   initialResponse: ApiMethodResponse,
   callApiMethod: CallApiMethod<any, any, true>,
-  args: Record<any, any>, overrides: any,
+  args: Record<any, any>, config: any,
   handlerFnCursorArg: "cursor" | "startRowIndex" | "pageNumber"
 ) => (
   async function* () {
@@ -79,7 +79,7 @@ const paginate = (
     if (isCursorEmpty(nextCursor)) return
 
     while (true) {
-      const newValue = await callApiMethod.call(overrides, { ...args, [handlerFnCursorArg]: nextCursor })
+      const newValue = await callApiMethod.call(config, { ...args, [handlerFnCursorArg]: nextCursor })
       if (isNoMoreData(newValue.data)) return
       yield newValue
 
@@ -89,7 +89,7 @@ const paginate = (
   }
 )
 
-const pollForResponse = async (url: string, operationPath: string, cloudKey: string) => {
+const pollForResponse = async (config: OpenbloxConfig, url: string, operationPath: string, cloudKey: string) => {
   const operationPrefix = operationPath.match(/^(\/?)cloud\/v[1-9]+(\/?)/)
     ? operationPrefixRegexWithoutVersion.exec(url)?.[1] as UrlSecure
     : operationPrefixRegexWithVersion.exec(url)?.[1] as UrlSecure
@@ -121,11 +121,11 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
 
     const thisDefaultGetCursors = groupDefaultGetCursors ?? defaultGetCursors
 
-    const createCallApiMethod = (_baseUrl: UrlSecure = baseUrl): CallApiMethod<any, any, boolean> => async function(args) {
-      const overrides = this
-      const cookie = overrides?.cookie || config?.cookie
-      const cloudKey =  overrides?.cloudKey || config?.cloudKey
-      const oauthToken = overrides?.oauthToken
+    const createCallApiMethod = (_baseUrl: UrlSecure = baseUrl): CallApiMethod<any, any, boolean> => async function (args) {
+      const config = this || defaultOpenbloxConfig
+      const cookie = config?.cookie
+      const cloudKey = config?.cloudKey
+      const oauthToken = config?.oauthToken
 
       const handlerFnData = await handlerFn(args as any)
       let { path, method, searchParams, applyFieldMask, body, formData, headers, getCursorsFn, pathToPoll, name } = handlerFnData
@@ -147,7 +147,7 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
 
       let main: () => Promise<any>
       main = async () => {
-        let response: HttpResponse = await HttpHandler({ method, url, body, formData, headers }) as any // TODO
+        let response: HttpResponse = await HttpHandler(config, { method, url, body, formData, headers }) as any // TODO
         if (!(response instanceof HttpResponse)) throw response
         let rawData = response.body
 
@@ -155,13 +155,21 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
         let opPath = rawData?.path
         if (opPath && rawData?.done === false && isOpenCloudUrl(url)) {
           console.warn(`Polling '${groupName}.${name}' (Please be patient)...`)
-          response = await pollForResponse(url, pathToPoll ? pathToPoll(rawData) : opPath, cloudKey)
+          response = await pollForResponse(config, url, pathToPoll ? pathToPoll(rawData) : opPath, cloudKey)
           rawData = response.body
         }
 
+        let cachedData: any
+
         let apiMethodResult: ApiMethodResponse<any, any> = formatRawDataFn
-          ? { response, again: main, get data() { return formatRawDataFn(rawData, response) } }
-          : { response, again: main, data: rawData }
+          ? { response, again: main, get data() {
+            if (cachedData) return cachedData
+            else {
+              cachedData = formatRawDataFn(rawData, response)
+              return cachedData
+            }
+          }, configUsed: config }
+          : { response, again: main, data: rawData, configUsed: config }
 
         // Applies async iterator if method is paginated.
         if (handlerFnCursorArg) {
@@ -169,7 +177,7 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
           apiMethodResult.cursors = { previous: previousCursor, next: nextCursor }
           if (args && !("__notRoot" in args)) {
             (apiMethodResult as any as ApiMethodResponse<any, any, true>)[Symbol.asyncIterator] = paginate(
-              apiMethodResult, callApiMethod as CallApiMethod<any, any, true>, args as Record<any, any>, overrides, handlerFnCursorArg
+              apiMethodResult, callApiMethod as CallApiMethod<any, any, true>, args as Record<any, any>, config, handlerFnCursorArg
             ) as any
           }
         }
@@ -180,7 +188,7 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
       return await main()
     }
 
-    const callApiMethod = createCallApiMethod();
+    const callApiMethod = createCallApiMethod().bind(undefined);
 
     // To handle legacy open cloud endpoints which use classic endpoints but with different base urls.
     (callApiMethod as any)._deriveWithDifferentBaseUrl = (baseUrl: UrlSecure) => createCallApiMethod(baseUrl)

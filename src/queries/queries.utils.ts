@@ -1,4 +1,5 @@
 import { CallApiMethod } from "../apis/apiGroup/apiGroup.types"
+import { OpenbloxConfig } from "../config"
 import { pollMethod, PollConfig } from "../helpers"
 
 export const addObjectToFunction = <
@@ -49,14 +50,14 @@ export const pollForLatest = <
 >(
   method: CallMethod, args: Parameters<CallMethod>[0],
   dateKey: string | ((result: Awaited<ReturnType<CallMethod>>["data"][number]) => any),
-  config: PollConfig | undefined,
+  config: OpenbloxConfig | undefined,
   middlewareFn: (data: Awaited<ReturnType<CallMethod>>["data"]) => Promise<any>,
 ) => {
   let lastPolledTime = new Date().getTime()
 
   const _resultsAfterDate = typeof dateKey === "string" ? resultsAfterDate : resultsAfterDateWithMiddleware
 
-  return pollMethod(method(args), async ({ data }) => {
+  return pollMethod.call(config, method(args), async ({ data }) => {
     const thisPolledTime = new Date().getTime()
   
     const newResults = _resultsAfterDate(data, dateKey as any, lastPolledTime)
@@ -66,5 +67,5 @@ export const pollForLatest = <
   
     lastPolledTime = thisPolledTime
     return true
-  }, config) as any as Promise<void>
+  }) as any as Promise<void>
 }

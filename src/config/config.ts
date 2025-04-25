@@ -1,91 +1,67 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
-import { isObject } from "lodash"
-
-import { mergeDeep } from "../utils/utils"
 import { TtlCacheAdapter } from "../cache/cacheAdapters"
+import { RobloxCookie } from "../http/http.utils"
 //////////////////////////////////////////////////////////////////////////////////
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { HttpAdapter } from "../http/httpAdapters"
 import type { CacheAdapter } from "../cache/cacheAdapters/cacheAdapters"
-import type { RobloxCookie } from "../http/http.utils"
+import type { ObjectPrettify } from "typeforge"
 
-export type OpenbloxConfig = {
-  cookie?: RobloxCookie,
-  cloudKey?: string,
+export type OpenbloxConfig<Cookie = FormattedRobloxCookie> = ObjectPrettify<{
+    cookie?: Cookie,
+    cloudKey?: string,
 
-  http?: {
-    adapter?: HttpAdapter,
-    csrfMaxAttempts?: number,
+    http?: {
+        adapter?: HttpAdapter,
+        csrfMaxAttempts?: number,
+        csrfToken?: string,
 
-    polling?: {
-      disabled?: boolean,
-      iterations?: number,
-      multiplyer?: number,
-      retryOffset?: number,
-      debugMessages?: boolean
+        polling?: {
+            disabled?: boolean,
+            iterations?: number,
+            multiplyer?: number,
+            retryOffset?: number,
+            debugMessages?: boolean
+        }
     },
-  },
 
-  cache?: ReturnType<CacheAdapter<any, any>>[]
-}
+    cache?: ReturnType<CacheAdapter<any, any>>[]
+}>
 //////////////////////////////////////////////////////////////////////////////////
 
+
+const formatRobloxCookie = (cookie: string) => `.ROBLOSECURITY=${cookie}; RBXEventTrackerV2=CreateDate=1/1/1 1:1:1 PM&rbxid=1&browserid=1;` as FormattedRobloxCookie & { _phantom_isValid: true }
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
 const initialCookie = process.env.ROBLOX_COOKIE
 
-export const config: OpenbloxConfig = {
-  cookie: (initialCookie && `.ROBLOSECURITY=${initialCookie}; RBXEventTrackerV2=CreateDate=1/1/1 1:1:1 PM&rbxid=1&browserid=1;`) as any as RobloxCookie | undefined,
-  cloudKey: process.env.ROBLOX_CLOUD_KEY,
+export const defaultOpenbloxConfig: OpenbloxConfig = {
+    cookie: initialCookie ? formatRobloxCookie(initialCookie) : undefined,
+    cloudKey: process.env.ROBLOX_CLOUD_KEY,
 
-  cache: [ TtlCacheAdapter({ included: { lifetime: 300 } }) ]
+    cache: [ TtlCacheAdapter({ included: { lifetime: 300 } }) ],
+    
+    http: {}
 };
 //////////////////////////////////////////////////////////////////////////////////
 
 
-// [ Private Functions ] /////////////////////////////////////////////////////////
-/**
- * Deep merge two configs.
- * @param target
- * @param ...sources
- */
-function mergeDeepConfigs(target: Record<any, any>, ...sources: Record<any, any>[]) {
-  if (!sources.length) return target;
-  const source = sources.shift();
+export type FormattedRobloxCookie = `.ROBLOSECURITY=${RobloxCookie}; RBXEventTrackerV2=CreateDate=1/1/1 1:1:1 PM&rbxid=1&browserid=1;`
 
-  if (isObject(target) && isObject(source)) {
-    for (const key in source) {
-      if (isObject(source[key])) {
-        if (!target[key]) Object.assign(target, { [key]: {} });
-        if (key == "cache") {
-          Object.assign(target[key], source[key])
-        } else {
-          mergeDeep(target[key], source[key]);
-        }
-      } else {
-        Object.assign(target, { [key]: source[key] });
-      }
-    }
-  }
-
-  return mergeDeep(target, ...sources);
-}
-//////////////////////////////////////////////////////////////////////////////////
-
-
-export const setConfig = (newConfig: OpenbloxConfig) => {
-  const newConfigCookie = newConfig?.cookie
-  if (newConfigCookie) newConfig.cookie = `.ROBLOSECURITY=${newConfigCookie}; RBXEventTrackerV2=CreateDate=1/1/1 1:1:1 PM&rbxid=1&browserid=1;` as any
-
-  Object.keys(config).forEach(key => delete config[key as keyof OpenbloxConfig])
-  Object.assign(config, newConfig)
+export const setDefaultOpenbloxConfig = (newConfig: OpenbloxConfig & { _phantom_isValid: true }) => {
+    for (var key in defaultOpenbloxConfig) { delete defaultOpenbloxConfig[key as keyof OpenbloxConfig] }
+    Object.assign(defaultOpenbloxConfig, newConfig)
 }
 
-export const updateConfig = (updateConfigWith: OpenbloxConfig) => {
-  const updateConfigWithCookie = updateConfigWith?.cookie
-  if (updateConfigWithCookie) updateConfigWith.cookie = `.ROBLOSECURITY=${updateConfigWithCookie}; RBXEventTrackerV2=CreateDate=1/1/1 1:1:1 PM&rbxid=1&browserid=1;` as any
+export const createOpenbloxConfig = (newConfig: OpenbloxConfig<RobloxCookie>) => {
+    if (!newConfig?.http) newConfig.http = {} 
 
-  mergeDeepConfigs(config, updateConfigWith)
+    const newConfigCookie = newConfig?.cookie
+    if (newConfigCookie) newConfig.cookie = formatRobloxCookie(newConfigCookie) as any
+
+    console.log("-->", newConfig)
+
+    return newConfig as OpenbloxConfig & { _phantom_isValid: true }
 }

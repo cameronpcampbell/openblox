@@ -47,12 +47,17 @@ export type GroupMembers_Filter = ObjectEither<
 
 export type GroupMembers_WildcardFilter = ObjectPrettify<{ userIds: Identifier[] }>
 
-type GroupMember<GroupId extends Identifier | "-", TemporalType, UserId extends Identifier = Identifier> = ObjectPrettify<{
+type GroupMember<
+  GroupId extends Identifier | "-",
+  TemporalType,
+  UserId extends Identifier = Identifier,
+  RoleId extends Identifier = Identifier,
+> = ObjectPrettify<{
   path: `groups/${GroupId extends "-" ? Identifier : GroupId}/memberships/${string}`,
   createTime: TemporalType,
   updateTime: TemporalType,
   user: `users/${UserId}`,
-  role: `groups/${GroupId extends "-" ? Identifier : GroupId}/roles/${string}`
+  role: `groups/${GroupId extends "-" ? Identifier : GroupId}/roles/${RoleId}`
 }>
 
 export type RawGroupMembersData<GroupId extends Identifier | "-", UserId extends Identifier = Identifier> = ObjectPrettify<{
@@ -60,7 +65,11 @@ export type RawGroupMembersData<GroupId extends Identifier | "-", UserId extends
   nextPageToken: string
 }>
 
-export type PrettifiedGroupMembersData<GroupId extends Identifier | "-", UserId extends Identifier = Identifier> = GroupMember<GroupId, Date, UserId>[]
+export type PrettifiedGroupMembersData<
+  GroupId extends Identifier | "-",
+  UserId extends Identifier = Identifier,
+  RoleId extends Identifier = Identifier,
+> = GroupMember<GroupId, Date, UserId, RoleId>[]
 // -------------------------------------------------------------------------------------------------------------------
 
 

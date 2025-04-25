@@ -177,3 +177,5 @@ dist
 .DS_Store
 
 docs_site/
+
+/graph.png
