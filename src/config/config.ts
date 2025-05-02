@@ -32,7 +32,7 @@ export type OpenbloxConfig<Cookie = FormattedRobloxCookie> = ObjectPrettify<{
 //////////////////////////////////////////////////////////////////////////////////
 
 
-const formatRobloxCookie = (cookie: string) => `.ROBLOSECURITY=${cookie}; RBXEventTrackerV2=CreateDate=1/1/1 1:1:1 PM&rbxid=1&browserid=1;` as FormattedRobloxCookie & { _phantom_isValid: true }
+export const formatRobloxCookie = (cookie: string) => `.ROBLOSECURITY=${cookie}; RBXEventTrackerV2=CreateDate=1/1/1 1:1:1 PM&rbxid=1&browserid=1;` as FormattedRobloxCookie & { _phantom_isValid: true }
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
 const initialCookie = process.env.ROBLOX_COOKIE
