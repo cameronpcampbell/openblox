@@ -30,7 +30,7 @@ const formatGroupMembersFilters = (groupId: Identifier | "-", filter: GroupMembe
 
     else {
       const roleIdFilter = (filter as unknown as GroupMembers_Filter)?.roleId
-      if (roleIdFilter) formattedFilter = `group == 'groups/${groupId}/roles/${roleIdFilter}'`
+      if (roleIdFilter) formattedFilter = `role == 'groups/${groupId}/roles/${roleIdFilter}'`
     }
   }
 
@@ -88,11 +88,17 @@ export const groupMembers = createApiMethod(async <
       : "userId" extends keyof Filter
         ? Filter["userId"] extends Identifier ? Filter["userId"] : Identifier
         : Identifier
+  ),
+
+  const RoleId extends Identifier = (
+      "roleId" extends keyof Filter
+        ? Filter["roleId"] extends Identifier ? Filter["roleId"] : Identifier
+        : Identifier
   )
 >(
   { groupId, limit, filter, cursor }
   : { groupId: GroupId, limit?: UserId, filter?: Filter, cursor?: string }
-): ApiMethod<RawGroupMembersData<GroupId, UserId>, PrettifiedGroupMembersData<GroupId, UserId>> => ({
+): ApiMethod<RawGroupMembersData<GroupId, UserId>, PrettifiedGroupMembersData<GroupId, UserId, RoleId>> => ({
   path: `/v2/groups/${groupId}/memberships`,
   method: "GET",
   searchParams: {

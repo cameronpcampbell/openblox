@@ -20,9 +20,10 @@ It wraps over 100+ Roblox API endpoints, each with its own strictly typed respon
 
 ```ts showLineNumbers copy
 import "dotenv/config";
-import { setConfig } from "openblox/config";
+import { createOpenbloxConfig, setDefaultOpenbloxConfig } from "openblox/config";
 import { UsersApi } from "openblox/cloud";
 import { ClassicUsersApi } from "openblox/classic"; // Classic (BEDEV & BEDEV2) APIs will always be prefixed with `Classic`.
+
 
 /*
 Naming your Roblox Cookie environment variable `ROBLOX_COOKIE` will automatically
@@ -30,10 +31,12 @@ import it into your Openblox config, therefore voiding the need to set it in the
 manually. Similarly, naming your OpenCloud API Key environment variable `ROBLOX_CLOUD_KEY`
 will also automatically import it into your Openblox config.
 */
-setConfig({
-  cookie: process.env.MY_ROBLOX_COOKIE,
-  cloudKey: process.env.MY_ROBLOX_CLOUD_KEY
-})
+setDefaultOpenbloxConfig(
+    createOpenbloxConfig({
+        cookie: process.env.ROBLOX_COOKIE as any,
+        cloudKey: process.env.CLOUD_KEY as any
+    })
+)
 
 (async () => {
 

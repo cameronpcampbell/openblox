@@ -2,7 +2,7 @@
 import { ObjectPrettify } from "typeforge";
 import type { CallApiMethod } from "../apis/apiGroup/apiGroup.types";
 import { HttpHandlerProps, HttpResponse } from "../http/http.utils";
-import { config as openbloxConfig } from "../config"
+import { defaultOpenbloxConfig, OpenbloxConfig } from "../config"
 import { FetchAdapter } from "../http/httpAdapters/fetchHttpAdapter";
 
 export type PollConfig = ObjectPrettify<{
@@ -21,14 +21,13 @@ const expBackoff = (iter: number, stepMultiplier: number) => stepMultiplier * (i
 //////////////////////////////////////////////////////////////////////////////////
 
 
-export const pollMethod = async <
+export async function pollMethod<
   MethodBase extends ReturnType<CallApiMethod<any, any, true | false>>,
   Method extends MethodBase | Awaited<MethodBase>
 >(
   method: Method,
-  handlerFn: (result: Awaited<MethodBase>, stopPolling: () => void) => Promise<boolean | void>,
-  config?: PollConfig
-): Promise<Awaited<Method>> => {
+  handlerFn: (result: Awaited<MethodBase>, stopPolling: () => void) => Promise<boolean | void>
+): Promise<Awaited<Method>> {
   // Makes sure the method is awaited.
   const methodAwaited = await method
 
@@ -39,7 +38,14 @@ export const pollMethod = async <
   await handlerFn(methodAwaited, stopPolling)
   if (!polling) return dataToReturn
 
-  const iterations = config?.iterations ?? 15, multiplyer = config?.multiplyer ?? 200, retryOffset = config?.retryOffset ?? 5, debug = config?.debug
+  const config = methodAwaited.configUsed
+  const pollingConfig = config.http?.polling
+
+  const iterations = pollingConfig?.iterations ?? 15
+  const multiplyer = pollingConfig?.multiplyer ?? 200
+  const retryOffset = pollingConfig?.retryOffset ?? 5
+  const debugMessages = pollingConfig?.debugMessages
+
   let offset = 0, newIteration = false
 
   const again = methodAwaited.again
@@ -49,7 +55,7 @@ export const pollMethod = async <
   while (polling) {
     for (let iter = 1 + offset; iter <= iterations + offset; iter++) {
       const backoff = expBackoff(iter, multiplyer)
-      if (debug) console.log(`iteration ${iter} start, backing off for ${backoff}ms...`)
+      if (debugMessages) console.log(`iteration ${iter} start, backing off for ${backoff}ms...`)
       
       if (backoff !== 0) await sleep(backoff)
 
@@ -61,7 +67,7 @@ export const pollMethod = async <
         break
       }
 
-      if (debug) console.log(`iteration ${iter} end.\n`)
+      if (debugMessages) console.log(`iteration ${iter} end.\n`)
 
       // if a new / valid response was gotten then breaks out of the current iteration cycle.
       if (newIteration) break
@@ -75,23 +81,30 @@ export const pollMethod = async <
 }
 
 
-export const pollHttp = async <Body extends any>(
+export async function pollHttp<Body extends any>(
+  this: OpenbloxConfig | void,
   httpArgs: HttpHandlerProps,
   handlerFn: (result: HttpResponse<Body>, stopPolling: () => void) => Promise<boolean | void>,
-  config?: PollConfig
-): Promise<void> => {
-  const iterations = config?.iterations ?? 15, multiplyer = config?.multiplyer ?? 200, retryOffset = config?.retryOffset ?? 5, debug = config?.debug
+): Promise<void> {
+  const config = this || defaultOpenbloxConfig
+  const pollingConfig = config?.http?.polling
+
+  const iterations = pollingConfig?.iterations ?? 15
+  const multiplyer = pollingConfig?.multiplyer ?? 200
+  const retryOffset = pollingConfig?.retryOffset ?? 5
+  const debugMessages = pollingConfig?.debugMessages
+
   let offset = 0, newIteration = false
 
   let polling = true
   const stopPolling = () => polling = false
   
-  const httpAdapter = openbloxConfig.http?.adapter ?? FetchAdapter
+  const httpAdapter = defaultOpenbloxConfig.http?.adapter ?? FetchAdapter
 
   while (polling) {
     for (let iter = 1 + offset; iter <= iterations + offset; iter++) {
       const backoff = expBackoff(iter, multiplyer)
-      if (debug) console.log(`iteration ${iter} start, backing off for ${backoff}ms...`)
+      if (debugMessages) console.log(`iteration ${iter} start, backing off for ${backoff}ms...`)
       
       if (backoff !== 0) await sleep(backoff)
 
@@ -100,7 +113,7 @@ export const pollHttp = async <Body extends any>(
 
       if (!polling) break
 
-      if (debug) console.log(`iteration ${iter} end.\n`)
+      if (debugMessages) console.log(`iteration ${iter} end.\n`)
 
       // if a new / valid response was gotten then breaks out of the current iteration cycle.
       if (newIteration) break

@@ -6,9 +6,9 @@ import { addObjectToFunction, pollForLatest } from "../queries.utils"
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { Identifier, ObjectPrettify } from "typeforge"
-import { pollMethod, type PollConfig } from "../../helpers"
 import type { GroupAuditLogActionType, PrettifiedGroupAuditLogsData, PrettifiedGroupJoinRequests, PrettifiedGroupWallPostsData_V2 } from "../../apis/classic/groups/groups.types"
 import { PrettifiedGroupTransactionHistoryData } from "../../apis/classic/economy/economy.types"
+import { defaultOpenbloxConfig, OpenbloxConfig } from "../../config"
 
 export type ClassicGroups_Events = {
   "auditLog": PrettifiedGroupAuditLogsData<GroupAuditLogActionType>[number],
@@ -98,56 +98,57 @@ const prepareAndSubmitWallPostsPage = async (
 //////////////////////////////////////////////////////////////////////////////////
 
 export const ClassicGroups = addObjectToFunction(
-  (groupId: Identifier) => ({
-    on: <Name extends EventType>(
-      eventName: Name,
-      handlerFn: (data: ClassicGroups_Events[Name]) => any, config?: PollConfig
-    ): Name extends EventType ? Promise<void> : never => {
-      switch (eventName) {
-        case "auditLog": return pollForLatest(
-          ClassicGroupsApi.groupAuditLogs, { groupId, limit: 25, sortOrder: "Desc" }, "created", config,
-          async newResults => await Promise.allSettled(newResults.map(result => handlerFn(result as any)))
-        ) as Name extends EventType ? Promise<void> : never
+  async function(this: OpenbloxConfig | void, groupId: Identifier) {
+    const config = this || defaultOpenbloxConfig
 
-        case "joinRequest": return pollForLatest(
-          ClassicGroupsApi.groupJoinRequests, { groupId, limit: 25, sortOrder: "Desc" }, "created", config,
-          async joinReqs => {
-            const userIdsToAccept: Identifier[] = [], userIdsToDecline: Identifier[] = []
-            await prepareJoinRequestsPage(joinReqs, handlerFn as any, userIdsToAccept, userIdsToDecline)
-            await submitJoinRequestsPage(groupId, userIdsToAccept, userIdsToDecline)
-          }
-        ) as Name extends EventType ? Promise<void> : never
+    return {
+      on: <Name extends EventType>(
+        eventName: Name,
+        handlerFn: (data: ClassicGroups_Events[Name]) => any
+      ): Name extends EventType ? Promise<void> : never => {
+        switch (eventName) {
+          case "auditLog": return pollForLatest(
+            ClassicGroupsApi.groupAuditLogs, { groupId, limit: 25, sortOrder: "Desc" }, "created", config,
+            async newResults => await Promise.allSettled(newResults.map(result => handlerFn(result as any)))
+          ) as Name extends EventType ? Promise<void> : never
 
-        case "wallPost": return pollForLatest(
-          ClassicGroupsApi.groupWallPosts_V2, { groupId, limit: 25, sortOrder: "Desc" }, "created",
-          { iterations: config?.iterations ?? 2, multiplyer: config?.multiplyer ?? 5000, retryOffset: config?.retryOffset ?? 1, debug: config?.debug },
-          async wallPosts => await prepareAndSubmitWallPostsPage(wallPosts, handlerFn as any, groupId)
-        ) as Name extends EventType ? Promise<void> : never
+          case "joinRequest": return pollForLatest(
+            ClassicGroupsApi.groupJoinRequests, { groupId, limit: 25, sortOrder: "Desc" }, "created", config,
+            async joinReqs => {
+              const userIdsToAccept: Identifier[] = [], userIdsToDecline: Identifier[] = []
+              await prepareJoinRequestsPage(joinReqs, handlerFn as any, userIdsToAccept, userIdsToDecline)
+              await submitJoinRequestsPage(groupId, userIdsToAccept, userIdsToDecline)
+            }
+          ) as Name extends EventType ? Promise<void> : never
 
-        case "transaction:sale": return pollForLatest(
-          ClassicEconomyApi.groupTransactionHistory, { groupId, limit: 25, transactionType: "Sale" }, "created",
-          { iterations: config?.iterations ?? 2, multiplyer: config?.multiplyer ?? 5000, retryOffset: config?.retryOffset ?? 1, debug: config?.debug },
-          async newResults => await Promise.allSettled(newResults.map(result => handlerFn(result as any)))
-        ) as Name extends EventType ? Promise<void> : never
+          case "wallPost": return pollForLatest(
+            ClassicGroupsApi.groupWallPosts_V2, { groupId, limit: 25, sortOrder: "Desc" }, "created", config,
+            async wallPosts => await prepareAndSubmitWallPostsPage(wallPosts, handlerFn as any, groupId)
+          ) as Name extends EventType ? Promise<void> : never
 
-        case "transaction:advanceRebate": return pollForLatest(
-          ClassicEconomyApi.groupTransactionHistory, { groupId, limit: 25, transactionType: "PublishingAdvanceRebates" }, "created",
-          { iterations: config?.iterations ?? 2, multiplyer: config?.multiplyer ?? 5000, retryOffset: config?.retryOffset ?? 1, debug: config?.debug },
-          async newResults => await Promise.allSettled(newResults.map(result => handlerFn(result as any)))
-        ) as Name extends EventType ? Promise<void> : never
+          case "transaction:sale": return pollForLatest(
+            ClassicEconomyApi.groupTransactionHistory, { groupId, limit: 25, transactionType: "Sale" }, "created", config,
+            async newResults => await Promise.allSettled(newResults.map(result => handlerFn(result as any)))
+          ) as Name extends EventType ? Promise<void> : never
+
+          case "transaction:advanceRebate": return pollForLatest(
+            ClassicEconomyApi.groupTransactionHistory, { groupId, limit: 25, transactionType: "PublishingAdvanceRebates" }, "created", config,
+            async newResults => await Promise.allSettled(newResults.map(result => handlerFn(result as any)))
+          ) as Name extends EventType ? Promise<void> : never
+        }
+
+        return undefined as any as Name extends EventType ? Promise<void> : never
+      },
+
+      processJoinRequests: async (handlerFn: (req: ClassicGroups_Events["joinRequest"]) => Promise<any>) => {
+        const userIdsToAccept: Identifier[] = [], userIdsToDecline: Identifier[] = []
+        for await (const { data:joinReqs } of await ClassicGroupsApi.groupJoinRequests({ groupId, limit: 100, sortOrder: "Desc" })) {
+          await prepareJoinRequestsPage(joinReqs, handlerFn, userIdsToAccept, userIdsToDecline)
+        }
+        await submitJoinRequestsPage(groupId, userIdsToAccept, userIdsToDecline)
       }
-
-      return undefined as any as Name extends EventType ? Promise<void> : never
-    },
-
-    processJoinRequests: async (handlerFn: (req: ClassicGroups_Events["joinRequest"]) => Promise<any>) => {
-      const userIdsToAccept: Identifier[] = [], userIdsToDecline: Identifier[] = []
-      for await (const { data:joinReqs } of await ClassicGroupsApi.groupJoinRequests({ groupId, limit: 100, sortOrder: "Desc" })) {
-        await prepareJoinRequestsPage(joinReqs, handlerFn, userIdsToAccept, userIdsToDecline)
-      }
-      await submitJoinRequestsPage(groupId, userIdsToAccept, userIdsToDecline)
     }
-  }),
+  },
 
   {
     /*get: (fields: ArrayNonEmptyIfConst<string>) => ({

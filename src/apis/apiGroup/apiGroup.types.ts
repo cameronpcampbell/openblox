@@ -1,6 +1,7 @@
 import type { ObjectPrettify, Prettify, StringIsLiteral } from "typeforge"
 import type { RestMethod } from "../../utils/utils.types"
 import type { HttpResponse, RobloxCookie } from "../../http/http.utils"
+import { OpenbloxConfig } from "../../config"
 
 
 // Create Api Group Types ---------------------------------------------------------------------------------------------
@@ -113,7 +114,8 @@ export type ApiMethodResponse<
 type ApiMethodResponse_WithoutPagination<RawData = any, PrettifiedData = any> = ObjectPrettify<
   {
     data: PrettifiedData,
-    response: ObjectPrettify<HttpResponse<RawData>>
+    response: ObjectPrettify<HttpResponse<RawData>>,
+    configUsed: OpenbloxConfig,
   }
 >
 

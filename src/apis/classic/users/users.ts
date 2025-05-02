@@ -185,7 +185,7 @@ export const userInfo = createApiMethod(async  <UserId extends Identifier>(
  * @exampleData { id: 45348281, name: "MightyPart", displayName: "MightyPart" }
  * @exampleRawBody { id: 45348281, name: "MightyPart", displayName: "MightyPart" }
  */
-export const authenticatedUserInfo = createApiMethod(async  (
+export const authenticatedUserInfo = createApiMethod(async (
 ): ApiMethod<AuthenticatedUserInfoData> => ({
   path: `/v1/users/authenticated`,
   method: "GET",
