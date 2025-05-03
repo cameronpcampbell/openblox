@@ -1,5 +1,5 @@
 // [ Modules ] ///////////////////////////////////////////////////////////////////
-import { defaultOpenbloxConfig, OpenbloxConfig } from "../../config";
+import { defaultOpenbloxConfig, formatRobloxCookie, OpenbloxConfig } from "../../config";
 import { HttpHandler, isOpenCloudUrl } from "../../http/httpHandler";
 import { isObject, objectToFieldMask } from "../../utils/utils";
 import { HttpResponse } from "../../http/http.utils";
@@ -89,7 +89,7 @@ const paginate = (
   }
 )
 
-const pollForResponse = async (config: OpenbloxConfig, url: string, operationPath: string, cloudKey: string) => {
+const pollForResponse = async (url: string, operationPath: string, cloudKey: string) => {
   const operationPrefix = operationPath.match(/^(\/?)cloud\/v[1-9]+(\/?)/)
     ? operationPrefixRegexWithoutVersion.exec(url)?.[1] as UrlSecure
     : operationPrefixRegexWithVersion.exec(url)?.[1] as UrlSecure
@@ -122,10 +122,13 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
     const thisDefaultGetCursors = groupDefaultGetCursors ?? defaultGetCursors
 
     const createCallApiMethod = (_baseUrl: UrlSecure = baseUrl): CallApiMethod<any, any, boolean> => async function (args) {
-      const config = this || defaultOpenbloxConfig
-      const cookie = config?.cookie
-      const cloudKey = config?.cloudKey
-      const oauthToken = config?.oauthToken
+      const { cookie, cloudKey, oauthToken } = this ?? {};
+      const config: OpenbloxConfig = {
+        ...defaultOpenbloxConfig,
+        ...(cookie !== undefined && { cookie: formatRobloxCookie(cookie) }),
+        ...(cloudKey !== undefined && { cloudKey }),
+        ...(oauthToken !== undefined && { oauthToken })
+      };
 
       const handlerFnData = await handlerFn(args as any)
       let { path, method, searchParams, applyFieldMask, body, formData, headers, getCursorsFn, pathToPoll, name } = handlerFnData
@@ -138,10 +141,10 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
       const url: UrlSecure = `${_baseUrl}${path}${formattedSearchParams ? `?${new URLSearchParams(formattedSearchParams).toString()}` : ""}`
 
       // Adds credentials to headers.
-      if (cookie || cloudKey || oauthToken) {
+      if (config.cookie || config.cloudKey || oauthToken) {
         if (!headers) headers = {}
-        if (cookie) headers["Cookie"] = cookie
-        if (cloudKey) headers["x-api-key"] = cloudKey
+        if (config.cookie) headers["Cookie"] = config.cookie
+        if (config.cloudKey) headers["x-api-key"] = config.cloudKey
         if (oauthToken) headers["Authorization"] = `Bearer ${oauthToken}`
       }
 
@@ -155,7 +158,7 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
         let opPath = rawData?.path
         if (opPath && rawData?.done === false && isOpenCloudUrl(url)) {
           console.warn(`Polling '${groupName}.${name}' (Please be patient)...`)
-          response = await pollForResponse(config, url, pathToPoll ? pathToPoll(rawData) : opPath, cloudKey)
+          response = await pollForResponse(url, pathToPoll ? pathToPoll(rawData) : opPath, cloudKey)
           rawData = response.body
         }
 
@@ -188,7 +191,7 @@ export const createApiGroup: CreateApiGroupFn = ({ name:groupName, baseUrl, defa
       return await main()
     }
 
-    const callApiMethod = createCallApiMethod().bind(undefined);
+    const callApiMethod = createCallApiMethod();
 
     // To handle legacy open cloud endpoints which use classic endpoints but with different base urls.
     (callApiMethod as any)._deriveWithDifferentBaseUrl = (baseUrl: UrlSecure) => createCallApiMethod(baseUrl)

@@ -56,12 +56,11 @@ export const setDefaultOpenbloxConfig = (newConfig: OpenbloxConfig & { _phantom_
 }
 
 export const createOpenbloxConfig = (newConfig: OpenbloxConfig<RobloxCookie>) => {
-    if (!newConfig?.http) newConfig.http = {} 
+    const formattedConfig: OpenbloxConfig = {
+        ...defaultOpenbloxConfig,
+        ...newConfig,
+        cookie: newConfig.cookie ? formatRobloxCookie(newConfig.cookie) : defaultOpenbloxConfig.cookie,
+    }
 
-    const newConfigCookie = newConfig?.cookie
-    if (newConfigCookie) newConfig.cookie = formatRobloxCookie(newConfigCookie) as any
-
-    console.log("-->", newConfig)
-
-    return newConfig as OpenbloxConfig & { _phantom_isValid: true }
+    return formattedConfig as OpenbloxConfig & { _phantom_isValid: true }
 }
