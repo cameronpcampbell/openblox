@@ -46,7 +46,7 @@ It wraps over 100+ Roblox API endpoints, each with its own strictly typed respon
 
 ```ts
 import "dotenv/config";
-import { createOpenbloxConfig, formatRobloxCookie, setDefaultOpenbloxConfig } from "openblox/config";
+import { createOpenbloxConfig, setDefaultOpenbloxConfig } from "openblox/config";
 import { UsersApi } from "openblox/cloud";
 import { ClassicUsersApi } from "openblox/classic"; // Classic (BEDEV & BEDEV2) APIs will always be prefixed with `Classic`.
 
@@ -59,7 +59,7 @@ will also automatically import it into your Openblox config.
 */
 setDefaultOpenbloxConfig(
     createOpenbloxConfig({
-        cookie: formatRobloxCookie(process.env.ROBLOX_COOKIE),
+        cookie: process.env.ROBLOX_COOKIE,
         cloudKey: process.env.CLOUD_KEY
     })
 )
