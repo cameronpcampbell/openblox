@@ -62,7 +62,7 @@ const importPublicKey = async (key: string) => await crypto.subtle.importKey(
 )
 
 
-const createHbaKeys = async () => {
+/*const createHbaKeys = async () => {
   const keyPair = await crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, true, ["sign"])
   return {
     private: await exportPrivateKey(keyPair.privateKey),
@@ -72,7 +72,7 @@ const createHbaKeys = async () => {
 
 const importHbaKeys = async (keys: { private: string, public: string }): Promise<CryptoKeyPair> => {
   return { privateKey: await importPrivateKey(keys.private), publicKey: await importPublicKey(keys.public) }
-}
+}*/
 //////////////////////////////////////////////////////////////////////////////////
 
 

@@ -99,8 +99,8 @@ const pollForResponse = async (config: OpenbloxConfig, url: string, operationPat
   const headers = { "x-api-key": cloudKey }
 
   let response: any
-  await pollHttp<{ done?: boolean }>({ method: "GET", url: operationUrl, headers }, async (polledResponse, stopPolling) => {
-    if (!polledResponse.body.done) return
+  await pollHttp.call(config, { method: "GET", url: operationUrl, headers }, async (polledResponse, stopPolling) => {
+    if (!(polledResponse.body as { done?: boolean }).done) return
     response = polledResponse
     stopPolling()
   })

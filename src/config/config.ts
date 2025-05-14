@@ -61,7 +61,5 @@ export const createOpenbloxConfig = (newConfig: OpenbloxConfig<RobloxCookie>) =>
     const newConfigCookie = newConfig?.cookie
     if (newConfigCookie) newConfig.cookie = formatRobloxCookie(newConfigCookie) as any
 
-    console.log("-->", newConfig)
-
     return newConfig as OpenbloxConfig & { _phantom_isValid: true }
 }
