@@ -3,7 +3,7 @@ import { Project, ts } from "ts-morph";
 import tablemark from "tablemark"
 import { mkdir, rmdir } from "node:fs/promises";
 import { readdir } from 'node:fs/promises';
-import { join } from 'node:path';
+import { dirname, join, relative } from 'node:path';
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
 import type { ArrowFunction, CallExpression, Directory, Identifier, Node, ParameterDeclaration, SourceFile, TypeAliasDeclaration, TypeLiteralNode } from "ts-morph"
@@ -31,7 +31,7 @@ const splitAtLastOccurrence = (str: string, separator: string) => {
 
 
 // [ Variables ] /////////////////////////////////////////////////////////////////
-const root = `${splitAtLastOccurrence(Bun.main, "/openblox/")[0]}/openblox`
+const root = join(import.meta.dir, "..")
 const docsSite = `${root}/docs_site`
 const docsSitePages = `${docsSite}/pages`
 
@@ -215,13 +215,17 @@ let count = 0
 
 const buildMdForApis = async (apisJson: { [apiName: string]: { [apiMethod: string]: MdData } }, apisName: "classic" | "cloud", basePath: string) => {
   const apisMetaJson: Record<string, string> = {}
-  await rmdir(`${basePath}/${apisName}`, { recursive: true })
+  try {
+    await rmdir(`${basePath}/${apisName}`, { recursive: true })
+  } catch {}
 
   for (const [apiName, apis] of Object.entries(apisJson)) {
     apisMetaJson[apiName] = formatApiName(apisName, apiName)
 
     const apiMetaJson: Record<string, string> = { }
-    await mkdir(`${basePath}/${apisName}/${apiName}`, { recursive: true })
+    try {
+      await mkdir(`${basePath}/${apisName}/${apiName}`, { recursive: true })
+    } catch {}
 
     for (const [methodName, methodData] of Object.entries(apis)) {
       await Bun.write(`${basePath}/${apisName}/${apiName}/${methodName}.md`, createMdFile(methodName, methodData))
@@ -245,7 +249,9 @@ await buildDocsForApis(cloudApis, "cloud")
 Bun.write(`${root}/docs/docs.json`, JSON.stringify(allJsDocData, null, 2))
 
 // writes the root _meta.json
-await rmdir(docsSitePages, { recursive: true })
+try {
+  await rmdir(docsSitePages, { recursive: true })
+} catch {}
 await mkdir(docsSitePages, { recursive: true })
 await Bun.write(`${docsSitePages}/_meta.json`, JSON.stringify({
   "guides": { type: "page", title: "Guides" },
@@ -322,12 +328,16 @@ await buildMdForApis(allJsDocData["classic"] as any, "classic", `${root}/docs_si
 try {
   for (const file of await getFiles(`${root}/docs/pages/guides`)) {
     const fileText = await Bun.file(file).text()
-    const fileRelPath = file.replace(new RegExp(`^${root}/docs/pages/`), "")
-  
-    await Bun.write(`${docsSitePages}/${fileRelPath}`, fileText)
+    const fileRelPath = relative(`${root}/docs/pages`, file)
+    const outPath = join(docsSitePages, fileRelPath)
+    await mkdir(dirname(outPath), { recursive: true })
+    await Bun.write(outPath, fileText)
   }
-  
-  Bun.write(`${docsSitePages}/index.md`, await Bun.file(`${root}/docs/pages/index.md`)?.text() ?? "")
-} catch { console.log("error") }
+
+  await Bun.write(
+    join(docsSitePages, "index.md"),
+    await Bun.file(join(root, "docs/pages/index.md"))?.text() ?? ""
+  )
+} catch (e) { console.log("error: ", e) }
 
 console.log("done!")
