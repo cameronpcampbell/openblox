@@ -95,7 +95,6 @@
   "devDependencies": {
     "@types/lodash": "^4.17.0",
     "@types/node": "^22.1.0",
-    "delete-cli": "^0.1.3",
     "esbuild": "^0.25.3",
     "globby": "^14.1.0",
     "prettier": "^3.2.5",
@@ -108,7 +107,7 @@
     "typeforge": "^0.0.23"
   },
   "scripts": {
-    "build:code": "delete dist && bun run ./build.ts && tsc --emitDeclarationOnly",
+    "build:code": "bun run ./build.ts && tsc --emitDeclarationOnly",
     "build:docs": "bun run ./docs/buildDocs.ts",
     "graph": "madge --image graph.png ./src/**/*",
     "graph:circular": "madge --image graph.png --circular ./src/**/*",

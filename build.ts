@@ -1,6 +1,8 @@
 import * as esbuild from 'esbuild';
 import { globby } from 'globby';
+import { rm } from "node:fs/promises";
 
+await rm('dist', { recursive: true, force: true })
 const entryPoints = await globby(['src/**/*.{js,ts}']);
 
 const settings = {
