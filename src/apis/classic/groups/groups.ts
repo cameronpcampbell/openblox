@@ -9,7 +9,7 @@ import { readFile } from "../../../file"
 import type { Identifier, UnionToArray, ArrayNonEmptyIfConst } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
-import type { AddGroupSocialLinkData, AuthenticatedUserGroupMembershipInfoData, FormattedAllGroupRolesForUserData_V1, GroupAuditLogActionType, GroupPayoutRestrictionsInfoData, GroupRelationshipType, GroupRolePermissions, GroupRolePermissionsData, GroupsConfigMetadataData, GroupSettingsData, GroupsMetadataData, NewSocialLinkRequest, PrettifiedAllGroupRolesForUserData_V2, PrettifiedAllRolesForGroupData, PrettifiedAuthenticatedUserPendingGroupsData, PrettifiedGroupAuditLogsData, PrettifiedGroupIdsToGroupsInfoData, PrettifiedGroupInfoData, PrettifiedGroupJoinRequestForUser, PrettifiedGroupJoinRequests, PrettifiedGroupLookupSearch, PrettifiedGroupMembersData, PrettifiedGroupMembersWithRoleData, PrettifiedGroupNameHistoryData, PrettifiedGroupPayoutsInfoData, PrettifiedGroupPermissionsForAllRoles, PrettifiedGroupPolicyInfoData, PrettifiedGroupRelationshipsData, PrettifiedGroupRolesFromIdsData, PrettifiedGroupSearchData, PrettifiedGroupSearchMetadata, PrettifiedGroupShoutData, PrettifiedGroupSocialLinksData, PrettifiedGroupsThatUsersFriendsAreInData, PrettifiedGroupWallPostsData_V1, PrettifiedGroupWallPostsData_V2, PrettifiedPrimaryGroupForUserData, RawAllGroupRolesForUserData_V1, RawAllGroupRolesForUserData_V2, RawAllRolesForGroupData, RawAuthenticatedUserPendingGroupsData, RawGroupAuditLogsData, RawGroupIdsToGroupsInfoData, RawGroupInfoData, RawGroupJoinRequestForUser, RawGroupJoinRequests, RawGroupLookupSearch, RawGroupMembersData, RawGroupMembersWithRoleData, RawGroupNameHistoryData, RawGroupPayoutsInfoData, RawGroupPermissionsForAllRoles, RawGroupPolicyInfoData, RawGroupRelationshipsData, RawGroupRolesFromIdsData, RawGroupSearchData, RawGroupSearchMetadata, RawGroupShoutData, RawGroupSocialLinksData, RawGroupsThatUsersFriendsAreInData, RawGroupWallPostsData_V1, RawGroupWallPostsData_V2, RawPrimaryGroupForUserData, UpdateRoleSetData, UpdateRoleSetRequest } from "./groups.types"
+import type { AddGroupSocialLinkData, AuthenticatedUserGroupMembershipInfoData, BanGroupMemberData, FormattedAllGroupRolesForUserData_V1, GroupAuditLogActionType, GroupPayoutRestrictionsInfoData, GroupRelationshipType, GroupRolePermissions, GroupRolePermissionsData, GroupsConfigMetadataData, GroupSettingsData, GroupsMetadataData, NewSocialLinkRequest, PrettifiedAllGroupRolesForUserData_V2, PrettifiedAllRolesForGroupData, PrettifiedAuthenticatedUserPendingGroupsData, PrettifiedGroupAuditLogsData, PrettifiedGroupBansData, PrettifiedGroupIdsToGroupsInfoData, PrettifiedGroupInfoData, PrettifiedGroupJoinRequestForUser, PrettifiedGroupJoinRequests, PrettifiedGroupLookupSearch, PrettifiedGroupMembersData, PrettifiedGroupMembersWithRoleData, PrettifiedGroupNameHistoryData, PrettifiedGroupPayoutsInfoData, PrettifiedGroupPermissionsForAllRoles, PrettifiedGroupPolicyInfoData, PrettifiedGroupRelationshipsData, PrettifiedGroupRolesFromIdsData, PrettifiedGroupSearchData, PrettifiedGroupSearchMetadata, PrettifiedGroupShoutData, PrettifiedGroupSocialLinksData, PrettifiedGroupsThatUsersFriendsAreInData, PrettifiedGroupWallPostsData_V1, PrettifiedGroupWallPostsData_V2, PrettifiedPrimaryGroupForUserData, RawAllGroupRolesForUserData_V1, RawAllGroupRolesForUserData_V2, RawAllRolesForGroupData, RawAuthenticatedUserPendingGroupsData, RawGroupAuditLogsData, RawGroupBansData, RawGroupIdsToGroupsInfoData, RawGroupInfoData, RawGroupJoinRequestForUser, RawGroupJoinRequests, RawGroupLookupSearch, RawGroupMembersData, RawGroupMembersWithRoleData, RawGroupNameHistoryData, RawGroupPayoutsInfoData, RawGroupPermissionsForAllRoles, RawGroupPolicyInfoData, RawGroupRelationshipsData, RawGroupRolesFromIdsData, RawGroupSearchData, RawGroupSearchMetadata, RawGroupShoutData, RawGroupSocialLinksData, RawGroupsThatUsersFriendsAreInData, RawGroupWallPostsData_V1, RawGroupWallPostsData_V2, RawPrimaryGroupForUserData, UpdateRoleSetData, UpdateRoleSetRequest } from "./groups.types"
 import type { SortOrder } from "../../../utils/utils.types"
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -1620,5 +1620,76 @@ export const groupWallPosts_V2 = createApiMethod(async (
     wallPost.created = new Date(wallPost.created)
     wallPost.updated = new Date(wallPost.updated)
   }))
+}))
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// [ BANS ] //////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Gets a list of group bans.
+ * @category Bans
+ * @endpoint GET /v1/groups/{groupId}/bans
+ * 
+ * @param groupId The id of the group to get bans for.
+ * @param limit The number of results to be returned.
+ * @param sortOrder The order that the results are sorted in.
+ * @param cursor The paging cursor for the previous or next page.
+ * 
+ * @example const { data:bans } = await ClassicGroupsApi.groupBans({ groupId: 5850082 })
+ * @exampleData [{"user":{"hasVerifiedBadge":false,"userId":1599940985,"username":"TheNamelessBot","displayName":"TheNamelessBot"},"actingUser":{"user":{"hasVerifiedBadge":false,"userId":45348281,"username":"MightyPart","displayName":"Mighty"},"role":{"id":38353811,"name":"NamelessGuy2005 - Scriptor","rank":255}},"created":"2025-05-17T17:04:15.646Z"}]
+ * @exampleRawBody {"previousPageCursor":null,"nextPageCursor":null,"data":[{"user":{"hasVerifiedBadge":false,"userId":1599940985,"username":"TheNamelessBot","displayName":"TheNamelessBot"},"actingUser":{"user":{"hasVerifiedBadge":false,"userId":45348281,"username":"MightyPart","displayName":"Mighty"},"role":{"id":38353811,"name":"NamelessGuy2005 - Scriptor","rank":255}},"created":"2025-05-17T17:04:15.646Z"}]}
+ */
+export const groupBans = createApiMethod(async (
+  { groupId, limit, sortOrder, cursor }:
+  { groupId: Identifier, limit?: number, sortOrder?: "Asc" | "Desc", cursor?: string }
+): ApiMethod<RawGroupBansData, PrettifiedGroupBansData> => ({
+  method: "GET",
+  path: `/v1/groups/${groupId}/bans`,
+  searchParams: { limit, sortOrder, cursor },
+  name: "groupBans",
+
+  formatRawDataFn: ({ data }) => data
+}))
+
+/**
+ * Bans a member from a group.
+ * @category Bans
+ * @endpoint POST /v1/groups/{groupId}/bans/{userId}
+ * 
+ * @param groupId The id of the group to ban a member from.
+ * @param userId The id of the member to ban.
+ * 
+ * @example const { data:banInfo } = await ClassicGroupsApi.banGroupMember({ groupId: 5850082, userId: 1599940985 })
+ * @exampleData {"user":{"hasVerifiedBadge":false,"userId":1599940985,"username":"TheNamelessBot","displayName":"TheNamelessBot"},"actingUser":{"user":{"hasVerifiedBadge":false,"userId":45348281,"username":"MightyPart","displayName":"Mighty"},"role":{"id":38353811,"name":"NamelessGuy2005 - Scriptor","rank":255}},"created":"2025-05-17T17:04:15.646Z"}
+ * @exampleRawBody {"user":{"hasVerifiedBadge":false,"userId":1599940985,"username":"TheNamelessBot","displayName":"TheNamelessBot"},"actingUser":{"user":{"hasVerifiedBadge":false,"userId":45348281,"username":"MightyPart","displayName":"Mighty"},"role":{"id":38353811,"name":"NamelessGuy2005 - Scriptor","rank":255}},"created":"2025-05-17T17:04:15.646Z"}
+ */
+export const banGroupMember = createApiMethod(async <UserId extends Identifier>(
+  { groupId, userId }: { groupId: Identifier, userId: UserId }
+): ApiMethod<BanGroupMemberData<UserId>> => ({
+  method: "POST",
+  path: `/v1/groups/${groupId}/bans/${userId}`,
+  name: "banGroupMember"
+}))
+
+/**
+ * Unbans a member from a group.
+ * @category Bans
+ * @endpoint DELETE /v1/groups/{groupId}/bans/{userId}
+ * 
+ * @param groupId The id of the group to unban a member from.
+ * @param userId The id of the member to unban.
+ * 
+ * @example const { data:success } = await ClassicGroupsApi.unbanGroupMember({ groupId: 5850082, userId: 1599940985 })
+ * @exampleData true
+ * @exampleRawBody {}
+ */
+export const unbanGroupMember = createApiMethod(async <UserId extends Identifier>(
+  { groupId, userId }: { groupId: Identifier, userId: UserId }
+): ApiMethod<boolean, {}> => ({
+  method: "DELETE",
+  path: `/v1/groups/${groupId}/bans/${userId}`,
+  name: "unbanGroupMember",
+
+  formatRawDataFn: dataIsSuccess
 }))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

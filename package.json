@@ -2,7 +2,7 @@
   "name": "openblox",
   "description": "Roblox API Wrapper For Both Classic And OpenCloud APIs.",
   "type": "commonjs",
-  "version": "1.0.60",
+  "version": "1.0.62",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MightyPart/openblox/issues"

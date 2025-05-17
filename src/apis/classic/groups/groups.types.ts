@@ -1136,3 +1136,39 @@ export type RawGroupWallPostsData_V2 = ObjectPrettify<{
 
 export type PrettifiedGroupWallPostsData_V2 = GroupWallPostsData_V2<Date>
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// [ BANS ] //////////////////////////////////////////////////////////////////////////////////////////////////////////
+export type BanGroupMemberData<UserId extends Identifier> = {
+  user: {
+      hasVerifiedBadge: boolean,
+      userId: UserId,
+      username: string,
+      displayName: string
+  },
+  actingUser: {
+      user: {
+          hasVerifiedBadge: boolean,
+          userId: Identifier,
+          username: string,
+          displayName: string
+      },
+      role: {
+          id: Identifier,
+          name: string,
+          rank: number
+      }
+  },
+  created: ISODateTime
+}
+
+// GET /v1/groups/{groupId}/bans -------------------------------------------------------------------------------------
+export type RawGroupBansData = {
+  previousPageCursor?: string,
+  nextPageCursor?: string,
+  data: BanGroupMemberData<Identifier>[]
+}
+
+export type PrettifiedGroupBansData = BanGroupMemberData<Identifier>[]
+// -------------------------------------------------------------------------------------------------------------------
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

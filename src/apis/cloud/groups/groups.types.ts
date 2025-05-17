@@ -74,16 +74,20 @@ export type PrettifiedGroupMembersData<
 
 
 // GET /v2/groups/${groupId}/roles -----------------------------------------------------------------------------------
-type GroupRole<GroupId extends Identifier, TemporalType> = ObjectPrettify<{
-  path: `groups/${GroupId}/roles/${Identifier}`,
+export type GroupRole<
+  GroupId extends Identifier,
+  RoleId extends Identifier,
+  TemporalType
+  > = ObjectPrettify<{
+  path: `groups/${GroupId}/roles/${RoleId}`,
   createTime: TemporalType,
   updateTime: TemporalType,
-  id: Identifier,
+  id: RoleId,
   displayName: string,
   description: string,
   rank: number,
-  memberCount: number,
-  permissions: {
+  memberCount?: number,
+  permissions?: {
     viewWallPosts: boolean,
     createWallPosts: boolean,
     deleteWallPosts: boolean,
@@ -106,11 +110,11 @@ type GroupRole<GroupId extends Identifier, TemporalType> = ObjectPrettify<{
 }>
 
 export type RawGroupRolesData<GroupId extends Identifier> = {
-  groupRoles: GroupRole<GroupId, ISODateTime>[]
+  groupRoles: GroupRole<GroupId, Identifier, ISODateTime>[]
   nextPageToken: string
 }
 
-export type PrettifiedGroupRolesData<GroupId extends Identifier> = GroupRole<GroupId, Date>[]
+export type PrettifiedGroupRolesData<GroupId extends Identifier> = GroupRole<GroupId, Identifier, Date>[]
 // -------------------------------------------------------------------------------------------------------------------
 
 
@@ -127,3 +131,17 @@ export type RawGroupShoutData<GroupId extends Identifier> = GroupShoutData<Group
 
 export type PrettifiedGroupShoutData<GroupId extends Identifier> = GroupShoutData<GroupId, Date>
 // -------------------------------------------------------------------------------------------------------------------
+
+// PATCH /v2/groups/{groupId}/memberships/{userId} -------------------------------------------------------------------
+export type UpdateGroupMemberRoleData<
+  GroupId extends Identifier,
+  RoleId extends Identifier
+> = {
+  path: `groups/${GroupId}/memberships/${string}`,
+  createTime: ISODateTime,
+  updateTime: ISODateTime,
+  user: `users/${Identifier}`,
+  role: `groups/${GroupId}/roles/${RoleId}`,
+}
+// -------------------------------------------------------------------------------------------------------------------
+
