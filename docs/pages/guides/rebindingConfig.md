@@ -1,4 +1,4 @@
-# Rebinding Credentials
+# Rebinding Config
 
 Normally, requests will use the default config set via `setDefaultOpenbloxConfig()`. However, you may want to make requests via a different config. This can be done by using the `.bind` method on any Openblox wrapper method.
 
