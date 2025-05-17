@@ -5,10 +5,10 @@ import { cloneAndMutateObject, dataIsSuccess } from "../../../utils/utils"
 
 
 // [ Types ] /////////////////////////////////////////////////////////////////////
-import type { ArrayToUnion, Identifier, ObjectPrettify } from "typeforge"
+import type { ArrayToUnion, Identifier, ISODateTime, ObjectPrettify } from "typeforge"
 
 import type { ApiMethod } from "../../apiGroup"
-import type { GroupMembers_Filter, GroupMembers_WildcardFilter, PrettifiedGroupInfoData, PrettifiedGroupJoinRequestsData, PrettifiedGroupMembersData, PrettifiedGroupRolesData, PrettifiedGroupShoutData, RawGroupInfoData, RawGroupJoinRequestsData, RawGroupMembersData, RawGroupRolesData, RawGroupShoutData } from "./groups.types"
+import type { GroupMembers_Filter, GroupMembers_WildcardFilter, GroupRole, PrettifiedGroupInfoData, PrettifiedGroupJoinRequestsData, PrettifiedGroupMembersData, PrettifiedGroupRolesData, PrettifiedGroupShoutData, RawGroupInfoData, RawGroupJoinRequestsData, RawGroupMembersData, RawGroupRolesData, RawGroupShoutData, UpdateGroupMemberRoleData } from "./groups.types"
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -147,6 +147,27 @@ export const groupRoles = createApiMethod(async <GroupId extends Identifier>(
 
 
 /**
+ * Gets information about a specific role for a group.
+ * @endpoint GET /v2/groups/{groupId}/roles/{roleId}
+ * 
+ * @param groupId The id of the group to get the role information from.
+ * @param roleId The id of the role to get information about.
+ * 
+ * @example const { data:role } = await GroupsApi.groupRole({ groupId: 5850082, roleId: 48715304 })
+ * @exampleData
+ * @exampleRawBody
+ */
+export const groupRole = createApiMethod(async <GroupId extends Identifier, RoleId extends Identifier>(
+  { groupId, roleId }:
+  { groupId: GroupId, roleId: RoleId }
+): ApiMethod<GroupRole<GroupId, RoleId, ISODateTime>> => ({
+  path: `/v2/groups/${groupId}/roles/${roleId}`,
+  method: "GET",
+  name: "groupRole",
+}))
+
+
+/**
  * Gets roles for a group.
  * @endpoint GET /v2/groups/{groupId}/roles
  * 
@@ -245,4 +266,28 @@ export const declineGroupJoinRequest = createApiMethod(async (
   name: "declineGroupJoinRequest",
 
   formatRawDataFn: (rawData) => dataIsSuccess(rawData)
+}))
+
+
+/**
+ * Updates the group membership for a particular group member. This action requires the requester to be able to manage lower ranked members. Guest or Owner ranks cannot be assigned, and a requester cannot change their own rank.
+ * @endpoint PATCH /v2/groups/{groupId}/memberships/{userId}
+ * 
+ * @param groupId The id of the group to change a users role for.
+ * @param userId The id of the user to change role for.
+ * @param roleId The id of the role to update to.
+ * 
+ * @example const { data:success } = await GroupsApi.updateGroupMemberRole({ groupId: 5850082, userId: 2655994471, roleId: 41112469 });
+ * @exampleData {"path":"groups/5850082/memberships/MTU5OTk0MDk4NQ","createTime":"2020-04-30T10:28:57.147Z","updateTime":"2025-05-17T16:26:10.879549500Z","user":"users/1599940985","role":"groups/5850082/roles/41112469"}
+ * @exampleRawBody {"path":"groups/5850082/memberships/MTU5OTk0MDk4NQ","createTime":"2020-04-30T10:28:57.147Z","updateTime":"2025-05-17T16:26:10.879549500Z","user":"users/1599940985","role":"groups/5850082/roles/41112469"}
+ */
+export const updateGroupMemberRole = createApiMethod(async <GroupId extends Identifier, RoleId extends Identifier>(
+  { groupId, userId, roleId }: { groupId: GroupId, userId: Identifier, roleId: RoleId }
+): ApiMethod<UpdateGroupMemberRoleData<GroupId, RoleId>> => ({
+  method: "PATCH",
+  path: `/v2/groups/${groupId}/memberships/${userId}`,
+  body: {
+    role: `groups/${groupId}/roles/${roleId}`
+  },
+  name: "declineGroupJoinRequest"
 }))
